@@ -3,6 +3,7 @@
 :root {
   --primary-brand-color: #bf5f82;
   --secoundary-brand-color: #f48fb1;
+  --secoundary-color-hover: #f3427d;
   --tertiary-brand-color: #ffc1e3;
   --primary-text-color: #373737;
   --secondary-text-color: hsla(0, 0%, 22%, 1);
