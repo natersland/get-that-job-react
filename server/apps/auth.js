@@ -103,4 +103,41 @@ authRouter.post("/login", async (req, res) => {
 // ------------------------------------------------------
 
 
+authRouter.post("/login", async (req, res) => {
+  const user = await db.collection("users").findOne({
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "user not found",
+    });
+  }
+
+  const isValidPassword = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+
+  if (!isValidPassword) {
+    return res.status(400).json({
+      message: "password not valid",
+    });
+  }
+
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: 900000,
+    }
+  );
+
+  return res.json({
+    message: "login succesfully",
+    token,
+  });
+});
+
 export default authRouter;
