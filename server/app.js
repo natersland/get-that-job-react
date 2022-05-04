@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
 import authRouter from "./apps/auth.js";
+import { client } from "./utils/db.js";
 
 async function init() {
   dotenv.config();
@@ -16,6 +17,8 @@ async function init() {
 
   const app = express();
   const port = 4000;
+
+  await client.connect();
 
   app.use(cors());
   app.use(bodyParser.json());

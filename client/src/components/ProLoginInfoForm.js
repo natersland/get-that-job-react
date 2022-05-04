@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
+import { useAuth } from "../contexts/authentication";
 
 const Input = styled.input`
   width: 360px;
@@ -31,13 +32,16 @@ function ProLoginInfoForm() {
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
 
+  const register = useAuth();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    const data = {
+      email,
+      password,
+    };
+    register(data);
   };
-
-  /* const clickButton = () => {
-    alert("Hellooooooooo");
-  }; */
 
   return (
     <form className="professional-register-form" onSubmit={handleSubmit}>
