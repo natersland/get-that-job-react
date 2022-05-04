@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --primary-brand-color: #BF5F82;
-  --secoundary-brand-color: #F48FB1;
-  --tertiary-brand-color:#FFC1E3;
+  --primary-brand-color: #bf5f82;
+  --secoundary-brand-color: #f48fb1;
+  --tertiary-brand-color: #ffc1e3;
   --primary-text-color: #373737;
-  --secondary-text-color: hsla(0, 0%, 22%, 1)
+  --secondary-text-color: hsla(0, 0%, 22%, 1);
   --primary-font: 'Montserrat', sans-serif;
   --seconary-font: 'Inter', sans-serif;
 }
+
