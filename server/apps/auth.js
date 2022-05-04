@@ -45,23 +45,23 @@ authRouter.post("/register", logoUpload, async (req,res) => {
 })
 
 // Register Zone -------------------------------------------
-authRouter.post("/register", async (req, res) => {
-  const user = {
-    email: req.body.email,
-    password: req.body.password,
-    role: req.body.role,
-  };
+// authRouter.post("/register", async (req, res) => {
+//   const user = {
+//     email: req.body.email,
+//     password: req.body.password,
+//     role: req.body.role,
+//   };
 
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+//   const salt = await bcrypt.genSalt(10);
+//   user.password = await bcrypt.hash(user.password, salt);
 
-  const collection = db.collection("users");
-  await collection.insertOne(user);
+//   const collection = db.collection("users");
+//   await collection.insertOne(user);
 
-  return res.json({
-    message: "User has been created successfully",
-  });
-});
+//   return res.json({
+//     message: "User has been created successfully",
+//   });
+// });
 // ------------------------------------------------------
 
 // Login Zone -------------------------------------------

@@ -233,6 +233,9 @@ function ProfessionalRegisterPage() {
     }
   };
 
+  
+
+
   return (
     <Wrapper>
       <LeftBox>
