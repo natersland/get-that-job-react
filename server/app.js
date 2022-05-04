@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
+import authRouter from "./apps/auth.js";
 
 async function init() {
   dotenv.config();
@@ -18,6 +19,8 @@ async function init() {
 
   app.use(cors());
   app.use(bodyParser.json());
+
+  app.use("/auth", authRouter);
 
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
