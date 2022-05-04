@@ -23,7 +23,7 @@ const Container = styled.div`
 const Label = styled.label`
   font-size: 400;
   font-size: 10px;
-  margin: 4px;
+  margin-top: 4px;
 `;
 
 function ProLoginInfoForm() {

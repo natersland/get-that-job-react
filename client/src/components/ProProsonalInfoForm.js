@@ -13,6 +13,16 @@ const Input = styled.input`
   padding-right: 10px;
   color: #8e8e8e;
 `;
+
+const CaptionInformation = styled.h4`
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  width: 380px;
+  margin-bottom: 5px;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,7 +34,7 @@ const Container = styled.div`
 const Label = styled.label`
   font-size: 400;
   font-size: 10px;
-  margin: 4px;
+  margin-top: 4px;
 `;
 
 function ProProsonalInfoForm() {
@@ -39,6 +49,9 @@ function ProProsonalInfoForm() {
 
   return (
     <form className="professional-register-form" onSubmit={handleSubmit}>
+      <CaptionInformation>
+        YOU CAN COMPLETE THIS INFORMATION LATER BUT WE RECOMEND YOU TO DO IT NOW
+      </CaptionInformation>
       <Container>
         <Label>NAME</Label>
         <Input

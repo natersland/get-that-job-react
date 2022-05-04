@@ -8,7 +8,7 @@ const Input = styled.input`
   border-radius: 8px;
   font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 16px;
+  margin-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
   color: #8e8e8e;
@@ -16,11 +16,11 @@ const Input = styled.input`
 
 const InputLimit = styled.textarea`
   width: 600px;
-  height: 76px;
+  height: 65px;
   border-radius: 8px;
   font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 5px;
+  margin-bottom: 2px;
   padding-left: 10px;
   padding-right: 10px;
   color: var(--tertiary-text-color);
@@ -37,7 +37,7 @@ const Container = styled.div`
 const Label = styled.label`
   font-size: 400;
   font-size: 10px;
-  margin: 4px;
+  margin-top: 0px;
 `;
 
 const UploadFileSection = styled.div`
@@ -52,7 +52,7 @@ const UploadFileSection = styled.div`
 const UploadButton = styled.label`
   margin-right: 15px;
   width: 134px;
-  height: 40px;
+  height: 35px;
   border-radius: 8px;
   border-style: hidden;
   color: white;
