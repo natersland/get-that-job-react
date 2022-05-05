@@ -1,41 +1,41 @@
 // tools
 import styled from "@emotion/styled";
-import { useState } from "react";
+import GTJHooksFantasy from "../hooks/GTJHooksFantasy";
 
 //CSS
 import "../App.css";
 
 export default function SelectRole() {
+  const { roleBtn, setRoleBtn } = GTJHooksFantasy();
   // State
-  const [userRole, setUserRole] = useState("professional");
 
-  const selectRole = () => {
-    if (userRole === "professional") {
-      setUserRole("recruiter");
+  const selectRoleBTN = () => {
+    console.log(roleBtn);
+    if (roleBtn === "professional") {
+      setRoleBtn("recruiter");
     } else {
-      setUserRole("professional");
+      setRoleBtn("professional");
     }
   };
-  console.log(userRole);
   return (
     <SelectRoleWrapper>
-      {userRole === "professional" ? (
+      {roleBtn === "recruiter" ? (
         <div>
           {" "}
-          <RoleButton onClick={selectRole} isSelect={true}>
+          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
             professional
           </RoleButton>
-          <RoleButton onClick={selectRole} isSelect={false}>
+          <RoleButton onClick={selectRoleBTN} isSelect={false}>
             Recruiter
           </RoleButton>
         </div>
       ) : (
         <div>
           {" "}
-          <RoleButton onClick={selectRole} isSelect={false}>
+          <RoleButton onClick={selectRoleBTN} isSelect={false}>
             professional
           </RoleButton>
-          <RoleButton onClick={selectRole} isSelect={true}>
+          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
             Recruiter
           </RoleButton>
         </div>
@@ -65,7 +65,6 @@ const RoleButton = styled.button`
   margin-top: 0.8rem;
   padding-bottom: 0.5rem;
 
-  // Style When User Select
   border-bottom: ${(props) =>
     props.isSelect
       ? "2.5px solid var(--secoundary-brand-color)"
@@ -73,7 +72,7 @@ const RoleButton = styled.button`
   /*     border-bottom: 2.5px solid var(--secoundary-brand-color);
     
  */
+
   color: ${(props) =>
     props.isSelect ? "var(--primary-text-color)" : "#8E8E8E"};
-  // Style When User UnSelect
 `;
