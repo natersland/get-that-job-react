@@ -1,16 +1,13 @@
 // tools
 import styled from "@emotion/styled";
-import GTJHooksFantasy from "../hooks/GTJHooksFantasy";
 
 //CSS
 import "../App.css";
 
-export default function SelectRole() {
-  const { roleBtn, setRoleBtn } = GTJHooksFantasy();
-  // State
+export default function SelectRole(props) {
+  const { roleBtn, setRoleBtn } = props;
 
   const selectRoleBTN = () => {
-    console.log(roleBtn);
     if (roleBtn === "professional") {
       setRoleBtn("recruiter");
     } else {
@@ -19,7 +16,7 @@ export default function SelectRole() {
   };
   return (
     <SelectRoleWrapper>
-      {roleBtn === "recruiter" ? (
+      {roleBtn === "professional" ? (
         <div>
           {" "}
           <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>

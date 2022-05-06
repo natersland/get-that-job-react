@@ -2,7 +2,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useAuth } from "../contexts/authentication";
-import GTJHooksFantasy from "../hooks/GTJHooksFantasy";
 
 //CSS
 import "../App.css";
@@ -13,16 +12,16 @@ import maleStandingWithSmile from "../img/Group 65.png";
 // components
 import SelectRole from "../components/SelectRole";
 
-export default function LoginPage() {
-  const { roleBtn, setRoleBtn } = GTJHooksFantasy();
+export default function LoginPage(props) {
+  const { roleBtn, setRoleBtn } = props;
   // State
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
+  console.log(`🎈Login Current Role is ${roleBtn}`);
 
   // Function
   const handleSubmit = (event) => {
-    setRoleBtn("recuiter");
     event.preventDefault();
     login({
       email,
@@ -38,7 +37,7 @@ export default function LoginPage() {
             <LoginHeaderText>Welcome back</LoginHeaderText>
             <LoginIntroText>Login to you account as...</LoginIntroText>
           </LoginIntroduction>
-          <SelectRole />
+          <SelectRole roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
           <LoginFormWrapper onSubmit={handleSubmit}>
             <InputWrapper>
               EMAIL
