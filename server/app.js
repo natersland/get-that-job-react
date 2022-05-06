@@ -3,6 +3,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import cloudinary from "cloudinary";
+import {client} from "./utils/db.js"
+import authRouter from "./apps/auth.js";
+
 
 async function init() {
   dotenv.config();
@@ -14,13 +17,18 @@ async function init() {
   });
 
   const app = express();
-  const port = 4000;
+  const PORT = 4000;
+  
+
+  await client.connect();
 
   app.use(cors());
   app.use(bodyParser.json());
 
-  app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+  app.use("/auth", authRouter);
+
+  app.listen(PORT, () => {
+    console.log(`running on http://localhost:${PORT}`);
   });
 }
 
