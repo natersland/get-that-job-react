@@ -1,6 +1,10 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
+import { useAuth } from "../contexts/authentication";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Form } from "react-bootstrap";
+import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;
@@ -49,7 +53,7 @@ const UploadFileSection = styled.div`
   letter-spacing: 1.25px;
 `;
 
-const UploadButton = styled.label`
+const UploadButton = styled.button`
   margin-right: 15px;
   width: 134px;
   height: 35px;
@@ -94,30 +98,54 @@ const FileName = styled.p`
   color: #616161;
 `;
 
-function ProProfessionalInfoForm() {
-  const [title, setTitle] = useState("");
-  const [experience, setExperience] = useState("");
-  const [education, setEducation] = useState("");
-  const [uploadFile, setUploadFile] = useState({});
+function ProProfessionalInfoForm(props) {
+  const {
+    title,
+    setTitle,
+    experience,
+    setExperience,
+    education,
+    setEducation,
+    uploadFiles,
+    setUploadFiles,
+  } = props;
 
-  const handleSubmit = (event) => {
+  const { register } = useAuth();
+
+  /* const handleSubmit = (event) => {
     event.preventDefault();
-  };
+
+    const data = {
+      title,
+      experience,
+      education,
+    };
+
+    for (let uploadFileKey in uploadFiles) {
+      data.append("uploadFile", uploadFiles[uploadFileKey]);
+    }
+    register(data);
+  }; */
+
   const handleFileChange = (event) => {
-    const uniqueId = Date.now();
-    setUploadFile({
-      ...uploadFile,
-      [uniqueId]: event.target.files[0],
-    });
+    if (event.target.files[0].size > 5000000) {
+      alert("this file is too big!");
+    } else {
+      const uniqueId = Date.now();
+      setUploadFiles({
+        ...uploadFiles,
+        [uniqueId]: event.target.files[0],
+      });
+    }
   };
 
   return (
-    <form className="professional-register-form" onSubmit={handleSubmit}>
+    <div>
       <CaptionInformation>
         YOU CAN COMPLETE THIS INFORMATION LATER BUT WE RECOMEND YOU TO DO IT NOW
       </CaptionInformation>
       <Container>
-        <Label>TITLE</Label>
+        <Label htmlFor="title">TITLE</Label>
         <Input
           id="title"
           name="title"
@@ -130,11 +158,13 @@ function ProProfessionalInfoForm() {
         />
       </Container>
       <Container>
-        <Label>PROFESSIONAL EXPERIENCE</Label>
+        <Label htmlFor="experience">PROFESSIONAL EXPERIENCE</Label>
         <InputLimit
           id="experience"
           name="experience"
           type="text"
+          minLength="300"
+          maxLength="2000"
           placeholder="Worked 6 years in a bitcoin farm until I decided to change my life..."
           onChange={(event) => {
             setExperience(event.target.value);
@@ -146,11 +176,13 @@ function ProProfessionalInfoForm() {
         <Limitation>Between 300 and 2000 characters</Limitation>
       </Container>
       <Container>
-        <Label>EDUCATION</Label>
+        <Label htmlFor="education">EDUCATION</Label>
         <InputLimit
           id="education"
           name="education"
           type="text"
+          minLength="100"
+          maxLength="2000"
           placeholder="Major in life experiences with a PHD in procrastination..."
           onChange={(event) => {
             setEducation(event.target.value);
@@ -164,21 +196,24 @@ function ProProfessionalInfoForm() {
 
       <Label>UPLOAD/UPDATE YOUR CV</Label>
       <UploadFileSection>
-        <UploadButton htmlFor="upload">
+        {/*         <UploadButton htmlFor="upload">
           <ChooseFile>Choose File</ChooseFile>
-        </UploadButton>
+        </UploadButton> */}
         <input
+          className="uploadBtn"
           id="upload"
-          name="cv"
+          name="uploadResumeFile"
           type="file"
+          accept="application/pdf"
           placeholder="Enter last name here"
           onChange={handleFileChange}
-          hidden
         />
-        <FileName>No file chosen</FileName>
+        {/*         <FileName>No file chosen</FileName> */}
       </UploadFileSection>
       <Limitation>Only PDF Max size 5MB</Limitation>
-    </form>
+      {/* file name */}
+      {/*  <button type="submit">submit</button> */}
+    </div>
   );
 }
 

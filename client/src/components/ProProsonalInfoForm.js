@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
+import { useAuth } from "../contexts/authentication";
+import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;
@@ -37,23 +39,41 @@ const Label = styled.label`
   margin-top: 4px;
 `;
 
-function ProProsonalInfoForm() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [linkin, setLinkin] = useState("");
+function ProProsonalInfoForm(props) {
+  const {
+    name,
+    setName,
+    phone,
+    setPhone,
+    birthDate,
+    setBirthDate,
+    linkin,
+    setLinkin,
+  } = props;
+
+  /*  const { register } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-  };
+
+    const formData = new FormData();
+
+    const data = {
+      name,
+      phone,
+      birthDate,
+      linkin,
+    };
+    register(data);
+  }; */
 
   return (
-    <form className="professional-register-form" onSubmit={handleSubmit}>
+    <div>
       <CaptionInformation>
         YOU CAN COMPLETE THIS INFORMATION LATER BUT WE RECOMEND YOU TO DO IT NOW
       </CaptionInformation>
       <Container>
-        <Label>NAME</Label>
+        <Label htmlFor="name">NAME</Label>
         <Input
           id="name"
           name="name"
@@ -66,12 +86,14 @@ function ProProsonalInfoForm() {
         />
       </Container>
       <Container>
-        <Label>PHONE</Label>
+        <Label htmlFor="phone">PHONE</Label>
         <Input
           id="phone"
           name="phone"
           type="tel"
-          placeholder="+XXXXXXXXXX"
+          placeholder="+66-XX-XXX-XXXXX"
+          maxlength="10"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           onChange={(event) => {
             setPhone(event.target.value);
           }}
@@ -79,7 +101,7 @@ function ProProsonalInfoForm() {
         />
       </Container>
       <Container>
-        <Label>BIRTHDATE</Label>
+        <Label htmlFor="birthDate">BIRTHDATE</Label>
         <Input
           id="birthDate"
           name="birthDate"
@@ -93,7 +115,7 @@ function ProProsonalInfoForm() {
       </Container>
 
       <Container>
-        <Label>LINKDIN URL</Label>
+        <Label htmlFor="linkin">LINKEDIN URL</Label>
         <Input
           id="linkin"
           name="linkin"
@@ -105,7 +127,8 @@ function ProProsonalInfoForm() {
           value={linkin}
         />
       </Container>
-    </form>
+      {/*  <button type="submit">submit</button> */}
+    </div>
   );
 }
 
