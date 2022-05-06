@@ -9,6 +9,8 @@ import Ruby from "../img/Ellipse 4.png";
 import Javier from "../img/Ellipse 4-1.png";
 import Francisca from "../img/Ellipse 4-2.png";
 import Rual from "../img/Ellipse 4-3.png";
+import daimond from "../img/ruby-fill.png";
+import Reactline from "../img/reactjs-line.png";
 
 import "../App.css";
 
@@ -114,10 +116,49 @@ const HomePage = () => {
             </Icon>
           </div>
         </TeamWrapper>
+        <footer>
+          <FooterWrap>
+            <div>
+              <p> © 2021 - Get That Job</p>
+            </div>
+            <div>
+              <p> Source Code</p>
+              <Inline>
+                {" "}
+                <img src={daimond} /> Ruby on Rails REST API
+              </Inline>
+              <Inline>
+                {" "}
+                <img src={Reactline} /> React Responsive SPA
+              </Inline>
+            </div>
+            <div>
+              <p> Codeable - Cohort 3 Final Project</p>
+            </div>
+          </FooterWrap>
+        </footer>
       </Wrapper3>
     </MainWrap>
   );
 };
+const FooterWrap = styled.div`
+  width: 100%;
+  border-top: solid 2px var(--primary-brand-color);
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  font-size: 18px;
+`;
+const Br = styled.br`
+  border-top: solid 1px var(--primary-brand-color);
+`;
+
+const Inline = styled.p`
+  display: inline;
+  margin-left: 6px;
+  line-height: 0;
+  margin-bottom: 10px;
+`;
 
 const MainWrap = styled.main`
   width: 100vw;
@@ -131,6 +172,7 @@ const LandingWrapper = styled.section`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  background-color: #f5f5f6;
 `;
 
 const Heading = styled.h1`
@@ -165,7 +207,7 @@ const ImgPeople = styled.img`
 
 const Section2 = styled.section`
   width: 100%;
-  height: 420px;
+  height: 400px;
   display: flex;
   font-family: var(--primary-font: "Montserrat", sans-serif);
 `;
@@ -189,11 +231,12 @@ const ImgWrapper = styled.div`
 const ImgWrap = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 100px;
+  margin-top: 90px;
 `;
 const Wrapper3 = styled.section`
   width: 100%;
-  height: 420px;
+  height: 620px;
+  background-color: #f5f5f6;
 `;
 const H1S3 = styled.h1`
   font-size: 48px;
@@ -201,12 +244,15 @@ const H1S3 = styled.h1`
   justify-content: center;
   color: var(--primary-brand-color);
   font-weight: 400;
+  padding-top: 30px;
   margin-bottom: 50px;
+  margin-top: 0px;
 `;
 
 const TeamWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 80px;
 `;
 
 const Name = styled.h3`
