@@ -1,6 +1,5 @@
 /* import { v2 as cloudinary } from "cloudinary";
 import fs from "fs/promises";
-
 const cloudinaryUpload = async (files) => {
   const fileUrl = [];
   for await (let file of files.uploadFile) {
@@ -17,4 +16,4 @@ const cloudinaryUpload = async (files) => {
 
   return fileUrl;
 };
-export { cloudinaryUpload }; */
+export { cloudinaryUpload };

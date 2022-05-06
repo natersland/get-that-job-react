@@ -5,13 +5,25 @@ import ProProfessionalInfoForm from "../components/ProProfessionalInfoForm";
 import styled from "@emotion/styled";
 import image from "../img/discussing.png";
 import "../App.css";
-/* import AuthenticatedApp from "./AuthenticatedApp";
-import { multiStepContext } from "../contexts/Register"; */
 import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 import { useAuth } from "../contexts/authentication";
+/* import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
+
+class ArrowRight extends React.Component {
+  render() {
+    return <AiOutlineRight />;
+  }
+}
+class Arrowleft extends React.Component {
+  render() {
+    return <AiOutlineLeft />;
+  }
+} */
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100vh;
   margin: auto;
   display: flex;
   flex-direction: row;
@@ -24,6 +36,8 @@ const Detail = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: end;
+
+  margin: 8rem 0 0 0;
 `;
 
 const FormWrapper = styled.div`
@@ -59,6 +73,8 @@ const LeftBox = styled.div`
 const RightBox = styled.div`
   width: 40%;
   display: flex;
+
+  align-items: end;
 `;
 
 const SelectRole = styled.div`
@@ -182,13 +198,13 @@ const StepNumber = styled.p`
 `;
 
 const GirlImage = styled.img`
-  overflow: hidden;
+  width: 60%;
+  height: 60%;
 `;
 
 const BorderImage = styled.div`
   width: 435px;
-  margin-top: 300px;
-  margin-left: 65px;
+  position: relative;
 `;
 
 const NextPage1Button = styled.button`
@@ -294,7 +310,10 @@ function ProfessionalRegisterPage() {
     role,
     setRole,
   } = GTJhooksfantasy();
-  const Arrow = ">";
+
+  const rightArrow = ">";
+  const leftArrow = "<";
+
   const [step, setStep] = useState(0);
 
   const StepDisplay = () => {
@@ -342,22 +361,22 @@ function ProfessionalRegisterPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = {
-      email,
-      password,
-      passwordConfirmed,
-      name,
-      phone,
-      birthDate,
-      title,
-      experience,
-      education,
-    };
+    const formData = new FormData();
+
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("passwaordConfirmed", passwordConfirmed);
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("birthDate", birthDate);
+    formData.append("title", title);
+    formData.append("experience", experience);
+    formData.append("education", education);
 
     for (let uploadFileKey in uploadFiles) {
-      data.append("uploadFile", uploadFiles[uploadFileKey]);
+      formData.append("uploadFile", uploadFiles[uploadFileKey]);
     }
-    register(data);
+    register(formData);
   };
 
   return (
@@ -489,7 +508,7 @@ function ProfessionalRegisterPage() {
                       setStep((currentPage) => currentPage - 1);
                     }}
                   >
-                    PREVIUS
+                    PREVIOUS
                   </PreviusButton>
                 )}
 
@@ -502,7 +521,7 @@ function ProfessionalRegisterPage() {
                 {step === 0 || step === 1 ? null : (
                   <FinishButton form="register-form" type="submit">
                     {" "}
-                    FINISH {Arrow}
+                    FINISH
                   </FinishButton>
                 )}
               </div>
@@ -517,7 +536,7 @@ function ProfessionalRegisterPage() {
               }}
             >
               {" "}
-              NEXT {Arrow}
+              NEXT
             </NextPage1Button>
           ) : null}
           {step === 1 ? (
@@ -527,16 +546,16 @@ function ProfessionalRegisterPage() {
               }}
             >
               {" "}
-              NEXT {Arrow}
+              NEXT
             </NextPage2Button>
           ) : null}
         </FormWrapper>
       </LeftBox>
 
       <RightBox>
-        <BorderImage>
-          <GirlImage src={image} alt="Girl"></GirlImage>
-        </BorderImage>
+        <GirlImage src={image} alt="Girl"></GirlImage>
+
+        {/*         <BorderImage></BorderImage> */}
       </RightBox>
     </Wrapper>
   );

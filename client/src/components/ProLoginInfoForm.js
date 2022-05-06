@@ -41,19 +41,6 @@ function ProLoginInfoForm(props) {
 
   console.log(`Hello ${password}`);
 
-  const { register } = useAuth();
-
-  /*  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = {
-      email,
-      password,
-    };
-
-    register(data);
-  }; */
-
   return (
     <div>
       <Container>
