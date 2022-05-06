@@ -110,23 +110,6 @@ function ProProfessionalInfoForm(props) {
     setUploadFiles,
   } = props;
 
-  const { register } = useAuth();
-
-  /* const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = {
-      title,
-      experience,
-      education,
-    };
-
-    for (let uploadFileKey in uploadFiles) {
-      data.append("uploadFile", uploadFiles[uploadFileKey]);
-    }
-    register(data);
-  }; */
-
   const handleFileChange = (event) => {
     if (event.target.files[0].size > 5000000) {
       alert("this file is too big!");
@@ -196,9 +179,6 @@ function ProProfessionalInfoForm(props) {
 
       <Label>UPLOAD/UPDATE YOUR CV</Label>
       <UploadFileSection>
-        {/*         <UploadButton htmlFor="upload">
-          <ChooseFile>Choose File</ChooseFile>
-        </UploadButton> */}
         <input
           className="uploadBtn"
           id="upload"
@@ -208,11 +188,8 @@ function ProProfessionalInfoForm(props) {
           placeholder="Enter last name here"
           onChange={handleFileChange}
         />
-        {/*         <FileName>No file chosen</FileName> */}
       </UploadFileSection>
       <Limitation>Only PDF Max size 5MB</Limitation>
-      {/* file name */}
-      {/*  <button type="submit">submit</button> */}
     </div>
   );
 }

@@ -51,22 +51,6 @@ function ProProsonalInfoForm(props) {
     setLinkin,
   } = props;
 
-  /*  const { register } = useAuth();
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const formData = new FormData();
-
-    const data = {
-      name,
-      phone,
-      birthDate,
-      linkin,
-    };
-    register(data);
-  }; */
-
   return (
     <div>
       <CaptionInformation>
@@ -91,9 +75,9 @@ function ProProsonalInfoForm(props) {
           id="phone"
           name="phone"
           type="tel"
-          placeholder="+66-XX-XXX-XXXXX"
+          placeholder="0XXXXXXXXX"
           maxlength="10"
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          pattern="[0-9]{10}"
           onChange={(event) => {
             setPhone(event.target.value);
           }}
@@ -127,7 +111,6 @@ function ProProsonalInfoForm(props) {
           value={linkin}
         />
       </Container>
-      {/*  <button type="submit">submit</button> */}
     </div>
   );
 }

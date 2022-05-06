@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs/promises";
-
-/* const cloudinaryUpload = async (files) => {
+const cloudinaryUpload = async (files) => {
   const fileUrl = [];
   for await (let file of files.uploadFile) {
     const result = await cloudinary.uploader.upload(file.path, {
@@ -17,4 +16,4 @@ import fs from "fs/promises";
 
   return fileUrl;
 };
-export { cloudinaryUpload }; */
+export { cloudinaryUpload };
