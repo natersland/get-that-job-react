@@ -10,3 +10,17 @@
   --primary-font: "Montserrat", sans-serif;
   --seconary-font: "Inter", sans-serif;
 }
+
+::-webkit-file-upload-button {
+  background: var(--secoundary-brand-color);
+  color: white;
+  margin-right: 15px;
+  width: 134px;
+  height: 35px;
+  border-radius: 8px;
+  border-style: hidden;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: var(--secondary-font);
+  cursor: pointer;
+}

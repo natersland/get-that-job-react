@@ -1,7 +1,9 @@
-import { useState } from "react";
+import react, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
 import { useAuth } from "../contexts/authentication";
+import { userDataContext } from "../contexts/UserData";
+import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;
@@ -27,39 +29,47 @@ const Label = styled.label`
   margin-top: 4px;
 `;
 
-function ProLoginInfoForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmed, setPasswordConfirmed] = useState("");
+function ProLoginInfoForm(props) {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    passwordConfirmed,
+    setPasswordConfirmed,
+  } = props;
 
-  const register = useAuth();
+  console.log(`Hello ${password}`);
 
-  const handleSubmit = (event) => {
+  const { register } = useAuth();
+
+  /*  const handleSubmit = (event) => {
     event.preventDefault();
+
     const data = {
       email,
       password,
     };
+
     register(data);
-  };
+  }; */
 
   return (
-    <form className="professional-register-form" onSubmit={handleSubmit}>
+    <div>
       <Container>
-        <Label>EMAIL</Label>
+        <Label htmlFor="email">EMAIL</Label>
         <Input
           id="email"
           name="email"
           type="email"
           placeholder="some.user@mail.com"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
+          onChange={(event) => setEmail(event.target.value)}
+          required
           value={email}
         />
       </Container>
       <Container>
-        <Label>PASSWORD</Label>
+        <Label htmlFor="password">PASSWORD</Label>
         <Input
           id="password"
           name="password"
@@ -68,11 +78,12 @@ function ProLoginInfoForm() {
           onChange={(event) => {
             setPassword(event.target.value);
           }}
+          required
           value={password}
         />
       </Container>
       <Container>
-        <Label>PASSWORD CONFORMATION</Label>
+        <Label htmlFor="password-confiremed">PASSWORD CONFORMATION</Label>
         <Input
           id="password-confiremed"
           name="password-confiremed"
@@ -81,10 +92,11 @@ function ProLoginInfoForm() {
           onChange={(event) => {
             setPasswordConfirmed(event.target.value);
           }}
+          required
           value={passwordConfirmed}
         />
       </Container>
-    </form>
+    </div>
   );
 }
 

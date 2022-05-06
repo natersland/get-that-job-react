@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import ProLoginInfoForm from "../components/ProLoginInfoForm";
 import ProProsonalInfoForm from "../components/ProProsonalInfoForm";
 import ProProfessionalInfoForm from "../components/ProProfessionalInfoForm";
-import FindThatJobPage from "./FindThatJobPage";
 import styled from "@emotion/styled";
 import image from "../img/discussing.png";
 import "../App.css";
+/* import AuthenticatedApp from "./AuthenticatedApp";
+import { multiStepContext } from "../contexts/Register"; */
+import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
+import { useAuth } from "../contexts/authentication";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,6 +24,13 @@ const Detail = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: end;
+`;
+
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 228px;
 `;
 
 const Title = styled.h1`
@@ -39,11 +49,13 @@ const Caption = styled.h3`
   font-family: var(--primary-font);
   font-weight: 500;
   font-size: 20px;
+  margin-top: 20px;
 `;
 
 const LeftBox = styled.div`
   width: 60%;
 `;
+
 const RightBox = styled.div`
   width: 40%;
   display: flex;
@@ -59,9 +71,12 @@ const SelectRole = styled.div`
 
 const Role = styled.h3`
   margin-right: 6px;
-  font-family: var(--seconary-font);
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: var(--primary-font);
   color: var(--primary-text-color);
   font-weight: 500;
+  font-size: 14px;
 `;
 
 const StepBox = styled.div`
@@ -154,12 +169,16 @@ const DoneStep = styled.div`
   width: 32px;
   height: 32px;
   margin-right: 8px;
-  margin-bottom: 0px;
+  margin-top: 0px;
   font-family: var(--primary-font);
   color: white;
   font-weight: 500;
   font-size: 20px;
   background-color: #616161;
+`;
+
+const StepNumber = styled.p`
+  margin-bottom: 0;
 `;
 
 const GirlImage = styled.img`
@@ -172,7 +191,7 @@ const BorderImage = styled.div`
   margin-left: 65px;
 `;
 
-const NextButton = styled.button`
+const NextPage1Button = styled.button`
   width: 106px;
   height: 40px;
   border-radius: 16px;
@@ -184,7 +203,24 @@ const NextButton = styled.button`
   font-family: var(--secondary-font);
   background-color: var(--secoundary-brand-color);
   cursor: pointer;
-  margin-left: 32px;
+  margin-left: 230px;
+`;
+
+const NextPage2Button = styled.button`
+  width: 106px;
+  height: 40px;
+  border-radius: 16px;
+  border-style: hidden;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  background-color: var(--secoundary-brand-color);
+  cursor: pointer;
+  margin-left: 280px;
+  position: absolute;
+  bottom: 213px;
 `;
 
 const SkipButton = styled.button`
@@ -202,6 +238,21 @@ const SkipButton = styled.button`
   background-color: #f5f5f6;
 `;
 
+const FinishButton = styled.button`
+  width: 106px;
+  height: 40px;
+  border-radius: 16px;
+  border-style: hidden;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  background-color: var(--secoundary-brand-color);
+  cursor: pointer;
+  margin-left: 32px;
+`;
+
 const PreviusButton = styled.button`
   width: 106px;
   height: 40px;
@@ -217,188 +268,271 @@ const PreviusButton = styled.button`
 `;
 
 function ProfessionalRegisterPage() {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    passwordConfirmed,
+    setPasswordConfirmed,
+    name,
+    setName,
+    phone,
+    setPhone,
+    birthDate,
+    setBirthDate,
+    linkin,
+    setLinkin,
+    title,
+    setTitle,
+    experience,
+    setExperience,
+    education,
+    setEducation,
+    uploadFiles,
+    setUploadFiles,
+    role,
+    setRole,
+  } = GTJhooksfantasy();
   const Arrow = ">";
-
   const [step, setStep] = useState(0);
 
   const StepDisplay = () => {
     if (step === 0) {
-      return <ProLoginInfoForm />;
+      return (
+        <ProLoginInfoForm
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          passwordConfirmed={passwordConfirmed}
+          setPasswordConfirmed={setPasswordConfirmed}
+        />
+      );
     } else if (step === 1) {
-      return <ProProsonalInfoForm />;
+      return (
+        <ProProsonalInfoForm
+          name={name}
+          setName={setName}
+          phone={phone}
+          setPhone={setPhone}
+          birthDate={birthDate}
+          setBirthDate={setBirthDate}
+          linkin={linkin}
+          setLinkin={setLinkin}
+        />
+      );
     } else if (step === 2) {
-      return <ProProfessionalInfoForm />;
-    } else {
-      return <FindThatJobPage />;
+      return (
+        <ProProfessionalInfoForm
+          title={title}
+          setTitle={setTitle}
+          experience={experience}
+          setExperience={setExperience}
+          education={education}
+          setEducation={setEducation}
+          uploadFiles={uploadFiles}
+          setUploadFiles={setUploadFiles}
+        />
+      );
     }
   };
 
-  
+  const { register } = useAuth();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    const data = {
+      email,
+      password,
+      passwordConfirmed,
+      name,
+      phone,
+      birthDate,
+      title,
+      experience,
+      education,
+    };
+
+    for (let uploadFileKey in uploadFiles) {
+      data.append("uploadFile", uploadFiles[uploadFileKey]);
+    }
+    register(data);
+  };
 
   return (
     <Wrapper>
       <LeftBox>
-        <Detail>
-          <Progressbar>
-            <Title>Good choice!</Title>
-            <Caption>Create a new account as...</Caption>
-            <SelectRole>
-              <Role>PROFESSIONAL</Role>
-              <Role>RECRUITER</Role>
-            </SelectRole>
-            <StepBox>
-              <Step>
-                <StepLeft>
-                  {step === 1 || step === 2 ? (
-                    <DoneStep>
-                      <p>1</p>
-                    </DoneStep>
-                  ) : (
-                    <CurrentStep>
-                      <p>1</p>
-                    </CurrentStep>
-                  )}
-                </StepLeft>
-                <div>
-                  {step === 0 ? (
-                    <InProgress>IN PROGRESS</InProgress>
-                  ) : (
-                    <Done>DONE!</Done>
-                  )}
-                  <DoneStepDetail>
-                    Login <br />
-                    Information
-                  </DoneStepDetail>
-                </div>
-              </Step>
-              <Step>
-                <StepLeft>
-                  {step === 0 ? (
-                    <NextStep>
-                      <p>2</p>
-                    </NextStep>
-                  ) : null || step === 1 ? (
-                    <CurrentStep>
-                      <p>2</p>
-                    </CurrentStep>
-                  ) : null || step === 2 ? (
-                    <DoneStep>
-                      <p>2</p>
-                    </DoneStep>
-                  ) : (
-                    <DoneStep>
-                      <p>2</p>
-                    </DoneStep>
-                  )}
-                </StepLeft>
-                <div>
-                  {step === 0 ? (
-                    <Pending>PENDING</Pending>
-                  ) : null || step === 1 ? (
-                    <InProgress>IN PROGRESS</InProgress>
-                  ) : null || step === 2 ? (
-                    <Done>DONE!</Done>
-                  ) : (
-                    <Done>DONE!</Done>
-                  )}
-                  {step === 0 ? (
-                    <PendingStepDetail>
-                      Personal
-                      <br />
-                      information
-                    </PendingStepDetail>
-                  ) : (
+        <form
+          className="professional-register-form"
+          id="register-form"
+          onSubmit={handleSubmit}
+        >
+          <Detail>
+            <Progressbar>
+              <Title>Good choice!</Title>
+              <Caption>Create a new account as...</Caption>
+              <SelectRole>
+                <Role>PROFESSIONAL</Role>
+                <Role>RECRUITER</Role>
+              </SelectRole>
+              <StepBox>
+                <Step>
+                  <StepLeft>
+                    {step === 1 || step === 2 ? (
+                      <DoneStep>
+                        <StepNumber>1</StepNumber>
+                      </DoneStep>
+                    ) : (
+                      <CurrentStep>
+                        <StepNumber>1</StepNumber>
+                      </CurrentStep>
+                    )}
+                  </StepLeft>
+                  <div>
+                    {step === 0 ? (
+                      <InProgress>IN PROGRESS</InProgress>
+                    ) : (
+                      <Done>DONE!</Done>
+                    )}
                     <DoneStepDetail>
-                      Personal
-                      <br />
-                      information
+                      Login <br />
+                      Information
                     </DoneStepDetail>
-                  )}
-                </div>
-              </Step>
-              <Step>
-                <StepLeft>
-                  {step === 2 ? (
-                    <CurrentStep>
-                      <p>3</p>
-                    </CurrentStep>
-                  ) : (
-                    <NextStep>
-                      <p>3</p>
-                    </NextStep>
-                  )}
-                </StepLeft>
-                <div>
-                  {step === 0 || step === 1 ? (
-                    <Pending>PENDING</Pending>
-                  ) : (
-                    <InProgress>IN PROGRESS</InProgress>
-                  )}
-                  {step === 0 || step === 1 ? (
-                    <PendingStepDetail>
-                      Professional
-                      <br />
-                      information
-                    </PendingStepDetail>
-                  ) : (
-                    <DoneStepDetail>
-                      Professional
-                      <br />
-                      information
-                    </DoneStepDetail>
-                  )}
-                </div>
-              </Step>
-            </StepBox>
-            <div>{StepDisplay()}</div>
+                  </div>
+                </Step>
+                <Step>
+                  <StepLeft>
+                    {step === 0 ? (
+                      <NextStep>
+                        <StepNumber>2</StepNumber>
+                      </NextStep>
+                    ) : null || step === 1 ? (
+                      <CurrentStep>
+                        <StepNumber>2</StepNumber>
+                      </CurrentStep>
+                    ) : null || step === 2 ? (
+                      <DoneStep>
+                        <StepNumber>2</StepNumber>
+                      </DoneStep>
+                    ) : (
+                      <DoneStep>
+                        <StepNumber>2</StepNumber>
+                      </DoneStep>
+                    )}
+                  </StepLeft>
+                  <div>
+                    {step === 0 ? (
+                      <Pending>PENDING</Pending>
+                    ) : null || step === 1 ? (
+                      <InProgress>IN PROGRESS</InProgress>
+                    ) : null || step === 2 ? (
+                      <Done>DONE!</Done>
+                    ) : (
+                      <Done>DONE!</Done>
+                    )}
+                    {step === 0 ? (
+                      <PendingStepDetail>
+                        Personal
+                        <br />
+                        information
+                      </PendingStepDetail>
+                    ) : (
+                      <DoneStepDetail>
+                        Personal
+                        <br />
+                        information
+                      </DoneStepDetail>
+                    )}
+                  </div>
+                </Step>
+                <Step>
+                  <StepLeft>
+                    {step === 2 ? (
+                      <CurrentStep>
+                        <StepNumber>3</StepNumber>
+                      </CurrentStep>
+                    ) : (
+                      <NextStep>
+                        <StepNumber>3</StepNumber>
+                      </NextStep>
+                    )}
+                  </StepLeft>
+                  <div>
+                    {step === 0 || step === 1 ? (
+                      <Pending>PENDING</Pending>
+                    ) : (
+                      <InProgress>IN PROGRESS</InProgress>
+                    )}
+                    {step === 0 || step === 1 ? (
+                      <PendingStepDetail>
+                        Professional
+                        <br />
+                        information
+                      </PendingStepDetail>
+                    ) : (
+                      <DoneStepDetail>
+                        Professional
+                        <br />
+                        information
+                      </DoneStepDetail>
+                    )}
+                  </div>
+                </Step>
+              </StepBox>
+              <div>{StepDisplay()}</div>
 
-            <div className="form-actions">
-              {step === 0 || step === 1 ? null : (
-                <PreviusButton
-                  onClick={() => {
-                    setStep((currentPage) => currentPage - 1);
-                  }}
-                >
-                  PREVIUS
-                </PreviusButton>
-              )}
+              <div className="form-actions">
+                {step === 0 || step === 1 ? null : (
+                  <PreviusButton
+                    onClick={() => {
+                      setStep((currentPage) => currentPage - 1);
+                    }}
+                  >
+                    PREVIUS
+                  </PreviusButton>
+                )}
 
-              {step === 0 ? null : (
-                <SkipButton
-                  type="Submit"
-                  onClick={() => {
-                    setStep((currentPage) => currentPage + 2);
-                  }}
-                >
-                  SKIP THIS!
-                </SkipButton>
-              )}
+                {step === 0 ? null : (
+                  <SkipButton form="register-form" type="submit">
+                    SKIP THIS!
+                  </SkipButton>
+                )}
 
-              {step === 2 ? null : (
-                <NextButton
-                  onClick={() => {
-                    setStep((currentPage) => currentPage + 1);
-                  }}
-                >
-                  NEXT {Arrow}
-                </NextButton>
-              )}
-
-              {step === 0 || step === 1 ? null : (
-                <NextButton
-                  type="Submit"
-                  onClick={() => {
-                    setStep((currentPage) => currentPage + 1);
-                  }}
-                >
-                  FINISH {Arrow}
-                </NextButton>
-              )}
-            </div>
-          </Progressbar>
-        </Detail>
+                {step === 0 || step === 1 ? null : (
+                  <FinishButton form="register-form" type="submit">
+                    {" "}
+                    FINISH {Arrow}
+                  </FinishButton>
+                )}
+              </div>
+            </Progressbar>
+          </Detail>
+        </form>
+        <FormWrapper>
+          {step === 0 ? (
+            <NextPage1Button
+              onClick={() => {
+                setStep((currentPage) => currentPage + 1);
+              }}
+            >
+              {" "}
+              NEXT {Arrow}
+            </NextPage1Button>
+          ) : null}
+          {step === 1 ? (
+            <NextPage2Button
+              onClick={() => {
+                setStep((currentPage) => currentPage + 1);
+              }}
+            >
+              {" "}
+              NEXT {Arrow}
+            </NextPage2Button>
+          ) : null}
+        </FormWrapper>
       </LeftBox>
+
       <RightBox>
         <BorderImage>
           <GirlImage src={image} alt="Girl"></GirlImage>

@@ -1,11 +1,11 @@
 import "./App.css";
-import ProfessionalPage from "./pages/ProfessionalRegisterPage";
+import { useAuth } from "./contexts/authentication";
+import AuthenticatedApp from "./pages/AuthenticatedApp";
+import UnauthenticatedApp from "./pages/UnauthenticatedApp";
+
 function App() {
-  return (
-    <div className="App">
-      <ProfessionalPage />
-    </div>
-  );
+  const auth = useAuth();
+  return auth.isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 
 export default App;
