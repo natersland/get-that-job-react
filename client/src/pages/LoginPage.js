@@ -83,7 +83,7 @@ const WrapperLogin = styled.section`
   width: 90%;
   display: flex;
   margin: auto;
-  padding: 6rem;
+  padding: 7rem 0;
 `;
 const WrapperLoginLeft = styled.div`
   width: 55%;

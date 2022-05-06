@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
 import logo from "../img/gtj-logo 1.png";
 import loginLogo from "../img/user-add-line.png";
+import { useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+
+
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <Wrap className="wrapper">
       <div className="logo-wrapper">

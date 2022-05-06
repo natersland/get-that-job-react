@@ -12,9 +12,12 @@ import Rual from "../img/Ellipse 4-3.png";
 import daimond from "../img/ruby-fill.png";
 import Reactline from "../img/reactjs-line.png";
 
+
+
 import "../App.css";
 
 const HomePage = () => {
+
   return (
     <MainWrap>
       <LandingWrapper className="landingPage">
@@ -162,7 +165,7 @@ const Inline = styled.p`
 
 const MainWrap = styled.main`
   width: 100vw;
-  font-family: var(--primary-font: "Montserrat", sans-serif);
+  font-family: var(--primary-font);
 `;
 
 const LandingWrapper = styled.section`
@@ -187,7 +190,7 @@ const Span = styled.span`
 
 const P = styled.p`
   width: 600px;
-  font-family: var(--primary-font: "Montserrat", sans-serif);
+  font-family: var(--primary-font);
   font-size: 24px;
   font-weight: 400;
 `;
@@ -209,7 +212,7 @@ const Section2 = styled.section`
   width: 100%;
   height: 400px;
   display: flex;
-  font-family: var(--primary-font: "Montserrat", sans-serif);
+  font-family: var(--primary-font);
 `;
 const H1 = styled.h1`
   font-size: 48px;
