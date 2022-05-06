@@ -8,39 +8,42 @@ import { cloudinaryUpload } from "../utils/upload.js"; */
 const authRouter = Router();
 
 /* const multerUpload = multer({ dest: "uploadResumes/" });
-const resumeUpload = multerUpload.fields([{ name: "uploadFile", maxCount: 1 }]); */
+const resumeUpload = multerUpload.fields([{ name: "uploadFile", maxCount: 1 }]);
 
-/* authRouter.post(
-  "/register",
-  resumeUpload, async (req, res) => {
-    console.log(req.files.uploadFile);
+authRouter.post("/register", resumeUpload, async (req, res) => {
+  console.log(req.files.uploadFile);
 
   if (req.files.uploadFile === undefined) {
     return null;
   }
 
-    const user = {
-      email: req.body.email,
-      password: req.body.password,
-      title: req.body.title,
-    };
+  const user = {
+    email: req.body.email,
+    password: req.body.password,
+    name: req.body.name,
+    phone: req.body.phone,
+    birthDate: req.body.birthDate,
+    linkin: req.body.linkin,
+    title: req.body.title,
+    experience: req.body.experience,
+    education: req.body.education,
+  };
 
-    const uplaodFileUrl = await cloudinaryUpload(req.files);
+  const uplaodFileUrl = await cloudinaryUpload(req.files);
   user["uploadFiles"] = uplaodFileUrl;
 
-    console.log(user);
+  console.log(user);
 
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
 
-    const collection = db.collection("users");
-    await collection.insertOne(user);
+  const collection = db.collection("users");
+  await collection.insertOne(user);
 
-    return res.json({
-      message: "User has been created successfully",
-    });
-  }
-);  */
+  return res.json({
+    message: "User has been created successfully",
+  });
+}); */
 
 authRouter.post("/register", async (req, res) => {
   const user = {
