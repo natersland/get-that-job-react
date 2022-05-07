@@ -1,13 +1,105 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
 
+
 :root {
+  /* Brand Color */
   --primary-brand-color: #bf5f82;
   --secoundary-brand-color: #f48fb1;
-  --secoundary-color-hover: #f3427d;
   --tertiary-brand-color: #ffc1e3;
+
+  /* Font Zone */
   --primary-text-color: #373737;
-  --secondary-text-color: hsla(0, 0%, 22%, 1);
+  --secondary-text-color: #5C5C5C;
+  --tertiary-text-color: #E1E2E1;
   --primary-font: 'Montserrat', sans-serif;
   --seconary-font: 'Inter', sans-serif;
+
+  /* Other Color */
+  --gray: #616161;
+  --light-gray: #8E8E8E;
+  --white: #ffffff;
 }
 
+
+/* 🍓🍓🍓 CSS Structure -------------------------------- */
+/* โครงปุ่ม (ใช้สร้างรูปทรงปุ่ม) */
+.btn { /*โครงปุ่มเริ่มต้น (ไม่มีขนาด) */
+  display: flex;
+  align-items: center;
+  font-family: var(--seconary-font);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  border-radius: 16px;
+  transition: 0.5s;
+  font-weight: 500;
+}
+ .btn-md { /* ปุ่มขนาดทั่วไป */
+   padding: 8px 16px;
+   height: 40px;
+ }  
+ .btn-lg { /* ปุ่มขนาดใหญ่ */
+   padding: 16px 24px;
+   height: 56px;
+ }  
+
+/* ------------------------------------- */
+/* โครง Input (ใช้สร้างรูปทรงของ input) */
+.gtj-input { /*ใช้ได้กับ input ทุกอัน */
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.875rem;
+  font-family: var(--seconary-font);
+  color: var(--secondary-text-color);
+
+}
+
+ /* 🚀🚀🚀 CSS Style color [Button] -------------------------------- */
+ /* สีปุ่มหลัก - สีชมพู */ 
+ .btn-pink { /* สีก่อน hover หรือก่อน active status */
+   background-color: var(--secoundary-brand-color);
+   color: var(--white);
+ }
+ .btn-pink:hover {
+   background-color: var(--primary-brand-color);
+ }
+
+ .btn-active { /* สีหลัง hover หรือ active status */
+  background-color: var(--primary-brand-color);
+  color: var(--white);
+}
+/* ------------------------------------- */
+.btn-white { /* ปุ่มสีขาว */
+  background-color: var(--white);
+  color: var(--gray);
+}
+.btn-white:hover { 
+  background-color: var(--white);
+  color: var(--primary-text-color);
+}
+/* ------------------------------------- */
+.btn-gray { /* ปุ่มสีเทา */
+  background-color: var(--tertiary-text-color);
+  color: var(--light-gray)
+}
+
+/* 🌻🌻🌻 CSS Style color [input] -------------------------------- */
+/* กรอบ input ต่างๆ, style ปุ่มขาว กรอบชมพู (แบบ navbar ของ nikki) */
+.pink-border {
+  border: 1px solid var(--secoundary-brand-color);
+  transition: 0.5s;
+  }
+.pink-border:hover {
+    border: 1px solid var(--primary-brand-color);
+  }
+.pink-border:focus {
+    outline: none;
+    border: 1px solid var(--primary-brand-color);
+  }
+
+/* ⚡️⚡️⚡️ Shadows -------------------------------- */ 
+.shadow-max { /* เงาหนาๆ */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+}
+.shadow { /* เงากลางๆ */
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+}

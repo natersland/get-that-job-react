@@ -179,6 +179,7 @@ const LandingWrapper = styled.section`
 `;
 
 const Heading = styled.h1`
+  margin: 2rem 0;
   width: 500px;
   font-size: 60px;
   font-weight: 300;
@@ -193,6 +194,7 @@ const P = styled.p`
   font-family: var(--primary-font);
   font-size: 24px;
   font-weight: 400;
+  margin-bottom: 2rem;
 `;
 const Button = styled.button`
   display: block;

@@ -8,18 +8,18 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
   return (
-    <Wrap className="wrapper">
+    <Wrap className="shadow">
       <div className="logo-wrapper">
         <img src={logo} />
       </div>
-      <div className="nav-links">
-        <Button>
+      <NavLinkWrapper className="nav-links">
+        <button className="btn btn-md btn-white pink-border">
           <Img src={loginLogo} /> SIGN UP
-        </Button>
-        <Button>
+        </button>
+        <button className="btn btn-md btn-white pink-border ml-4">
           <Img src={loginLogo} /> LOG IN
-        </Button>
-      </div>
+        </button>
+      </NavLinkWrapper>
     </Wrap>
   );
 };
@@ -30,23 +30,15 @@ const Img = styled.img`
 `;
 const Wrap = styled.div`
   width: 100%;
-  height: 64px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   padding: 15px;
+  position:sticky;
+  z-index: 2;
 `;
-
-const Button = styled.button`
-  padding: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: solid #ffc1e3 3px;
-  border-radius: 15px;
-  background-color: white;
-  line-height: 24px;
-  font-size: 14px;
-  margin-left: 15px;
-`;
+const NavLinkWrapper = styled.div`
+display: flex;
+`
 
 export default Navbar;

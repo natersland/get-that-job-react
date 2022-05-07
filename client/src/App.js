@@ -1,12 +1,13 @@
 // CSS
 import "./App.css";
 
-// 🐳🐳🐳🐳 Authen by Nat 🐳🐳🐳🐳
+// 🐳🐳🐳🐳 Authentication Login & Register 🐳🐳🐳🐳
 import { useAuth } from "./contexts/authentication";
 import AuthenticatedApp from "./pages/AuthenticatedApp";
 import UnauthenticatedApp from "./pages/UnauthenticatedApp";
+
+// 🌈🌈🌈🌈 Hooks Fantasy 🌈🌈🌈🌈
 import GTJhooksfantasy from './hooks/GTJHooksFantasy'
-// 🌈🌈🌈🌈 Homepage by Nikki 🌈🌈🌈🌈
 
 
 function App() {

@@ -16,7 +16,7 @@ export default function LoginSuccessful(props) {
       </RoleStatusText>
       <LogoutBtnWrapper>
         {" "}
-        <button
+        <button className="btn btn-md btn-pink mt-5"
           onClick={() => {
             logout();
           }}
