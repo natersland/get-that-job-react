@@ -27,6 +27,7 @@ async function init() {
 
   // initialize server and setting -----------------
   const app = express();
+
   const port = process.env.PORT || 4000;
   await client.connect();
 
