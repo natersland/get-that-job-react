@@ -1,10 +1,12 @@
-/*import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import fs from "fs/promises";
-const cloudinaryUpload = async (files) => {
+
+/*error*/ const cloudinaryUpload = async (files) => {
   const fileUrl = [];
-  for await (let file of files.uploadFile) {
+  for (let file of files.logo) 
+  {
     const result = await cloudinary.uploader.upload(file.path, {
-      folder: "register/uploadfile",
+      folder: "register/uploadFile",
       type: "private",
     });
     fileUrl.push({
@@ -17,4 +19,3 @@ const cloudinaryUpload = async (files) => {
   return fileUrl;
 };
 export { cloudinaryUpload };
-*/

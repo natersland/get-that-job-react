@@ -34,17 +34,6 @@ function RegisterRecruiter1 (props) {
 
     console.log(companyName,email,password,confirmPassword);
 
-    //const { register } = useAuth();
- 
-    /*const handleSubmit = (event) => {
-        event.preventDefault();
-        const Data = {
-            companyName,
-            email,
-            password
-        }
-        register(Data);
-     };*/
         
  return (
      <Wrapper>

@@ -106,17 +106,6 @@ function RegisterRecruiter2 (props) {
 
     console.log(companyWebsite,about,uploadFile);
 
-    //const { register } = useAuth();
-
-    /*const handleSubmit = (event) => {
-        event.preventDefault();
-        const Data = {
-            companyWebsite,
-            about,
-            uploadFile
-        }
-        register(Data);
-    }*/
 
     const handleFileChange = (event) => {
         const uniqueId = Date.now();
@@ -124,6 +113,7 @@ function RegisterRecruiter2 (props) {
         ...uploadFile,
         [uniqueId]: event.target.files[0],
         });
+        console.log(uploadFile)
   };
 
 
@@ -153,17 +143,18 @@ function RegisterRecruiter2 (props) {
                  id = "about"
                  rows={4}
                  cols={30}
+                 minlength= "5"
                  required
                  />
              <Limitation> Between 100 and 2000 characters </Limitation>
              <Label2>UPLOAD THE COMPANY LOGO</Label2>
                <UploadFileSection>
-                   <UploadButton htmlFor="upload">
+                   <UploadButton htmlFor="uploadFile">
                    <ChooseFile>Choose File</ChooseFile>
                    </UploadButton>
                     <Input
-                        id="upload"
-                        name="cv"
+                        id="uploadFile"
+                        name="logo"
                         type="file"
                         placeholder="Enter last name here"
                         onChange={handleFileChange}

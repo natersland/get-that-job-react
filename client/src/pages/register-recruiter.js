@@ -279,20 +279,22 @@ function RecruiterRegisterPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const data = {
-      companyName,
-      email,
-      password,
-      companyWebsite,
-      about,
-      uploadFile,
-    };
-
+    const formData = new FormData();
+    
+    formData.append("companyName",companyName)
+    formData.append("email",email)
+    formData.append("password",password)
+    formData.append("companyWebsite",companyWebsite)
+    formData.append("about",about)
+    /* formData.append("uploadFile",uploadFile) */
+    
+    /* for (let logoFileKey in logoFiles) {
+    formData.append("logo", logoFiles[logoFileKey])
+    } */
     for (let uploadFileKey in uploadFile) {
-      data.append("uploadFile", uploadFile[uploadFileKey]);
+      formData.append("logo", uploadFile[uploadFileKey]); 
     }
-    register(data);
+    register(formData);
   };
 
   return (
@@ -378,11 +380,7 @@ function RecruiterRegisterPage() {
                 {step === 0 || step === 2 ? null : (
                   <SkipButton
                     form="register-form"
-                    type="submit"
-                   /*  onClick={() => {
-                      setStep((currentPage) => currentPage + 1);
-                    }} */
-                  >
+                    type="submit"    >
                     SKIP THIS!
                   </SkipButton>
                 )}
@@ -392,15 +390,6 @@ function RecruiterRegisterPage() {
                   {" "}
                   FINISH <Question/> 
                 </FinishButton>
-                  /*{ <FinishButton
-                    form="register-form"
-                    type="submit"
-                    onClick={() => {
-                      setStep((currentPage) => currentPage + 1);
-                    }}
-                  >
-                    FINISH {Arrow}
-                  </FinishButton> }*/
                 )}
               </div>
             </Progressbar>

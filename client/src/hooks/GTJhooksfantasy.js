@@ -10,9 +10,9 @@ export default function GTJhooksfantasy() {
  
     const [companyWebsite, setCompanyWebsite] = useState("");
     const [about, setAbout] = useState("");
-    const [uploadFile, setUploadFile] = useState("");
+    const [uploadFile, setUploadFile] = useState({});
 
-  const [role, setRole] = useState({});
+   const [role, setRole] = useState("");
 
   return {
     companyName, 
