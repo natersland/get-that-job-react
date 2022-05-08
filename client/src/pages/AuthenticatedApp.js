@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import FindThatJobPage from "./FindThatJobPage";
 import ProfessionalHomepage from "./ProfessionalHomepage";
-import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 import "../App.css";
 
 export default function AuthenticatedApp() {

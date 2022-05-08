@@ -19,7 +19,7 @@ authRouter.post("/register", resumeUpload, async (req, res) => {
     name: req.body.name,
     phone: req.body.phone,
     birthDate: req.body.birthDate,
-    linkin: req.body.linkin,
+    linkedin: req.body.linkedin,
     title: req.body.title,
     experience: req.body.experience,
     education: req.body.education,

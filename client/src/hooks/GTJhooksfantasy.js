@@ -10,7 +10,7 @@ export default function GTJhooksfantasy() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [linkin, setLinkin] = useState("");
+  const [linkedin, setLinkedin] = useState("");
 
   // Step 3
   const [title, setTitle] = useState("");
@@ -34,8 +34,8 @@ export default function GTJhooksfantasy() {
     setPhone,
     birthDate,
     setBirthDate,
-    linkin,
-    setLinkin,
+    linkedin,
+    setLinkedin,
     title,
     setTitle,
     experience,

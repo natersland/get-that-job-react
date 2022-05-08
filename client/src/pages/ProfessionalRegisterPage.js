@@ -7,7 +7,6 @@ import image from "../img/discussing.png";
 import "../App.css";
 import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 import { useAuth } from "../contexts/authentication";
-/* import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 
 class ArrowRight extends React.Component {
@@ -15,273 +14,11 @@ class ArrowRight extends React.Component {
     return <AiOutlineRight />;
   }
 }
-class Arrowleft extends React.Component {
+class ArrowLeft extends React.Component {
   render() {
     return <AiOutlineLeft />;
   }
-} */
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  background-color: #f5f5f6;
-  position: relative;
-`;
-
-const Detail = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: end;
-
-  margin: 8rem 0 0 0;
-`;
-
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 228px;
-`;
-
-const Title = styled.h1`
-  color: var(--primary-text-color);
-  font-family: var(--primary-font);
-  font-weight: 400;
-  font-size: 48px;
-`;
-
-const Progressbar = styled.div`
-  width: 70%;
-`;
-
-const Caption = styled.h3`
-  color: var(--primary-text-color);
-  font-family: var(--primary-font);
-  font-weight: 500;
-  font-size: 20px;
-  margin-top: 20px;
-`;
-
-const LeftBox = styled.div`
-  width: 60%;
-`;
-
-const RightBox = styled.div`
-  width: 40%;
-  display: flex;
-
-  align-items: end;
-`;
-
-const SelectRole = styled.div`
-  display: flex;
-  flex-direction: row;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 14px;
-`;
-
-const Role = styled.h3`
-  margin-right: 6px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  font-family: var(--primary-font);
-  color: var(--primary-text-color);
-  font-weight: 500;
-  font-size: 14px;
-`;
-
-const StepBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-`;
-
-const InProgress = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  letter-spacing: 1.5px;
-`;
-
-const Done = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  letter-spacing: 1.5px;
-`;
-
-const Pending = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  color: #8e8e8e;
-  letter-spacing: 1.5px;
-`;
-
-const Step = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 25%;
-`;
-
-const StepLeft = styled.div``;
-
-const PendingStepDetail = styled.div`
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  font-weight: 400;
-  color: #8e8e8e;
-`;
-
-const DoneStepDetail = styled.div`
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  font-weight: 400;
-  color: #616161;
-`;
-
-const CurrentStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-bottom: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: var(--secoundary-brand-color);
-`;
-
-const NextStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-bottom: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: #e1e2e1;
-`;
-
-const DoneStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-top: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: #616161;
-`;
-
-const StepNumber = styled.p`
-  margin-bottom: 0;
-`;
-
-const GirlImage = styled.img`
-  width: 60%;
-  height: 60%;
-`;
-
-const BorderImage = styled.div`
-  width: 435px;
-  position: relative;
-`;
-
-const NextPage1Button = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-  margin-left: 230px;
-`;
-
-const NextPage2Button = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-  margin-left: 280px;
-  position: absolute;
-  bottom: 213px;
-`;
-
-const SkipButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border: 1px solid var(--secoundary-brand-color);
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  cursor: pointer;
-  margin-left: 32px;
-  color: #616161;
-  background-color: #f5f5f6;
-`;
-
-const FinishButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-  margin-left: 32px;
-`;
-
-const PreviusButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
+}
 
 function ProfessionalRegisterPage() {
   const {
@@ -297,8 +34,8 @@ function ProfessionalRegisterPage() {
     setPhone,
     birthDate,
     setBirthDate,
-    linkin,
-    setLinkin,
+    linkedin,
+    setLinkedin,
     title,
     setTitle,
     experience,
@@ -310,9 +47,6 @@ function ProfessionalRegisterPage() {
     role,
     setRole,
   } = GTJhooksfantasy();
-
-  const rightArrow = ">";
-  const leftArrow = "<";
 
   const [step, setStep] = useState(0);
 
@@ -337,8 +71,8 @@ function ProfessionalRegisterPage() {
           setPhone={setPhone}
           birthDate={birthDate}
           setBirthDate={setBirthDate}
-          linkin={linkin}
-          setLinkin={setLinkin}
+          linkedin={linkedin}
+          setLinkin={setLinkedin}
         />
       );
     } else if (step === 2) {
@@ -369,6 +103,7 @@ function ProfessionalRegisterPage() {
     formData.append("name", name);
     formData.append("phone", phone);
     formData.append("birthDate", birthDate);
+    formData.append("linkedin", linkedin);
     formData.append("title", title);
     formData.append("experience", experience);
     formData.append("education", education);
@@ -501,64 +236,299 @@ function ProfessionalRegisterPage() {
               </StepBox>
               <div>{StepDisplay()}</div>
 
-              <div className="form-actions">
+              <ButtonWrapper>
                 {step === 0 || step === 1 ? null : (
-                  <PreviusButton
+                  <PreviousButton
                     onClick={() => {
                       setStep((currentPage) => currentPage - 1);
                     }}
                   >
-                    PREVIOUS
-                  </PreviusButton>
+                    <ArrowLeft /> PREVIOUS
+                  </PreviousButton>
                 )}
-
                 {step === 0 ? null : (
                   <SkipButton form="register-form" type="submit">
                     SKIP THIS!
                   </SkipButton>
                 )}
+                {step === 0 || step === 1 ? (
+                  <NextPageButton
+                    type="button" //ถ้า button อยู่ใน form ใช้อันนี้ค่าาา เพราะ default = submit
+                    onClick={() => {
+                      setStep((currentPage) => currentPage + 1);
+                    }}
+                  >
+                    {" "}
+                    NEXT <ArrowRight />
+                  </NextPageButton>
+                ) : null}
 
                 {step === 0 || step === 1 ? null : (
                   <FinishButton form="register-form" type="submit">
                     {" "}
-                    FINISH
+                    FINISH <ArrowRight />
                   </FinishButton>
                 )}
-              </div>
+              </ButtonWrapper>
             </Progressbar>
           </Detail>
         </form>
-        <FormWrapper>
-          {step === 0 ? (
-            <NextPage1Button
-              onClick={() => {
-                setStep((currentPage) => currentPage + 1);
-              }}
-            >
-              {" "}
-              NEXT
-            </NextPage1Button>
-          ) : null}
-          {step === 1 ? (
-            <NextPage2Button
-              onClick={() => {
-                setStep((currentPage) => currentPage + 1);
-              }}
-            >
-              {" "}
-              NEXT
-            </NextPage2Button>
-          ) : null}
-        </FormWrapper>
+        <FormWrapper></FormWrapper>
       </LeftBox>
 
       <RightBox>
-        <GirlImage src={image} alt="Girl"></GirlImage>
-
-        {/*         <BorderImage></BorderImage> */}
+        <BorderImage>
+          <GirlImage src={image} alt="Girl"></GirlImage>
+        </BorderImage>
       </RightBox>
     </Wrapper>
   );
 }
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  background-color: #f5f5f6;
+  position: relative;
+`;
+
+const Detail = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+
+  margin: 2rem 0 0 0;
+`;
+
+const FormWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 228px;
+`;
+
+const Title = styled.h1`
+  color: var(--primary-text-color);
+  font-family: var(--primary-font);
+  font-weight: 400;
+  font-size: 48px;
+`;
+
+const Progressbar = styled.div`
+  width: 70%;
+`;
+
+const Caption = styled.h3`
+  color: var(--primary-text-color);
+  font-family: var(--primary-font);
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 20px;
+`;
+
+const LeftBox = styled.div`
+  width: 60%;
+`;
+
+const RightBox = styled.div`
+  width: 40%;
+  display: flex;
+  align-items: end;
+`;
+
+const SelectRole = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 14px;
+`;
+
+const Role = styled.h3`
+  margin-right: 6px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: var(--primary-font);
+  color: var(--primary-text-color);
+  font-weight: 500;
+  font-size: 14px;
+`;
+
+const StepBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+`;
+
+const InProgress = styled.div`
+  font-size: 10px;
+  font-family: var(--seconary-font);
+  font-weight: 400;
+  letter-spacing: 1.5px;
+`;
+
+const Done = styled.div`
+  font-size: 10px;
+  font-family: var(--seconary-font);
+  font-weight: 400;
+  letter-spacing: 1.5px;
+`;
+
+const Pending = styled.div`
+  font-size: 10px;
+  font-family: var(--seconary-font);
+  font-weight: 400;
+  color: #8e8e8e;
+  letter-spacing: 1.5px;
+`;
+
+const Step = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 25%;
+`;
+
+const StepLeft = styled.div``;
+
+const PendingStepDetail = styled.div`
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  font-weight: 400;
+  color: #8e8e8e;
+`;
+
+const DoneStepDetail = styled.div`
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  font-weight: 400;
+  color: #616161;
+`;
+
+const CurrentStep = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 62px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  font-family: var(--primary-font);
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  background-color: var(--secoundary-brand-color);
+`;
+
+const NextStep = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 62px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  font-family: var(--primary-font);
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  background-color: #e1e2e1;
+`;
+
+const DoneStep = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 62px;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  margin-top: 0px;
+  font-family: var(--primary-font);
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+  background-color: #616161;
+`;
+
+const StepNumber = styled.p`
+  margin-bottom: 0;
+`;
+
+const GirlImage = styled.img`
+  width: 115%;
+`;
+
+const BorderImage = styled.div`
+  width: 435px;
+  position: relative;
+`;
+
+const ButtonWrapper = styled.div`
+  width: 360px;
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const NextPageButton = styled.button`
+  width: 106px;
+  height: 40px;
+  border-radius: 16px;
+  border-style: hidden;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  background-color: var(--secoundary-brand-color);
+  cursor: pointer;
+`;
+
+const SkipButton = styled.button`
+  width: 106px;
+  height: 40px;
+  border-radius: 16px;
+  border: 1px solid var(--secoundary-brand-color);
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  cursor: pointer;
+  margin: 0 16px;
+  color: #616161;
+  background-color: #f5f5f6;
+`;
+
+const FinishButton = styled.button`
+  width: 106px;
+  height: 40px;
+  border-radius: 16px;
+  border-style: hidden;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  background-color: var(--secoundary-brand-color);
+  cursor: pointer;
+`;
+
+const PreviousButton = styled.button`
+  width: 131px;
+  height: 40px;
+  border-radius: 16px;
+  border-style: hidden;
+  color: white;
+  font-size: 14px;
+  letter-spacing: 1.25px;
+  font-weight: 500;
+  font-family: var(--secondary-font);
+  background-color: var(--secoundary-brand-color);
+  cursor: pointer;
+`;
 
 export default ProfessionalRegisterPage;
