@@ -1,13 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-
+// Components --------------------------------------------
+import ProfessionalHomepage from "./Authentication/ProfessionalHomepage";
+import RecuiterHomepage from "./Authentication/RecuiterHomepage";
 import NotFoundPage from "./NotFoundPage";
-import ProfessionalHomepage from "./ProfessionalHomepage";
-import RecuiterHomepage from "./RecuiterHomepage";
-import "../App.css";
+// Contexts --------------------------------------------
+import { useUserData } from "../contexts/usersData";
 
-export default function AuthenticatedApp(props) {
-  const { roleBtn } = props;
-  
+export default function AuthenticatedApp() {
+  const { roleBtn } = useUserData();
+
   return (
     <div className="App">
       <Routes>

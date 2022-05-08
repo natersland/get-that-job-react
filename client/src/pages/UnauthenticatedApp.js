@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./LoginPage";
+import LoginPage from "./Authentication/LoginPage";
 import NotFoundPage from "./NotFoundPage";
 import HomePage from "./HomePage";
 import Navbar from "../components/Navbar";
@@ -9,12 +9,9 @@ export default function UnauthenticatedApp(props) {
 
   return (
     <div className="App">
-      <Navbar/>
+      <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={<HomePage />}
-        />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/login"
           element={<LoginPage roleBtn={roleBtn} setRoleBtn={setRoleBtn} />}

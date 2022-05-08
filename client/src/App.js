@@ -1,22 +1,22 @@
 // CSS
 import "./App.css";
 
-// 🐳🐳🐳🐳 Authentication Login & Register 🐳🐳🐳🐳
-import { useAuth } from "./contexts/authentication";
+// 🐳 Authentication Login & Register ------------------------
 import AuthenticatedApp from "./pages/AuthenticatedApp";
 import UnauthenticatedApp from "./pages/UnauthenticatedApp";
 
-// 🌈🌈🌈🌈 Hooks Fantasy 🌈🌈🌈🌈
-import GTJhooksfantasy from './hooks/GTJHooksFantasy'
-
+// 🌈 Context Fantasy -----------------------------------------
+import { useAuth } from "./contexts/authentication";
+import { useUserData } from "./contexts/usersData";
 
 function App() {
-  const { roleBtn, setRoleBtn } = GTJhooksfantasy();
+  const { roleBtn, setRoleBtn } = useUserData();
   const auth = useAuth();
-  
+
   return auth.isAuthenticated ? (
     <AuthenticatedApp roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
   ) : (
     <UnauthenticatedApp roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
-  )}
+  );
+}
 export default App;

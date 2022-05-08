@@ -1,26 +1,24 @@
-// Tools
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useAuth } from "../contexts/authentication";
+import { useAuth } from "../../contexts/authentication";
+// Picture ------------------------------------
+import maleStandingWithSmile from "../../img/Group 65.png";
+// components ------------------------------------
+import SelectRole from "../../components/SelectRole";
+//Contexts ------------------------------------
+import { useUserData } from "../../contexts/usersData";
+// CSS
+import "../../App.css";
 
-//CSS
-import "../App.css";
-
-// Picture
-import maleStandingWithSmile from "../img/Group 65.png";
-
-// components
-import SelectRole from "../components/SelectRole";
-
-export default function LoginPage(props) {
-  const { roleBtn, setRoleBtn } = props;
-  // State
+export default function LoginPage() {
+  const { roleBtn, setRoleBtn } = useUserData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
+
   console.log(`🎈Login Current Role is ${roleBtn}`);
 
-  // Function
+  // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
     login({
@@ -68,13 +66,15 @@ export default function LoginPage(props) {
               ></input>
             </InputWrapper>
             <FormAction>
-              <button type="Submit" className="btn btn-md btn-pink">Login</button>
+              <button type="Submit" className="btn btn-md btn-pink">
+                Login
+              </button>
             </FormAction>
           </LoginFormWrapper>
         </LoginZoneWrapper>
       </WrapperLoginLeft>
       <WrapperLoginRight>
-        <img src={maleStandingWithSmile} />
+        <img src={maleStandingWithSmile} alt="Male is Standing With Smile" />
       </WrapperLoginRight>
     </WrapperLogin>
   );
@@ -84,7 +84,7 @@ export default function LoginPage(props) {
 const WrapperLogin = styled.section`
   width: 90%;
   display: flex;
-  margin: auto;
+  margin: 10px auto;
   padding: 8rem 0;
 `;
 const WrapperLoginLeft = styled.div`

@@ -1,11 +1,10 @@
-import { useAuth } from "../contexts/authentication";
-// tools
 import styled from "@emotion/styled";
-// css
-import "../App.css";
+// Context ----------------------------
+import { useAuth } from "../contexts/authentication";
+import { useUserData } from "../contexts/usersData";
 
-export default function LoginSuccessful(props) {
-  const { roleBtn } = props;
+export default function LoginSuccessful() {
+  const { roleBtn } = useUserData();
   const { logout } = useAuth();
   console.log(`🚀Login Sucessful Current Role is ${roleBtn}`);
   return (
@@ -16,7 +15,8 @@ export default function LoginSuccessful(props) {
       </RoleStatusText>
       <LogoutBtnWrapper>
         {" "}
-        <button className="btn btn-md btn-pink mt-5"
+        <button
+          className="btn btn-md btn-pink mt-5"
           onClick={() => {
             logout();
           }}

@@ -1,11 +1,10 @@
-// tools
 import styled from "@emotion/styled";
 
-//CSS
-import "../App.css";
+//Context -----------------------------
+import { useUserData } from "../contexts/usersData";
 
 export default function SelectRole(props) {
-  const { roleBtn, setRoleBtn } = props;
+  const { roleBtn, setRoleBtn } = useUserData();
 
   const selectRoleBTN = () => {
     if (roleBtn === "professional") {

@@ -5,10 +5,12 @@ import jwt from "jsonwebtoken";
 
 const authRouter = Router();
 
+// Register Zone -------------------------------------------
 authRouter.post("/register", async (req, res) => {
   const user = {
     email: req.body.email,
     password: req.body.password,
+    role: req.body.role,
   };
 
   const salt = await bcrypt.genSalt(10);
@@ -21,7 +23,9 @@ authRouter.post("/register", async (req, res) => {
     message: "User has been created successfully",
   });
 });
+// ------------------------------------------------------
 
+// Login Zone -------------------------------------------
 authRouter.post("/login", async (req, res) => {
   const user = await db.collection("users").findOne({
     username: req.body.username,
@@ -45,10 +49,10 @@ authRouter.post("/login", async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user._id, email: user.email },
+    { id: user._id, email: user.email, role: user.role },
     process.env.SECRET_KEY,
     {
-      expiresIn: 900000,
+      expiresIn: "900000",
     }
   );
 
@@ -57,5 +61,6 @@ authRouter.post("/login", async (req, res) => {
     token,
   });
 });
+// ------------------------------------------------------
 
 export default authRouter;

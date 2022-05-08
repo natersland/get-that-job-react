@@ -1,14 +1,14 @@
-import LoginSuccessful from "../components/LoginSuccessful";
+import LoginSuccessful from "../../components/LoginSuccessful";
 // tools
 import styled from "@emotion/styled";
-// CSS
-import "../App.css";
-export default function RecuiterHomepage(props) {
+
+export default function ProfessionalHomepage(props) {
   const { roleBtn } = props;
+
   return (
     <WelcomeSuccessWrapper>
-      <RoleIcon>👨🏻‍💼</RoleIcon>
-      <WelcomeText>Recuiter Page</WelcomeText>
+      <RoleIcon>🧏🏻‍♂️</RoleIcon>
+      <WelcomeText>Professional Page</WelcomeText>
       <LoginSuccessful roleBtn={roleBtn} />
     </WelcomeSuccessWrapper>
   );

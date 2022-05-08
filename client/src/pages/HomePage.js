@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+// Images ----------------------------------------
 import people from "../img/Group 54.png";
 import magnifyingGlass from "../img/Group 56.png";
 import github from "../img/github-fill.png";
@@ -11,24 +12,61 @@ import Francisca from "../img/Ellipse 4-2.png";
 import Rual from "../img/Ellipse 4-3.png";
 import daimond from "../img/ruby-fill.png";
 import Reactline from "../img/reactjs-line.png";
+// Contexts ----------------------------------------
+import { useNav } from "../contexts/navigate";
 
-
-
-import "../App.css";
-
+// Team Member Data --------------------------------
+const teamData = [
+  {
+    avartar: Ruby,
+    alt_avatar: "Ruby Ramirez",
+    name: "Ruby Ramirez",
+    github_link: "#",
+  },
+  {
+    avartar: Javier,
+    alt_avatar: "Javier Escribano",
+    name: "Javier Escribano",
+    github_link: "#",
+    linkin_link: "#",
+  },
+  {
+    avartar: Francisca,
+    alt_avatar: "Francisca Reategui",
+    name: "Francisca Reategui",
+    github_link: "#",
+    linkin_link: "#",
+  },
+  {
+    avartar: Rual,
+    alt_avatar: "Raul Rubina",
+    name: "Raul Rubina",
+    github_link: "#",
+    linkin_link: "#",
+  },
+];
+// ---------------------------------------------
 const HomePage = () => {
-
+  const { registerRoute } = useNav();
   return (
     <MainWrap>
       <LandingWrapper className="landingPage">
-        <Heading className="">
+        <Heading>
           The place where you get <Span>that</Span> job
         </Heading>
         <P>
           With our Machine Learning algorithm you will get that job in no time.
           We promise you! Just give us the money and we will take care of it.
         </P>
-        <Button> create an account now </Button>
+        <button
+          className="btn btn-lg btn-pink mb-8"
+          onClick={() => {
+            registerRoute();
+          }}
+        >
+          {" "}
+          create an account now{" "}
+        </button>
 
         <div>
           <ImgPeople src={people} width="1000px" />
@@ -55,69 +93,31 @@ const HomePage = () => {
 
         <ImgWrapper className="right-section">
           <ImgWrap>
-            <img src={magnifyingGlass} width="300px" />
+            <img src={magnifyingGlass} width="300px" alt="magnifyingGlass" />
           </ImgWrap>
         </ImgWrapper>
       </Section2>
       <Wrapper3>
         <H1S3>Meet the team</H1S3>
         <TeamWrapper>
-          <div>
-            <img src={Ruby} />
-            <Name>Ruby Ramirez</Name>
-            <Icon>
-              <a href="#">
-                {" "}
-                <img src={github} />
-              </a>
-              <a href="#">
-                {" "}
-                <img src={linkin} />
-              </a>
-            </Icon>
-          </div>
-          <div>
-            <img src={Javier} />
-            <Name>Javier Escribano</Name>
-            <Icon>
-              <a href="#">
-                {" "}
-                <img src={github} />
-              </a>
-              <a href="#">
-                {" "}
-                <img src={linkin} />
-              </a>
-            </Icon>
-          </div>
-          <div>
-            <img src={Francisca} />
-            <Name>Francisca Reategui </Name>
-            <Icon>
-              <a href="#">
-                {" "}
-                <img src={github} />
-              </a>
-              <a href="#">
-                {" "}
-                <img src={linkin} />
-              </a>
-            </Icon>
-          </div>
-          <div>
-            <img src={Rual} width="180px" />
-            <Name>Raul Rubina</Name>
-            <Icon>
-              <a href="#">
-                {" "}
-                <img src={github} />
-              </a>
-              <a href="#">
-                {" "}
-                <img src={linkin} />
-              </a>
-            </Icon>
-          </div>
+          {teamData.map((member, index) => {
+            return (
+              <div key={index}>
+                <img src={member.avartar} alt={member.alt_avatar} />
+                <Name>{member.name}</Name>
+                <Icon>
+                  <a href={member.github_link}>
+                    {" "}
+                    <img src={github} alt="Github" />
+                  </a>
+                  <a href={member.linkin_link}>
+                    {" "}
+                    <img src={linkin} alt="Linkedin" />
+                  </a>
+                </Icon>
+              </div>
+            );
+          })}
         </TeamWrapper>
         <footer>
           <FooterWrap>
@@ -128,11 +128,11 @@ const HomePage = () => {
               <p> Source Code</p>
               <Inline>
                 {" "}
-                <img src={daimond} /> Ruby on Rails REST API
+                <img src={daimond} alt="Diamond" /> Ruby on Rails REST API
               </Inline>
               <Inline>
                 {" "}
-                <img src={Reactline} /> React Responsive SPA
+                <img src={Reactline} alt="Reactline" /> React Responsive SPA
               </Inline>
             </div>
             <div>
@@ -164,7 +164,7 @@ const Inline = styled.p`
 `;
 
 const MainWrap = styled.main`
-  width: 100vw;
+  width: 100%;
   font-family: var(--primary-font);
 `;
 
@@ -176,6 +176,7 @@ const LandingWrapper = styled.section`
   align-items: center;
   text-align: center;
   background-color: #f5f5f6;
+  margin-top: 10px;
 `;
 
 const Heading = styled.h1`
@@ -196,7 +197,7 @@ const P = styled.p`
   font-weight: 400;
   margin-bottom: 2rem;
 `;
-const Button = styled.button`
+/* const Button = styled.button`
   display: block;
   width: 230px;
   height: 50px;
@@ -205,7 +206,7 @@ const Button = styled.button`
   border: none;
   color: white;
   margin-bottom: 50px;
-`;
+`; */
 const ImgPeople = styled.img`
   margin-bottom: 50px;
 `;
