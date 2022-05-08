@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Authentication/LoginPage";
 import NotFoundPage from "./NotFoundPage";
@@ -7,10 +6,6 @@ import Navbar from "../components/Navbar";
 
 export default function UnauthenticatedApp(props) {
   const { roleBtn, setRoleBtn } = props;
-=======
-import { Route, Routes } from "react-router-dom";
-import ProfessionalRegisterPage from "./ProfessionalRegisterPage";
->>>>>>> 3235692 (update professional register v.1.1.2)
 
   return (
     <div className="App">
