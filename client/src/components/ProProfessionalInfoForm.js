@@ -1,10 +1,6 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
-import { useAuth } from "../contexts/authentication";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Form } from "react-bootstrap";
-import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;
@@ -12,7 +8,7 @@ const Input = styled.input`
   border-radius: 8px;
   font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   padding-left: 10px;
   padding-right: 10px;
   color: #8e8e8e;
@@ -53,20 +49,6 @@ const UploadFileSection = styled.div`
   letter-spacing: 1.25px;
 `;
 
-const UploadButton = styled.button`
-  margin-right: 15px;
-  width: 134px;
-  height: 35px;
-  border-radius: 8px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-
 const CaptionInformation = styled.h4`
   font-family: var(--secondary-font);
   font-weight: 400;
@@ -83,19 +65,6 @@ const Limitation = styled.p`
   width: 380px;
   margin-top: 0px;
   color: var(--tertiary-text-color);
-`;
-
-const ChooseFile = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
-
-const FileName = styled.p`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  color: #616161;
 `;
 
 function ProProfessionalInfoForm(props) {

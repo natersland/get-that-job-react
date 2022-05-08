@@ -1,8 +1,5 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
-import { useAuth } from "../contexts/authentication";
-import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;
@@ -47,8 +44,8 @@ function ProProsonalInfoForm(props) {
     setPhone,
     birthDate,
     setBirthDate,
-    linkin,
-    setLinkin,
+    linkedin,
+    setLinkedin,
   } = props;
 
   return (
@@ -99,16 +96,16 @@ function ProProsonalInfoForm(props) {
       </Container>
 
       <Container>
-        <Label htmlFor="linkin">LINKEDIN URL</Label>
+        <Label htmlFor="linkedin">LINKEDIN URL</Label>
         <Input
-          id="linkin"
-          name="linkin"
+          id="linkedin"
+          name="linkedin"
           type="url"
           placeholder="https://www.linkedin.com/username"
           onChange={(event) => {
-            setLinkin(event.target.value);
+            setLinkedin(event.target.value);
           }}
-          value={linkin}
+          value={linkedin}
         />
       </Container>
     </div>

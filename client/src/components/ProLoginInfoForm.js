@@ -1,9 +1,5 @@
-import react, { useState, useContext } from "react";
 import styled from "@emotion/styled";
 import "../App.css";
-import { useAuth } from "../contexts/authentication";
-import { userDataContext } from "../contexts/UserData";
-import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
 
 const Input = styled.input`
   width: 360px;

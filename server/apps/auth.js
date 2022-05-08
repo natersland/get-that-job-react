@@ -18,9 +18,13 @@ authRouter.post("/register", logoUpload, async (req, res) => {
     companyName: req.body.companyName,
     email: req.body.email,
     password: req.body.password,
-    companyWebsite: req.body.companyWebsite,
-    about: req.body.about,
-    /* uploadFile:req.body.uploadFile */
+    name: req.body.name,
+    phone: req.body.phone,
+    birthDate: req.body.birthDate,
+    linkedin: req.body.linkedin,
+    title: req.body.title,
+    experience: req.body.experience,
+    education: req.body.education,
   };
   /* await cloudinaryUpload(req.files);  */ /*error*/
 
