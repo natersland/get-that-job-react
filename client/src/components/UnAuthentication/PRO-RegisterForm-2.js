@@ -1,42 +1,9 @@
 import styled from "@emotion/styled";
-import "../App.css";
 
-const Input = styled.input`
-  width: 360px;
-  height: 36px;
-  border-radius: 8px;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: #8e8e8e;
-`;
+// Contexts
+import { useUserData } from "../../contexts/usersData";
 
-const CaptionInformation = styled.h4`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  width: 380px;
-  margin-bottom: 5px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  letter-spacing: 1.25px;
-`;
-
-const Label = styled.label`
-  font-size: 400;
-  font-size: 10px;
-  margin-top: 4px;
-`;
-
-function ProProsonalInfoForm(props) {
+function ProRegisterForm2() {
   const {
     name,
     setName,
@@ -46,7 +13,7 @@ function ProProsonalInfoForm(props) {
     setBirthDate,
     linkedin,
     setLinkedin,
-  } = props;
+  } = useUserData();
 
   return (
     <div>
@@ -112,4 +79,39 @@ function ProProsonalInfoForm(props) {
   );
 }
 
-export default ProProsonalInfoForm;
+const Input = styled.input`
+  width: 360px;
+  height: 36px;
+  border-radius: 8px;
+  font-family: var(--secondary-font);
+  border: 1px solid var(--secoundary-brand-color);
+  margin-bottom: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #8e8e8e;
+`;
+
+const CaptionInformation = styled.h4`
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  width: 380px;
+  margin-bottom: 5px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  letter-spacing: 1.25px;
+`;
+
+const Label = styled.label`
+  font-size: 400;
+  font-size: 10px;
+  margin-top: 4px;
+`;
+
+export default ProRegisterForm2;

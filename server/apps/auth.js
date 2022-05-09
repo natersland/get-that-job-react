@@ -23,12 +23,30 @@ authRouter.post("/register", resumeUpload, async (req, res) => {
     title: req.body.title,
     experience: req.body.experience,
     education: req.body.education,
+    companyName: req.body.companyName,
+    companyWebsite: req.body.companyWebsite,
+    about: req.body.about,
   };
 
   const uplaodFileUrl = await cloudinaryUpload(req.files);
   user["uploadFiles"] = uplaodFileUrl;
 
   console.log(user);
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+
+  return res.json({
+    Message: "User has been created successfully",
+  });
+});
+
+// Register Zone -------------------------------------------
+authRouter.post("/register", async (req, res) => {
+  const user = {
+    email: req.body.email,
+    password: req.body.password,
+    role: req.body.role,
+  };
 
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -40,7 +58,9 @@ authRouter.post("/register", resumeUpload, async (req, res) => {
     message: "User has been created successfully",
   });
 });
+// ------------------------------------------------------
 
+// Login Zone -------------------------------------------
 authRouter.post("/login", async (req, res) => {
   const user = await db.collection("users").findOne({
     email: req.body.email,
@@ -64,10 +84,10 @@ authRouter.post("/login", async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user._id, email: user.email },
+    { id: user._id, email: user.email, role: user.role },
     process.env.SECRET_KEY,
     {
-      expiresIn: 900000,
+      expiresIn: "900000",
     }
   );
 
@@ -76,5 +96,6 @@ authRouter.post("/login", async (req, res) => {
     token,
   });
 });
+// ------------------------------------------------------
 
 export default authRouter;

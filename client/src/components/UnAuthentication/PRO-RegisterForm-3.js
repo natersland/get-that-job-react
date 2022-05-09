@@ -1,73 +1,9 @@
 import styled from "@emotion/styled";
-import "../App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-const Input = styled.input`
-  width: 360px;
-  height: 36px;
-  border-radius: 8px;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 15px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: #8e8e8e;
-`;
+// Contexts
+import { useUserData } from "../../contexts/usersData";
 
-const InputLimit = styled.textarea`
-  width: 600px;
-  height: 65px;
-  border-radius: 8px;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 2px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: var(--tertiary-text-color);
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  letter-spacing: 1.25px;
-`;
-
-const Label = styled.label`
-  font-size: 400;
-  font-size: 10px;
-  margin-top: 0px;
-`;
-
-const UploadFileSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  letter-spacing: 1.25px;
-`;
-
-const CaptionInformation = styled.h4`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  width: 380px;
-`;
-
-const Limitation = styled.p`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  width: 380px;
-  margin-top: 0px;
-  color: var(--tertiary-text-color);
-`;
-
-function ProProfessionalInfoForm(props) {
+function ProRegisterForm3() {
   const {
     title,
     setTitle,
@@ -77,7 +13,7 @@ function ProProfessionalInfoForm(props) {
     setEducation,
     uploadFiles,
     setUploadFiles,
-  } = props;
+  } = useUserData();
 
   const handleFileChange = (event) => {
     if (event.target.files[0].size > 5000000) {
@@ -163,4 +99,70 @@ function ProProfessionalInfoForm(props) {
   );
 }
 
-export default ProProfessionalInfoForm;
+const Input = styled.input`
+  width: 360px;
+  height: 36px;
+  border-radius: 8px;
+  font-family: var(--secondary-font);
+  border: 1px solid var(--secoundary-brand-color);
+  margin-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #8e8e8e;
+`;
+
+const InputLimit = styled.textarea`
+  width: 600px;
+  height: 65px;
+  border-radius: 8px;
+  font-family: var(--secondary-font);
+  border: 1px solid var(--secoundary-brand-color);
+  margin-bottom: 2px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: var(--tertiary-text-color);
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  letter-spacing: 1.25px;
+`;
+
+const Label = styled.label`
+  font-size: 400;
+  font-size: 10px;
+  margin-top: 0px;
+`;
+
+const UploadFileSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  letter-spacing: 1.25px;
+`;
+
+const CaptionInformation = styled.h4`
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  width: 380px;
+`;
+
+const Limitation = styled.p`
+  font-family: var(--secondary-font);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  width: 380px;
+  margin-top: 0px;
+  margin-bottom: 5px;
+  color: #8e8e8e;
+`;
+
+export default ProRegisterForm3;

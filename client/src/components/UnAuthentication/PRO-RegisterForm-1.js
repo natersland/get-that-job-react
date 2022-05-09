@@ -1,31 +1,9 @@
 import styled from "@emotion/styled";
-import "../App.css";
 
-const Input = styled.input`
-  width: 360px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid var(--secoundary-brand-color);
-  margin-bottom: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  color: #8e8e8e;
-`;
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  letter-spacing: 1.25px;
-`;
+// Contexts
+import { useUserData } from "../../contexts/usersData";
 
-const Label = styled.label`
-  font-size: 400;
-  font-size: 10px;
-  margin-top: 4px;
-`;
-
-function ProLoginInfoForm(props) {
+function ProRegisterForm1() {
   const {
     email,
     setEmail,
@@ -33,7 +11,7 @@ function ProLoginInfoForm(props) {
     setPassword,
     passwordConfirmed,
     setPasswordConfirmed,
-  } = props;
+  } = useUserData();
 
   console.log(`Hello ${password}`);
 
@@ -83,4 +61,27 @@ function ProLoginInfoForm(props) {
   );
 }
 
-export default ProLoginInfoForm;
+const Input = styled.input`
+  width: 360px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--secoundary-brand-color);
+  margin-bottom: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #8e8e8e;
+`;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: var(--secondary-font);
+  color: var(--primary-text-color);
+  letter-spacing: 1.25px;
+`;
+
+const Label = styled.label`
+  font-size: 400;
+  font-size: 10px;
+  margin-top: 4px;
+`;
+export default ProRegisterForm1;

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import ProLoginInfoForm from "../components/ProLoginInfoForm";
-import ProProsonalInfoForm from "../components/ProProsonalInfoForm";
-import ProProfessionalInfoForm from "../components/ProProfessionalInfoForm";
 import styled from "@emotion/styled";
-import image from "../img/discussing.png";
-import "../App.css";
-import GTJhooksfantasy from "../hooks/GTJhooksfantasy";
-import { useAuth } from "../contexts/authentication";
+// Images
+import image from "../../img/discussing.png";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
+//Contexts
+import { useAuth } from "../../contexts/authentication";
+import { useUserData } from "../../contexts/usersData";
+// Components
+import ProRegisterForm1 from "../../components/UnAuthentication/PRO-RegisterForm-1";
+import ProRegisterForm2 from "../../components/UnAuthentication/PRO-RegisterForm-2";
+import ProRegisterForm3 from "../../components/UnAuthentication/PRO-RegisterForm-3";
+import SelectRole from "../../components/UnAuthentication/SelectRole";
 
 class ArrowRight extends React.Component {
   render() {
@@ -20,7 +23,7 @@ class ArrowLeft extends React.Component {
   }
 }
 
-function ProfessionalRegisterPage() {
+function RegisterProfessionalPage() {
   const {
     email,
     setEmail,
@@ -46,14 +49,14 @@ function ProfessionalRegisterPage() {
     setUploadFiles,
     role,
     setRole,
-  } = GTJhooksfantasy();
+  } = useUserData();
 
   const [step, setStep] = useState(0);
 
   const StepDisplay = () => {
     if (step === 0) {
       return (
-        <ProLoginInfoForm
+        <ProRegisterForm1
           email={email}
           setEmail={setEmail}
           password={password}
@@ -64,7 +67,7 @@ function ProfessionalRegisterPage() {
       );
     } else if (step === 1) {
       return (
-        <ProProsonalInfoForm
+        <ProRegisterForm2
           name={name}
           setName={setName}
           phone={phone}
@@ -77,7 +80,7 @@ function ProfessionalRegisterPage() {
       );
     } else if (step === 2) {
       return (
-        <ProProfessionalInfoForm
+        <ProRegisterForm3
           title={title}
           setTitle={setTitle}
           experience={experience}
@@ -125,12 +128,9 @@ function ProfessionalRegisterPage() {
           <Detail>
             <Progressbar>
               <Title>Good choice!</Title>
-              <Caption>Create a new account as...</Caption>
-              <SelectRole>
-                <Role>PROFESSIONAL</Role>
-                <Role>RECRUITER</Role>
-              </SelectRole>
-              <StepBox>
+              <Caption className="mb-4">Create a new account as...</Caption>
+              <SelectRole />
+              <StepBox className="mt-8">
                 <Step>
                   <StepLeft>
                     {step === 1 || step === 2 ? (
@@ -238,21 +238,27 @@ function ProfessionalRegisterPage() {
 
               <ButtonWrapper>
                 {step === 0 || step === 1 ? null : (
-                  <PreviousButton
+                  <button
+                    className="btn btn-md btn-pink"
                     onClick={() => {
                       setStep((currentPage) => currentPage - 1);
                     }}
                   >
                     <ArrowLeft /> PREVIOUS
-                  </PreviousButton>
+                  </button>
                 )}
                 {step === 0 ? null : (
-                  <SkipButton form="register-form" type="submit">
+                  <button
+                    className="btn btn-md btn-white pink-border"
+                    form="register-form"
+                    type="submit"
+                  >
                     SKIP THIS!
-                  </SkipButton>
+                  </button>
                 )}
                 {step === 0 || step === 1 ? (
-                  <NextPageButton
+                  <button
+                    className="btn btn-md btn-pink"
                     type="button" //ถ้า button อยู่ใน form ใช้อันนี้ค่าาา เพราะ default = submit
                     onClick={() => {
                       setStep((currentPage) => currentPage + 1);
@@ -260,14 +266,18 @@ function ProfessionalRegisterPage() {
                   >
                     {" "}
                     NEXT <ArrowRight />
-                  </NextPageButton>
+                  </button>
                 ) : null}
 
                 {step === 0 || step === 1 ? null : (
-                  <FinishButton form="register-form" type="submit">
+                  <button
+                    className="btn btn-md btn-pink"
+                    form="register-form"
+                    type="submit"
+                  >
                     {" "}
                     FINISH <ArrowRight />
-                  </FinishButton>
+                  </button>
                 )}
               </ButtonWrapper>
             </Progressbar>
@@ -299,8 +309,7 @@ const Detail = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: end;
-
-  margin: 2rem 0 0 0;
+  margin: 6rem 0 0 0;
 `;
 
 const FormWrapper = styled.div`
@@ -337,14 +346,6 @@ const RightBox = styled.div`
   width: 40%;
   display: flex;
   align-items: end;
-`;
-
-const SelectRole = styled.div`
-  display: flex;
-  flex-direction: row;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 14px;
 `;
 
 const Role = styled.h3`
@@ -460,12 +461,11 @@ const StepNumber = styled.p`
 `;
 
 const GirlImage = styled.img`
-  width: 115%;
+  width: 120%;
 `;
 
 const BorderImage = styled.div`
   width: 435px;
-  position: relative;
 `;
 
 const ButtonWrapper = styled.div`
@@ -531,4 +531,4 @@ const PreviousButton = styled.button`
   cursor: pointer;
 `;
 
-export default ProfessionalRegisterPage;
+export default RegisterProfessionalPage;
