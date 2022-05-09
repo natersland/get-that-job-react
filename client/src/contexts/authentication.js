@@ -27,7 +27,6 @@ function AuthProvider(props) {
 
   // register the user
   const register = async (data) => {
-<<<<<<< HEAD
     await axios.post("http://127.0.0.1:4000/auth/register", data);
     navigate("/login");
   };
@@ -54,19 +53,6 @@ function AuthProvider(props) {
     });
     navigate("/login");
   }; */
-=======
-    await axios.post("http://localhost:4000/auth/register", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    navigate("/findthatjob");
-  };
-
-  return (
-    <AuthContext.Provider value={{ register }}>
-      {props.children}
-    </AuthContext.Provider>
-  );
->>>>>>> 3235692 (update professional register v.1.1.2)
 }
 
 // this is a hook that consume AuthContext
