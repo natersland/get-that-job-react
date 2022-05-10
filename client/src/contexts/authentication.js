@@ -10,7 +10,7 @@ function AuthProvider(props) {
     loading: null,
     error: null,
     user: null,
-  }); 
+  });
 
   const navigate = useNavigate();
 
@@ -39,25 +39,22 @@ function AuthProvider(props) {
     setState({ ...state, user: null, error: null });
   };
 
+  const createJob = async (data) => {
+    await axios.post("http://localhost:4000/auth/createjob", data);
+    navigate("/jobposting");
+  };
+
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{ state, login, logout, register, createJob, isAuthenticated }}
     >
       {props.children}
     </AuthContext.Provider>
   );
-
-  /*  const register = async (data) => {
-    await axios.post("http://localhost:4000/auth/register", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    navigate("/login");
-  }; */
 }
 
-// this is a hook that consume AuthContext
 const useAuth = () => React.useContext(AuthContext);
 
 export { AuthProvider, useAuth };

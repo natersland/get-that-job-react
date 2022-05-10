@@ -9,19 +9,19 @@ function RecRegisterForm2() {
     setCompanyWebsite,
     about,
     setAbout,
-    uploadFile,
-    setUploadFile,
+    companyLogo,
+    setCompanyLogo,
   } = useUserData();
 
-  console.log(companyWebsite, about, uploadFile);
+  console.log(companyWebsite, about, companyLogo);
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
-    setUploadFile({
-      ...uploadFile,
+    setCompanyLogo({
+      ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
-    console.log(uploadFile);
+    console.log(companyLogo);
   };
 
   return (

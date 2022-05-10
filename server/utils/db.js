@@ -12,7 +12,7 @@ export const client = new MongoClient(connectionString, {
   serverApi: ServerApiVersion.v1,
 });
 
-export const db = client.db("users");
+export const db = client.db("gtj-database");
 
 // โค้ด MongoDB Local อันเก่า
 /* const connectionString = "mongodb://127.0.0.1:27017"; // If localhost is not work, use this instead -> IPv4 address 127.0.0.1:27017 

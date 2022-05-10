@@ -6,12 +6,12 @@ import LoginSuccessful from "../../components/UnAuthentication/LoginSuccessful";
 // Contexts
 import { useUserData } from "../../contexts/usersData";
 
-export default function RecuiterHomepage(props) {
+export default function RecruiterHomepage(props) {
   const { roleBtn } = props;
   return (
     <WelcomeSuccessWrapper>
       <RoleIcon>👨🏻‍💼</RoleIcon>
-      <WelcomeText>Recuiter Page</WelcomeText>
+      <WelcomeText>Recruiter Page</WelcomeText>
       <LoginSuccessful roleBtn={roleBtn} />
     </WelcomeSuccessWrapper>
   );

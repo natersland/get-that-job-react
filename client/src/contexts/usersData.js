@@ -19,6 +19,7 @@ function UserDataProvider(props) {
   const [experience, setExperience] = useState("");
   const [education, setEducation] = useState("");
   const [uploadFiles, setUploadFiles] = useState({});
+  const [companyLogo, setCompanyLogo] = useState({});
 
   // Others
   const [role, setRole] = useState({});
@@ -53,6 +54,8 @@ function UserDataProvider(props) {
         setRole,
         roleBtn,
         setRoleBtn,
+        companyLogo,
+        setCompanyLogo,
       }}
     >
       {props.children}

@@ -20,7 +20,7 @@ class Question extends React.Component {
   }
 }
 
-function RegisterRecuiterPage() {
+function RegisterRecruiterPage() {
   const {
     companyName,
     setCompanyName,
@@ -422,4 +422,4 @@ const Box2 = styled.div`
 const Box3 = styled.div`
   margin-left: 50px;
 `;
-export default RegisterRecuiterPage;
+export default RegisterRecruiterPage;

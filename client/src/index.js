@@ -10,6 +10,8 @@ import jwtInterceptor from "./utils/jwtInterceptor";
 import { AuthProvider } from "./contexts/authentication";
 import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
+import { JobsDataProvider } from "./contexts/jobsData";
+import { RecruiterProvider } from "./contexts/recruiter";
 
 jwtInterceptor();
 
@@ -18,9 +20,13 @@ ReactDOM.render(
     <BrowserRouter>
       <UserDataProvider>
         <AuthProvider>
-          <NavigateProvider>
-            <App />
-          </NavigateProvider>
+          <RecruiterProvider>
+            <JobsDataProvider>
+              <NavigateProvider>
+                <App />
+              </NavigateProvider>
+            </JobsDataProvider>
+          </RecruiterProvider>
         </AuthProvider>
       </UserDataProvider>
     </BrowserRouter>
