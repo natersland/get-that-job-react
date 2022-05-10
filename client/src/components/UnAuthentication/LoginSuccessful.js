@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 // Context ----------------------------
-import { useAuth } from "../contexts/authentication";
-import { useUserData } from "../contexts/usersData";
+import { useAuth } from "../../contexts/authentication";
+import { useUserData } from "../../contexts/usersData";
 
 export default function LoginSuccessful() {
   const { roleBtn } = useUserData();

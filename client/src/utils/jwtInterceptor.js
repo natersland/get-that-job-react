@@ -24,8 +24,9 @@ function jwtInterceptor() {
         error.response.statusText === "Unauthorized"
       ) {
         window.localStorage.removeItem("token");
-        window.location.replace("/login");
+        window.location.replace("/");
       }
+
       return Promise.reject(error);
     }
   );

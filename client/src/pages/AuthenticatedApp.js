@@ -13,15 +13,9 @@ export default function AuthenticatedApp() {
     <div className="App">
       <Routes>
         {roleBtn === "professional" ? (
-          <Route
-            path="/"
-            element={<ProfessionalHomepage roleBtn={roleBtn} />}
-          ></Route>
+          <Route path="/" element={<ProfessionalHomepage />}></Route>
         ) : (
-          <Route
-            path="/"
-            element={<RecuiterHomepage roleBtn={roleBtn} />}
-          ></Route>
+          <Route path="/" element={<RecuiterHomepage />}></Route>
         )}
         <Route path="*" element={<NotFoundPage />}></Route>
       </Routes>

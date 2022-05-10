@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 // Images ----------------------------
-import logo from "../img/gtj-logo 1.png";
-import loginLogo from "../img/user-add-line.png";
+import logo from "../../img/gtj-logo 1.png";
+import loginLogo from "../../img/user-add-line.png";
 // Context ----------------------------
-import { useNav } from "../contexts/navigate";
+import { useNav } from "../../contexts/navigate";
 
 // NavLink Button Data ----------------------------
 const navLink = [
@@ -61,10 +61,11 @@ const Wrap = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: row;
+  background-color: white;
   justify-content: space-around;
   padding: 15px;
-  position: sticky;
-  z-index: 2;
+  position: fixed;
+  z-index: 9;
 `;
 const NavLinkWrapper = styled.div`
   display: flex;

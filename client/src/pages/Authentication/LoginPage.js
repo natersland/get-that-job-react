@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { useAuth } from "../../contexts/authentication";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
-import SelectRole from "../../components/SelectRole";
+import SelectRole from "../../components/UnAuthentication/SelectRole";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";
-// CSS
-import "../../App.css";
+import { useAuth } from "../../contexts/authentication";
 
 export default function LoginPage() {
   const { roleBtn, setRoleBtn } = useUserData();
@@ -84,8 +82,8 @@ export default function LoginPage() {
 const WrapperLogin = styled.section`
   width: 90%;
   display: flex;
-  margin: 10px auto;
-  padding: 8rem 0;
+  padding: 12rem 0;
+  margin: auto;
 `;
 const WrapperLoginLeft = styled.div`
   width: 55%;

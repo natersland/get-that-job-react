@@ -1,4 +1,3 @@
-
 // CSS
 import "./App.css";
 
@@ -20,4 +19,5 @@ function App() {
     <UnauthenticatedApp roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
   );
 }
+
 export default App;

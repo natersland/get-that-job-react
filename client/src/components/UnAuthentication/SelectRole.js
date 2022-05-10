@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
-//Context -----------------------------
-import { useUserData } from "../contexts/usersData";
+// Contexts
+import { useUserData } from "../../contexts/usersData";
 
-export default function SelectRole(props) {
+export default function SelectRole() {
   const { roleBtn, setRoleBtn } = useUserData();
 
   const selectRoleBTN = () => {
@@ -47,7 +47,7 @@ const SelectRoleWrapper = styled.div`
 
 const RoleButton = styled.button`
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   font-family: var(--seconary-font);
   text-decoration: none;
   text-transform: uppercase;
@@ -55,7 +55,6 @@ const RoleButton = styled.button`
   letter-spacing: 1.25px;
   border: 0;
   cursor: pointer;
-  background-color: white;
 
   margin-right: 1rem;
   margin-top: 0.8rem;

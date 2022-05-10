@@ -12,10 +12,8 @@ function NavigateProvider(props) {
   };
   const navBarLinkChecker = (index) => {
     if (index === 0) {
-      console.log("Register");
       navigate("/register");
     } else if (index === 1) {
-      console.log("Login");
       navigate("/login");
     }
   };

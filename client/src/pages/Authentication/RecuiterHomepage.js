@@ -1,8 +1,11 @@
-import LoginSuccessful from "../../components/LoginSuccessful";
-// tools
 import styled from "@emotion/styled";
-// CSS
-import "../../App.css";
+
+// Component
+import LoginSuccessful from "../../components/UnAuthentication/LoginSuccessful";
+
+// Contexts
+import { useUserData } from "../../contexts/usersData";
+
 export default function RecuiterHomepage(props) {
   const { roleBtn } = props;
   return (

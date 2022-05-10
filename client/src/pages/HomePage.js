@@ -166,6 +166,7 @@ const Inline = styled.p`
 const MainWrap = styled.main`
   width: 100%;
   font-family: var(--primary-font);
+  padding-top: 4rem;
 `;
 
 const LandingWrapper = styled.section`
@@ -176,7 +177,6 @@ const LandingWrapper = styled.section`
   align-items: center;
   text-align: center;
   background-color: #f5f5f6;
-  margin-top: 10px;
 `;
 
 const Heading = styled.h1`
@@ -197,16 +197,7 @@ const P = styled.p`
   font-weight: 400;
   margin-bottom: 2rem;
 `;
-/* const Button = styled.button`
-  display: block;
-  width: 230px;
-  height: 50px;
-  border-radius: 15px;
-  background-color: var(--secoundary-brand-color);
-  border: none;
-  color: white;
-  margin-bottom: 50px;
-`; */
+
 const ImgPeople = styled.img`
   margin-bottom: 50px;
 `;

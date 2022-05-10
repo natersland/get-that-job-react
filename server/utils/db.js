@@ -23,4 +23,3 @@ export const client = new MongoClient(connectionString, {
 
 export const db = client.db("users");
  */
-

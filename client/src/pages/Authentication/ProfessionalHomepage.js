@@ -1,9 +1,12 @@
-import LoginSuccessful from "../../components/LoginSuccessful";
-// tools
 import styled from "@emotion/styled";
+// Components
+import LoginSuccessful from "../../components/UnAuthentication/LoginSuccessful";
 
-export default function ProfessionalHomepage(props) {
-  const { roleBtn } = props;
+// Context
+import { useUserData } from "../../contexts/usersData";
+
+export default function ProfessionalHomepage() {
+  const { roleBtn } = useUserData();
 
   return (
     <WelcomeSuccessWrapper>
