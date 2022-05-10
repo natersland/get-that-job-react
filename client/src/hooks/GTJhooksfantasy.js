@@ -5,6 +5,7 @@ export default function GTJhooksfantasy() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
+  const [companyName, setCompanyName] = useState("");
 
   // Step 2
   const [name, setName] = useState("");
@@ -22,6 +23,8 @@ export default function GTJhooksfantasy() {
   const [role, setRole] = useState({});
 
   return {
+    companyName,
+    setCompanyName,
     email,
     setEmail,
     password,

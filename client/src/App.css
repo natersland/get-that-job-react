@@ -70,6 +70,7 @@ body {
 
 .btn-active {
   /* active status */
+  /* สีหลัง hover หรือ active status */
   background-color: var(--primary-brand-color);
   color: var(--white);
 }

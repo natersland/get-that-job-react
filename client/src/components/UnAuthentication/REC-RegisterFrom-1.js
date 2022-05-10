@@ -11,11 +11,11 @@ function RecRegisterForm1() {
     setEmail,
     password,
     setPassword,
-    confirmPassword,
-    setConfirmPassword,
+    passwordConfirmed,
+    setPasswordConfirmed,
   } = useUserData();
 
-  console.log(companyName, email, password, confirmPassword);
+  console.log(companyName, email, password, passwordConfirmed);
 
   return (
     <Wrapper>
@@ -64,11 +64,12 @@ function RecRegisterForm1() {
         <Label> PASSWORD CONFIRMATION </Label>
         <br />
         <Input
-          type="password"
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
+          id="password-confirmed"
+          name="password-confirmed"
+          value={passwordConfirmed}
+          onChange={(event) => setPasswordConfirmed(event.target.value)}
           placeholder="******"
+          type="password"
           rows={4}
           cols={30}
           required

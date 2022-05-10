@@ -43,21 +43,55 @@ authRouter.post("/register", resumeUpload, async (req, res) => {
 // Register Zone -------------------------------------------
 authRouter.post("/register", async (req, res) => {
   const user = {
+    companyName: req.body.companyName,
     email: req.body.email,
     password: req.body.password,
-    role: req.body.role,
+    name: req.body.name,
+    phone: req.body.phone,
+    birthDate: req.body.birthDate,
+    linkedin: req.body.linkedin,
+    title: req.body.title,
+    experience: req.body.experience,
+    education: req.body.education,
   };
+  /* await cloudinaryUpload(req.files);  */ /*error*/
+
+  const avatarUrl = await cloudinaryUpload(req.files);
+  user["avatars"] = avatarUrl;
+
+  /*   authRouter.post("/register", logoUpload, async (req, res) => {
+   */
+
+  console.log(user);
 
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
-  const collection = db.collection("users");
-  await collection.insertOne(user);
+  await db.collection("users").insertOne(user);
 
   return res.json({
-    message: "User has been created successfully",
+    Message: "User has been created successfully",
   });
 });
+
+// Register Zone -------------------------------------------
+// authRouter.post("/register", async (req, res) => {
+//   const user = {
+//     email: req.body.email,
+//     password: req.body.password,
+//     role: req.body.role,
+//   };
+
+//   const salt = await bcrypt.genSalt(10);
+//   user.password = await bcrypt.hash(user.password, salt);
+
+//   const collection = db.collection("users");
+//   await collection.insertOne(user);
+
+//   return res.json({
+//     message: "User has been created successfully",
+//   });
+// });
 // ------------------------------------------------------
 
 // Login Zone -------------------------------------------

@@ -48,6 +48,13 @@ function AuthProvider(props) {
       {props.children}
     </AuthContext.Provider>
   );
+
+  /*  const register = async (data) => {
+    await axios.post("http://localhost:4000/auth/register", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    navigate("/login");
+  }; */
 }
 
 // this is a hook that consume AuthContext
