@@ -11,21 +11,34 @@ import calendar from "../../img/calendar-2-line.png"
 import money from "../../img/money-dollar-circle-line.png"
 
 
-/*const data = [{
+const datas = [{
     jobTitle: 'The job title',
-    openOn: 'open on 07/11/20',
-    totalCandidate: '5 Total Candidate ',
-    candidateOnTrack:'3 Candidate on track',
+    openOn: '07/11/20',
+    totalCandidate: '5',
+    candidateOnTrack:'3',
     jobType:'Full Time',
     minSalary: '2.0k',
     maxSalary: '2.5k',
     companyName: 'Manufactoring',
     aboutTheJob: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.',
     requirement: '-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.' ,
-    optionalRequirement: '- Lorem ipsum dolor sit amet, consectetur adipiscing elit  - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.'
+    optionalRequirement: '- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.'
+},
+{
+  jobTitle: 'The job title 2',
+  openOn: '07/11/20',
+  totalCandidate: '5',
+  candidateOnTrack:'3',
+  jobType:'Full Time',
+  minSalary: '2.0k',
+  maxSalary: '2.5k',
+  companyName: 'Manufactoring',
+  aboutTheJob: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.',
+  requirement: '-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.' ,
+  optionalRequirement: '- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.'
 }
 
-];*/
+];
 const Heading = styled.div`
   display: flex;
   justify-content: center;
@@ -296,12 +309,22 @@ const CloseButton = styled.div`
   align-items: center;
 `;
 
+const Detail = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 760px;
+`;
+
+
 function ViewJob () {
   const [select, setSelect] = useState('option1');
   const handleSelectChange = event => {
     const value = event.target.value
     setSelect(value);
   }
+
+  /*const [show,setShow] = useState(true);*/
+
 
     return (
     <Content>
@@ -320,10 +343,13 @@ function ViewJob () {
                    </RadioForm1>
                 
                     <RadioForm1>
-                        <RadioBtn type="radio" id="trackedCandidate"
-                        name="filter" value="option2" checked={select ==="option2"} 
-                        onChange={event => handleSelectChange(event)}  />
-                        <label htmlFor="trackedCandidate"><HeadingText3>With candidates on track</HeadingText3></label>
+                      
+                      <RadioBtn type="radio" id="trackedCandidate"
+                          name="filter" value="option2" checked={select ==="option2"} 
+                          onChange={event => handleSelectChange(event)}  />
+                        <label htmlFor="trackedCandidate"><HeadingText3>With candidates on track</HeadingText3>
+                        
+                        </label>
                     </RadioForm1>
 
                     <RadioForm1>
@@ -338,23 +364,25 @@ function ViewJob () {
         </Heading>
 
        <Heading1><Text5>4 Jobs posting found</Text5></Heading1>
-
-        <Jobcard>            
+          {
+            datas.map((data) => {
+              return ( <div>
+                <Jobcard> 
                 <JobCardHeader>
                     <JobCardHeader1>
                         <div>
-                            <JobTitle>The Job Title</JobTitle>
+                            <JobTitle>{data.jobTitle}</JobTitle>
                         </div>
                         <JobCardHeader1Left>
-                            <JobCardHeader1Left1><Img><img src={building}/></Img><div><Text1>Manufactoring</Text1></div></JobCardHeader1Left1>
-                            <JobCardHeader1Left2><Img><img src={calendar}/></Img><div><Text1>Full time</Text1></div></JobCardHeader1Left2>
-                            <JobCardHeader1Left2><Img><img src={money}/></Img><div><Text1>2.0k - 2.5k</Text1></div></JobCardHeader1Left2>
+                            <JobCardHeader1Left1><Img><img src={building}/></Img><div><Text1>{data.companyName}</Text1></div></JobCardHeader1Left1>
+                            <JobCardHeader1Left2><Img><img src={calendar}/></Img><div><Text1>{data.jobType}</Text1></div></JobCardHeader1Left2>
+                            <JobCardHeader1Left2><Img><img src={money}/></Img><div><Text1>{data.minSalary} {data.maxSalary} </Text1></div></JobCardHeader1Left2>
                         </JobCardHeader1Left>
                     </JobCardHeader1>
                     <JobCardHeader2>
-                            <JobCardHeader2Left5><JobCardHeader2Left4><img src={mailOpen}/></JobCardHeader2Left4><Text2>Open on</Text2> <Text2>07/11/20</Text2></JobCardHeader2Left5>
-                            <JobCardHeader2Left2><JobCardHeader2Left3><Img><img src= {account}/></Img><Text2>5</Text2> </JobCardHeader2Left3><Text2>Total</Text2> <Text2>Candidates</Text2></JobCardHeader2Left2>
-                            <JobCardHeader2Left2><JobCardHeader2Left3><Img><img src= {account}/></Img><Text2>3</Text2> </JobCardHeader2Left3><Text2>Candidates </Text2> <Text2> on track</Text2></JobCardHeader2Left2>
+                            <JobCardHeader2Left5><JobCardHeader2Left4><img src={mailOpen}/></JobCardHeader2Left4><Text2>Open on</Text2> <Text2>{data.openOn}</Text2></JobCardHeader2Left5>
+                            <JobCardHeader2Left2><JobCardHeader2Left3><Img><img src= {account}/></Img><Text2>{data.totalCandidate}</Text2> </JobCardHeader2Left3><Text2>Total</Text2> <Text2>Candidates</Text2></JobCardHeader2Left2>
+                            <JobCardHeader2Left2><JobCardHeader2Left3><Img><img src= {account}/></Img><Text2>{data.candidateOnTrack}</Text2> </JobCardHeader2Left3><Text2>Candidates </Text2> <Text2> on track</Text2></JobCardHeader2Left2>
                     </JobCardHeader2>
 
                     <JobCardHeader3>
@@ -378,35 +406,41 @@ function ViewJob () {
                                 <Text3>CLOSE</Text3>                           
                             </CloseButton>
                         </button>
-                        </JobCardHeader3Left3>
-                        
+                        </JobCardHeader3Left3>           
                     </JobCardHeader3>
                 </JobCardHeader>
-
+                  
                 <JobCardDetails>
                     <JobCardDetails1>
                         <Text4>About the job position</Text4>
                         <JobCardDetails2>
-                            <p>Details here</p>   
+                            <Detail><p>{data.aboutTheJob}</p></Detail>
                         </JobCardDetails2>
                     </JobCardDetails1>
                     
                     <JobCardDetails1>
                         <Text4>Mandatory requirements</Text4>
                         <JobCardDetails2> 
-                            <p>Details here</p>  
+                            <Detail><p>{data.requirement}</p></Detail>
                         </JobCardDetails2>
                     </JobCardDetails1>
 
                     <JobCardDetails1>
                         <Text4>Optional Requirements</Text4>
                         <JobCardDetails2>
-                            <p>Details here</p>   
+                            <Detail><p>{data.optionalRequirement}</p></Detail>
                         </JobCardDetails2>
                     </JobCardDetails1>
                 </JobCardDetails>
+                
                 <button><Toggle>Toggle</Toggle></button>
-            </Jobcard>        
+                </Jobcard>  
+                </div>
+              )
+            })
+          }
+                
+                   
     </Content>
     )
 }
