@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-// Components --------------------------------------------
-import ProfessionalHomepage from "./Authentication/ProfessionalHomepage";
-import RecuiterHomepage from "./Authentication/RecuiterHomepage";
-import NotFoundPage from "./NotFoundPage";
+// Pages --------------------------------------------
+import ProfessionalHomepage from "../pages/Authentication/ProfessionalHomepage";
+import RegisterRecruiterPage from "../pages/Authentication/RegisterRecruiterPage";
+import NotFoundPage from "../pages/NotFoundPage";
+// Components
+import ComponentIndex from "../components/ComponentIndex";
 // Contexts --------------------------------------------
 import { useUserData } from "../contexts/usersData";
 
@@ -15,9 +17,10 @@ export default function AuthenticatedApp() {
         {roleBtn === "professional" ? (
           <Route path="/" element={<ProfessionalHomepage />}></Route>
         ) : (
-          <Route path="/" element={<RecuiterHomepage />}></Route>
+          <Route path="/" element={<RegisterRecruiterPage />}></Route>
         )}
         <Route path="*" element={<NotFoundPage />}></Route>
+        <Route path="/components" element={<ComponentIndex />} />
       </Routes>
     </div>
   );

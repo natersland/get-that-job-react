@@ -40,60 +40,6 @@ authRouter.post("/register", resumeUpload, async (req, res) => {
   });
 });
 
-// Register Zone -------------------------------------------
-authRouter.post("/register", async (req, res) => {
-  const user = {
-    companyName: req.body.companyName,
-    email: req.body.email,
-    password: req.body.password,
-    name: req.body.name,
-    phone: req.body.phone,
-    birthDate: req.body.birthDate,
-    linkedin: req.body.linkedin,
-    title: req.body.title,
-    experience: req.body.experience,
-    education: req.body.education,
-  };
-  /* await cloudinaryUpload(req.files);  */ /*error*/
-
-  const avatarUrl = await cloudinaryUpload(req.files);
-  user["avatars"] = avatarUrl;
-
-  /*   authRouter.post("/register", logoUpload, async (req, res) => {
-   */
-
-  console.log(user);
-
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-
-  await db.collection("users").insertOne(user);
-
-  return res.json({
-    Message: "User has been created successfully",
-  });
-});
-
-// Register Zone -------------------------------------------
-// authRouter.post("/register", async (req, res) => {
-//   const user = {
-//     email: req.body.email,
-//     password: req.body.password,
-//     role: req.body.role,
-//   };
-
-//   const salt = await bcrypt.genSalt(10);
-//   user.password = await bcrypt.hash(user.password, salt);
-
-//   const collection = db.collection("users");
-//   await collection.insertOne(user);
-
-//   return res.json({
-//     message: "User has been created successfully",
-//   });
-// });
-// ------------------------------------------------------
-
 // Login Zone -------------------------------------------
 authRouter.post("/login", async (req, res) => {
   const user = await db.collection("users").findOne({
@@ -132,4 +78,28 @@ authRouter.post("/login", async (req, res) => {
 });
 // ------------------------------------------------------
 
+// Create Job Zone -------------------------------------------
+authRouter.post("/createjob", async (req, res) => {
+  const filterComma = (salary) => {
+    let result = salary.replace(/[^\w\s]/gi, "");
+    return Number(result);
+  };
+
+  const user = {
+    jobTitle: req.body.jobTitle,
+    jobCategory: req.body.jobCategory,
+    jobType: req.body.jobType,
+    minSalary: filterComma(req.body.minSalary),
+    maxSalary: filterComma(req.body.maxSalary),
+    aboutJob: req.body.aboutJob,
+    mandatoryReq: req.body.mandatoryReq,
+    optionalReq: req.body.optionalReq,
+  };
+
+  await db.collection("jobs").insertOne(user);
+
+  return res.json({
+    Message: "Create new job has been created successfully",
+  });
+});
 export default authRouter;

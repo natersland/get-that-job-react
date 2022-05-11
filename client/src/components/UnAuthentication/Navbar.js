@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 // Images ----------------------------
-import logo from "../../img/gtj-logo 1.png";
+import logo from "../../img/gtj-logo-1.png";
 import loginLogo from "../../img/user-add-line.png";
 // Context ----------------------------
 import { useNav } from "../../contexts/navigate";

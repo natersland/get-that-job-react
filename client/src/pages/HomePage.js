@@ -1,50 +1,15 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 // Images ----------------------------------------
 import people from "../img/Group 54.png";
 import magnifyingGlass from "../img/Group 56.png";
 import github from "../img/github-fill.png";
 import linkin from "../img/linkedin-box-line.png";
-import Ruby from "../img/Ellipse 4.png";
-import Javier from "../img/Ellipse 4-1.png";
-import Francisca from "../img/Ellipse 4-2.png";
-import Rual from "../img/Ellipse 4-3.png";
 import daimond from "../img/ruby-fill.png";
 import Reactline from "../img/reactjs-line.png";
 // Contexts ----------------------------------------
 import { useNav } from "../contexts/navigate";
-
-// Team Member Data --------------------------------
-const teamData = [
-  {
-    avartar: Ruby,
-    alt_avatar: "Ruby Ramirez",
-    name: "Ruby Ramirez",
-    github_link: "#",
-  },
-  {
-    avartar: Javier,
-    alt_avatar: "Javier Escribano",
-    name: "Javier Escribano",
-    github_link: "#",
-    linkin_link: "#",
-  },
-  {
-    avartar: Francisca,
-    alt_avatar: "Francisca Reategui",
-    name: "Francisca Reategui",
-    github_link: "#",
-    linkin_link: "#",
-  },
-  {
-    avartar: Rual,
-    alt_avatar: "Raul Rubina",
-    name: "Raul Rubina",
-    github_link: "#",
-    linkin_link: "#",
-  },
-];
+// Data
+import teamData from "../data/teamData";
 // ---------------------------------------------
 const HomePage = () => {
   const { registerRoute } = useNav();
@@ -101,21 +66,22 @@ const HomePage = () => {
         <H1S3>Meet the team</H1S3>
         <TeamWrapper>
           {teamData.map((member, index) => {
+            const { avartar, name, github_url, linkin_link } = member;
             return (
-              <div key={index}>
-                <img src={member.avartar} alt={member.alt_avatar} />
-                <Name>{member.name}</Name>
+              <TeamWrapperDetails key={index}>
+                <AvartarImg src={avartar} alt={name} />
+                <Name>{name}</Name>
                 <Icon>
-                  <a href={member.github_link}>
+                  <a href={github_url} target="_blank">
                     {" "}
-                    <img src={github} alt="Github" />
+                    <img src={github} alt="Github" className="mr-2" />
                   </a>
-                  <a href={member.linkin_link}>
+                  <a href={linkin_link} target="_blank">
                     {" "}
                     <img src={linkin} alt="Linkedin" />
                   </a>
                 </Icon>
-              </div>
+              </TeamWrapperDetails>
             );
           })}
         </TeamWrapper>
@@ -151,9 +117,6 @@ const FooterWrap = styled.div`
   justify-content: space-around;
   text-align: center;
   font-size: 18px;
-`;
-const Br = styled.br`
-  border-top: solid 1px var(--primary-brand-color);
 `;
 
 const Inline = styled.p`
@@ -251,7 +214,16 @@ const TeamWrapper = styled.div`
   justify-content: space-evenly;
   margin-bottom: 80px;
 `;
+const TeamWrapperDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 80px;
+`;
 
+const AvartarImg = styled.img`
+  width: 50%;
+`;
 const Name = styled.h3`
   font-weight: 400;
   font-size: 24px;
