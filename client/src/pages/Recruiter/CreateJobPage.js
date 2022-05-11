@@ -4,17 +4,13 @@ import { useJobsData } from "../../contexts/jobsData";
 import { useRecruiter } from "../../contexts/recruiter";
 import { useState } from "react";
 //Components ------------------------------------
-import AlertNotification from "../../components/misc/AlertNotification";
+import AlertNotification from "../../components/Utilities/AlertNotification";
 // Utils
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 
-const textUpperCase = (props) => {
-  const text = props;
-  return text.toUpperCase();
-};
-
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
+  const { filterComma, textUpperCase } = UtilitiesFunction();
   const {
     jobTitle,
     setJobTitle,
@@ -34,15 +30,14 @@ function CreateJobPage() {
     setOptionalReq,
   } = useJobsData();
   const { createJob } = useRecruiter();
+
   // Add Comma Function -------------------------------------------------
-  const { filterComma } = UtilitiesFunction();
   const addCommas = (num) =>
     Number(num)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
   // ---------------------------------------------------------------------
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -170,6 +165,7 @@ function CreateJobPage() {
         than min salary. Please try again."
             />
           ) : null}
+          {/*--------------------------------------------------- */}
         </SectionWrapper>
 
         {/* ----------------------------------------------------------- */}
@@ -226,15 +222,12 @@ function CreateJobPage() {
 const Wrapper = styled.div`
   width: 65%;
   margin: auto;
-  /*   border: 1px dotted var(--primary-text-color);
- */
 `;
 const HeadingText = styled.h1`
   font-size: 2.125rem;
   color: var(--primary-text-color);
 `;
 const SectionWrapper = styled.div`
-  /*   border: 1px dotted var(--primary-text-color); */
   margin: 1.5rem 0;
   padding-left: 1rem;
   width: 100%;

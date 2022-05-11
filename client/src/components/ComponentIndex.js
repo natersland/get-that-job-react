@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 // Components
-import AlertNotification from "./misc/AlertNotification";
+import AlertNotification from "./Utilities/AlertNotification";
 const ComponentIndex = () => {
   return (
     <Wrapper>

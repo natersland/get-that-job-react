@@ -21,9 +21,14 @@ function JobsDataProvider(props) {
   const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
   const [jobsStatus, setJobsStatus] = useState("");
 
+  // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+  const [jobs, setJobs] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   return (
     <JobsDataContext.Provider
       value={{
+        // Main Information -----------------------------------------
         jobTitle,
         setJobTitle,
         jobCategory,
@@ -34,12 +39,14 @@ function JobsDataProvider(props) {
         setMinSalary,
         maxSalary,
         setMaxSalary,
+        // Additional Information -----------------------------------------
         aboutJob,
         setAboutJob,
         mandatoryReq,
         setMandatoryReq,
         optionalReq,
         setOptionalReq,
+        // Others Data -----------------------------------------
         createdJobDate,
         setCreatedJobDate,
         totalCandidates,
@@ -48,6 +55,11 @@ function JobsDataProvider(props) {
         setCandidatesOnTrack,
         jobsStatus,
         setJobsStatus,
+        // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+        jobs,
+        setJobs,
+        searchText,
+        setSearchText,
       }}
     >
       {props.children}

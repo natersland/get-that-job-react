@@ -11,8 +11,8 @@ import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 
 // components
-import RecRegisterForm1 from "../../components/UnAuthentication/REC-RegisterFrom-1";
-import RecRegisterForm2 from "../../components/UnAuthentication/REC-RegisterFrom-2";
+import RecRegisterForm1 from "../../components/UnAut-Register/REC-RegisterFrom-1";
+import RecRegisterForm2 from "../../components/UnAut-Register/REC-RegisterFrom-2";
 
 class Question extends React.Component {
   render() {
