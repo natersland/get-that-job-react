@@ -39,16 +39,16 @@ function AuthProvider(props) {
     setState({ ...state, user: null, error: null });
   };
 
-  const createJob = async (data) => {
+  /*   const createJob = async (data) => {
     await axios.post("http://localhost:4000/auth/createjob", data);
     navigate("/jobposting");
-  };
+  }; */
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, createJob, isAuthenticated }}
+      value={{ state, login, logout, register, isAuthenticated }}
     >
       {props.children}
     </AuthContext.Provider>

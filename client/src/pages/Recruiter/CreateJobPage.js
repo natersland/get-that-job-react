@@ -2,13 +2,19 @@ import styled from "@emotion/styled";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useRecruiter } from "../../contexts/recruiter";
+import { useState } from "react";
 //Components ------------------------------------
+import AlertNotification from "../../components/misc/AlertNotification";
+// Utils
+import UtilitiesFunction from "../../utils/utilitiesFunction";
+
 const textUpperCase = (props) => {
   const text = props;
   return text.toUpperCase();
 };
 
-export default function CreateJobPage() {
+function CreateJobPage() {
+  const [isError, setIsError] = useState(false);
   const {
     jobTitle,
     setJobTitle,
@@ -27,32 +33,44 @@ export default function CreateJobPage() {
     optionalReq,
     setOptionalReq,
   } = useJobsData();
-  console.log(jobType);
-
   const { createJob } = useRecruiter();
+  // Add Comma Function -------------------------------------------------
+  const { filterComma } = UtilitiesFunction();
+  const addCommas = (num) =>
+    Number(num)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
+  // ---------------------------------------------------------------------
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const data = {
-      jobTitle,
-      jobCategory,
-      jobType,
-      minSalary,
-      maxSalary,
-      aboutJob,
-      mandatoryReq,
-      optionalReq,
-    };
-    createJob(data);
+    if (filterComma(maxSalary) > filterComma(minSalary)) {
+      const data = {
+        jobTitle,
+        jobCategory,
+        jobType,
+        minSalary,
+        maxSalary,
+        aboutJob,
+        mandatoryReq,
+        optionalReq,
+      };
+      createJob(data);
 
-    setJobTitle("");
-    setJobCategory("");
-    setJobType("");
-    setMinSalary("");
-    setMaxSalary("");
-    setAboutJob("");
-    setMandatoryReq("");
-    setOptionalReq("");
+      setJobTitle("");
+      setJobCategory("");
+      setJobType("");
+      setMinSalary("");
+      setMaxSalary("");
+      setAboutJob("");
+      setMandatoryReq("");
+      setOptionalReq("");
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
   };
 
   return (
@@ -119,9 +137,10 @@ export default function CreateJobPage() {
               id="min-salary"
               name="min-salary"
               type="text"
-              pattern="^[0-9]*"
               maxLength={6}
-              onChange={(e) => setMinSalary(e.target.value)}
+              onChange={(e) =>
+                setMinSalary(addCommas(removeCommas(e.target.value)))
+              }
               value={minSalary}
               className="pink-border gtj-input dollar-icon"
               placeholder="min"
@@ -134,15 +153,23 @@ export default function CreateJobPage() {
               id="max-salary"
               name="max-salary"
               type="text"
-              pattern="^[0-9]*"
               maxLength={6}
-              onChange={(e) => setMaxSalary(e.target.value)}
+              onChange={(e) =>
+                setMaxSalary(addCommas(removeCommas(e.target.value)))
+              }
               value={maxSalary}
               className="pink-border gtj-input  dollar-icon"
               placeholder="max"
               required
             ></InputSalary>
           </SalaryWrapper>
+          {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
+          {isError ? (
+            <AlertNotification
+              text="Your max salary is greater more
+        than min salary. Please try again."
+            />
+          ) : null}
         </SectionWrapper>
 
         {/* ----------------------------------------------------------- */}
@@ -252,3 +279,5 @@ const TextAreaInput = styled.textarea`
   width: 760px;
   letter-spacing: 0.25px;
 `;
+
+export default CreateJobPage;

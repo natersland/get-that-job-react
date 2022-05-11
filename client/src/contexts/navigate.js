@@ -7,9 +7,8 @@ const NavigateContext = React.createContext();
 function NavigateProvider(props) {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const [menuIndex, setMenuIndex] = useState(null);
-
   // State ------------------------------------
+  const [menuIndex, setMenuIndex] = useState(null);
 
   // Navbar -----------------------------------
   const homePageRoute = () => {

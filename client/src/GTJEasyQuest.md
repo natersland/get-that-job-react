@@ -4,22 +4,28 @@
 NavBar
 - [Bug]แก้ Logo บีบเข้ามาเกินไป
 
+Homepage 
+- [Bug] จอ Niiki สีอะไร? by cream
+
 Autthentication (Register)
+- [bug] ใส่ cloudinary .env
 - [Feat] สลับ Role ไปเพจ Professional <=> Recuiter
 - [Feat] ทำ Form Validation
 - [Bug] แก้ Btn ทั้ง Pro และ Rec
 
 
 Autthentication (Log In)
-
 - [Feature] ทำ Form Validation
 - [Bug] แค่ใส่ Password ถูกก็ Login ได้ ถึงจะไม่ได้ใส่ email
 - [Feature] ล็อกอินได้ตาม Role ที่ส่งเข้ามา
 
 // Auth -------------------------------------------
-Creat Job
-- [Feat] ใส่ comma ในช่อง salary ui
-- 
+Nav
+- [Bug] รีเฟรชหน้าแล้ว select สีขาวหาย
+
 // Others -------------------------------------------
+Contexts
+- [Refactor] แก้ให้ใช้ useNavigate ได้เลย
+- 
 Software Architect & Design
 - [Refactor] การ Switch Route ไป endpoint ต่างๆ

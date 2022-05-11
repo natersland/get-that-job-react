@@ -2,8 +2,8 @@
 import "./App.css";
 
 // 🐳 Authentication Login & Register ------------------------
-import AuthenticatedApp from "./pages/AuthenticatedApp";
-import UnauthenticatedApp from "./pages/UnauthenticatedApp";
+import AuthenticatedApp from "./routes/AuthenticatedApp";
+import UnauthenticatedApp from "./routes/UnauthenticatedApp";
 
 // 🌈 Context Fantasy -----------------------------------------
 import { useAuth } from "./contexts/authentication";

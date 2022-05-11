@@ -80,12 +80,17 @@ authRouter.post("/login", async (req, res) => {
 
 // Create Job Zone -------------------------------------------
 authRouter.post("/createjob", async (req, res) => {
+  const filterComma = (salary) => {
+    let result = salary.replace(/[^\w\s]/gi, "");
+    return Number(result);
+  };
+
   const user = {
     jobTitle: req.body.jobTitle,
     jobCategory: req.body.jobCategory,
     jobType: req.body.jobType,
-    minSalary: Number(req.body.minSalary),
-    maxSalary: Number(req.body.maxSalary),
+    minSalary: filterComma(req.body.minSalary),
+    maxSalary: filterComma(req.body.maxSalary),
     aboutJob: req.body.aboutJob,
     mandatoryReq: req.body.mandatoryReq,
     optionalReq: req.body.optionalReq,

@@ -6,8 +6,8 @@ import LoginSuccessful from "../../components/UnAuthentication/LoginSuccessful";
 // Contexts
 import { useUserData } from "../../contexts/usersData";
 
-export default function RecruiterHomepage(props) {
-  const { roleBtn } = props;
+export default function RecruiterHomepage() {
+  const { roleBtn } = useUserData();
   return (
     <WelcomeSuccessWrapper>
       <RoleIcon>👨🏻‍💼</RoleIcon>

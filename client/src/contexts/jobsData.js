@@ -3,22 +3,24 @@ import React, { useState } from "react";
 const JobsDataContext = React.createContext();
 
 function JobsDataProvider(props) {
-  // Main Information
+  // Main Information -----------------------------------------
   const [jobTitle, setJobTitle] = useState("");
   const [jobCategory, setJobCategory] = useState("");
   const [jobType, setJobType] = useState("");
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
 
-  // Additional Information
+  // Additional Information -----------------------------------------
   const [aboutJob, setAboutJob] = useState("");
   const [mandatoryReq, setMandatoryReq] = useState("");
   const [optionalReq, setOptionalReq] = useState("");
 
-  // Others Data
+  // Others Data -----------------------------------------
   const [createdJobDate, setCreatedJobDate] = useState("");
   const [totalCandidates, setTotalCandidates] = useState("");
   const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
+  const [jobsStatus, setJobsStatus] = useState("");
+
   return (
     <JobsDataContext.Provider
       value={{
@@ -44,6 +46,8 @@ function JobsDataProvider(props) {
         setTotalCandidates,
         candidatesOnTrack,
         setCandidatesOnTrack,
+        jobsStatus,
+        setJobsStatus,
       }}
     >
       {props.children}

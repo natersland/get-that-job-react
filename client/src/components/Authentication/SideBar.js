@@ -1,16 +1,16 @@
 import styled from "@emotion/styled";
 // Pictures
-import BrandLogo from "../img/gtj-logo-1.png";
-import Jobposition from "../img/briefcase-line.png";
-import CreateJob from "../img/file-add-line.png";
-import UserProfile from "../img/user-line.png";
-import LogOut from "../img/logout-circle-line.png";
-import GitHubLogo from "../img/github-fill.png";
-import ReactLogo from "../img/reactjs-line.png";
+import BrandLogo from "../../img/gtj-logo-1.png";
+import Jobposition from "../../img/briefcase-line.png";
+import CreateJob from "../../img/file-add-line.png";
+import UserProfile from "../../img/user-line.png";
+import LogOut from "../../img/logout-circle-line.png";
+import GitHubLogo from "../../img/github-fill.png";
+import ReactLogo from "../../img/reactjs-line.png";
 // Context
-import { useNav } from "../contexts/navigate";
+import { useNav } from "../../contexts/navigate";
 // Data
-import teamData from "../data/teamData";
+import teamData from "../../data/teamData";
 
 const navData = [
   {

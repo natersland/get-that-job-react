@@ -1,15 +1,9 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 // Images ----------------------------------------
 import people from "../img/Group 54.png";
 import magnifyingGlass from "../img/Group 56.png";
 import github from "../img/github-fill.png";
 import linkin from "../img/linkedin-box-line.png";
-import Ruby from "../img/Ellipse 4.png";
-import Javier from "../img/Ellipse 4-1.png";
-import Francisca from "../img/Ellipse 4-2.png";
-import Rual from "../img/Ellipse 4-3.png";
 import daimond from "../img/ruby-fill.png";
 import Reactline from "../img/reactjs-line.png";
 // Contexts ----------------------------------------

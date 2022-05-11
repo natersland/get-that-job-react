@@ -47,6 +47,7 @@ export default function LoginPage() {
                   setEmail(event.target.value);
                 }}
                 value={email}
+                required
               ></input>
             </InputWrapper>
             <InputWrapper>
@@ -61,6 +62,7 @@ export default function LoginPage() {
                   setPassword(event.target.value);
                 }}
                 value={password}
+                required
               ></input>
             </InputWrapper>
             <FormAction>
