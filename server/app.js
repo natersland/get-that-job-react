@@ -12,6 +12,7 @@ import { client } from "./utils/db.js";
 // router -----------------------------------
 import authRouter from "./apps/auth.js";
 import postRouter from "./apps/posts.js";
+import jobRouter from "./apps/jobs.js";
 
 // --------------------------------------------------------
 
