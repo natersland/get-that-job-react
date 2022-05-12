@@ -7,10 +7,10 @@ import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 // Components
-import ProRegisterForm1 from "../../components/UnAuthentication/PRO-RegisterForm-1";
-import ProRegisterForm2 from "../../components/UnAuthentication/PRO-RegisterForm-2";
-import ProRegisterForm3 from "../../components/UnAuthentication/PRO-RegisterForm-3";
-import SelectRole from "../../components/UnAuthentication/SelectRole";
+import ProRegisterForm1 from "../../components/UnAut-Register/PRO-RegisterForm-1";
+import ProRegisterForm2 from "../../components/UnAut-Register/PRO-RegisterForm-2";
+import ProRegisterForm3 from "../../components/UnAut-Register/PRO-RegisterForm-3";
+import SelectRole from "../../components/UnAut-Register/SelectRole";
 
 class ArrowRight extends React.Component {
   render() {

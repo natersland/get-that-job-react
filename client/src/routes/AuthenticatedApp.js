@@ -1,23 +1,22 @@
 import { Routes, Route } from "react-router-dom";
 // Pages --------------------------------------------
-import ProfessionalHomepage from "../pages/Authentication/ProfessionalHomepage";
-import RegisterRecruiterPage from "../pages/Authentication/RegisterRecruiterPage";
 import NotFoundPage from "../pages/NotFoundPage";
-// Components
+import FindJobsPage from "../pages/Professional/FindJobsPage";
 import ComponentIndex from "../components/ComponentIndex";
+import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 // Contexts --------------------------------------------
 import { useUserData } from "../contexts/usersData";
 
 export default function AuthenticatedApp() {
-  const { roleBtn } = useUserData();
+  const { role } = useUserData();
 
   return (
     <div className="App">
       <Routes>
-        {roleBtn === "professional" ? (
-          <Route path="/" element={<ProfessionalHomepage />}></Route>
+        {role === "professional" ? (
+          <Route path="/" element={<FindJobsPage />}></Route>
         ) : (
-          <Route path="/" element={<RegisterRecruiterPage />}></Route>
+          <Route path="/" element={<CreateJobPage />}></Route>
         )}
         <Route path="*" element={<NotFoundPage />}></Route>
         <Route path="/components" element={<ComponentIndex />} />

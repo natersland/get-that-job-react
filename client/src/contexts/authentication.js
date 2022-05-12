@@ -14,7 +14,7 @@ function AuthProvider(props) {
 
   const navigate = useNavigate();
 
-  // make a login request
+  // make a login request -------------------------------------------------
   const login = async (data) => {
     const result = await axios.post("http://127.0.0.1:4000/auth/login", data);
     const token = result.data.token;
@@ -25,7 +25,7 @@ function AuthProvider(props) {
     navigate("/");
   };
 
-  // register the user
+  // register the user -------------------------------------------------
   const register = async (data) => {
     await axios.post("http://127.0.0.1:4000/auth/register", data, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -33,16 +33,11 @@ function AuthProvider(props) {
     navigate("/findthatjob");
   };
 
-  // clear the token in localStorage and the user data
+  // clear the token in localStorage and the user data -------------------------------------------------
   const logout = () => {
     localStorage.removeItem("token");
     setState({ ...state, user: null, error: null });
   };
-
-  /*   const createJob = async (data) => {
-    await axios.post("http://localhost:4000/auth/createjob", data);
-    navigate("/jobposting");
-  }; */
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
 

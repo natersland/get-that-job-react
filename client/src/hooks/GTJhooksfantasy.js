@@ -1,6 +1,6 @@
 import { useState } from "react";
-
 export default function GTJhooksfantasy() {
+<<<<<<< HEAD
 
   // Step 1
   const [email, setEmail] = useState("");
@@ -51,4 +51,7 @@ export default function GTJhooksfantasy() {
     role,
     setRole,
   };
+=======
+  return {};
+>>>>>>> df71a56 (design: finished feat design and init files)
 }
