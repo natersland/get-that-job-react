@@ -1,8 +1,10 @@
 const UtilitiesFunction = () => {
+  // filtered comma from number fx -------------------------------------------------
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
     return Number(result);
   };
+  // ---------------------------------------------------------------------
 
   // toUpperCaseFx -------------------------------------------------
   const textUpperCase = (props) => {

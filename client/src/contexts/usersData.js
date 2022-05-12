@@ -24,6 +24,8 @@ function UserDataProvider(props) {
   // User & Company Profile -----------------------------------------
   const [userAvartar, setUserAvartar] = useState({});
   const [companyLogo, setCompanyLogo] = useState({});
+  // State for Connecting to Users Database -----------------------------------------
+  const [users, setUsers] = useState([]);
   // Others -----------------------------------------
   const [roleBtn, setRoleBtn] = useState("professional".toLocaleLowerCase());
 
@@ -68,6 +70,9 @@ function UserDataProvider(props) {
         setUserAvartar,
         companyLogo,
         setCompanyLogo,
+        // State for Connecting to Users Database -----------------------------
+        users,
+        setUsers,
         // Others -----------------------------------------
         roleBtn,
         setRoleBtn,

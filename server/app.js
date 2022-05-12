@@ -39,6 +39,7 @@ async function init() {
   // app routers -----------------
   app.use("/auth", authRouter);
   app.use("/posts", postRouter);
+  app.use("/jobs", jobRouter);
 
   // response from server -----------------
   app.listen(port, () => {

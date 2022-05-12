@@ -21,9 +21,9 @@ function JobsDataProvider(props) {
   const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
   const [jobsStatus, setJobsStatus] = useState("");
 
-  // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+  // State for Connecting to Jobs Database & Searchbox ---------------------
   const [jobs, setJobs] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchJobText, setSearchJobText] = useState("");
 
   return (
     <JobsDataContext.Provider
@@ -55,11 +55,11 @@ function JobsDataProvider(props) {
         setCandidatesOnTrack,
         jobsStatus,
         setJobsStatus,
-        // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+        // State for Connecting to Jobs Database & Searchbox ---------------------
         jobs,
         setJobs,
-        searchText,
-        setSearchText,
+        searchJobText,
+        setSearchJobText,
       }}
     >
       {props.children}

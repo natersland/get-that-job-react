@@ -7,7 +7,7 @@ import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 // Contexts --------------------------------------------
 import { useUserData } from "../contexts/usersData";
 
-export default function AuthenticatedApp() {
+export default function AuthenticatedApp({ userRole }) {
   const { role } = useUserData();
 
   return (

@@ -11,13 +11,13 @@ import RegisterProfessionalPage from "../pages/Authentication/RegisterProfession
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
 import FindJobsPage from "../pages/Professional/FindJobsPage";
-export default function UnauthenticatedApp() {
+export default function UnauthenticatedApp({ userRole }) {
   return (
     <div className="App">
       {/*       <Navbar />
        */}
       <Sidebar barRole="professional" />{" "}
-      {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter"*/}
+      {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter" / "professional"*/}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterProfessionalPage />} />
@@ -29,8 +29,10 @@ export default function UnauthenticatedApp() {
         <Route path="/login" element={<LoginPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
-        <Route path="/createjob" element={<CreateJobPage />} />
+        {/*Professional Route Start Here*/}
         <Route path="/findjob" element={<FindJobsPage />} />
+        {/*Recruiter Route Start Here*/}
+        <Route path="/createjob" element={<CreateJobPage />} />
       </Routes>
     </div>
   );
