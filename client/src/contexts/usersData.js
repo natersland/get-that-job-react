@@ -3,37 +3,45 @@ import React, { useState } from "react";
 const UsersDataContext = React.createContext();
 
 function UserDataProvider(props) {
-  // Step 1
+  // Shared state between Professional & Recruiter -----------------------------------------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
-
-  // Step 2
+  const [role, setRole] = useState({});
+  // State Only for Professional -----------------------------------------
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [linkin, setLinkin] = useState("");
-
-  // Step 3
   const [title, setTitle] = useState("");
   const [experience, setExperience] = useState("");
   const [education, setEducation] = useState("");
   const [uploadFiles, setUploadFiles] = useState({});
+  // State Only for Recruite  r-----------------------------------------
+  const [companyName, setCompanyName] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
+  const [about, setAbout] = useState("");
+  // User & Company Profile -----------------------------------------
+  const [userAvartar, setUserAvartar] = useState({});
   const [companyLogo, setCompanyLogo] = useState({});
-
-  // Others
-  const [role, setRole] = useState({});
+  // State for Connecting to Users Database -----------------------------------------
+  const [users, setUsers] = useState([]);
+  // Others -----------------------------------------
   const [roleBtn, setRoleBtn] = useState("professional".toLocaleLowerCase());
 
   return (
     <UsersDataContext.Provider
       value={{
+        // Shared state between Professional & Recruiter -----------------------------------------
         email,
         setEmail,
         password,
         setPassword,
         passwordConfirmed,
         setPasswordConfirmed,
+        role,
+        setRole,
+        // State Only for Professional -----------------------------------------
         name,
         setName,
         phone,
@@ -50,14 +58,25 @@ function UserDataProvider(props) {
         setEducation,
         uploadFiles,
         setUploadFiles,
-        role,
-        setRole,
-        roleBtn,
-        setRoleBtn,
+        // State Only for Recruiter -----------------------------------------
+        companyName,
+        setCompanyName,
+        companyWebsite,
+        setCompanyWebsite,
+        about,
+        setAbout,
+        // User & Company Profile -----------------------------------------
+        userAvartar,
+        setUserAvartar,
         companyLogo,
         setCompanyLogo,
-      }}
-    >
+        // State for Connecting to Users Database -----------------------------
+        users,
+        setUsers,
+        // Others -----------------------------------------
+        roleBtn,
+        setRoleBtn,
+      }}>
       {props.children}
     </UsersDataContext.Provider>
   );

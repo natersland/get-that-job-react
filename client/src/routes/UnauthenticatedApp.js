@@ -11,6 +11,7 @@ import RegisterProfessionalPage from "../pages/Authentication/RegisterProfession
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
 import ViewJob from "../pages/Recruiter/Viewjob";
+import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
 export default function UnauthenticatedApp() {
   return (
     <div className="App">
@@ -30,6 +31,10 @@ export default function UnauthenticatedApp() {
         <Route path="/components" element={<ComponentIndex />} />
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/viewjob" element={<ViewJob />} />
+        <Route
+          path="/update-company-profile"
+          element={<UpdateCompanyProfile />}
+        />
       </Routes>
     </div>
   );
