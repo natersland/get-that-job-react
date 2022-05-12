@@ -1,9 +1,6 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useEffect } from "react";
-// Pictures --------------------
-import MignifyingGlassIcon from "../../assets/search-line.svg";
-import DollarFillIcon from "../../assets/money-dollar-circle-fill.svg";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useUserData } from "../../contexts/usersData";
@@ -47,7 +44,7 @@ function FindThatJobHeader() {
             id="searchjobword"
             name="searchjobword"
             type="text"
-            placeholder="manufauturing, sales, swim"
+            placeholder="manufacturing, sales, swim"
             onChange={handleSearchJobText}
             value={searchJobText}
           ></SearchBox>
@@ -87,6 +84,10 @@ function FindThatJobHeader() {
             <SubSalaryBox>
               <SearchSalary
                 className="gtj-input pink-border dollar-icon2 "
+                id="min-salary-search"
+                name="min-salary-search"
+                type="text"
+                maxLength={6}
                 placeholder="min"
               ></SearchSalary>
               <Dash>
@@ -94,6 +95,10 @@ function FindThatJobHeader() {
               </Dash>
               <SearchSalary
                 className="gtj-input pink-border dollar-icon2 "
+                id="max-salary-search"
+                name="max-salary-search"
+                type="text"
+                maxLength={6}
                 placeholder="max"
               ></SearchSalary>
             </SubSalaryBox>

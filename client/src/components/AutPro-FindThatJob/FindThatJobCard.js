@@ -1,10 +1,14 @@
 import styled from "@emotion/styled";
 import React from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
-import FocusIcon from "../../assets/money-dollar-circle-line.svg";
+import FocusIcon from "../../assets/focus.svg";
+import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
+import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
 import { useUserData } from "../../contexts/usersData";
 import { useJobsData } from "../../contexts/jobsData";
@@ -12,22 +16,29 @@ import { useJobsData } from "../../contexts/jobsData";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //
 function FindThatJobCard() {
-  const { jobs, setJobs, searchJobText, setSearchJobText } = useJobsData();
+  const { jobs, setJobs, searchJobText, setSearchJobText /* getJobs */ } =
+    useJobsData();
   const { textUpperCase } = UtilitiesFunction();
 
+  /* useEffect(() => {
+    getJobs({ jobs });
+  }); */
+  /*   getJobs({ jobs }); */
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
-      <FindThatJobWrapper className="shadow-medium">
+      <FindThatJobWrapper>
         {jobs.map((items, index) => {
           const { jobTitle, jobCategory, jobType, minSalary, maxSalary } =
             items;
+          const newMinNumber = minSalary / 1000;
+          const newMaxNumber = maxSalary / 1000;
           return (
-            <JobCardWrapper key={index}>
+            <JobCardWrapper className="shadow-medium" key={index}>
               <JobCardContent>
                 <ContentLeft>
                   <CompanyLogoWrapper>
-                    <CompanyLogo src="../../assets/placeholder/placeholder-company.jpg"></CompanyLogo>
+                    <CompanyLogoJa src={CompanyLogo}></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
                 <ContentRight>
@@ -35,23 +46,30 @@ function FindThatJobCard() {
                   <JobTitle>{jobTitle}</JobTitle>
                   <CompanyName>The Company Name</CompanyName>
                   <SubContentWrapper>
-                    <JobType>{jobType}</JobType>
+                    {" "}
+                    <JobType>
+                      <span className="mr-1">
+                        <img src={CalendarIcon} />
+                      </span>
+                      {jobType}
+                    </JobType>
                     <Salary>
-                      <span>
+                      <span className="mr-1">
                         <img src={DollarLineIcon} alt="DollarIcon" />
                       </span>
-                      {minSalary}k - {maxSalary}k
+                      {newMinNumber.toFixed(1)}k - {newMaxNumber.toFixed(1)}k
                     </Salary>
                   </SubContentWrapper>
                 </ContentRight>
               </JobCardContent>
               <JobCardFooter>
-                <FollowButton className="btn btn-white btn-lg">
-                  <FollowIcon scr={FocusIcon}>
-                    {textUpperCase("follow")}
-                  </FollowIcon>
+                <FollowCircle>
+                  <FollowIcon src={FocusIcon}></FollowIcon>
+                </FollowCircle>
+                <FollowButton className="btn btn-white btn-md">
+                  {textUpperCase("follow")}
                 </FollowButton>
-                <SeeMoreButton className="btn btn-white btn-lg pink-border">
+                <SeeMoreButton className="btn btn-white btn-md pink-border">
                   {textUpperCase("see more")}
                 </SeeMoreButton>
               </JobCardFooter>
@@ -73,36 +91,45 @@ const JobsCounterNumber = styled.h1`
   font-weight: 500;
   font-size: 1.25rem;
 `;
-const FindThatJobWrapper = styled.h1`
+
+const FindThatJobWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px;
+  grid-gap: 30px 0;
+  width: 83%;
+  padding-left: 10px;
+`;
+
+const JobCardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
   width: 290px;
   padding: 16px;
   background-color: var(--white);
 `;
-const JobCardWrapper = styled.div`
-  display: flex;
-`;
 const JobCardContent = styled.div`
   display: flex;
 `;
+const ContentLeft = styled.div`
+  margin-right: 10.67px;
+`;
+
 const CompanyLogoWrapper = styled.div`
   width: 74.67px;
   height: 74.67px;
   overflow: hidden;
 `;
-const CompanyLogo = styled.img`
+const CompanyLogoJa = styled.img`
   object-fit: cover;
   width: 74.67px;
   height: 74.67px;
 `;
-const ContentLeft = styled.img``;
-const ContentRight = styled.img`
+const ContentRight = styled.div`
   display: flex;
   flex-direction: column;
   line-height: 16px;
+  width: 100%;
 `;
 const JobCategory = styled.p`
   font-family: var(--seconary-font);
@@ -113,6 +140,7 @@ const JobTitle = styled.h1`
   color: var(--primary-text-color);
   font-weight: 500;
   font-size: 1.25rem;
+  line-height: 28px;
 `;
 const CompanyName = styled.h3`
   color: var(--gray);
@@ -124,14 +152,46 @@ const SubContentWrapper = styled.div`
   color: var(--light-gray);
   font-weight: 400;
   font-size: 0.75rem;
+  margin-top: 5px;
 `;
-const JobType = styled.p``;
-const Salary = styled.p`
-  font-family: var(--seconary-font);
-`;
-const JobCardFooter = styled.img`
+const JobType = styled.p`
+  line-height: 16px;
+  width: 50%;
   display: flex;
 `;
-const FollowButton = styled.button``;
+const Salary = styled.p`
+  font-family: var(--seconary-font);
+  display: flex;
+  justify-content: center;
+`;
+const JobCardFooter = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+`;
+const FollowButton = styled.p`
+  padding-left: 0;
+  margin-left: -2px;
+  cursor: pointer;
+`;
+const FollowCircle = styled.div`
+  background-color: var(--secoundary-brand-color);
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+`;
 const FollowIcon = styled.img``;
-const SeeMoreButton = styled.button``;
+const SeeMoreButton = styled.button`
+  &:hover {
+    background-color: var(--secoundary-brand-color);
+    color: white;
+  }
+`;

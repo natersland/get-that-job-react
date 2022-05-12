@@ -17,7 +17,7 @@ function UserDataProvider(props) {
   const [experience, setExperience] = useState("");
   const [education, setEducation] = useState("");
   const [uploadFiles, setUploadFiles] = useState({});
-  // State Only for Recruite -----------------------------------------
+  // State Only for Recruiter -----------------------------------------
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [about, setAbout] = useState("");
