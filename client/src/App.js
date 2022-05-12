@@ -10,13 +10,13 @@ import { useAuth } from "./contexts/authentication";
 import { useUserData } from "./contexts/usersData";
 
 function App() {
-  const { roleBtn, setRoleBtn } = useUserData();
   const auth = useAuth();
+  const { users } = useUserData();
 
   return auth.isAuthenticated ? (
-    <AuthenticatedApp roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
+    <AuthenticatedApp userRole={users} />
   ) : (
-    <UnauthenticatedApp roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
+    <UnauthenticatedApp userRole={users} />
   );
 }
 

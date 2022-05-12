@@ -3,7 +3,7 @@ import { useState } from "react";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
-import SelectRole from "../../components/UnAuthentication/SelectRole";
+import SelectRole from "../../components/UnAut-Register/SelectRole";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
