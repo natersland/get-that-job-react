@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function GTJhooksfantasy() {
+
   // Step 1
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
