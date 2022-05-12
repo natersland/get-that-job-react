@@ -31,8 +31,8 @@ function NavigateProvider(props) {
   const sidebarLinkChecker = (index, role) => {
     if (role === "professional") {
       if (index === 0) {
-        navigate("/findjob");
-        setMenuIndex(index + 1); // Find that job
+        navigate("/findjob"); // Find that job
+        setMenuIndex(index + 1); // setMenuIndex มีไว้เพื่อเซ็ทให้เมื่อกด sidebar ที่ปุ่มหน้าไหนแล้วจะเปลี่ยนเป็นสีขาวตรงปุ่ม
       } else if (index === 1) {
         navigate("*"); // Your applications
         setMenuIndex(index + 1);

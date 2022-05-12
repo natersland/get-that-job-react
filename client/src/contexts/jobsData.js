@@ -23,9 +23,9 @@ function JobsDataProvider(props) {
   // ABC
   const [disable, setDisable] = useState(false);
 
-  // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+  // State for Connecting to Jobs Database & Searchbox ---------------------
   const [jobs, setJobs] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const [searchJobText, setSearchJobText] = useState("");
 
   return (
     <JobsDataContext.Provider
@@ -62,8 +62,8 @@ function JobsDataProvider(props) {
         // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
         jobs,
         setJobs,
-        searchText,
-        setSearchText,
+        searchJobText,
+        setSearchJobText,
       }}
     >
       {props.children}

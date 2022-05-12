@@ -15,14 +15,18 @@ import ViewJob from "../pages/Recruiter/Viewjob";
 import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
 =======
 import FindJobsPage from "../pages/Professional/FindJobsPage";
+<<<<<<< HEAD
 >>>>>>> df71a56 (design: finished feat design and init files)
 export default function UnauthenticatedApp() {
+=======
+export default function UnauthenticatedApp({ userRole }) {
+>>>>>>> d256e2e (feat: finished front-end and components)
   return (
     <div className="App">
       {/*       <Navbar />
        */}
       <Sidebar barRole="professional" />{" "}
-      {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter"*/}
+      {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter" / "professional"*/}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterProfessionalPage />} />
@@ -34,6 +38,7 @@ export default function UnauthenticatedApp() {
         <Route path="/login" element={<LoginPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
+<<<<<<< HEAD
         <Route path="/createjob" element={<CreateJobPage />} />
 <<<<<<< HEAD
         <Route path="/viewjob" element={<ViewJob />} />
@@ -44,6 +49,12 @@ export default function UnauthenticatedApp() {
 =======
         <Route path="/findjob" element={<FindJobsPage />} />
 >>>>>>> df71a56 (design: finished feat design and init files)
+=======
+        {/*Professional Route Start Here*/}
+        <Route path="/findjob" element={<FindJobsPage />} />
+        {/*Recruiter Route Start Here*/}
+        <Route path="/createjob" element={<CreateJobPage />} />
+>>>>>>> d256e2e (feat: finished front-end and components)
       </Routes>
     </div>
   );
