@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 // Components
-import CloseButton from "./misc/ButtonTest";
+import CloseButton from "./Utilities/ButtonTest";
 import AlertNotification from "./Utilities/AlertNotification";
 
 const ComponentIndex = () => {
