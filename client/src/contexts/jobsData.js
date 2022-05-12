@@ -19,7 +19,12 @@ function JobsDataProvider(props) {
   const [createdJobDate, setCreatedJobDate] = useState("");
   const [totalCandidates, setTotalCandidates] = useState("");
   const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
-  const [jobsStatus, setJobsStatus] = useState("");
+  const [jobsStatus, setJobsStatus] = useState(true);
+
+
+
+  // ABC
+  const [disable, setDisable] = useState(false);
 
   return (
     <JobsDataContext.Provider
@@ -47,7 +52,7 @@ function JobsDataProvider(props) {
         candidatesOnTrack,
         setCandidatesOnTrack,
         jobsStatus,
-        setJobsStatus,
+        setJobsStatus,disable, setDisable
       }}
     >
       {props.children}

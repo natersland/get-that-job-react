@@ -10,6 +10,7 @@ import RegisterRecruiterPage from "../pages/Authentication/RegisterRecruiterPage
 import RegisterProfessionalPage from "../pages/Authentication/RegisterProfessionalPage";
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
+import ViewJob from "../pages/Recruiter/Viewjob";
 export default function UnauthenticatedApp() {
   return (
     <div className="App">
@@ -28,6 +29,7 @@ export default function UnauthenticatedApp() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
         <Route path="/createjob" element={<CreateJobPage />} />
+        <Route path="/viewjob" element={<ViewJob />} />
       </Routes>
     </div>
   );
