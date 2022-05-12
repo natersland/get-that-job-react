@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
 // Components
-<<<<<<< HEAD
-import AlertNotification from "./misc/AlertNotification";
 import CloseButton from "./misc/ButtonTest";
-=======
 import AlertNotification from "./Utilities/AlertNotification";
->>>>>>> df71a56 (design: finished feat design and init files)
+
 const ComponentIndex = () => {
   return (
     <Wrapper>
@@ -20,7 +17,7 @@ const ComponentIndex = () => {
         <SectionHeader>Notification</SectionHeader>
         <ComponentZone>
           <ComponentLabel>Component Name: AlertNotification</ComponentLabel>
-          <CloseButton/>
+          <CloseButton />
         </ComponentZone>
       </Section>
     </Wrapper>

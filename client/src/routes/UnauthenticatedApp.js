@@ -11,6 +11,7 @@ import RegisterProfessionalPage from "../pages/Authentication/RegisterProfession
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ViewJob from "../pages/Recruiter/Viewjob";
 import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
 =======
@@ -21,6 +22,10 @@ export default function UnauthenticatedApp() {
 =======
 export default function UnauthenticatedApp({ userRole }) {
 >>>>>>> d256e2e (feat: finished front-end and components)
+=======
+import FindJobsPage from "../pages/Professional/FindJobsPage";
+export default function UnauthenticatedApp({ userRole }) {
+>>>>>>> a4838fbd5232493aec8b25006d26f85b671aadc0
   return (
     <div className="App">
       {/*       <Navbar />
@@ -39,6 +44,12 @@ export default function UnauthenticatedApp({ userRole }) {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        {/*Professional Route Start Here*/}
+        <Route path="/findjob" element={<FindJobsPage />} />
+        {/*Recruiter Route Start Here*/}
+>>>>>>> a4838fbd5232493aec8b25006d26f85b671aadc0
         <Route path="/createjob" element={<CreateJobPage />} />
 <<<<<<< HEAD
         <Route path="/viewjob" element={<ViewJob />} />

@@ -20,9 +20,7 @@ function JobsDataProvider(props) {
   const [createdJobDate, setCreatedJobDate] = useState("");
   const [totalCandidates, setTotalCandidates] = useState("");
   const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
-  const [jobsStatus, setJobsStatus] = useState(true);
-  // ABC
-  const [disable, setDisable] = useState(false);
+  const [jobsStatus, setJobsStatus] = useState("");
 
   // Connecting to Jobs Database & Searchbox ---------------------
   const [jobs, setJobs] = useState([]);
@@ -83,9 +81,7 @@ function JobsDataProvider(props) {
         setCandidatesOnTrack,
         jobsStatus,
         setJobsStatus,
-        disable,
-        setDisable,
-        // State for Searchbox (Professional Findthatjob Page) -----------------------------------------
+        // Connecting to Jobs Database & Searchbox ---------------------
         jobs,
         setJobs,
         searchJobText,
