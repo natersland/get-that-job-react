@@ -28,20 +28,39 @@ function NavigateProvider(props) {
   };
   // SideBar -----------------------------------
 
-  const sidebarLinkChecker = (index) => {
-    if (index === 0) {
-      navigate("*");
-      setMenuIndex(index + 1);
-    } else if (index === 1) {
-      navigate("/createjob");
-      setMenuIndex(index + 1);
-    } else if (index === 2) {
-      navigate("/recruiter-profile");
-      setMenuIndex(index + 1);
-    } else if (index === 3) {
-      logout();
+  const sidebarLinkChecker = (index, role) => {
+    if (role === "professional") {
+      if (index === 0) {
+        navigate("/findjob"); // Find that job
+        setMenuIndex(index + 1); // setMenuIndex มีไว้เพื่อเซ็ทให้เมื่อกด sidebar ที่ปุ่มหน้าไหนแล้วจะเปลี่ยนเป็นสีขาวตรงปุ่ม
+      } else if (index === 1) {
+        navigate("*"); // Your applications
+        setMenuIndex(index + 1);
+      } else if (index === 2) {
+        navigate("*"); // Following
+        setMenuIndex(index + 1);
+      } else if (index === 3) {
+        navigate("*"); // Profile
+        setMenuIndex(index + 1);
+      } else if (index === 4) {
+        logout(); // logout
+      }
+    } else {
+      if (index === 0) {
+        navigate("*"); // Job Postings
+        setMenuIndex(index + 1);
+      } else if (index === 1) {
+        navigate("/createjob"); // Create New Job
+        setMenuIndex(index + 1);
+      } else if (index === 2) {
+        navigate("*"); // Profile
+        setMenuIndex(index + 1);
+      } else if (index === 3) {
+        logout(); // Log out
+      }
     }
   };
+
   return (
     <NavigateContext.Provider
       value={{
