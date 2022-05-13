@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
-
+import Backdrop from "@mui/material/Backdrop";
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";
 
@@ -42,8 +42,12 @@ function RegFormButton() {
         setIsErrorEmail(true);
       }
     }
-    //  if email is not validattion
+    if (password === "" && passwordConfirmed === "") {
+      setIsErrorPassword(true);
+      console.log("hi");
+    }
     if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      //  if email is not validattion
       setIsErrorEmail(true);
     } else {
       setIsErrorEmail(false);
@@ -51,13 +55,18 @@ function RegFormButton() {
     // if password is not correct
     if (password !== passwordConfirmed) {
       setIsErrorPassword(true);
-    } else if (password === passwordConfirmed) {
+    } else if (
+      password === passwordConfirmed &&
+      password !== "" &&
+      passwordConfirmed !== ""
+    ) {
       setIsErrorPassword(false);
     }
     // if all correct
     if (
       password === passwordConfirmed &&
       password !== "" &&
+      passwordConfirmed !== "" &&
       email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
     ) {
       setStep(step + 1);

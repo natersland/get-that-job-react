@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Alert from "@mui/material/Alert";
 // Images
 import image from "../../img/discussing.png";
 //Contexts
@@ -7,8 +8,8 @@ import { useUserData } from "../../contexts/usersData";
 // Components
 import MainRegisterForm from "../../components/UnAut-Register/MainRegisterForm";
 import SelectRole from "../../components/UnAut-Register/SelectRole";
-import AlertNotification from "../../components/Utilities/AlertNotification";
-import RoleStepsBox from "../../components/UnAut-Register/RoleStepsBox";
+/* import AlertNotification from "../../components/Utilities/AlertNotification";
+ */ import RoleStepsBox from "../../components/UnAut-Register/RoleStepsBox";
 import RegFormButton from "../../components/UnAut-Register/RegFormButton";
 function RegisterPage() {
   const {
@@ -86,6 +87,7 @@ function RegisterPage() {
       for (let uploadFileKey in uploadFiles) {
         formData.append("cvFile", uploadFiles[uploadFileKey]);
       }
+
       register(formData);
       /*       login({
         email,
@@ -113,11 +115,11 @@ function RegisterPage() {
       formData.append("role", role);
       formData.append("companyWebsite", companyWebsite);
       formData.append("about", about);
-      formData.append("companyLogo", companyLogo);
 
-      for (let uploadFileKey in uploadFiles) {
-        formData.append("logoFile", uploadFiles[uploadFileKey]);
+      for (let uploadFileKey in companyLogo) {
+        formData.append("logoFile", companyLogo[uploadFileKey]);
       }
+
       register(formData);
       /*       login({
         email,
@@ -157,11 +159,15 @@ function RegisterPage() {
 
               {/*แจ้งเตือนเมื่อ user ไม่ใส่ email*/}
               {isErrorEmail ? (
-                <AlertNotification text="Please enter valid email address" />
+                <Alert className="mt-2 mb-2 w-8/12" severity="error">
+                  Please enter valid email address
+                </Alert>
               ) : null}
               {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password*/}
               {isErrorPassword ? (
-                <AlertNotification text="Please verify and re-enter your password" />
+                <Alert className="mt-2 mb-2 w-8/12" severity="error">
+                  Please verify and re-enter your password
+                </Alert>
               ) : null}
 
               <MainRegisterForm userRole={role} />

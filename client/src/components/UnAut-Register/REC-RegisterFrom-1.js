@@ -37,6 +37,7 @@ function RecRegisterForm1() {
         <Input
           type="text"
           name="email"
+          className="gtj-input pink-border"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="some company@mail.com"
@@ -50,6 +51,7 @@ function RecRegisterForm1() {
         <Input
           type="password"
           name="password"
+          className="gtj-input pink-border"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           placeholder="******"
@@ -63,6 +65,7 @@ function RecRegisterForm1() {
         <Input
           id="password-confirmed"
           name="password-confirmed"
+          className="gtj-input pink-border"
           value={passwordConfirmed}
           onChange={(event) => setPasswordConfirmed(event.target.value)}
           placeholder="******"

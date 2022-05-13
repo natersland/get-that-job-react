@@ -38,7 +38,7 @@ function JobsDataProvider(props) {
     "Sales",
   ]);
   const [jobTypeList, setJobTypeList] = useState(["Full Time", "Part Time"]);
-  /* const getJobs = async (input) => {
+  /*   const getJobs = async (input) => {
     const { jobTitle, keywords, jobType } = input;
     try {
       const params = new URLSearchParams();
@@ -62,8 +62,8 @@ function JobsDataProvider(props) {
       isError,
       isLoading,
     };
-  }; */
-
+  }; 
+ */
   const getJobs = async (select) => {
     const { jobTitle, companyName, jobType, maxSalary, minSalary } = select;
     try {

@@ -220,4 +220,3 @@ const StepNumber = styled.p`
   margin-bottom: 0;
 `;
 
-// Aom Code Start Here ---------------------------

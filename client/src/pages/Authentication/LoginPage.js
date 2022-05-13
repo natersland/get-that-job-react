@@ -66,7 +66,7 @@ export default function LoginPage() {
               ></input>
             </InputWrapper>
             <FormAction>
-              <button type="Submit" className="btn btn-md btn-pink">
+              <button type="submit" className="btn btn-md btn-pink">
                 Login
               </button>
             </FormAction>

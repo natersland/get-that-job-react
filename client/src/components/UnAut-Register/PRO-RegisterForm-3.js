@@ -38,6 +38,7 @@ function ProRegisterForm3() {
           id="title"
           name="title"
           type="text"
+          className="gtj-input pink-border"
           placeholder="Mechanical administrator..."
           onChange={(event) => {
             setTitle(event.target.value);
@@ -53,6 +54,7 @@ function ProRegisterForm3() {
           type="text"
           minLength="300"
           maxLength="2000"
+          className="gtj-input pink-border"
           placeholder="Worked 6 years in a bitcoin farm until I decided to change my life..."
           onChange={(event) => {
             setExperience(event.target.value);
@@ -71,6 +73,7 @@ function ProRegisterForm3() {
           type="text"
           minLength="100"
           maxLength="2000"
+          className="gtj-input pink-border"
           placeholder="Major in life experiences with a PHD in procrastination..."
           onChange={(event) => {
             setEducation(event.target.value);
@@ -85,7 +88,6 @@ function ProRegisterForm3() {
       <Label>UPLOAD/UPDATE YOUR CV</Label>
       <UploadFileSection>
         <input
-          className="uploadBtn"
           id="upload"
           name="uploadResumeFile"
           type="file"

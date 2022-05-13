@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import moment from "moment";
+import Alert from "@mui/material/Alert";
+
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useRecruiter } from "../../contexts/recruiter";
@@ -176,10 +178,9 @@ function CreateJobPage() {
           </SalaryWrapper>
           {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
           {isError ? (
-            <AlertNotification
-              text="Your max salary is greater more
-        than min salary. Please try again."
-            />
+            <Alert className="mt-4 mb-2 w-8/12" severity="error">
+              Your max salary is greater more than min salary. Please try again.
+            </Alert>
           ) : null}
           {/*--------------------------------------------------- */}
         </SectionWrapper>

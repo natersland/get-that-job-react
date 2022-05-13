@@ -32,6 +32,8 @@ export default function UnauthenticatedApp({ userRole }) {
           path="/update-company-profile"
           element={<UpdateCompanyProfile />}
         />
+        {/*Professional Route Start Here*/}
+        <Route path="/findjob" element={<FindJobsPage />} />
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
       </Routes>

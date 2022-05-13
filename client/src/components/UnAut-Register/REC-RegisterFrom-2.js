@@ -38,6 +38,7 @@ function RecRegisterForm2() {
         <Input
           type="text"
           name="companyWebsite"
+          className="gtj-input pink-border"
           value={companyWebsite}
           onChange={(event) => setCompanyWebsite(event.target.value)}
           placeholder="https://www.mycompany.sa"
@@ -53,6 +54,7 @@ function RecRegisterForm2() {
         <InputLimit
           type="text"
           name="about"
+          className="gtj-input pink-border"
           value={about}
           onChange={(event) => setAbout(event.target.value)}
           placeholder="My Company SA has the vision to change thw way how..."
