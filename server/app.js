@@ -13,6 +13,7 @@ import { client } from "./utils/db.js";
 import authRouter from "./apps/auth.js";
 import postRouter from "./apps/posts.js";
 import jobRouter from "./apps/jobs.js";
+import profileRouter from "./apps/updatedProfile.js";
 
 // --------------------------------------------------------
 
@@ -41,6 +42,8 @@ async function init() {
   app.use("/auth", authRouter);
   app.use("/posts", postRouter);
   app.use("/jobs", jobRouter);
+  app.use("/users", profileRouter);
+  
 
   // response from server -----------------
   app.listen(port, () => {

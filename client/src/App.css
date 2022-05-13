@@ -30,6 +30,7 @@ body {
   /*โครงปุ่มเริ่มต้น (ไม่มีขนาด) */
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: var(--seconary-font);
   font-size: 0.875rem;
   text-transform: uppercase;

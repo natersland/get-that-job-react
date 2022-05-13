@@ -12,6 +12,7 @@ import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
 import ViewJob from "../pages/Recruiter/Viewjob";
 import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
+import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
 import FindJobsPage from "../pages/Professional/FindJobsPage";
 
 export default function UnauthenticatedApp({ userRole }) {
@@ -37,14 +38,15 @@ export default function UnauthenticatedApp({ userRole }) {
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/viewjob" element={<ViewJob />} />
-        <Route
-          path="/update-company-profile"
-          element={<UpdateCompanyProfile />}
+        <Route path="/update-company-profile" element={<UpdateCompanyProfile />}
         />
         {/*Professional Route Start Here*/}
         <Route path="/findjob" element={<FindJobsPage />} />
+        <Route path="/update-personal-profile" element={<UpdatePersonalProfile />} />
+        
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
+    
       </Routes>
     </div>
   );

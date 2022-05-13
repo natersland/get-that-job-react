@@ -56,6 +56,7 @@ import arrowUp from "../../img/arrow-up-s-line.png";
 function ViewJob() {
   const [select, setSelect] = useState("option1");
 
+
   const handleSelectChange = (event) => {
     const value = event.target.value;
     setSelect(value);
@@ -85,6 +86,7 @@ function ViewJob() {
         <RadioForm>
           <RadioForm1>
             <RadioBtn
+            className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="all"
               name="filter"
@@ -101,6 +103,7 @@ function ViewJob() {
 
           <RadioForm1>
             <RadioBtn
+            className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="trackedCandidate"
               name="filter"
@@ -115,6 +118,7 @@ function ViewJob() {
 
           <RadioForm1>
             <RadioBtn
+            className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="closed"
               name="filter"

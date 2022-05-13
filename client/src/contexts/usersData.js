@@ -26,6 +26,7 @@ function UserDataProvider(props) {
   const [companyLogo, setCompanyLogo] = useState({});
   // State for Connecting to Users Database -----------------------------------------
   const [users, setUsers] = useState([]);
+  // State to update profile -----------------------------------
   // Others -----------------------------------------
   const [roleBtn, setRoleBtn] = useState("professional".toLocaleLowerCase());
 
