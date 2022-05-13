@@ -1,41 +1,50 @@
 import styled from "@emotion/styled";
-
+import { useState } from "react";
 // Contexts
 import { useUserData } from "../../contexts/usersData";
+// Components
+import RoleButton from "./RoleButton";
 
 export default function SelectRole() {
-  const { roleBtn, setRoleBtn } = useUserData();
+  const { role, setRole, step, roleBtn, setRoleBtn } = useUserData();
+  const [isActivePro, setIsActivePro] = useState(true);
+  const [isActiveRec, setIsActiveRec] = useState(false);
 
   const selectRoleBTN = () => {
-    if (roleBtn === "professional") {
-      setRoleBtn("recruiter");
+    if (role === "professional") {
+      setRole("recruiter");
+      setIsActivePro(false);
+      setIsActiveRec(true);
+      console.log(role);
     } else {
-      setRoleBtn("professional");
+      setRole("professional");
+      setIsActiveRec(false);
+      setIsActivePro(true);
+      console.log(role);
     }
+    /*     if (roleBtn === "professional") {
+      setRole("professional");
+      setRoleBtn("recruiter");
+      console.log(role);
+    } else {
+      setRole("recruiter");
+      setRoleBtn("professional");
+      console.log(role);
+    } */
   };
+
   return (
     <SelectRoleWrapper>
-      {roleBtn === "professional" ? (
-        <div>
-          {" "}
-          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-            professional
-          </RoleButton>
-          <RoleButton onClick={selectRoleBTN} isSelect={false}>
-            Recruiter
-          </RoleButton>
-        </div>
-      ) : (
-        <div>
-          {" "}
-          <RoleButton onClick={selectRoleBTN} isSelect={false}>
-            professional
-          </RoleButton>
-          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-            Recruiter
-          </RoleButton>
-        </div>
-      )}
+      <RoleButton
+        text="professional"
+        onClick={selectRoleBTN}
+        isSelect={isActivePro}
+      />
+      <RoleButton
+        text="recruiter"
+        onClick={selectRoleBTN}
+        isSelect={isActiveRec}
+      />
     </SelectRoleWrapper>
   );
 }
@@ -43,31 +52,4 @@ export default function SelectRole() {
 // ------------------- CSS Style Component Zone -------------------
 const SelectRoleWrapper = styled.div`
   font-family: var(--seconary-font);
-`;
-
-const RoleButton = styled.button`
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-family: var(--seconary-font);
-  text-decoration: none;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 1.25px;
-  border: 0;
-  cursor: pointer;
-
-  margin-right: 1rem;
-  margin-top: 0.8rem;
-  padding-bottom: 0.5rem;
-
-  border-bottom: ${(props) =>
-    props.isSelect
-      ? "2.5px solid var(--secoundary-brand-color)"
-      : "2.5px solid #BDBDBD"};
-  /*     border-bottom: 2.5px solid var(--secoundary-brand-color);
-    
- */
-
-  color: ${(props) =>
-    props.isSelect ? "var(--primary-text-color)" : "#8E8E8E"};
 `;

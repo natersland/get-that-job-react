@@ -6,9 +6,25 @@ import { useJobsData } from "../../contexts/jobsData";
 import { useUserData } from "../../contexts/usersData";
 
 function FindThatJobHeader() {
-  const { setJobs, searchJobText, setSearchJobText } = useJobsData();
-  const { setUsers } = useUserData();
+  const {
+    setJobs,
+    setUsers,
+    searchJobText,
+    setSearchJobText,
+    searchMinSalaryText,
+    setSearchMinSalaryText,
+    searchMaxSalaryText,
+    setSearchMaxSalaryText,
+    jobCategoryList,
+    setJobCategoryList,
+    jobTypeList,
+    setJobTypeList,
+    jobType,
+    setJobType,
+    getJobs,
+  } = useJobsData();
 
+  /* //Search Job---------------------------------------------
   const searchJob = async () => {
     const results = await axios(
       `http://localhost:4000/jobs?keywords=${searchJobText}`
@@ -19,17 +35,20 @@ function FindThatJobHeader() {
   const handleSearchJobText = (event) => {
     setSearchJobText(event.target.value);
   };
-  useEffect(() => {
-    searchJob();
-    let timer;
 
-    if (searchJobText) {
-      timer = setTimeout(searchJob, 1000);
-    }
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchJobText]);
+  //Search Salary-------------------------------------------------
+  const searchMinSalaryFx = async () => {
+    const results = await axios(
+      `http://localhost:4000/jobs?keywords=${searchMinSalaryText}`
+    );
+    setJobs(results.data.data);
+  };
+
+
+
+  useEffect(() => {
+    getJobs({ jobType, keywords });
+  }, [jobType, keywords]); */
 
   return (
     <Wrapper className="pt-8">
@@ -45,7 +64,7 @@ function FindThatJobHeader() {
             name="searchjobword"
             type="text"
             placeholder="manufacturing, sales, swim"
-            onChange={handleSearchJobText}
+            onChange={() => {}}
             value={searchJobText}
           ></SearchBox>
         </InputWrapper>
@@ -59,11 +78,9 @@ function FindThatJobHeader() {
             <option value="" disabled selected>
               Select a category
             </option>
-            <option>Manufacturing</option>
-            <option>Legal</option>
-            <option>Education</option>
-            <option>Goverment</option>
-            <option>Sales</option>
+            {jobCategoryList.map((items, index) => {
+              return <option key={index}>{items}</option>;
+            })}
           </DropDownList>
         </InputWrapperSection>
         {/* ------------- Box 2: Type ------------- */}
@@ -73,8 +90,9 @@ function FindThatJobHeader() {
             <option value="" disabled selected>
               Select a type
             </option>
-            <option>Full time</option>
-            <option>Part time</option>
+            {jobTypeList.map((items, index) => {
+              return <option key={index}>{items}</option>;
+            })}
           </DropDownList>
         </InputWrapperSection>
         {/* ------------- Box 1: Salary Range ------------- */}

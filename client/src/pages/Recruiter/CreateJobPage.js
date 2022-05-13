@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import moment from "moment";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useRecruiter } from "../../contexts/recruiter";
@@ -28,6 +29,14 @@ function CreateJobPage() {
     setMandatoryReq,
     optionalReq,
     setOptionalReq,
+    createdJobDate,
+    setCreatedJobDate,
+    totalCandidates,
+    setTotalCandidates,
+    candidatesOnTrack,
+    setCandidatesOnTrack,
+    jobsStatus,
+    setJobsStatus,
   } = useJobsData();
   const { createJob } = useRecruiter();
 
@@ -40,7 +49,10 @@ function CreateJobPage() {
   // ---------------------------------------------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
+    setJobsStatus(true);
+    setTotalCandidates(0);
+    setCandidatesOnTrack(0);
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
         jobTitle,
@@ -51,6 +63,10 @@ function CreateJobPage() {
         aboutJob,
         mandatoryReq,
         optionalReq,
+        createdJobDate,
+        totalCandidates,
+        candidatesOnTrack,
+        jobsStatus,
       };
       createJob(data);
 

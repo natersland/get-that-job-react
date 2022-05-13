@@ -5,59 +5,43 @@ import { db } from "../utils/db.js";
 const jobRouter = Router();
 
 /* jobRouter.get("/", async (req, res) => {
-  const keywords = req.query.keywords;
-  const filterKeywords = keywords.split(" ").join("|");
-  const regex = new RegExp(filterKeywords, "ig");
-  const results = jobs.filter((job) => {
-    return job.jobTitle.match(regex) || job.companyName.math(regex);
-  });
-
-  const collection = db.collection("jobs");
-  const jobResults = await collection.find(query).toArray();
-
-  if (!hasFound) {
-    return res.status(404).json({
-      messsage: `not found`,
-    });
-  } else {
-    return res.json({
-      data: results,
-    });
-  }
-}); */
-
-/* jobRouter.get("/", async (req, res) => {
   const jobTitle = req.query.jobTitle;
-  const companyName = req.query.companyName;
+  const companyName = req.query.comapanyName;
+  const jobType = req.body.jobType;
+  const minSalary = req.body.minSalary;
+  const maxSalary = req.body.minSalary;
   const keywords = req.query.keywords;
 
   const query = {};
-
-  if (jobTitle) {
-    query.jobTitle = jobTitle;
-  } else if (companyName) {
-    query.companyName = companyName;
-  } else if (keywords) {
-    query.jobtitle = new RegExp(`${keywords}`, "i");
-  }
-
-  const collection = db.collection("jobs");
-  const results = await collection.find(query).toArray();
-
-  return res.json({
-    data: results,
-  });
-}); */
-jobRouter.get("/", async (req, res) => {
-  const jobTitle = req.query.jobTitle;
-  const keywords = req.query.keywords;
-
-  const query = {};
-
+  // Search Title
   if (jobTitle) {
     query.jobTitle = jobTitle;
   } else if (keywords) {
     query.jobTitle = new RegExp(`${keywords}`, "i");
+  }
+  // Search Company
+  else if (companyName) {
+    query.companyName = companyName;
+  } else if (keywords) {
+    query.companyName = new RegExp(`${keywords}`, "i");
+  }
+  // Search Job Type
+  else if (jobType) {
+    query.jobType = jobType;
+  } else if (keywords) {
+    query.jobType = new RegExp(`${keywords}`, "i");
+  }
+  // Search min salary
+  else if (minSalary) {
+    query.minSalary = minSalary;
+  } else if (keywords) {
+    query.minSalary = new RegExp(`${keywords}`, "i");
+  }
+  // Search max salary
+  else if (maxSalary) {
+    query.maxSalary = maxSalary;
+  } else if (keywords) {
+    query.maxSalary = new RegExp(`${keywords}`, "i");
   }
 
   const collection = db.collection("jobs");
@@ -66,6 +50,50 @@ jobRouter.get("/", async (req, res) => {
   return res.json({
     data: jobs,
   });
+}); */
+jobRouter.get("/", async (req, res) => {
+  const jobTitle = req.query.jobTitle;
+  const companyName = req.query.comapanyName;
+  const jobType = req.body.jobType;
+  const minSalary = req.body.minSalary;
+  const maxSalary = req.body.minSalary;
+  const keywords = req.query.keywords;
+
+  const query = {};
+  // Search Title
+
+  const collection = db.collection("jobs");
+  const jobs = await collection.find(query).toArray();
+
+  return res.json({
+    data: jobs,
+  });
 });
+
+jobRouter.get("/:id", async (req, res) => {
+  const jobId = ObjectId(req.params.id);
+  const collection = db.collection("jobs");
+  const job = await collection.find({ _id: jobId }).toArray();
+  return res.json({
+    data: job[0],
+  });
+});
+
+/* jobRouter.get("/", (req, res) => {
+  const keywords = req.query.keywords;
+  const regexKeywords = keywords.split(" ").join("|");
+  const regex = new RegExp(regexKeywords, "ig");
+  const results = jobs.filter(() => {
+    return (
+      .title.match(regex) ||
+      .description.match(regex) ||
+      .tags.filter((tag) => tag.match(regex)).length
+    );
+  });
+
+  return res.json({
+    data: results,
+  });
+}); */
 
 export default jobRouter;

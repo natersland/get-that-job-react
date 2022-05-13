@@ -27,10 +27,10 @@ function AuthProvider(props) {
 
   // register the user -------------------------------------------------
   const register = async (data) => {
-    await axios.post("http://127.0.0.1:4000/auth/register", data, {
+    await axios.post("http://localhost:4000/auth/register", data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    navigate("/findthatjob");
+    navigate("/findjob");
   };
 
   // clear the token in localStorage and the user data -------------------------------------------------

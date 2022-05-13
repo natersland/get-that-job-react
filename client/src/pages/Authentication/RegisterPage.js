@@ -7,11 +7,12 @@ import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 // Components
-import ProRegisterForm1 from "../../components/UnAut-Register/PRO-RegisterForm-1";
+/* import ProRegisterForm1 from "../../components/UnAut-Register/PRO-RegisterForm-1";
 import ProRegisterForm2 from "../../components/UnAut-Register/PRO-RegisterForm-2";
-import ProRegisterForm3 from "../../components/UnAut-Register/PRO-RegisterForm-3";
+import ProRegisterForm3 from "../../components/UnAut-Register/PRO-RegisterForm-3"; */
+import MainRegisterForm from "../../components/UnAut-Register/MainRegisterForm";
 import SelectRole from "../../components/UnAut-Register/SelectRole";
-
+import AlertNotification from "../../components/Utilities/AlertNotification";
 class ArrowRight extends React.Component {
   render() {
     return <AiOutlineRight />;
@@ -23,98 +24,90 @@ class ArrowLeft extends React.Component {
   }
 }
 
-function RegisterProfessionalPage() {
+function RegisterPage() {
   const {
+    // state for professional
     email,
-    setEmail,
     password,
-    setPassword,
     passwordConfirmed,
-    setPasswordConfirmed,
     name,
-    setName,
     phone,
-    setPhone,
     birthDate,
-    setBirthDate,
     linkedin,
-    setLinkedin,
     title,
-    setTitle,
     experience,
-    setExperience,
     education,
-    setEducation,
     uploadFiles,
-    setUploadFiles,
     role,
     setRole,
+    userFollowJobs,
+    // State for recruiter
+    companyName,
+    companyWebsite,
+    about,
+    companyLogo,
+    // State for vadilate
+    step,
+    setStep,
+    isErrorEmail,
+    isErrorPassword,
+    nextFormPasswordChecker,
   } = useUserData();
 
-  const [step, setStep] = useState(0);
-
-  const StepDisplay = () => {
+  /*   const StepDisplay = () => {
     if (step === 0) {
-      return (
-        <ProRegisterForm1
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          passwordConfirmed={passwordConfirmed}
-          setPasswordConfirmed={setPasswordConfirmed}
-        />
-      );
+      return <ProRegisterForm1 />;
     } else if (step === 1) {
-      return (
-        <ProRegisterForm2
-          name={name}
-          setName={setName}
-          phone={phone}
-          setPhone={setPhone}
-          birthDate={birthDate}
-          setBirthDate={setBirthDate}
-          linkedin={linkedin}
-          setLinkin={setLinkedin}
-        />
-      );
+      return <ProRegisterForm2 />;
     } else if (step === 2) {
-      return (
-        <ProRegisterForm3
-          title={title}
-          setTitle={setTitle}
-          experience={experience}
-          setExperience={setExperience}
-          education={education}
-          setEducation={setEducation}
-          uploadFiles={uploadFiles}
-          setUploadFiles={setUploadFiles}
-        />
-      );
+      return <ProRegisterForm3 />;
     }
   };
-
+ */
   const { register } = useAuth();
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (role === "professional") {
+      setRole("professional");
+      const formData = new FormData();
 
-    const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("passwaordConfirmed", passwordConfirmed);
+      formData.append("role", role);
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("birthDate", birthDate);
+      formData.append("linkedin", linkedin);
+      formData.append("title", title);
+      formData.append("experience", experience);
+      formData.append("education", education);
+      formData.append("userFollowJobs", userFollowJobs);
 
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("passwaordConfirmed", passwordConfirmed);
-    formData.append("name", name);
-    formData.append("phone", phone);
-    formData.append("birthDate", birthDate);
-    formData.append("linkedin", linkedin);
-    formData.append("title", title);
-    formData.append("experience", experience);
-    formData.append("education", education);
+      for (let uploadFileKey in uploadFiles) {
+        formData.append("cvFile", uploadFiles[uploadFileKey]);
+      }
+      register(formData);
+    } else if (role === "recruiter") {
+      setRole("recruiter");
+      const formData = new FormData();
 
-    for (let uploadFileKey in uploadFiles) {
-      formData.append("uploadFile", uploadFiles[uploadFileKey]);
+      formData.append("companyName", companyName);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("role", role);
+      formData.append("companyWebsite", companyWebsite);
+      formData.append("about", about);
+      formData.append("companyLogo", companyLogo);
+
+      for (let uploadFileKey in uploadFiles) {
+        formData.append("logoFile", uploadFiles[uploadFileKey]);
+      }
+      register(formData);
     }
-    register(formData);
+    setStep(0);
+    console.log(role);
   };
 
   return (
@@ -234,7 +227,16 @@ function RegisterProfessionalPage() {
                   </div>
                 </Step>
               </StepBox>
-              <div>{StepDisplay()}</div>
+              {/*แจ้งเตือนเมื่อ user ไม่ใส่ email*/}
+              {isErrorEmail ? (
+                <AlertNotification text="Please enter valid email address" />
+              ) : null}
+              {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password*/}
+              {isErrorPassword ? (
+                <AlertNotification text="Please verify and re-enter your password" />
+              ) : null}
+
+              <MainRegisterForm userRole={role} />
 
               <ButtonWrapper>
                 {step === 0 || step === 1 ? null : (
@@ -261,7 +263,7 @@ function RegisterProfessionalPage() {
                     className="btn btn-md btn-pink"
                     type="button" //ถ้า button อยู่ใน form ใช้อันนี้ค่าาา เพราะ default = submit
                     onClick={() => {
-                      setStep((currentPage) => currentPage + 1);
+                      nextFormPasswordChecker(role);
                     }}
                   >
                     {" "}
@@ -531,4 +533,4 @@ const PreviousButton = styled.button`
   cursor: pointer;
 `;
 
-export default RegisterProfessionalPage;
+export default RegisterPage;

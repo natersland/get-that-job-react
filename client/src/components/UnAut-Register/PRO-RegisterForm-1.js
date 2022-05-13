@@ -25,7 +25,6 @@ function ProRegisterForm1() {
           type="email"
           placeholder="some.user@mail.com"
           onChange={(event) => setEmail(event.target.value)}
-          required
           value={email}
         />
       </Container>
@@ -39,7 +38,6 @@ function ProRegisterForm1() {
           onChange={(event) => {
             setPassword(event.target.value);
           }}
-          required
           value={password}
         />
       </Container>
@@ -53,7 +51,6 @@ function ProRegisterForm1() {
           onChange={(event) => {
             setPasswordConfirmed(event.target.value);
           }}
-          required
           value={passwordConfirmed}
         />
       </Container>

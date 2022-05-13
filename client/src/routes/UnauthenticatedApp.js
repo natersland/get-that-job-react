@@ -6,8 +6,7 @@ import NavBar from "../components/Utilities/Navbar";
 import LoginPage from "../pages/Authentication/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import HomePage from "../pages/HomePage";
-import RegisterRecruiterPage from "../pages/Authentication/RegisterRecruiterPage";
-import RegisterProfessionalPage from "../pages/Authentication/RegisterProfessionalPage";
+import RegisterPage from "../pages/Authentication/RegisterPage";
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import ComponentIndex from "../components/ComponentIndex";
 import ViewJob from "../pages/Recruiter/Viewjob";
@@ -23,17 +22,10 @@ export default function UnauthenticatedApp({ userRole }) {
       {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter" / "professional"*/}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<RegisterProfessionalPage />} />
-        <Route
-          path="/register/professional"
-          element={<RegisterProfessionalPage />}
-        />
-        <Route path="/register/recruiter" element={<RegisterRecruiterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
-        {/*Professional Route Start Here*/}
-        <Route path="/findjob" element={<FindJobsPage />} />
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/viewjob" element={<ViewJob />} />

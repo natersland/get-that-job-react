@@ -18,6 +18,7 @@ export default function AuthenticatedApp({ userRole }) {
         ) : (
           <Route path="/" element={<CreateJobPage />}></Route>
         )}
+
         <Route path="*" element={<NotFoundPage />}></Route>
         <Route path="/components" element={<ComponentIndex />} />
       </Routes>

@@ -18,25 +18,64 @@ function JobsDataProvider(props) {
 
   // Others Data -----------------------------------------
   const [createdJobDate, setCreatedJobDate] = useState("");
-  const [totalCandidates, setTotalCandidates] = useState("");
-  const [candidatesOnTrack, setCandidatesOnTrack] = useState("");
-  const [jobsStatus, setJobsStatus] = useState("");
+  const [totalCandidates, setTotalCandidates] = useState(0);
+  const [candidatesOnTrack, setCandidatesOnTrack] = useState(0);
+  const [jobsStatus, setJobsStatus] = useState(null);
 
   // Connecting to Jobs Database & Searchbox ---------------------
   const [jobs, setJobs] = useState([]);
   const [searchJobText, setSearchJobText] = useState("");
+  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
+  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-
-  const getJobs = async (input) => {
-    const { jobTitle, keywords } = input;
+  // State only for Filter Job Feature -------------------------------
+  const [jobCategoryList, setJobCategoryList] = useState([
+    "Manufacturing",
+    "Legal",
+    "Education",
+    "Government",
+    "Sales",
+  ]);
+  const [jobTypeList, setJobTypeList] = useState(["Full Time", "Part Time"]);
+  /* const getJobs = async (input) => {
+    const { jobTitle, keywords, jobType } = input;
     try {
       const params = new URLSearchParams();
       params.append("jobTitle", jobTitle);
+      params.append("jobType", jobType);
       params.append("keywords", keywords);
       setIsError(false);
       setIsLoading(true);
-      const results = await axios.get(`http://localhost:4000/jobs`);
+      const results = await axios.get(
+        `http://localhost:4000/posts?${params.toString()}`
+      );
+      console.log(results);
+      setJobs(results.data.data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+    return {
+      jobs,
+      isError,
+      isLoading,
+    };
+  }; */
+
+  const getJobs = async (select) => {
+    const { jobTitle, companyName, jobType, maxSalary, minSalary } = select;
+    try {
+      const params = new URLSearchParams();
+      params.append("jobTitle", jobTitle);
+      params.append("companyName", companyName);
+      params.append("jobType", jobType);
+      params.append("minSalary", minSalary);
+      params.append("maxSalary", maxSalary);
+      setIsError(false);
+      setIsLoading(true);
+      const results = await axios.get(`http://localhost:4000/jobs?`);
       console.log(results);
       setJobs(results.data.data);
       setIsLoading(false);
@@ -86,7 +125,17 @@ function JobsDataProvider(props) {
         setJobs,
         searchJobText,
         setSearchJobText,
+        searchMinSalaryText,
+        setSearchMinSalaryText,
+        searchMaxSalaryText,
+        setSearchMaxSalaryText,
+
         getJobs,
+        // State only for Filter Job Feature -------------------------------
+        jobCategoryList,
+        setJobCategoryList,
+        jobTypeList,
+        setJobTypeList,
       }}
     >
       {props.children}

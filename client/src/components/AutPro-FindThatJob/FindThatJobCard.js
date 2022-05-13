@@ -16,14 +16,10 @@ import { useJobsData } from "../../contexts/jobsData";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //
 function FindThatJobCard() {
-  const { jobs, setJobs, searchJobText, setSearchJobText /* getJobs */ } =
+  const { jobs, setJobs, searchJobText, setSearchJobText, getJobs } =
     useJobsData();
   const { textUpperCase } = UtilitiesFunction();
 
-  /* useEffect(() => {
-    getJobs({ jobs });
-  }); */
-  /*   getJobs({ jobs }); */
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
@@ -57,7 +53,12 @@ function FindThatJobCard() {
                       <span className="mr-1">
                         <img src={DollarLineIcon} alt="DollarIcon" />
                       </span>
-                      {newMinNumber.toFixed(1)}k - {newMaxNumber.toFixed(1)}k
+                      {minSalary < 100
+                        ? `${minSalary}$ - `
+                        : `${newMinNumber.toFixed(1)}k - `}
+                      {maxSalary < 100
+                        ? `${maxSalary}$`
+                        : `${newMaxNumber.toFixed(1)}k`}
                     </Salary>
                   </SubContentWrapper>
                 </ContentRight>
