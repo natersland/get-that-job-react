@@ -18,7 +18,8 @@ export default function AuthenticatedApp({ userRole }) {
         ) : (
           <Route path="/" element={<CreateJobPage />}></Route>
         )}
-
+        {/*Professional Route Start Here*/}
+        <Route path="/findjob" element={<FindJobsPage />} />
         <Route path="*" element={<NotFoundPage />}></Route>
         <Route path="/components" element={<ComponentIndex />} />
       </Routes>

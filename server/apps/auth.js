@@ -33,6 +33,7 @@ authRouter.post("/register", uploadFile, async (req, res) => {
       title: req.body.title,
       experience: req.body.experience,
       education: req.body.education,
+      userAppiedJobs: req.body.userAppiedJobs,
       userFollowJobs: req.body.userFollowJobs,
     };
     // Upload Files ----------------------------------------

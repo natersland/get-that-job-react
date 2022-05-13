@@ -30,7 +30,6 @@ function RecRegisterForm1() {
           onChange={(event) => setCompanyName(event.target.value)}
           placeholder="My Company S.A"
           id="companyName"
-          required
         />{" "}
         <br />
         <Label> EMAIL </Label>
@@ -44,7 +43,6 @@ function RecRegisterForm1() {
           id="email"
           rows={4}
           cols={30}
-          required
         />{" "}
         <br />
         <Label> PASSWORD </Label>
@@ -58,7 +56,6 @@ function RecRegisterForm1() {
           id="password"
           rows={4}
           cols={30}
-          required
         />{" "}
         <br />
         <Label> PASSWORD CONFIRMATION </Label>
@@ -72,7 +69,6 @@ function RecRegisterForm1() {
           type="password"
           rows={4}
           cols={30}
-          required
         />
       </div>
     </Wrapper>

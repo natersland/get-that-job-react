@@ -22,7 +22,7 @@ function AuthProvider(props) {
     const userDataFromToken = jwtDecode(token);
     setState({ ...state, user: userDataFromToken });
 
-    navigate("/");
+    navigate("/findjob");
   };
 
   // register the user -------------------------------------------------

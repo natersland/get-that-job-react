@@ -7,7 +7,7 @@ function UserDataProvider(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmed, setPasswordConfirmed] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("professional");
   // State Only for Professional -----------------------------------------
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -33,46 +33,6 @@ function UserDataProvider(props) {
   const [step, setStep] = useState(0);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
-
-  const nextFormPasswordChecker = (userRole) => {
-    // if input is blank
-    if (password === "" || email === "") {
-      if (password === "") {
-        setIsErrorPassword(true);
-      } else if (email === "") {
-        setIsErrorEmail(true);
-      }
-    } else {
-      if (!password === "") {
-        setIsErrorPassword(false);
-      } else if (!email === "") {
-        setIsErrorEmail(true);
-      }
-    }
-    //  if email is not validattion
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-      setIsErrorEmail(true);
-    } else {
-      setIsErrorEmail(false);
-    }
-    // if password is not correct
-    if (password !== passwordConfirmed) {
-      setIsErrorPassword(true);
-    } else if (password === passwordConfirmed) {
-      setIsErrorPassword(false);
-    }
-    // if all correct
-    if (
-      password === passwordConfirmed &&
-      password !== "" &&
-      email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
-    ) {
-      setIsErrorEmail(false);
-      setIsErrorPassword(false);
-      setRole(userRole);
-      setStep(step + 1);
-    }
-  };
 
   return (
     <UsersDataContext.Provider
@@ -130,7 +90,6 @@ function UserDataProvider(props) {
         setIsErrorEmail,
         isErrorPassword,
         setIsErrorPassword,
-        nextFormPasswordChecker,
       }}
     >
       {props.children}

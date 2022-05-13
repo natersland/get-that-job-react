@@ -16,8 +16,7 @@ import FindJobsPage from "../pages/Professional/FindJobsPage";
 export default function UnauthenticatedApp({ userRole }) {
   return (
     <div className="App">
-      {/*       <Navbar />
-       */}
+      <NavBar />
       <Sidebar barRole="professional" />{" "}
       {/*สลับ sidebar ไปอีกโหมดให้ใส่ "recruiter" / "professional"*/}
       <Routes>
@@ -33,8 +32,6 @@ export default function UnauthenticatedApp({ userRole }) {
           path="/update-company-profile"
           element={<UpdateCompanyProfile />}
         />
-        {/*Professional Route Start Here*/}
-        <Route path="/findjob" element={<FindJobsPage />} />
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
       </Routes>

@@ -1,70 +1,67 @@
-import React, { useState } from "react";
 import styled from "@emotion/styled";
 // Images
 import image from "../../img/discussing.png";
-import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 //Contexts
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 // Components
-/* import ProRegisterForm1 from "../../components/UnAut-Register/PRO-RegisterForm-1";
-import ProRegisterForm2 from "../../components/UnAut-Register/PRO-RegisterForm-2";
-import ProRegisterForm3 from "../../components/UnAut-Register/PRO-RegisterForm-3"; */
 import MainRegisterForm from "../../components/UnAut-Register/MainRegisterForm";
 import SelectRole from "../../components/UnAut-Register/SelectRole";
 import AlertNotification from "../../components/Utilities/AlertNotification";
-class ArrowRight extends React.Component {
-  render() {
-    return <AiOutlineRight />;
-  }
-}
-class ArrowLeft extends React.Component {
-  render() {
-    return <AiOutlineLeft />;
-  }
-}
-
+import RoleStepsBox from "../../components/UnAut-Register/RoleStepsBox";
+import RegFormButton from "../../components/UnAut-Register/RegFormButton";
 function RegisterPage() {
   const {
-    // state for professional
+    // Shared state between Professional & Recruiter -----------------------------------------
     email,
+    setEmail,
     password,
+    setPassword,
     passwordConfirmed,
-    name,
-    phone,
-    birthDate,
-    linkedin,
-    title,
-    experience,
-    education,
-    uploadFiles,
+    setPasswordConfirmed,
     role,
     setRole,
+    // State Only for Professional -----------------------------------------
+    name,
+    setName,
+    phone,
+    setPhone,
+    birthDate,
+    setBirthDate,
+    linkedin,
+    setLinkedin,
+    title,
+    setTitle,
+    experience,
+    setExperience,
+    education,
+    setEducation,
+    uploadFiles,
+    setUploadFiles,
+    userAppiedJobs,
     userFollowJobs,
-    // State for recruiter
+    // State Only for Recruiter -----------------------------------------
     companyName,
+    setCompanyName,
     companyWebsite,
+    setCompanyWebsite,
     about,
+    setAbout,
     companyLogo,
-    // State for vadilate
+    setCompanyLogo,
+    // Others -------------------------------------
+    setRoleBtn,
+    // This Zone is for Register form vadilate only -------------------------------------
     step,
     setStep,
     isErrorEmail,
+    setIsErrorEmail,
     isErrorPassword,
+    setIsErrorPassword,
     nextFormPasswordChecker,
   } = useUserData();
 
-  /*   const StepDisplay = () => {
-    if (step === 0) {
-      return <ProRegisterForm1 />;
-    } else if (step === 1) {
-      return <ProRegisterForm2 />;
-    } else if (step === 2) {
-      return <ProRegisterForm3 />;
-    }
-  };
- */
-  const { register } = useAuth();
+  const { register, login } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -83,12 +80,29 @@ function RegisterPage() {
       formData.append("title", title);
       formData.append("experience", experience);
       formData.append("education", education);
+      formData.append("userAppiedJobs", userAppiedJobs);
       formData.append("userFollowJobs", userFollowJobs);
 
       for (let uploadFileKey in uploadFiles) {
         formData.append("cvFile", uploadFiles[uploadFileKey]);
       }
       register(formData);
+      /*       login({
+        email,
+        password,
+      }); */
+      setEmail("");
+      setPassword("");
+      setPasswordConfirmed("");
+      setRole("");
+      setName("");
+      setPhone("");
+      setBirthDate("");
+      setLinkedin("");
+      setTitle("");
+      setExperience("");
+      setEducation("");
+      setUploadFiles("");
     } else if (role === "recruiter") {
       setRole("recruiter");
       const formData = new FormData();
@@ -105,9 +119,19 @@ function RegisterPage() {
         formData.append("logoFile", uploadFiles[uploadFileKey]);
       }
       register(formData);
+      /*       login({
+        email,
+        password,
+      }); */
+      setCompanyName("");
+      setCompanyWebsite("");
+      setAbout("");
+      setCompanyLogo("");
     }
+
     setStep(0);
-    console.log(role);
+    setRoleBtn("professional");
+    setRole("professional");
   };
 
   return (
@@ -122,111 +146,15 @@ function RegisterPage() {
             <Progressbar>
               <Title>Good choice!</Title>
               <Caption className="mb-4">Create a new account as...</Caption>
+              <h1>{`Current Role is: ${role}`}</h1>
+              <h1>{`Current Step is: ${step}`}</h1>
               <SelectRole />
-              <StepBox className="mt-8">
-                <Step>
-                  <StepLeft>
-                    {step === 1 || step === 2 ? (
-                      <DoneStep>
-                        <StepNumber>1</StepNumber>
-                      </DoneStep>
-                    ) : (
-                      <CurrentStep>
-                        <StepNumber>1</StepNumber>
-                      </CurrentStep>
-                    )}
-                  </StepLeft>
-                  <div>
-                    {step === 0 ? (
-                      <InProgress>IN PROGRESS</InProgress>
-                    ) : (
-                      <Done>DONE!</Done>
-                    )}
-                    <DoneStepDetail>
-                      Login <br />
-                      Information
-                    </DoneStepDetail>
-                  </div>
-                </Step>
-                <Step>
-                  <StepLeft>
-                    {step === 0 ? (
-                      <NextStep>
-                        <StepNumber>2</StepNumber>
-                      </NextStep>
-                    ) : null || step === 1 ? (
-                      <CurrentStep>
-                        <StepNumber>2</StepNumber>
-                      </CurrentStep>
-                    ) : null || step === 2 ? (
-                      <DoneStep>
-                        <StepNumber>2</StepNumber>
-                      </DoneStep>
-                    ) : (
-                      <DoneStep>
-                        <StepNumber>2</StepNumber>
-                      </DoneStep>
-                    )}
-                  </StepLeft>
-                  <div>
-                    {step === 0 ? (
-                      <Pending>PENDING</Pending>
-                    ) : null || step === 1 ? (
-                      <InProgress>IN PROGRESS</InProgress>
-                    ) : null || step === 2 ? (
-                      <Done>DONE!</Done>
-                    ) : (
-                      <Done>DONE!</Done>
-                    )}
-                    {step === 0 ? (
-                      <PendingStepDetail>
-                        Personal
-                        <br />
-                        information
-                      </PendingStepDetail>
-                    ) : (
-                      <DoneStepDetail>
-                        Personal
-                        <br />
-                        information
-                      </DoneStepDetail>
-                    )}
-                  </div>
-                </Step>
-                <Step>
-                  <StepLeft>
-                    {step === 2 ? (
-                      <CurrentStep>
-                        <StepNumber>3</StepNumber>
-                      </CurrentStep>
-                    ) : (
-                      <NextStep>
-                        <StepNumber>3</StepNumber>
-                      </NextStep>
-                    )}
-                  </StepLeft>
-                  <div>
-                    {step === 0 || step === 1 ? (
-                      <Pending>PENDING</Pending>
-                    ) : (
-                      <InProgress>IN PROGRESS</InProgress>
-                    )}
-                    {step === 0 || step === 1 ? (
-                      <PendingStepDetail>
-                        Professional
-                        <br />
-                        information
-                      </PendingStepDetail>
-                    ) : (
-                      <DoneStepDetail>
-                        Professional
-                        <br />
-                        information
-                      </DoneStepDetail>
-                    )}
-                  </div>
-                </Step>
-              </StepBox>
+              {role === "professional" ? (
+                <RoleStepsBox userRole={"Personal"} />
+              ) : (
+                <RoleStepsBox userRole={"Company"} />
+              )}
+
               {/*แจ้งเตือนเมื่อ user ไม่ใส่ email*/}
               {isErrorEmail ? (
                 <AlertNotification text="Please enter valid email address" />
@@ -237,51 +165,7 @@ function RegisterPage() {
               ) : null}
 
               <MainRegisterForm userRole={role} />
-
-              <ButtonWrapper>
-                {step === 0 || step === 1 ? null : (
-                  <button
-                    className="btn btn-md btn-pink"
-                    onClick={() => {
-                      setStep((currentPage) => currentPage - 1);
-                    }}
-                  >
-                    <ArrowLeft /> PREVIOUS
-                  </button>
-                )}
-                {step === 0 ? null : (
-                  <button
-                    className="btn btn-md btn-white pink-border"
-                    form="register-form"
-                    type="submit"
-                  >
-                    SKIP THIS!
-                  </button>
-                )}
-                {step === 0 || step === 1 ? (
-                  <button
-                    className="btn btn-md btn-pink"
-                    type="button" //ถ้า button อยู่ใน form ใช้อันนี้ค่าาา เพราะ default = submit
-                    onClick={() => {
-                      nextFormPasswordChecker(role);
-                    }}
-                  >
-                    {" "}
-                    NEXT <ArrowRight />
-                  </button>
-                ) : null}
-
-                {step === 0 || step === 1 ? null : (
-                  <button
-                    className="btn btn-md btn-pink"
-                    form="register-form"
-                    type="submit"
-                  >
-                    {" "}
-                    FINISH <ArrowRight />
-                  </button>
-                )}
-              </ButtonWrapper>
+              <RegFormButton />
             </Progressbar>
           </Detail>
         </form>
@@ -350,118 +234,6 @@ const RightBox = styled.div`
   align-items: end;
 `;
 
-const Role = styled.h3`
-  margin-right: 6px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  font-family: var(--primary-font);
-  color: var(--primary-text-color);
-  font-weight: 500;
-  font-size: 14px;
-`;
-
-const StepBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
-`;
-
-const InProgress = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  letter-spacing: 1.5px;
-`;
-
-const Done = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  letter-spacing: 1.5px;
-`;
-
-const Pending = styled.div`
-  font-size: 10px;
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  color: #8e8e8e;
-  letter-spacing: 1.5px;
-`;
-
-const Step = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 25%;
-`;
-
-const StepLeft = styled.div``;
-
-const PendingStepDetail = styled.div`
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  font-weight: 400;
-  color: #8e8e8e;
-`;
-
-const DoneStepDetail = styled.div`
-  font-family: var(--secondary-font);
-  color: var(--primary-text-color);
-  font-weight: 400;
-  color: #616161;
-`;
-
-const CurrentStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-bottom: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: var(--secoundary-brand-color);
-`;
-
-const NextStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-bottom: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: #e1e2e1;
-`;
-
-const DoneStep = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 62px;
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  margin-top: 0px;
-  font-family: var(--primary-font);
-  color: white;
-  font-weight: 500;
-  font-size: 20px;
-  background-color: #616161;
-`;
-
-const StepNumber = styled.p`
-  margin-bottom: 0;
-`;
-
 const GirlImage = styled.img`
   width: 120%;
 `;
@@ -470,12 +242,7 @@ const BorderImage = styled.div`
   width: 435px;
 `;
 
-const ButtonWrapper = styled.div`
-  width: 360px;
-  display: flex;
-  justify-content: space-evenly;
-`;
-
+/* 
 const NextPageButton = styled.button`
   width: 106px;
   height: 40px;
@@ -531,6 +298,6 @@ const PreviousButton = styled.button`
   font-family: var(--secondary-font);
   background-color: var(--secoundary-brand-color);
   cursor: pointer;
-`;
+`; */
 
 export default RegisterPage;

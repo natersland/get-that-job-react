@@ -13,7 +13,6 @@ import { useUserData } from "../../contexts/usersData";
 // components
 import RecRegisterForm1 from "../../components/UnAut-Register/REC-RegisterFrom-1";
 import RecRegisterForm2 from "../../components/UnAut-Register/REC-RegisterFrom-2";
-import AlertNotification from "../../components/Utilities/AlertNotification";
 
 class Question extends React.Component {
   render() {
@@ -24,28 +23,48 @@ class Question extends React.Component {
 function RegisterRecruiterPage() {
   const {
     companyName,
+    setCompanyName,
     email,
+    setEmail,
     password,
-    role,
-    setRole,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
     companyWebsite,
+    setCompanyWebsite,
     about,
-    companyLogo,
-    step,
-    setStep,
-    isErrorEmail,
-    setIsErrorEmail,
-    isErrorPassword,
-    setIsErrorPassword,
-    nextFormPasswordChecker,
-    uploadFiles,
+    setAbout,
+    uploadFile,
+    setUploadFile,
   } = useUserData();
+
+  const [step, setStep] = useState(0);
 
   const StepDisplay = () => {
     if (step === 0) {
-      return <RecRegisterForm1 />;
+      return (
+        <RecRegisterForm1
+          companyName={companyName}
+          setCompanyName={setCompanyName}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+        />
+      );
     } else if (step === 1) {
-      return <RecRegisterForm2 />;
+      return (
+        <RecRegisterForm2
+          companyWebsite={companyWebsite}
+          setCompanyWebsite={setCompanyWebsite}
+          about={about}
+          setAbout={setAbout}
+          uploadFile={uploadFile}
+          setUploadFile={setUploadFile}
+        />
+      );
     } else {
       return "find that job";
     }
@@ -55,19 +74,20 @@ function RegisterRecruiterPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setRole("recruiter");
     const formData = new FormData();
 
     formData.append("companyName", companyName);
     formData.append("email", email);
     formData.append("password", password);
-    formData.append("role", role);
     formData.append("companyWebsite", companyWebsite);
     formData.append("about", about);
-    formData.append("companyLogo", companyLogo);
+    /* formData.append("uploadFile",uploadFile) */
 
-    for (let uploadFileKey in uploadFiles) {
-      formData.append("logoFile", uploadFiles[uploadFileKey]);
+    /* for (let logoFileKey in logoFiles) {
+    formData.append("logo", logoFiles[logoFileKey])
+    } */
+    for (let uploadFileKey in uploadFile) {
+      formData.append("logo", uploadFile[uploadFileKey]);
     }
     register(formData);
   };
@@ -148,14 +168,6 @@ function RegisterRecruiterPage() {
                   </StepLeft>
                 )}
               </StepBox>
-              {/*แจ้งเตือนเมื่อ user ไม่ใส่ email*/}
-              {isErrorEmail ? (
-                <AlertNotification text="Please enter valid email address" />
-              ) : null}
-              {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password*/}
-              {isErrorPassword ? (
-                <AlertNotification text="Please verify and re-enter your password" />
-              ) : null}
 
               <div>{StepDisplay()}</div>
 
@@ -183,7 +195,7 @@ function RegisterRecruiterPage() {
               form="register-form"
               type="submit"
               onClick={() => {
-                nextFormPasswordChecker("recruiter");
+                setStep((currentPage) => currentPage + 1);
               }}
             >
               NEXT <Question />

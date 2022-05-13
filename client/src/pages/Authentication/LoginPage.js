@@ -9,12 +9,10 @@ import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
 
 export default function LoginPage() {
-  const { roleBtn, setRoleBtn } = useUserData();
+  const { setStep, role } = useUserData();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
-
-  console.log(`🎈Login Current Role is ${roleBtn}`);
 
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
@@ -27,13 +25,15 @@ export default function LoginPage() {
 
   return (
     <WrapperLogin>
+      {setStep(0)}
       <WrapperLoginLeft>
         <LoginZoneWrapper>
           <LoginIntroduction>
             <LoginHeaderText>Welcome back</LoginHeaderText>
             <LoginIntroText>Login to you account as...</LoginIntroText>
+            <h1>{`Current Role is ${role}`}</h1>
           </LoginIntroduction>
-          <SelectRole roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
+          <SelectRole />
           <LoginFormWrapper onSubmit={handleSubmit}>
             <InputWrapper>
               EMAIL
