@@ -27,6 +27,7 @@ function JobsDataProvider(props) {
   const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
+  const [keywords, setKeywords] = useState("");
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   // State only for Filter Job Feature -------------------------------
@@ -41,14 +42,12 @@ function JobsDataProvider(props) {
 
   // Get Data for mapping in Find that Job Page ----------------------------------------
   const getJobs = async (select) => {
-    const { jobTitle, companyName, jobType, maxSalary, minSalary } = select;
+    const { jobTitle, keywords, searchJobText } = select;
     try {
       const params = new URLSearchParams();
       params.append("jobTitle", jobTitle);
-      params.append("companyName", companyName);
-      params.append("jobType", jobType);
-      params.append("minSalary", minSalary);
-      params.append("maxSalary", maxSalary);
+      params.append("keywords", keywords);
+      params.append("searchJobText", searchJobText);
       setIsError(false);
       setIsLoading(true);
       const results = await axios.get(`http://localhost:4000/jobs?`);
@@ -66,32 +65,26 @@ function JobsDataProvider(props) {
     };
   };
 
-  /*   const getJobs = async (input) => {
-    const { jobTitle, keywords, jobType } = input;
+  /*  const getPosts = async (input) => {
+    const { status, keywords, page } = input;
     try {
       const params = new URLSearchParams();
-      params.append("jobTitle", jobTitle);
-      params.append("jobType", jobType);
+      params.append("status", status);
       params.append("keywords", keywords);
+      params.append("page", page);
       setIsError(false);
       setIsLoading(true);
       const results = await axios.get(
         `http://localhost:4000/posts?${params.toString()}`
       );
-      console.log(results);
-      setJobs(results.data.data);
+      setPosts(results.data.data);
+      setTotalPages(results.data.total_pages);
       setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
     }
-    return {
-      jobs,
-      isError,
-      isLoading,
-    };
-  }; 
- */
+  }; */
 
   return (
     <JobsDataContext.Provider
@@ -138,6 +131,8 @@ function JobsDataProvider(props) {
         setJobCategoryList,
         jobTypeList,
         setJobTypeList,
+        keywords,
+        setKeywords,
       }}
     >
       {props.children}

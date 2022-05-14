@@ -19,10 +19,7 @@ function FindThatJobCard() {
     useJobsData();
   const { textUpperCase } = UtilitiesFunction();
 
-  useEffect(() => {
-    getJobs({ jobs });
-  }, [jobs]);
-
+  getJobs();
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>

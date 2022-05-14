@@ -4,7 +4,7 @@ import { db } from "../utils/db.js";
 
 const jobRouter = Router();
 
-/* jobRouter.get("/", async (req, res) => {
+jobRouter.get("/", async (req, res) => {
   const jobTitle = req.query.jobTitle;
   const companyName = req.query.comapanyName;
   const jobType = req.body.jobType;
@@ -50,25 +50,8 @@ const jobRouter = Router();
   return res.json({
     data: jobs,
   });
-}); */
-jobRouter.get("/", async (req, res) => {
-  const jobTitle = req.query.jobTitle;
-  const companyName = req.query.comapanyName;
-  const jobType = req.body.jobType;
-  const minSalary = req.body.minSalary;
-  const maxSalary = req.body.minSalary;
-  const keywords = req.query.keywords;
-
-  const query = {};
-  // Search Title
-
-  const collection = db.collection("jobs");
-  const jobs = await collection.find(query).toArray();
-
-  return res.json({
-    data: jobs,
-  });
 });
+// Get Job Data -----------------------------------------
 
 jobRouter.get("/:id", async (req, res) => {
   const jobId = ObjectId(req.params.id);
@@ -76,6 +59,35 @@ jobRouter.get("/:id", async (req, res) => {
   const job = await collection.find({ _id: jobId }).toArray();
   return res.json({
     data: job[0],
+  });
+});
+
+// Create New Job Data -------------------------------------------
+jobRouter.post("/createjob", async (req, res) => {
+  const filterComma = (salary) => {
+    let result = salary.replace(/[^\w\s]/gi, "");
+    return Number(result);
+  };
+
+  const user = {
+    jobTitle: req.body.jobTitle,
+    jobCategory: req.body.jobCategory,
+    jobType: req.body.jobType,
+    minSalary: filterComma(req.body.minSalary),
+    maxSalary: filterComma(req.body.maxSalary),
+    aboutJob: req.body.aboutJob,
+    mandatoryReq: req.body.mandatoryReq,
+    optionalReq: req.body.optionalReq,
+    createdJobDate: req.body.createdJobDate,
+    totalCandidates: req.body.totalCandidates,
+    candidatesOnTrack: req.body.candidatesOnTrack,
+    jobsStatus: req.body.jobsStatus,
+  };
+
+  await db.collection("jobs").insertOne(user);
+
+  return res.json({
+    Message: "Create new job has been created successfully",
   });
 });
 

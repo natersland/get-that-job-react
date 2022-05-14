@@ -45,7 +45,6 @@ function RecRegisterForm2() {
           id="companyWebsite"
           rows={4}
           cols={30}
-          required
         />
         <br />
 
@@ -62,7 +61,6 @@ function RecRegisterForm2() {
           rows={4}
           cols={30}
           minlength="5"
-          required
         />
         <Limitation> Between 100 and 2000 characters </Limitation>
         <Label2>UPLOAD THE COMPANY LOGO</Label2>

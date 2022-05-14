@@ -35,8 +35,10 @@ authRouter.post("/register", uploadFile, async (req, res) => {
       education: req.body.education,
       userAppiedJobs: req.body.userAppiedJobs,
       userFollowJobs: req.body.userFollowJobs,
+      userFollowJobs: req.body.userFollowJobs,
     };
     // Upload Files ----------------------------------------
+
     const uploadFileUrl = await cloudinaryUploadCV(req.files);
     user["uploadFiles"] = uploadFileUrl;
 
@@ -111,32 +113,4 @@ authRouter.post("/login", async (req, res) => {
 });
 // ------------------------------------------------------
 
-// Create Job Zone -------------------------------------------
-authRouter.post("/createjob", async (req, res) => {
-  const filterComma = (salary) => {
-    let result = salary.replace(/[^\w\s]/gi, "");
-    return Number(result);
-  };
-
-  const user = {
-    jobTitle: req.body.jobTitle,
-    jobCategory: req.body.jobCategory,
-    jobType: req.body.jobType,
-    minSalary: filterComma(req.body.minSalary),
-    maxSalary: filterComma(req.body.maxSalary),
-    aboutJob: req.body.aboutJob,
-    mandatoryReq: req.body.mandatoryReq,
-    optionalReq: req.body.optionalReq,
-    createdJobDate: req.body.createdJobDate,
-    totalCandidates: req.body.totalCandidates,
-    candidatesOnTrack: req.body.candidatesOnTrack,
-    jobsStatus: req.body.jobsStatus,
-  };
-
-  await db.collection("jobs").insertOne(user);
-
-  return res.json({
-    Message: "Create new job has been created successfully",
-  });
-});
 export default authRouter;

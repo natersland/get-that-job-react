@@ -7,6 +7,7 @@ import { useUserData } from "../../contexts/usersData";
 
 function FindThatJobHeader() {
   const {
+    jobs,
     setJobs,
     setUsers,
     searchJobText,
@@ -21,35 +22,28 @@ function FindThatJobHeader() {
     setJobTypeList,
     jobType,
     setJobType,
-    getJobs,
+    jobTitle,
+    setJobTitle,
   } = useJobsData();
 
-  /* //Search Job---------------------------------------------
-  const searchJob = async () => {
+  const searchJobWord = async () => {
     const results = await axios(
       `http://localhost:4000/jobs?keywords=${searchJobText}`
     );
     setJobs(results.data.data);
   };
 
-  const handleSearchJobText = (event) => {
-    setSearchJobText(event.target.value);
-  };
-
-  //Search Salary-------------------------------------------------
-  const searchMinSalaryFx = async () => {
-    const results = await axios(
-      `http://localhost:4000/jobs?keywords=${searchMinSalaryText}`
-    );
-    setJobs(results.data.data);
-  };
-
-
-
   useEffect(() => {
-    getJobs({ jobType, keywords });
-  }, [jobType, keywords]); */
+    searchJobWord();
+    let timer;
 
+    if (searchJobText) {
+      timer = setTimeout(searchJobWord, 1000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchJobText]);
   return (
     <Wrapper className="pt-8">
       {/* ------------- Header Section  ------------- */}
@@ -63,9 +57,9 @@ function FindThatJobHeader() {
             id="searchjobword"
             name="searchjobword"
             type="text"
-            placeholder="manufacturing, sales, swim"
-            onChange={() => {}}
+            onChange={(e) => setSearchJobText(e.target.value)}
             value={searchJobText}
+            placeholder="manufacturing, sales, swim"
           ></SearchBox>
         </InputWrapper>
       </HeaderSection>
@@ -86,7 +80,12 @@ function FindThatJobHeader() {
         {/* ------------- Box 2: Type ------------- */}
         <InputWrapperSection>
           <InputBoxLabel>TYPE</InputBoxLabel>
-          <DropDownList className="gtj-input pink-border">
+          <DropDownList
+            className="gtj-input pink-border"
+            id="jobType"
+            name="jobType"
+            value={jobType}
+          >
             <option value="" disabled selected>
               Select a type
             </option>
@@ -124,6 +123,9 @@ function FindThatJobHeader() {
         </InputWrapperSection>
       </FilterInputWrapper>
       {/* ---------------------------------------------------------- */}
+      {`Search Input Text: ${searchJobText}`}
+      <br></br>
+      {`Job Data: ${jobs.length}`}
     </Wrapper>
   );
 }
