@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 function RoleStepsBox({ userRole }) {
-  const { step, role } = useUserData();
+  const { role } = useUserData();
+  const { step } = useVadilation();
 
   return (
     <StepBox className="mt-8">

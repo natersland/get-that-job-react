@@ -1,5 +1,6 @@
 // Contexts
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 // components
 import ProRegisterForm1 from "./PRO-RegisterForm-1";
 import ProRegisterForm2 from "./PRO-RegisterForm-2";
@@ -8,7 +9,8 @@ import RecRegisterForm1 from "./REC-RegisterFrom-1";
 import RecRegisterForm2 from "./REC-RegisterFrom-2";
 
 function MainRegisterForm({ userRole }) {
-  const { role, step } = useUserData();
+  const { role } = useUserData();
+  const { step } = useVadilation();
   const StepDisplay = () => {
     if (step === 0) {
       return userRole === "professional" ? (

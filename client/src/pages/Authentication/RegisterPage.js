@@ -5,6 +5,7 @@ import image from "../../img/discussing.png";
 //Contexts
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 // Components
 import MainRegisterForm from "../../components/UnAut-Register/MainRegisterForm";
 import SelectRole from "../../components/UnAut-Register/SelectRole";
@@ -50,18 +51,16 @@ function RegisterPage() {
     setAbout,
     companyLogo,
     setCompanyLogo,
+  } = useUserData();
+  const {
     // Others -------------------------------------
     setRoleBtn,
     // This Zone is for Register form vadilate only -------------------------------------
     step,
     setStep,
     isErrorEmail,
-    setIsErrorEmail,
     isErrorPassword,
-    setIsErrorPassword,
-    nextFormPasswordChecker,
-  } = useUserData();
-
+  } = useVadilation();
   const { register, login } = useAuth();
 
   const handleSubmit = (event) => {
@@ -87,24 +86,7 @@ function RegisterPage() {
       for (let uploadFileKey in uploadFiles) {
         formData.append("cvFile", uploadFiles[uploadFileKey]);
       }
-
       register(formData);
-      /*       login({
-        email,
-        password,
-      }); */
-      setEmail("");
-      setPassword("");
-      setPasswordConfirmed("");
-      setRole("");
-      setName("");
-      setPhone("");
-      setBirthDate("");
-      setLinkedin("");
-      setTitle("");
-      setExperience("");
-      setEducation("");
-      setUploadFiles("");
     } else if (role === "recruiter") {
       setRole("recruiter");
       const formData = new FormData();
@@ -121,16 +103,30 @@ function RegisterPage() {
       }
 
       register(formData);
-      /*       login({
-        email,
-        password,
-      }); */
-      setCompanyName("");
-      setCompanyWebsite("");
-      setAbout("");
-      setCompanyLogo("");
     }
-
+    login({
+      email,
+      password,
+    });
+    setEmail("");
+    setPassword("");
+    setPasswordConfirmed("");
+    setRole("");
+    // ---------------
+    setName("");
+    setPhone("");
+    setBirthDate("");
+    setLinkedin("");
+    setTitle("");
+    setExperience("");
+    setEducation("");
+    setUploadFiles("");
+    // ---------------
+    setCompanyName("");
+    setCompanyWebsite("");
+    setAbout("");
+    setCompanyLogo("");
+    // ---------------
     setStep(0);
     setRoleBtn("professional");
     setRole("professional");

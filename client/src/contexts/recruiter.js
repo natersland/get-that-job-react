@@ -8,8 +8,8 @@ function RecruiterProvider(props) {
 
   // Create Job  -----------------------------------------
   const createJob = async (data) => {
-    await axios.post("http://localhost:4000/auth/createjob", data);
-    navigate("/jobposting").then(() => {});
+    await axios.post("http://localhost:4000/jobs/createjob", data);
+    navigate("/viewjobs").then(() => {});
   };
 
   return (

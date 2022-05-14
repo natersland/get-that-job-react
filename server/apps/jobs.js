@@ -5,52 +5,46 @@ import { db } from "../utils/db.js";
 const jobRouter = Router();
 
 jobRouter.get("/", async (req, res) => {
-  const jobTitle = req.query.jobTitle;
-  const companyName = req.query.comapanyName;
-  const jobType = req.body.jobType;
-  const minSalary = req.body.minSalary;
-  const maxSalary = req.body.minSalary;
+  const searchJobText = req.query.searchJobText;
   const keywords = req.query.keywords;
+  const searchMinSalaryText = Number(req.query.searchMinSalaryText);
+  const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
 
   const query = {};
-  // Search Title
-  if (jobTitle) {
-    query.jobTitle = jobTitle;
+  console.log(`5555555555: ${keywords}`);
+  if (searchJobText) {
+    query.jobTitle = searchJobText;
+  } else if (searchMinSalaryText) {
+    query.minSalary = searchMinSalaryText;
+  } else if (searchMaxSalaryText) {
+    query.maxSalary = searchMaxSalaryText;
   } else if (keywords) {
     query.jobTitle = new RegExp(`${keywords}`, "i");
-  }
-  // Search Company
-  else if (companyName) {
-    query.companyName = companyName;
-  } else if (keywords) {
-    query.companyName = new RegExp(`${keywords}`, "i");
-  }
-  // Search Job Type
-  else if (jobType) {
-    query.jobType = jobType;
-  } else if (keywords) {
-    query.jobType = new RegExp(`${keywords}`, "i");
-  }
-  // Search min salary
-  else if (minSalary) {
-    query.minSalary = minSalary;
-  } else if (keywords) {
-    query.minSalary = new RegExp(`${keywords}`, "i");
-  }
-  // Search max salary
-  else if (maxSalary) {
-    query.maxSalary = maxSalary;
-  } else if (keywords) {
-    query.maxSalary = new RegExp(`${keywords}`, "i");
   }
 
   const collection = db.collection("jobs");
   const jobs = await collection.find(query).toArray();
 
-  return res.json({
-    data: jobs,
-  });
+  return res.json({ data: jobs });
 });
+
+/* jobRouter.get("/", (req, res) => {
+  const keywords = req.query.keywords;
+  const regexKeywords = keywords.split(" ").join("|");
+  const regex = new RegExp(regexKeywords, "ig");
+  const results = jobs.filter(() => {
+    return (
+      .title.match(regex) ||
+      .description.match(regex) ||
+      .tags.filter((tag) => tag.match(regex)).length
+    );
+  });
+
+  return res.json({
+    data: results,
+  });
+}); */
+
 // Get Job Data -----------------------------------------
 
 jobRouter.get("/:id", async (req, res) => {
@@ -90,22 +84,5 @@ jobRouter.post("/createjob", async (req, res) => {
     Message: "Create new job has been created successfully",
   });
 });
-
-/* jobRouter.get("/", (req, res) => {
-  const keywords = req.query.keywords;
-  const regexKeywords = keywords.split(" ").join("|");
-  const regex = new RegExp(regexKeywords, "ig");
-  const results = jobs.filter(() => {
-    return (
-      .title.match(regex) ||
-      .description.match(regex) ||
-      .tags.filter((tag) => tag.match(regex)).length
-    );
-  });
-
-  return res.json({
-    data: results,
-  });
-}); */
 
 export default jobRouter;

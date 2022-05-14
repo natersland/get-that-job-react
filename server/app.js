@@ -11,8 +11,8 @@ import { client } from "./utils/db.js";
 
 // router -----------------------------------
 import authRouter from "./apps/auth.js";
-import postRouter from "./apps/posts.js";
 import jobRouter from "./apps/jobs.js";
+import usersRouter from "./apps/users.js";
 
 // --------------------------------------------------------
 
@@ -39,7 +39,7 @@ async function init() {
 
   // app routers -----------------
   app.use("/auth", authRouter);
-  app.use("/posts", postRouter);
+  app.use("/users", usersRouter);
   app.use("/jobs", jobRouter);
 
   // response from server -----------------

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import Alert from "@mui/material/Alert";
+
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
@@ -7,11 +8,10 @@ import SelectRole from "../../components/UnAut-Register/SelectRole";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
-
+import { useVadilation } from "../../contexts/vadilation";
 export default function LoginPage() {
-  const { setStep, role } = useUserData();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { role, password, setPassword, email, setEmail } = useUserData();
+  const { setStep, isErrorPassword, isErrorEmail } = useVadilation();
   const { login } = useAuth();
 
   // Controller Fx ------------------------------
@@ -20,6 +20,7 @@ export default function LoginPage() {
     login({
       email,
       password,
+      role,
     });
   };
 
@@ -34,6 +35,19 @@ export default function LoginPage() {
             <h1>{`Current Role is ${role}`}</h1>
           </LoginIntroduction>
           <SelectRole />
+
+          {/*แจ้งเตือนเมื่อ user ไม่ใส่ email ------------------------ */}
+          {isErrorEmail ? (
+            <Alert className="mt-2 mb-2 w-12/12" severity="error">
+              Please enter valid email address
+            </Alert>
+          ) : null}
+          {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password ------------------------ */}
+          {isErrorPassword ? (
+            <Alert className="mt-2 mb-2 w-12/12" severity="error">
+              Please verify and re-enter your password
+            </Alert>
+          ) : null}
           <LoginFormWrapper onSubmit={handleSubmit}>
             <InputWrapper>
               EMAIL

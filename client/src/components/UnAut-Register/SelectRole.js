@@ -2,9 +2,11 @@ import styled from "@emotion/styled";
 
 // Contexts
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 
 export default function SelectRole() {
-  const { role, setRole, step } = useUserData();
+  const { role, setRole } = useUserData();
+  const { step } = useVadilation();
 
   const selectRoleBTN = () => {
     if (role === "professional") {

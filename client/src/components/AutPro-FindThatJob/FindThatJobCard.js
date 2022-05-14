@@ -19,7 +19,6 @@ function FindThatJobCard() {
     useJobsData();
   const { textUpperCase } = UtilitiesFunction();
 
-  getJobs();
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>

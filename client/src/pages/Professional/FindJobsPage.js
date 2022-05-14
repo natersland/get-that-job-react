@@ -17,4 +17,5 @@ export default FindJobsPage;
 const Wrapper = styled.section`
   width: 65%;
   margin: auto;
+  margin-bottom: 100px;
 `;

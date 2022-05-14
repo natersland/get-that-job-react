@@ -3,6 +3,7 @@ import React from "react";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 
 class ArrowRight extends React.Component {
   render() {
@@ -15,65 +16,9 @@ class ArrowLeft extends React.Component {
   }
 }
 function RegFormButton() {
-  const {
-    step,
-    setStep,
-    role,
-    password,
-    passwordConfirmed,
-    email,
-    setIsErrorPassword,
-    setIsErrorEmail,
-  } = useUserData();
-  // Form Vadilate Checker Fx -----------------------------------
-  const nextFormVadilateChecker = () => {
-    // if input is blank
-    if (password === "" || email === "") {
-      if (password === "") {
-        setIsErrorPassword(true);
-      } else if (email === "") {
-        setIsErrorEmail(true);
-      }
-    } else {
-      if (!password === "") {
-        setIsErrorPassword(false);
-      } else if (!email === "") {
-        setIsErrorEmail(true);
-      }
-    }
-    // if password & confirm password is blank
-    if (password === "" && passwordConfirmed === "") {
-      setIsErrorPassword(true);
-      console.log("hi");
-    }
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-      //  if email is not validattion
-      setIsErrorEmail(true);
-    } else {
-      setIsErrorEmail(false);
-    }
-    // if password is not correct
-    if (password !== passwordConfirmed) {
-      setIsErrorPassword(true);
-    } else if (
-      password === passwordConfirmed &&
-      password !== "" &&
-      passwordConfirmed !== ""
-    ) {
-      setIsErrorPassword(false);
-    }
-    // if all correct
-    if (
-      password === passwordConfirmed &&
-      password !== "" &&
-      passwordConfirmed !== "" &&
-      email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
-    ) {
-      setStep(step + 1);
-      setIsErrorEmail(false);
-      setIsErrorPassword(false);
-    }
-  };
+  const { role } = useUserData();
+  const { nextFormVadilateChecker, step, setStep } = useVadilation();
+
   //  fx เก็บปุ่ม Next Button -----------------------------------
   const nextButton = () => {
     return (

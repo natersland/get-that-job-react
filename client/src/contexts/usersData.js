@@ -27,12 +27,6 @@ function UserDataProvider(props) {
   const [users, setUsers] = useState([]);
   const [userAppiedJobs, setUserAppiedJobs] = useState([]);
   const [userFollowJobs, setUserFollowJobs] = useState([]);
-  // Others -----------------------------------------
-  const [roleBtn, setRoleBtn] = useState("");
-  // This Zone is for Register form vadilate only -------------------------------------
-  const [step, setStep] = useState(0);
-  const [isErrorEmail, setIsErrorEmail] = useState(false);
-  const [isErrorPassword, setIsErrorPassword] = useState(false);
 
   return (
     <UsersDataContext.Provider
@@ -80,16 +74,6 @@ function UserDataProvider(props) {
         setUserAppiedJobs,
         userFollowJobs,
         setUserFollowJobs,
-        // Others -----------------------------------------
-        roleBtn,
-        setRoleBtn,
-        // This Zone is for Register form vadilate only -------------------------------------
-        step,
-        setStep,
-        isErrorEmail,
-        setIsErrorEmail,
-        isErrorPassword,
-        setIsErrorPassword,
       }}
     >
       {props.children}
