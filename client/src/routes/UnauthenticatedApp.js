@@ -25,6 +25,8 @@ export default function UnauthenticatedApp({ userRole }) {
         <Route path="/login" element={<LoginPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/components" element={<ComponentIndex />} />
+        {/*Professional Route Start Here*/}
+        <Route path="/findjob" element={<FindJobsPage />} />
         {/*Recruiter Route Start Here*/}
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/viewjob" element={<ViewJob />} />
@@ -32,10 +34,6 @@ export default function UnauthenticatedApp({ userRole }) {
           path="/update-company-profile"
           element={<UpdateCompanyProfile />}
         />
-        {/*Professional Route Start Here*/}
-        <Route path="/findjob" element={<FindJobsPage />} />
-        {/*Recruiter Route Start Here*/}
-        <Route path="/createjob" element={<CreateJobPage />} />
       </Routes>
     </div>
   );

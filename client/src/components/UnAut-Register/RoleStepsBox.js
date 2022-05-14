@@ -64,13 +64,13 @@ function RoleStepsBox({ userRole }) {
             <PendingStepDetail>
               {userRole}
               <br />
-              information
+              Information
             </PendingStepDetail>
           ) : (
             <DoneStepDetail>
               {userRole}
               <br />
-              information
+              Information
             </DoneStepDetail>
           )}
         </div>
@@ -98,13 +98,13 @@ function RoleStepsBox({ userRole }) {
               <PendingStepDetail>
                 Professional
                 <br />
-                information
+                Information
               </PendingStepDetail>
             ) : (
               <DoneStepDetail>
                 Professional
                 <br />
-                information
+                Information
               </DoneStepDetail>
             )}
           </div>
@@ -219,4 +219,3 @@ const DoneStep = styled.div`
 const StepNumber = styled.p`
   margin-bottom: 0;
 `;
-

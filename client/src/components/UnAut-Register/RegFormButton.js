@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
-import Backdrop from "@mui/material/Backdrop";
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";
 
@@ -42,6 +41,7 @@ function RegFormButton() {
         setIsErrorEmail(true);
       }
     }
+    // if password & confirm password is blank
     if (password === "" && passwordConfirmed === "") {
       setIsErrorPassword(true);
       console.log("hi");
@@ -89,6 +89,31 @@ function RegFormButton() {
       </button>
     );
   };
+  //  fx เก็บปุ่ม Previous Button -----------------------------------
+  const previousButton = () => {
+    return (
+      <button
+        className="btn btn-md btn-pink"
+        onClick={() => {
+          setStep((currentPage) => currentPage - 1);
+        }}
+      >
+        <ArrowLeft /> PREVIOUS
+      </button>
+    );
+  };
+  //  fx เก็บปุ่ม SkipThis Button -----------------------------------
+  const skipButton = () => {
+    return (
+      <button
+        className="btn btn-md btn-white pink-border"
+        form="register-form"
+        type="submit"
+      >
+        SKIP THIS!
+      </button>
+    );
+  };
   // fx เก็บปุ่ม Finish Button -----------------------------------
   const finishButton = () => {
     return (
@@ -124,25 +149,8 @@ function RegFormButton() {
   };
   return (
     <ButtonWrapper>
-      {step === 0 || step === 1 ? null : (
-        <button
-          className="btn btn-md btn-pink"
-          onClick={() => {
-            setStep((currentPage) => currentPage - 1);
-          }}
-        >
-          <ArrowLeft /> PREVIOUS
-        </button>
-      )}
-      {step === 0 ? null : (
-        <button
-          className="btn btn-md btn-white pink-border"
-          form="register-form"
-          type="submit"
-        >
-          SKIP THIS!
-        </button>
-      )}{" "}
+      {step === 0 || step === 1 ? null : previousButton()}
+      {step === 0 ? null : skipButton()}
       {nextBtnChecker()}
       {finishBtnChecker()}
       {/* Old Code Start Here ----------------------------------------------------------}

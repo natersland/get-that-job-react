@@ -68,7 +68,7 @@ function RecRegisterForm2() {
         <Label2>UPLOAD THE COMPANY LOGO</Label2>
         <UploadFileSection>
           <UploadButton htmlFor="uploadFile">
-            <ChooseFile>Choose File</ChooseFile>
+            <ChooseFile>Choose Image</ChooseFile>
           </UploadButton>
           <Input
             id="uploadFile"
@@ -76,13 +76,13 @@ function RecRegisterForm2() {
             type="file"
             placeholder="Enter last name here"
             onChange={handleFileChange}
-            accept="application/pdf"
+            accept="image/*"
             maxSize={5}
             hidden
           />
           <FileName>No file chosen</FileName>
         </UploadFileSection>
-        <Limitation>Only PDF Max size 5MB</Limitation>
+        <Limitation>PNG, JPEG,IMG</Limitation>
       </div>
     </Wrapper>
   );

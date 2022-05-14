@@ -151,31 +151,33 @@ function RegisterPage() {
               <h1>{`Current Role is: ${role}`}</h1>
               <h1>{`Current Step is: ${step}`}</h1>
               <SelectRole />
+              {/* เช็ค role: แล้วให้ใช้  step box ของ role นั้นๆ ------------------------ */}
               {role === "professional" ? (
                 <RoleStepsBox userRole={"Personal"} />
               ) : (
                 <RoleStepsBox userRole={"Company"} />
               )}
 
-              {/*แจ้งเตือนเมื่อ user ไม่ใส่ email*/}
+              {/*แจ้งเตือนเมื่อ user ไม่ใส่ email ------------------------ */}
               {isErrorEmail ? (
                 <Alert className="mt-2 mb-2 w-8/12" severity="error">
                   Please enter valid email address
                 </Alert>
               ) : null}
-              {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password*/}
+              {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password ------------------------ */}
               {isErrorPassword ? (
                 <Alert className="mt-2 mb-2 w-8/12" severity="error">
                   Please verify and re-enter your password
                 </Alert>
               ) : null}
-
+              {/* Step display เก่าของครีม ที่มีการเช็ค role เพิ่มเข้ามา: ไว้ใช้เช็คว่าตอนนี้อยู่หน้าไหน ให้ใช้ form ของหน้านั้นๆ ------------------------ */}
               <MainRegisterForm userRole={role} />
+              {/* ปุ่ม next, previous, finish: ที่มีการเช็ค role เข้ามาเพิ่ม ------------------------ */}
               <RegFormButton />
             </Progressbar>
           </Detail>
         </form>
-        <FormWrapper></FormWrapper>
+        <FormWrapper></FormWrapper> {/* <--- อันนี้มันมีไว้ทำไมอ่ะ  */}
       </LeftBox>
 
       <RightBox>

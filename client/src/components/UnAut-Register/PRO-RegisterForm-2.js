@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import moment from "moment";
 // Contexts
 import { useUserData } from "../../contexts/usersData";
 

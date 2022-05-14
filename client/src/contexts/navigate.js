@@ -47,13 +47,13 @@ function NavigateProvider(props) {
       }
     } else {
       if (index === 0) {
-        navigate("*"); // Job Postings
+        navigate("viewjob"); // Job Postings
         setMenuIndex(index + 1);
       } else if (index === 1) {
         navigate("/createjob"); // Create New Job
         setMenuIndex(index + 1);
       } else if (index === 2) {
-        navigate("*"); // Profile
+        navigate("update-company-profile"); // Profile
         setMenuIndex(index + 1);
       } else if (index === 3) {
         logout(); // Log out

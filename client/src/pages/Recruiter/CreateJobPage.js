@@ -39,6 +39,8 @@ function CreateJobPage() {
     setCandidatesOnTrack,
     jobsStatus,
     setJobsStatus,
+    jobCategoryList,
+    jobTypeList,
   } = useJobsData();
   const { createJob } = useRecruiter();
 
@@ -119,11 +121,9 @@ function CreateJobPage() {
             <option value="" disabled selected>
               Select or create a category
             </option>
-            <option>Manufacturing</option>
-            <option>Legal</option>
-            <option>Education</option>
-            <option>Goverment</option>
-            <option>Sales</option>
+            {jobCategoryList.map((item, index) => {
+              return <option key={index}>{item}</option>;
+            })}
           </SelectListData>
           {/* ------------ Job Type ------------ */}
           <TextLabel>{textUpperCase("Type")}</TextLabel>
@@ -140,8 +140,9 @@ function CreateJobPage() {
             <option value="" disabled selected>
               Select a type
             </option>
-            <option>Full Time</option>
-            <option>Part Time</option>
+            {jobTypeList.map((item, index) => {
+              return <option key={index}>{item}</option>;
+            })}
           </SelectListData>
           {/* ------------ Salary Range ------------ */}
           <TextLabel>{textUpperCase("Salary Range")}</TextLabel>

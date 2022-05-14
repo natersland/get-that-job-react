@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
@@ -36,20 +35,32 @@ function FindThatJobCard() {
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
               <JobCardContent>
+                {/* Left Side ---------------------------------------------- */}
                 <ContentLeft>
                   <CompanyLogoWrapper>
                     <CompanyLogoJa src={CompanyLogo}></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
+                {/* Right Side ---------------------------------------------- */}
                 <ContentRight>
-                  <JobCategory>{jobCategory}</JobCategory>
+                  <JobCategory>
+                    <span>
+                      <img
+                        className="mr-1"
+                        src={CompanyIcon}
+                        alt="Company Icon"
+                      />
+                    </span>{" "}
+                    {jobCategory}
+                  </JobCategory>
                   <JobTitle>{jobTitle}</JobTitle>
                   <CompanyName>The Company Name</CompanyName>
+                  {/* Left Side: Sub Content ---------------------------------------------- */}
                   <SubContentWrapper>
                     {" "}
                     <JobType>
                       <span className="mr-1">
-                        <img src={CalendarIcon} />
+                        <img src={CalendarIcon} alt="Calendar Icon" />
                       </span>
                       {jobType}
                     </JobType>
@@ -67,6 +78,7 @@ function FindThatJobCard() {
                   </SubContentWrapper>
                 </ContentRight>
               </JobCardContent>
+              {/* Left Side: Footer ---------------------------------------------- */}
               <JobCardFooter>
                 <FollowCircle>
                   <FollowIcon src={FocusIcon}></FollowIcon>
@@ -137,6 +149,7 @@ const ContentRight = styled.div`
   width: 100%;
 `;
 const JobCategory = styled.p`
+  display: flex;
   font-family: var(--seconary-font);
   color: var(--light-gray);
   font-size: 0.75rem;
