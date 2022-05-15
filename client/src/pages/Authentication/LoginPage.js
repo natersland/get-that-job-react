@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
-
+import { useNavigate } from "react-router-dom";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
@@ -14,7 +14,7 @@ export default function LoginPage() {
     useUserData();
   const { setStep, isErrorPassword, isErrorEmail } = useVadilation();
   const { login } = useAuth();
-
+  const navigate = useNavigate();
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -28,7 +28,6 @@ export default function LoginPage() {
 
   return (
     <WrapperLogin>
-      {setStep(0)}
       <WrapperLoginLeft>
         <LoginZoneWrapper>
           <LoginIntroduction>
@@ -82,7 +81,7 @@ export default function LoginPage() {
               ></input>
             </InputWrapper>
             <FormAction>
-              <button type="submit" className="btn btn-md btn-pink">
+              <button type="submit" className="btn btn-md btn-pink  mr-2">
                 Login
               </button>
             </FormAction>

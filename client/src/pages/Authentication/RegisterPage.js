@@ -39,8 +39,6 @@ function RegisterPage() {
     resetUserData,
   } = useUserData();
   const {
-    // Others -------------------------------------
-    setRoleBtn,
     // This Zone is for Register form vadilate only -------------------------------------
     step,
     setStep,
@@ -96,7 +94,6 @@ function RegisterPage() {
     });
     resetUserData();
     setStep(0);
-    setRoleBtn("professional");
     setRole("professional");
   };
 

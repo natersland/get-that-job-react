@@ -70,7 +70,7 @@ jobRouter.put("/:id", async (req, res) => {
     res.status(200).json(`Hotel ${jobId} has been updated successful`);
     console.log(`Updated job data id:${jobId} successful!`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // DELETE JOB ----------------------------
@@ -81,7 +81,7 @@ jobRouter.delete("/:id", async (req, res) => {
     res.status(200).json(`Job ${jobId} has been deleted successful`);
     console.log(`Job ${jobId} has been deleted successful`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // GET ONE JOB ----------------------------
@@ -92,7 +92,7 @@ jobRouter.get("/:id", async (req, res) => {
     res.status(200).json(job[0]);
     console.log(job[0]);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // GET ALL JOBS ----------------------------
@@ -102,7 +102,7 @@ jobRouter.get("/", async (req, res) => {
     res.status(200).json(jobs);
     console.log(`Get all job data has been successful!`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 export default jobRouter;

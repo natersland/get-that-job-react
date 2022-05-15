@@ -12,7 +12,8 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
-  const { filterComma, textUpperCase } = UtilitiesFunction();
+  const { filterComma, textUpperCase, addCommas, removeCommas } =
+    UtilitiesFunction();
   const {
     jobTitle,
     setJobTitle,
@@ -37,13 +38,7 @@ function CreateJobPage() {
     resetJobData,
   } = useJobsData();
   const navigate = useNavigate();
-  // Add Comma Function: Add to display UI salary -------------------------------------------------
-  const addCommas = (num) =>
-    Number(num)
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
-  // ---------------------------------------------------------------------
+
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);

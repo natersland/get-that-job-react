@@ -17,7 +17,7 @@ usersRouter.post("/create/professional", async (req, res) => {
     res.status(200).json(`New professional has been created successful!`);
     console.log(newProfessional);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 usersRouter.post("/create/recruiter", async (req, res) => {
@@ -27,7 +27,7 @@ usersRouter.post("/create/recruiter", async (req, res) => {
     res.status(200).json(`New recruiter has been created successful!`);
     console.log(newRecruiter);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // UPDATE User Data ----------------------------
@@ -41,7 +41,7 @@ usersRouter.put("/:id", async (req, res) => {
     res.status(200).json(`User ${userId} has been updated successful`);
     console.log(`Updated user data id:${userId} successful!`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // DELETE User Data ----------------------------
@@ -52,7 +52,7 @@ usersRouter.delete("/:id", async (req, res) => {
     res.status(200).json("User is has been deleted successful");
     console.log(`User ${userId} has been deleted successful`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // GET One User Data ----------------------------
@@ -63,7 +63,7 @@ usersRouter.get("/:id", async (req, res) => {
     res.status(200).json(user[0]);
     console.log(job[0]);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 // GET All User Data ----------------------------
@@ -73,7 +73,7 @@ usersRouter.get("/", async (req, res) => {
     res.status(200).json(users);
     console.log(`Get all job data has been successful!`);
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 });
 

@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 // Components
 import FindThatJobCard from "../../components/AutPro-FindThatJob/FindThatJobCard";
 import FindThatJobHeader from "../../components/AutPro-FindThatJob/FindThatJobHeader";

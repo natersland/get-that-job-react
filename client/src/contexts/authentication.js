@@ -14,23 +14,16 @@ function AuthProvider(props) {
     error: null,
     user: null,
   });
-  const { setEmail, setPassword, role, setRole } = useUserData();
-  const { ifInputIsBlank } = useVadilation();
   const navigate = useNavigate();
-  // make a login request -------------------------------------------------
-  const login = async (data) => {
-    ifInputIsBlank();
-    const result = await axios.post("http://127.0.0.1:4000/auth/login", data);
-    const token = result.data.token;
-    localStorage.setItem("token", token);
-    const userDataFromToken = jwtDecode(token);
-    setState({ ...state, user: userDataFromToken });
-    setEmail("");
-    setPassword("");
-    navigate("/");
-  };
-
-  // register the user -------------------------------------------------
+  const { resetUserData, role, setRole } = useUserData();
+  const isAuthenticated = Boolean(localStorage.getItem("token"));
+  const isProfessional = Boolean(
+    localStorage.getItem("role") === "professional"
+  );
+  const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
+  const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
+  const { ifInputIsBlank } = useVadilation();
+  // register  ---------------------------------------------------------
   const register = async (data) => {
     await axios.post("http://localhost:4000/auth/register", data, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -38,18 +31,56 @@ function AuthProvider(props) {
     navigate("/");
   };
 
-  // clear the token in localStorage and the user data -------------------------------------------------
+  // login  ---------------------------------------------------------
+  const login = async (data) => {
+    ifInputIsBlank();
+    const result = await axios.post("http://localhost:4000/auth/login", data);
+    const token = result.data.token;
+    const userDataFromToken = jwtDecode(token);
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", userDataFromToken.role);
+    localStorage.setItem("name", userDataFromToken.name);
+    setState({ ...state, user: userDataFromToken });
+
+    if (userDataFromToken.role === role) {
+      localStorage.setItem("rightAcc", true);
+      alert(`Login successful! Welcome to ${userDataFromToken.role} account`);
+      if (userDataFromToken.role === "professional") {
+        navigate("/findjobs");
+      } else if (userDataFromToken.role === "recruiter") {
+        navigate("/viewjobs");
+      }
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      alert(`Wrong account role please try again`);
+      navigate("/login");
+    }
+    resetUserData();
+    setRole("professional");
+  };
+
+  // logout ---------------------------------------------------------
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("rightAcc");
     setState({ ...state, user: null, error: null });
     navigate("/");
   };
 
-  const isAuthenticated = Boolean(localStorage.getItem("token"));
-
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{
+        state,
+        login,
+        logout,
+        register,
+        isAuthenticated,
+        isProfessional,
+        isRecruiter,
+        isRightAccount,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
