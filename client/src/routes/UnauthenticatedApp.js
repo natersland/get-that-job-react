@@ -8,7 +8,7 @@ import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/Authentication/RegisterPage";
 import ComponentIndex from "../components/ComponentIndex";
 
-export default function UnauthenticatedApp({ userRole }) {
+export default function UnauthenticatedApp() {
   return (
     <div className="App">
       <NavBar />

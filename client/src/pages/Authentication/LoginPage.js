@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
-import { useNavigate } from "react-router-dom";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
@@ -9,21 +8,31 @@ import SelectRole from "../../components/UnAut-Register/SelectRole";
 import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
 import { useVadilation } from "../../contexts/vadilation";
+import { useNav } from "../../contexts/navigate";
 export default function LoginPage() {
-  const { role, password, setPassword, email, setEmail, resetUserData } =
-    useUserData();
-  const { setStep, isErrorPassword, isErrorEmail } = useVadilation();
+  const {
+    role,
+    setRole,
+    password,
+    setPassword,
+    email,
+    setEmail,
+    resetUserData,
+  } = useUserData();
+  const { isErrorPassword, isErrorEmail } = useVadilation();
   const { login } = useAuth();
-  const navigate = useNavigate();
+  const { setMenuIndex } = useNav();
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
+    setMenuIndex(1);
     login({
       email,
       password,
       role,
     });
     resetUserData();
+    setRole("professional");
   };
 
   return (

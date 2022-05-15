@@ -12,7 +12,7 @@ const collection = db.collection("users");
 // CREATE User Data ----------------------------
 usersRouter.post("/create/professional", async (req, res) => {
   try {
-    const newProfessional = new UserProfessional(req.body);
+    const newProfessional = new UsersProfessional(req.body);
     await db.collection("users").insertOne(newProfessional);
     res.status(200).json(`New professional has been created successful!`);
     console.log(newProfessional);
@@ -22,7 +22,7 @@ usersRouter.post("/create/professional", async (req, res) => {
 });
 usersRouter.post("/create/recruiter", async (req, res) => {
   try {
-    const newRecruiter = new UserRecruiter(req.body);
+    const newRecruiter = new UsersRecruiter(req.body);
     await db.collection("users").insertOne(newRecruiter);
     res.status(200).json(`New recruiter has been created successful!`);
     console.log(newRecruiter);
@@ -61,7 +61,7 @@ usersRouter.get("/:id", async (req, res) => {
     const userId = ObjectId(req.params.id);
     const user = await collection.find({ _id: userId }).toArray();
     res.status(200).json(user[0]);
-    console.log(job[0]);
+    console.log(user[0]);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -71,7 +71,7 @@ usersRouter.get("/", async (req, res) => {
   try {
     const users = await collection.find().toArray();
     res.status(200).json(users);
-    console.log(`Get all job data has been successful!`);
+    console.log(`Get all users data has been successful!`);
   } catch (error) {
     res.status(500).json(error);
   }

@@ -44,10 +44,12 @@ const UsersProfessionalSchema = new mongoose.Schema({
     default: "",
   },
   userAppiedJobs: {
+    // ต้องเอาไป join กับ DB:jobs
     type: [{}],
     default: null,
   },
   userFollowJobs: {
+    // ต้องเอาไป join กับ DB:jobs
     type: [{}],
     default: null,
   },

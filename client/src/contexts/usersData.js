@@ -27,6 +27,7 @@ function UserDataProvider(props) {
   const [users, setUsers] = useState([]);
   const [userAppiedJobs, setUserAppiedJobs] = useState([]);
   const [userFollowJobs, setUserFollowJobs] = useState([]);
+  const [createdJobs, setCreatedJobs] = useState([]); // เก็บงานที่ user recruiter: สร้างทั้งหมด
   // Fx for reset data in state ---------------------------------------
   const resetUserData = () => {
     setEmail("");
@@ -95,6 +96,8 @@ function UserDataProvider(props) {
         setUserAppiedJobs,
         userFollowJobs,
         setUserFollowJobs,
+        createdJobs,
+        setCreatedJobs,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
       }}

@@ -51,10 +51,12 @@ const JobsSchema = new mongoose.Schema({
     default: new Date(),
   },
   totalCandidates: {
+    // ต้องเอาไป join กับ DB:users:professional
     type: Number,
     default: 0,
   },
   candidatesOnTrack: {
+    // ต้องเอาไป join กับ DB:users:professional
     type: Number,
     default: 0,
   },

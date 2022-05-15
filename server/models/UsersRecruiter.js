@@ -28,6 +28,12 @@ const UsersRecruiterSchema = new mongoose.Schema({
     default: "",
   },
   companyLogo: {
+    // ต้องเอาไป join กับ DB:jobs
+    type: [],
+    default: null,
+  },
+  createdJobs: {
+    // ต้องเอาไป join กับ DB:jobs
     type: [],
     default: null,
   },

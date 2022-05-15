@@ -16,8 +16,8 @@ jobRouter.get("/", async (req, res) => {
   const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
 
   const query = {};
-  console.log(`5555555555: ${keywords}`);
-  if (searchJobText) {
+  /*   console.log(`5555555555: ${keywords}`);
+   */ if (searchJobText) {
     query.jobTitle = searchJobText;
   } else if (searchMinSalaryText) {
     query.minSalary = searchMinSalaryText;

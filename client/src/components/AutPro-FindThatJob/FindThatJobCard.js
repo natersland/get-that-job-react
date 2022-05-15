@@ -116,6 +116,7 @@ const FindThatJobWrapper = styled.div`
 const JobCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   border-radius: 8px;
   width: 290px;
   padding: 16px;
