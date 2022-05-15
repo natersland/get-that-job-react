@@ -42,9 +42,18 @@ function JobsDataProvider(props) {
     "Sales",
   ]);
   const [jobTypeList, setJobTypeList] = useState(["Full Time", "Part Time"]);
-
+  // Fx for reset data in state ---------------------------------------
+  const resetJobData = () => {
+    setJobTitle("");
+    setJobCategory("");
+    setJobType("");
+    setMinSalary("");
+    setMaxSalary("");
+    setAboutJob("");
+    setMandatoryReq("");
+    setOptionalReq("");
+  };
   // Get Data for mapping in Find that Job Page ----------------------------------------
-
   const getJobs = async () => {
     try {
       /*  const params = new URLSearchParams();
@@ -149,6 +158,8 @@ function JobsDataProvider(props) {
         setIsError,
         isLoading,
         setIsLoading,
+        // Fx for reset data in state ---------------------------------------
+        resetJobData,
       }}
     >
       {props.children}

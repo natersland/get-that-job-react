@@ -27,7 +27,28 @@ function UserDataProvider(props) {
   const [users, setUsers] = useState([]);
   const [userAppiedJobs, setUserAppiedJobs] = useState([]);
   const [userFollowJobs, setUserFollowJobs] = useState([]);
-
+  // Fx for reset data in state ---------------------------------------
+  const resetUserData = () => {
+    setEmail("");
+    setPassword("");
+    setPasswordConfirmed("");
+    setRole("");
+    // ---------------
+    setName("");
+    setPhone("");
+    setBirthDate("");
+    setLinkedin("");
+    setTitle("");
+    setExperience("");
+    setEducation("");
+    setUploadFiles("");
+    // ---------------
+    setCompanyName("");
+    setCompanyWebsite("");
+    setAbout("");
+    setCompanyLogo("");
+    // ---------------
+  };
   return (
     <UsersDataContext.Provider
       value={{
@@ -74,6 +95,8 @@ function UserDataProvider(props) {
         setUserAppiedJobs,
         userFollowJobs,
         setUserFollowJobs,
+        // Fx for reset data in state ---------------------------------------
+        resetUserData,
       }}
     >
       {props.children}

@@ -10,7 +10,8 @@ import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
 import { useVadilation } from "../../contexts/vadilation";
 export default function LoginPage() {
-  const { role, password, setPassword, email, setEmail } = useUserData();
+  const { role, password, setPassword, email, setEmail, resetUserData } =
+    useUserData();
   const { setStep, isErrorPassword, isErrorEmail } = useVadilation();
   const { login } = useAuth();
 
@@ -22,6 +23,7 @@ export default function LoginPage() {
       password,
       role,
     });
+    resetUserData();
   };
 
   return (

@@ -16,41 +16,27 @@ function RegisterPage() {
   const {
     // Shared state between Professional & Recruiter -----------------------------------------
     email,
-    setEmail,
     password,
-    setPassword,
     passwordConfirmed,
-    setPasswordConfirmed,
     role,
     setRole,
     // State Only for Professional -----------------------------------------
     name,
-    setName,
     phone,
-    setPhone,
     birthDate,
-    setBirthDate,
     linkedin,
-    setLinkedin,
     title,
-    setTitle,
     experience,
-    setExperience,
     education,
-    setEducation,
     uploadFiles,
-    setUploadFiles,
     userAppiedJobs,
     userFollowJobs,
     // State Only for Recruiter -----------------------------------------
     companyName,
-    setCompanyName,
     companyWebsite,
-    setCompanyWebsite,
     about,
-    setAbout,
     companyLogo,
-    setCompanyLogo,
+    resetUserData,
   } = useUserData();
   const {
     // Others -------------------------------------
@@ -108,25 +94,7 @@ function RegisterPage() {
       email,
       password,
     });
-    setEmail("");
-    setPassword("");
-    setPasswordConfirmed("");
-    setRole("");
-    // ---------------
-    setName("");
-    setPhone("");
-    setBirthDate("");
-    setLinkedin("");
-    setTitle("");
-    setExperience("");
-    setEducation("");
-    setUploadFiles("");
-    // ---------------
-    setCompanyName("");
-    setCompanyWebsite("");
-    setAbout("");
-    setCompanyLogo("");
-    // ---------------
+    resetUserData();
     setStep(0);
     setRoleBtn("professional");
     setRole("professional");

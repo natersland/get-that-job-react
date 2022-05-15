@@ -1,13 +1,12 @@
 import styled from "@emotion/styled";
 import moment from "moment";
-import Alert from "@mui/material/Alert";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
-import { useRecruiter } from "../../contexts/recruiter";
-import { useState } from "react";
 //Components ------------------------------------
-import AlertNotification from "../../components/Utilities/AlertNotification";
+import Alert from "@mui/material/Alert";
 // Utils
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 
@@ -33,30 +32,30 @@ function CreateJobPage() {
     setOptionalReq,
     createdJobDate,
     setCreatedJobDate,
-    totalCandidates,
-    setTotalCandidates,
-    candidatesOnTrack,
-    setCandidatesOnTrack,
-    jobsStatus,
-    setJobsStatus,
     jobCategoryList,
     jobTypeList,
+    resetJobData,
   } = useJobsData();
-  const { createJob } = useRecruiter();
-
-  // Add Comma Function -------------------------------------------------
+  const navigate = useNavigate();
+  // Add Comma Function: Add to display UI salary -------------------------------------------------
   const addCommas = (num) =>
     Number(num)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
   // ---------------------------------------------------------------------
+  // Connect to server: Create Job  -----------------------------------------
+  const createJob = async (data) => {
+    await axios.post("http://localhost:4000/jobs/create", data);
+    navigate("/viewjobs");
+  };
   const handleSubmit = (event) => {
+    // Filter Comma from UI display for send data to server
+    filterComma(minSalary);
+    filterComma(maxSalary);
+    // --------------------------------------
     event.preventDefault();
     setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
-    setJobsStatus(true);
-    setTotalCandidates(0);
-    setCandidatesOnTrack(0);
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
         jobTitle,
@@ -68,20 +67,9 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
-        totalCandidates,
-        candidatesOnTrack,
-        jobsStatus,
       };
       createJob(data);
-
-      setJobTitle("");
-      setJobCategory("");
-      setJobType("");
-      setMinSalary("");
-      setMaxSalary("");
-      setAboutJob("");
-      setMandatoryReq("");
-      setOptionalReq("");
+      resetJobData();
       setIsError(false);
     } else {
       setIsError(true);

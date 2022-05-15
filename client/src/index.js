@@ -11,7 +11,6 @@ import { AuthProvider } from "./contexts/authentication";
 import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
 import { JobsDataProvider } from "./contexts/jobsData";
-import { RecruiterProvider } from "./contexts/recruiter";
 import { VadilationProvider } from "./contexts/vadilation";
 
 jwtInterceptor();
@@ -22,13 +21,11 @@ ReactDOM.render(
       <UserDataProvider>
         <VadilationProvider>
           <AuthProvider>
-            <RecruiterProvider>
-              <JobsDataProvider>
-                <NavigateProvider>
-                  <App />
-                </NavigateProvider>
-              </JobsDataProvider>
-            </RecruiterProvider>
+            <JobsDataProvider>
+              <NavigateProvider>
+                <App />
+              </NavigateProvider>
+            </JobsDataProvider>
           </AuthProvider>
         </VadilationProvider>
       </UserDataProvider>

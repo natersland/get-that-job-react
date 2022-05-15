@@ -4,6 +4,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
+// Schema Medels ---------------------
+import UsersProfessional from "../models/UsersProfessional.js";
+import UsersRecruiter from "../models/UsersRecruiter.js";
+// -----------------------------------
 
 const authRouter = Router();
 
