@@ -32,22 +32,6 @@ jobRouter.get("/", async (req, res) => {
   return res.json({ data: jobs });
 });
 
-/* jobRouter.get("/", (req, res) => {
-  const keywords = req.query.keywords;
-  const regexKeywords = keywords.split(" ").join("|");
-  const regex = new RegExp(regexKeywords, "ig");
-  const results = jobs.filter(() => {
-    return (
-      .title.match(regex) ||
-      .description.match(regex) ||
-      .tags.filter((tag) => tag.match(regex)).length
-    );
-  });
-
-  return res.json({
-    data: results,
-  });
-}); */
 // CREATE JOB ----------------------------
 jobRouter.post("/create", async (req, res) => {
   try {
@@ -67,7 +51,7 @@ jobRouter.put("/:id", async (req, res) => {
       ...req.body,
     };
     await collection.updateOne({ _id: jobId }, { $set: updateJobData });
-    res.status(200).json(`Hotel ${jobId} has been updated successful`);
+    res.status(200).json(`Job ${jobId} has been updated successful`);
     console.log(`Updated job data id:${jobId} successful!`);
   } catch (error) {
     res.status(500).json(error);
@@ -109,7 +93,7 @@ export default jobRouter;
 
 // Lagacy Code -----------------------------
 // Create Job
-/* jobRouter.post("/createjob", async (req, res) => {
+jobRouter.post("/createjob", async (req, res) => {
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
     return Number(result);
@@ -136,4 +120,3 @@ export default jobRouter;
     Message: "Create new job has been created successfully",
   });
 });
- */
