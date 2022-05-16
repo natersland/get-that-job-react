@@ -4,15 +4,16 @@ const { Schema } = mongoose;
 const UsersProfessionalSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
+    required: [true, "An user:professional must have a email"],
+    unique: true,
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "An user:professional must have a password"],
   },
   role: {
     type: String,
-    required: true,
+    required: [true, "An user:professional must have a role"],
     default: "professional",
   },
   name: {

@@ -3,10 +3,12 @@ import { Router } from "express";
 import { db } from "../utils/db.js";
 // Schema Medels ---------------------
 import Jobs from "../models/Jobs.js";
+import UsersRecruiter from "../models/UsersRecruiter.js";
 //------------------------------------
 
 const jobRouter = Router();
 const collection = db.collection("jobs");
+const collection2 = db.collection("users");
 
 // SEARCH & FILTER ----------------------------
 jobRouter.get("/", async (req, res) => {
@@ -31,9 +33,65 @@ jobRouter.get("/", async (req, res) => {
 
   return res.json({ data: jobs });
 });
+// CREATE JOB V2 ----------------------------
+/* {
+  "jobTitle": "sdvsdv",
+  "jobIdNumber": [
+      {
+          "idNumber": 101
+      }
+  ]
+} */
+
+jobRouter.get("/:id", async (req, res) => {
+  const jobId = ObjectId(req.params.id);
+  const collection = db.collection("jobs");
+  const job = await collection.find({ _id: jobId }).toArray();
+  return res.json({
+    data: job[0],
+  });
+});
+
+/* jobRouter.post("/create", async (req, res) => {
+  //create/:userId
+  try {
+    const userId = req.params.id;
+    const newJob = new Jobs(req.body);
+
+    const saveJob = await db.collection("jobs").insertOne(newJob);
+    try {
+      await collection2.findOneAndUpdate(
+        { _id: userId },
+        { $push: { job: saveJob._id } }
+      );
+    } catch (error) {
+      res.status(500).json(error);
+    }
+    res.status(200).json(`New job has been created successful`);
+    console.log(newJob);
+  } catch (error) {
+    next(error);
+  }
+}); */
+
+jobRouter.post("/create", async (req, res) => {
+  //create/:userId
+
+  const userId = req.body.id;
+  const newJob = new Jobs(req.body);
+  await db.collection("jobs").insertOne(newJob, userId);
+
+  const pipeline = [
+    { $match: { categories: "Bakery" } },
+    { $group: { _id: "$stars", count: { $sum: 1 } } },
+  ];
+
+  res.status(200).json(`New job has been created successful`);
+  console.log(newJob, userId);
+});
 
 // CREATE JOB ----------------------------
-jobRouter.post("/create", async (req, res) => {
+/* jobRouter.post("/create", async (req, res) => {
   try {
     const newJob = new Jobs(req.body);
     await db.collection("jobs").insertOne(newJob);
@@ -42,7 +100,7 @@ jobRouter.post("/create", async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
-});
+}); */
 // UPDATE JOB ----------------------------
 jobRouter.put("/:id", async (req, res) => {
   try {
@@ -58,9 +116,18 @@ jobRouter.put("/:id", async (req, res) => {
   }
 });
 // DELETE JOB ----------------------------
-jobRouter.delete("/:id", async (req, res) => {
+jobRouter.delete("/:id/:userId", async (req, res) => {
   try {
+    const userId = ObjectId(req.params.id);
     const jobId = ObjectId(req.params.id);
+    try {
+      await collection2.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { job: req.params.id } }
+      );
+    } catch (error) {
+      res.status(500).json(error);
+    }
     await collection.deleteOne({ _id: jobId });
     res.status(200).json(`Job ${jobId} has been deleted successful`);
     console.log(`Job ${jobId} has been deleted successful`);
@@ -93,7 +160,7 @@ export default jobRouter;
 
 // Lagacy Code -----------------------------
 // Create Job
-jobRouter.post("/createjob", async (req, res) => {
+jobRouter.post("/createjob/:id", async (req, res) => {
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
     return Number(result);

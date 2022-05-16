@@ -81,7 +81,7 @@ function CreateJobPage() {
           <TextLabel>{textUpperCase("Job title")}</TextLabel>
           <InputText
             id="job-title"
-            name="job-title"
+            name="jobTitle"
             onChange={(e) => setJobTitle(e.target.value)}
             value={jobTitle}
             className="pink-border gtj-input"
