@@ -2,42 +2,76 @@ import styled from "@emotion/styled";
 
 // Contexts
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 
 export default function SelectRole() {
-  const { roleBtn, setRoleBtn } = useUserData();
+  const { role, setRole } = useUserData();
+  const { step } = useVadilation();
 
   const selectRoleBTN = () => {
-    if (roleBtn === "professional") {
-      setRoleBtn("recruiter");
+    if (role === "professional") {
+      setRole("recruiter");
     } else {
-      setRoleBtn("professional");
+      setRole("professional");
     }
   };
-  return (
-    <SelectRoleWrapper>
-      {roleBtn === "professional" ? (
-        <div>
-          {" "}
-          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-            professional
-          </RoleButton>
-          <RoleButton onClick={selectRoleBTN} isSelect={false}>
-            Recruiter
-          </RoleButton>
-        </div>
-      ) : (
-        <div>
-          {" "}
-          <RoleButton onClick={selectRoleBTN} isSelect={false}>
-            professional
-          </RoleButton>
-          <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-            Recruiter
-          </RoleButton>
-        </div>
-      )}
-    </SelectRoleWrapper>
-  );
+
+  const roleButton = () => {
+    if (step === 0) {
+      if (role === "professional") {
+        return (
+          <div>
+            {" "}
+            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
+              professional
+            </RoleButton>
+            <RoleButton onClick={selectRoleBTN} isSelect={false}>
+              Recruiter
+            </RoleButton>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <RoleButton onClick={selectRoleBTN} isSelect={false}>
+              professional
+            </RoleButton>
+            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
+              Recruiter
+            </RoleButton>
+          </div>
+        );
+      }
+    } else if (step >= 1) {
+      if (role === "professional") {
+        return (
+          <div>
+            {" "}
+            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
+              professional
+            </RoleButton>
+            <RoleButton onClick={selectRoleBTN} isSelect={false} disabled>
+              Recruiter
+            </RoleButton>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            {" "}
+            <RoleButton onClick={selectRoleBTN} isSelect={false} disabled>
+              professional
+            </RoleButton>
+            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
+              Recruiter
+            </RoleButton>
+          </div>
+        );
+      }
+    }
+  };
+
+  return <SelectRoleWrapper>{roleButton()}</SelectRoleWrapper>;
 }
 
 // ------------------- CSS Style Component Zone -------------------

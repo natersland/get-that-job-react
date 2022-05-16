@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
@@ -16,14 +15,10 @@ import { useJobsData } from "../../contexts/jobsData";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //
 function FindThatJobCard() {
-  const { jobs, setJobs, searchJobText, setSearchJobText /* getJobs */ } =
+  const { jobs, setJobs, searchJobText, setSearchJobText, getJobs } =
     useJobsData();
   const { textUpperCase } = UtilitiesFunction();
 
-  /* useEffect(() => {
-    getJobs({ jobs });
-  }); */
-  /*   getJobs({ jobs }); */
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
@@ -36,20 +31,32 @@ function FindThatJobCard() {
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
               <JobCardContent>
+                {/* Left Side ---------------------------------------------- */}
                 <ContentLeft>
                   <CompanyLogoWrapper>
                     <CompanyLogoJa src={CompanyLogo}></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
+                {/* Right Side ---------------------------------------------- */}
                 <ContentRight>
-                  <JobCategory>{jobCategory}</JobCategory>
+                  <JobCategory>
+                    <span>
+                      <img
+                        className="mr-1"
+                        src={CompanyIcon}
+                        alt="Company Icon"
+                      />
+                    </span>{" "}
+                    {jobCategory}
+                  </JobCategory>
                   <JobTitle>{jobTitle}</JobTitle>
                   <CompanyName>The Company Name</CompanyName>
+                  {/* Left Side: Sub Content ---------------------------------------------- */}
                   <SubContentWrapper>
                     {" "}
                     <JobType>
                       <span className="mr-1">
-                        <img src={CalendarIcon} />
+                        <img src={CalendarIcon} alt="Calendar Icon" />
                       </span>
                       {jobType}
                     </JobType>
@@ -57,11 +64,17 @@ function FindThatJobCard() {
                       <span className="mr-1">
                         <img src={DollarLineIcon} alt="DollarIcon" />
                       </span>
-                      {newMinNumber.toFixed(1)}k - {newMaxNumber.toFixed(1)}k
+                      {minSalary < 100
+                        ? `${minSalary}$ - `
+                        : `${newMinNumber.toFixed(1)}k - `}
+                      {maxSalary < 100
+                        ? `${maxSalary}$`
+                        : `${newMaxNumber.toFixed(1)}k`}
                     </Salary>
                   </SubContentWrapper>
                 </ContentRight>
               </JobCardContent>
+              {/* Left Side: Footer ---------------------------------------------- */}
               <JobCardFooter>
                 <FollowCircle>
                   <FollowIcon src={FocusIcon}></FollowIcon>
@@ -103,6 +116,7 @@ const FindThatJobWrapper = styled.div`
 const JobCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   border-radius: 8px;
   width: 290px;
   padding: 16px;
@@ -132,6 +146,7 @@ const ContentRight = styled.div`
   width: 100%;
 `;
 const JobCategory = styled.p`
+  display: flex;
   font-family: var(--seconary-font);
   color: var(--light-gray);
   font-size: 0.75rem;

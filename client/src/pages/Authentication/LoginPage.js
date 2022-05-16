@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import Alert from "@mui/material/Alert";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../img/Group 65.png";
 // components ------------------------------------
@@ -7,22 +7,32 @@ import SelectRole from "../../components/UnAut-Register/SelectRole";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
-
+import { useVadilation } from "../../contexts/vadilation";
+import { useNav } from "../../contexts/navigate";
 export default function LoginPage() {
-  const { roleBtn, setRoleBtn } = useUserData();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    role,
+    setRole,
+    password,
+    setPassword,
+    email,
+    setEmail,
+    resetUserData,
+  } = useUserData();
+  const { isErrorPassword, isErrorEmail } = useVadilation();
   const { login } = useAuth();
-
-  console.log(`🎈Login Current Role is ${roleBtn}`);
-
+  const { setMenuIndex } = useNav();
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
+    setMenuIndex(1);
     login({
       email,
       password,
+      role,
     });
+    resetUserData();
+    setRole("professional");
   };
 
   return (
@@ -32,8 +42,22 @@ export default function LoginPage() {
           <LoginIntroduction>
             <LoginHeaderText>Welcome back</LoginHeaderText>
             <LoginIntroText>Login to you account as...</LoginIntroText>
+            <h1>{`Current Role is ${role}`}</h1>
           </LoginIntroduction>
-          <SelectRole roleBtn={roleBtn} setRoleBtn={setRoleBtn} />
+          <SelectRole />
+
+          {/*แจ้งเตือนเมื่อ user ไม่ใส่ email ------------------------ */}
+          {isErrorEmail ? (
+            <Alert className="mt-2 mb-2 w-12/12" severity="error">
+              Please enter valid email address
+            </Alert>
+          ) : null}
+          {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password ------------------------ */}
+          {isErrorPassword ? (
+            <Alert className="mt-2 mb-2 w-12/12" severity="error">
+              Please verify and re-enter your password
+            </Alert>
+          ) : null}
           <LoginFormWrapper onSubmit={handleSubmit}>
             <InputWrapper>
               EMAIL
@@ -66,7 +90,7 @@ export default function LoginPage() {
               ></input>
             </InputWrapper>
             <FormAction>
-              <button type="Submit" className="btn btn-md btn-pink">
+              <button type="submit" className="btn btn-md btn-pink  mr-2">
                 Login
               </button>
             </FormAction>

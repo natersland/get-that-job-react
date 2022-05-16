@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 // Components
 import FindThatJobCard from "../../components/AutPro-FindThatJob/FindThatJobCard";
 import FindThatJobHeader from "../../components/AutPro-FindThatJob/FindThatJobHeader";
@@ -17,4 +16,5 @@ export default FindJobsPage;
 const Wrapper = styled.section`
   width: 65%;
   margin: auto;
+  margin-bottom: 100px;
 `;

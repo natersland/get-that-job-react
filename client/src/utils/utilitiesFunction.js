@@ -1,11 +1,15 @@
 const UtilitiesFunction = () => {
-  // filtered comma from number fx -------------------------------------------------
+  // Add & remove Comma to Number Function: Add to display UI salary -------------------------------------------------
+  const addCommas = (num) =>
+    Number(num)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
+  // filtered comma from string number -------------------------------------------------
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
     return Number(result);
   };
-  // ---------------------------------------------------------------------
-
   // toUpperCaseFx -------------------------------------------------
   const textUpperCase = (props) => {
     const text = props;
@@ -13,6 +17,6 @@ const UtilitiesFunction = () => {
   };
   // ---------------------------------------------------------------------
 
-  return { filterComma, textUpperCase };
+  return { filterComma, textUpperCase, addCommas, removeCommas };
 };
 export default UtilitiesFunction;

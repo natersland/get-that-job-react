@@ -38,13 +38,13 @@ function RecRegisterForm2() {
         <Input
           type="text"
           name="companyWebsite"
+          className="gtj-input pink-border"
           value={companyWebsite}
           onChange={(event) => setCompanyWebsite(event.target.value)}
           placeholder="https://www.mycompany.sa"
           id="companyWebsite"
           rows={4}
           cols={30}
-          required
         />
         <br />
 
@@ -53,6 +53,7 @@ function RecRegisterForm2() {
         <InputLimit
           type="text"
           name="about"
+          className="gtj-input pink-border"
           value={about}
           onChange={(event) => setAbout(event.target.value)}
           placeholder="My Company SA has the vision to change thw way how..."
@@ -60,13 +61,12 @@ function RecRegisterForm2() {
           rows={4}
           cols={30}
           minlength="5"
-          required
         />
         <Limitation> Between 100 and 2000 characters </Limitation>
         <Label2>UPLOAD THE COMPANY LOGO</Label2>
         <UploadFileSection>
           <UploadButton htmlFor="uploadFile">
-            <ChooseFile>Choose File</ChooseFile>
+            <ChooseFile>Choose Image</ChooseFile>
           </UploadButton>
           <Input
             id="uploadFile"
@@ -74,13 +74,13 @@ function RecRegisterForm2() {
             type="file"
             placeholder="Enter last name here"
             onChange={handleFileChange}
-            accept="application/pdf"
+            accept="image/*"
             maxSize={5}
             hidden
           />
           <FileName>No file chosen</FileName>
         </UploadFileSection>
-        <Limitation>Only PDF Max size 5MB</Limitation>
+        <Limitation>PNG, JPEG,IMG</Limitation>
       </div>
     </Wrapper>
   );

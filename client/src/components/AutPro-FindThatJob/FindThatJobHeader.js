@@ -1,35 +1,134 @@
 import styled from "@emotion/styled";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useUserData } from "../../contexts/usersData";
 
 function FindThatJobHeader() {
-  const { setJobs, searchJobText, setSearchJobText } = useJobsData();
-  const { setUsers } = useUserData();
+  const {
+    jobs,
+    setJobs,
+    setUsers,
+    searchJobText,
+    setSearchJobText,
+    searchMinSalaryText,
+    setSearchMinSalaryText,
+    searchMaxSalaryText,
+    setSearchMaxSalaryText,
+    jobCategoryList,
+    setJobCategoryList,
+    jobTypeList,
+    setJobTypeList,
+    jobType,
+    setJobType,
+    jobTitle,
+    setJobTitle,
+    getJobs,
+    keywords,
+    keywordsNumber,
+  } = useJobsData();
 
-  const searchJob = async () => {
+  // Filter Seach Text --------------------------------------------
+  const searchJobWord = async () => {
     const results = await axios(
       `http://localhost:4000/jobs?keywords=${searchJobText}`
     );
     setJobs(results.data.data);
   };
 
-  const handleSearchJobText = (event) => {
-    setSearchJobText(event.target.value);
+  // Categoty Filter  --------------------------------------------
+  const categoryFilter = async (e) => {
+    const results = await axios(`http://localhost:4000/jobs`);
+    const jobData = results.data.data;
+    const userSelect = e.target.value;
+    const result = jobData.filter((item) => {
+      return item.jobCategory === userSelect;
+    });
+    setJobs(result);
+    console.log(userSelect);
   };
-  useEffect(() => {
-    searchJob();
+  // Type Filter  --------------------------------------------
+  const typeFilter = async (e) => {
+    const results = await axios(`http://localhost:4000/jobs`);
+    const jobData = results.data.data;
+    const userSelect = e.target.value;
+    const result = jobData.filter((item) => {
+      return item.jobType === userSelect;
+    });
+    setJobs(result);
+    console.log(userSelect);
+  };
+  // Filter Salary --------------------------------------------
+  const searchMinSalary = async () => {
+    const results = await axios.get(
+      `http://localhost:4000/jobs?searchMinSalaryText=${searchMinSalaryText}`
+    );
+    setJobs(results.data.data);
+  };
+
+  const searchMaxSalary = async () => {
+    const results = await axios(
+      `http://localhost:4000/jobs?searchMaxSalaryText=${searchMaxSalaryText}`
+    );
+    setJobs(results.data.data);
+  };
+
+  /*  useEffect(() => {
+    getJobs(
+      jobType,
+
+      keywords
+    );
+    searchJobWord();
+    searchMinSalary();
+    searchMaxSalary()
+    dropDownFilter();
+
     let timer;
 
+    const setTimer = (fx1, fx2) => {
+      if (fx1) {
+        timer = setTimeout(fx2, 1000);
+      }
+    };
     if (searchJobText) {
-      timer = setTimeout(searchJob, 1000);
+      timer = setTimeout(searchJobWord, 5000);
+    } else if (searchMinSalaryText) {
+      timer = setTimeout(searchMinSalary, 5000);
+    } else if (searchMaxSalaryText) {
+      timer = setTimeout(searchMaxSalary, 5000);
     }
+    setTimer(searchJobWord, searchJobText);
+    setTimer(searchMinSalary, searchMinSalaryText);
+    setTimer(searchMaxSalary, searchMaxSalaryText);
+    setTimer(dropDownFilter);
+
     return () => {
       clearTimeout(timer);
     };
-  }, [searchJobText]);
+  }, [searchJobText, searchMinSalaryText, searchMaxSalaryText]); */
+  useEffect(() => {
+    searchJobWord();
+    searchMinSalary();
+    searchMaxSalary();
+
+    let timeOut;
+
+    if (searchJobText) {
+      timeOut = setTimeout(searchJobWord, 1000);
+    }
+    if (searchMinSalaryText) {
+      timeOut = setTimeout(searchMinSalary, 1000);
+    }
+    if (searchMaxSalaryText) {
+      timeOut = setTimeout(searchMaxSalary, 1000);
+    }
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [searchJobText, searchMinSalaryText, searchMaxSalaryText]);
 
   return (
     <Wrapper className="pt-8">
@@ -44,9 +143,9 @@ function FindThatJobHeader() {
             id="searchjobword"
             name="searchjobword"
             type="text"
-            placeholder="manufacturing, sales, swim"
-            onChange={handleSearchJobText}
+            onChange={(e) => setSearchJobText(e.target.value)}
             value={searchJobText}
+            placeholder="manufacturing, sales, swim"
           ></SearchBox>
         </InputWrapper>
       </HeaderSection>
@@ -55,26 +154,41 @@ function FindThatJobHeader() {
         {/* ------------- Box 1: Category ------------- */}
         <InputWrapperSection>
           <InputBoxLabel>CATEGORY</InputBoxLabel>
-          <DropDownList className="gtj-input pink-border">
+          <DropDownList
+            className="gtj-input pink-border"
+            onChange={categoryFilter}
+          >
             <option value="" disabled selected>
               Select a category
             </option>
-            <option>Manufacturing</option>
-            <option>Legal</option>
-            <option>Education</option>
-            <option>Goverment</option>
-            <option>Sales</option>
+            {jobCategoryList.map((items, index) => {
+              return (
+                <option key={index} value={items}>
+                  {items}
+                </option>
+              );
+            })}
           </DropDownList>
         </InputWrapperSection>
         {/* ------------- Box 2: Type ------------- */}
         <InputWrapperSection>
           <InputBoxLabel>TYPE</InputBoxLabel>
-          <DropDownList className="gtj-input pink-border">
+          <DropDownList
+            className="gtj-input pink-border"
+            id="jobType"
+            name="jobType"
+            onChange={typeFilter}
+          >
             <option value="" disabled selected>
               Select a type
             </option>
-            <option>Full time</option>
-            <option>Part time</option>
+            {jobTypeList.map((items, index) => {
+              return (
+                <option key={index} value={items}>
+                  {items}
+                </option>
+              );
+            })}
           </DropDownList>
         </InputWrapperSection>
         {/* ------------- Box 1: Salary Range ------------- */}
@@ -89,6 +203,8 @@ function FindThatJobHeader() {
                 type="text"
                 maxLength={6}
                 placeholder="min"
+                onChange={(e) => setSearchMinSalaryText(Number(e.target.value))}
+                value={searchMinSalaryText}
               ></SearchSalary>
               <Dash>
                 <DashLine></DashLine>
@@ -100,12 +216,21 @@ function FindThatJobHeader() {
                 type="text"
                 maxLength={6}
                 placeholder="max"
+                onChange={(e) => setSearchMaxSalaryText(Number(e.target.value))}
+                value={searchMaxSalaryText}
               ></SearchSalary>
             </SubSalaryBox>
           </SalaryBox>
         </InputWrapperSection>
       </FilterInputWrapper>
       {/* ---------------------------------------------------------- */}
+      {`Search Input Text: ${searchJobText}`}
+      <br></br>
+      {`Job Data: ${jobs.length}`}
+      <br></br>
+      {`typeof minSalary input: ${typeof searchMinSalaryText}`}
+      <br></br>
+      {`typeof maxSalary input: ${typeof searchMaxSalaryText}`}
     </Wrapper>
   );
 }

@@ -187,6 +187,7 @@ const TextWrap = styled.div`
 `;
 const ImgWrapper = styled.div`
   width: 45%;
+  background-color: white;
 `;
 const ImgWrap = styled.div`
   display: flex;

@@ -1,22 +1,25 @@
 // CSS
 import "./App.css";
-
 // 🐳 Authentication Login & Register ------------------------
-import AuthenticatedApp from "./routes/AuthenticatedApp";
 import UnauthenticatedApp from "./routes/UnauthenticatedApp";
-
+import ProfessionalApp from "./routes/ProfessionalApp";
+import RecruiterApp from "./routes/RecruiterApp";
 // 🌈 Context Fantasy -----------------------------------------
 import { useAuth } from "./contexts/authentication";
-import { useUserData } from "./contexts/usersData";
 
 function App() {
   const auth = useAuth();
-  const { users } = useUserData();
 
-  return auth.isAuthenticated ? (
-    <AuthenticatedApp userRole={users} />
-  ) : (
-    <UnauthenticatedApp userRole={users} />
+  return (
+    <>
+      {auth.isProfessional && auth.isAuthenticated && auth.isRightAccount && (
+        <ProfessionalApp />
+      )}
+      {auth.isRecruiter && auth.isAuthenticated && auth.isRightAccount && (
+        <RecruiterApp />
+      )}
+      {!auth.isAuthenticated && <UnauthenticatedApp />}
+    </>
   );
 }
 

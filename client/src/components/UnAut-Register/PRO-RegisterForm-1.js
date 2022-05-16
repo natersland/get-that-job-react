@@ -23,9 +23,9 @@ function ProRegisterForm1() {
           id="email"
           name="email"
           type="email"
+          className="gtj-input pink-border"
           placeholder="some.user@mail.com"
           onChange={(event) => setEmail(event.target.value)}
-          required
           value={email}
         />
       </Container>
@@ -35,11 +35,11 @@ function ProRegisterForm1() {
           id="password"
           name="password"
           type="password"
+          className="gtj-input pink-border"
           placeholder="**********"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
-          required
           value={password}
         />
       </Container>
@@ -49,11 +49,11 @@ function ProRegisterForm1() {
           id="password-confiremed"
           name="password-confiremed"
           type="password"
+          className="gtj-input pink-border"
           placeholder="**********"
           onChange={(event) => {
             setPasswordConfirmed(event.target.value);
           }}
-          required
           value={passwordConfirmed}
         />
       </Container>

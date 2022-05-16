@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 // Contexts
 import { useUserData } from "../../contexts/usersData";
 
@@ -26,6 +25,7 @@ function ProRegisterForm2() {
           id="name"
           name="name"
           type="text"
+          className="gtj-input pink-border"
           placeholder="John Doe"
           onChange={(event) => {
             setName(event.target.value);
@@ -39,6 +39,7 @@ function ProRegisterForm2() {
           id="phone"
           name="phone"
           type="tel"
+          className="gtj-input pink-border"
           placeholder="0XXXXXXXXX"
           maxlength="10"
           pattern="[0-9]{10}"
@@ -54,6 +55,7 @@ function ProRegisterForm2() {
           id="birthDate"
           name="birthDate"
           type="date"
+          className="gtj-input pink-border "
           placeholder="Pick a date"
           onChange={(event) => {
             setBirthDate(event.target.value);
@@ -68,6 +70,7 @@ function ProRegisterForm2() {
           id="linkedin"
           name="linkedin"
           type="url"
+          className="gtj-input pink-border"
           placeholder="https://www.linkedin.com/username"
           onChange={(event) => {
             setLinkedin(event.target.value);

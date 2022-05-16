@@ -12,7 +12,6 @@ import calendar from "../../img/calendar-2-line.png";
 import money from "../../img/money-dollar-circle-line.png";
 import arrowUp from "../../img/arrow-up-s-line.png";
 
-
 /*
  */ const datas = [
   {
@@ -53,16 +52,13 @@ import arrowUp from "../../img/arrow-up-s-line.png";
   },
 ];
 
-function ViewJob() {
+function ViewJobs() {
   const [select, setSelect] = useState("option1");
 
   const handleSelectChange = (event) => {
     const value = event.target.value;
     setSelect(value);
   };
-
-
-
 
   /* const  handleCloseBtn = event => {
     const value= event.target.value
@@ -155,11 +151,10 @@ function ViewJob() {
   );
 
   function Job(props) {
-
     const [toggle, setToggle] = useState(false);
 
     const closeJobStatus = (index) => {
-      datas[index].jobsStatus = false
+      datas[index].jobsStatus = false;
       console.log(index);
       console.log(datas[index].jobsStatus);
     };
@@ -241,33 +236,37 @@ function ViewJob() {
               </JobCardHeader3Left3>
 
               <JobCardHeader3Left3>
-
-                {props.jobsStatus ?  <CloseJobButton
-                  className="btn btn-md"
-                  type="button"
-                  onClick={()=>{closeJobStatus(props.id-1)}}
-                  isActive={props.jobsStatus}
-                >
-                  <CloseDiv>
-                    <Img2>
-                      <img src={close} />
-                    </Img2>
-                    <Text3>ClOSED</Text3>
-                  </CloseDiv>
-                </CloseJobButton> : <CloseJobButton
-                  className="btn btn-md jaaaaaaaaaaaaa"
-                  type="button"
-                  isActive={props.jobsStatus}
-                  disabled
-                >
-                  <CloseDiv>
-                    <Img2>
-                      <img src={close} />
-                    </Img2>
-                    <Text3>ClOSED</Text3>
-                  </CloseDiv>
-                </CloseJobButton>}
-               
+                {props.jobsStatus ? (
+                  <CloseJobButton
+                    className="btn btn-md"
+                    type="button"
+                    onClick={() => {
+                      closeJobStatus(props.id - 1);
+                    }}
+                    isActive={props.jobsStatus}
+                  >
+                    <CloseDiv>
+                      <Img2>
+                        <img src={close} />
+                      </Img2>
+                      <Text3>ClOSED</Text3>
+                    </CloseDiv>
+                  </CloseJobButton>
+                ) : (
+                  <CloseJobButton
+                    className="btn btn-md jaaaaaaaaaaaaa"
+                    type="button"
+                    isActive={props.jobsStatus}
+                    disabled
+                  >
+                    <CloseDiv>
+                      <Img2>
+                        <img src={close} />
+                      </Img2>
+                      <Text3>ClOSED</Text3>
+                    </CloseDiv>
+                  </CloseJobButton>
+                )}
               </JobCardHeader3Left3>
             </JobCardHeader3>
           </JobCardHeader>
@@ -311,7 +310,7 @@ function ViewJob() {
   }
 }
 
-export default ViewJob;
+export default ViewJobs;
 
 const Heading = styled.div`
   display: flex;
@@ -358,7 +357,6 @@ const RadioForm = styled.div`
 const RadioBtn = styled.input`
   /* accent-color: var(--secoundary-brand-color); */
   /* color: violet; */
-
 `;
 
 const RadioForm1 = styled.div`
@@ -585,6 +583,6 @@ const Detail = styled.div`
 `;
 
 const CloseJobButton = styled.button`
-background-color: ${(props) =>
-  props.isActive ? "var(--primary-brand-color)" : "--tertiary-text-color"};
+  background-color: ${(props) =>
+    props.isActive ? "var(--primary-brand-color)" : "--tertiary-text-color"};
 `;
