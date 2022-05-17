@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
+import { useVadilation } from "../../contexts/vadilation";
 //Components ------------------------------------
 import Alert from "@mui/material/Alert";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Utils
 import UtilitiesFunction from "../../utils/utilitiesFunction";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
@@ -37,24 +40,30 @@ function CreateJobPage() {
     jobTypeList,
     resetJobData,
   } = useJobsData();
+  const {
+    // This Zone is for Register form vadilate only -------------------------------------
+    setLoading,
+    setIsAlert,
+  } = useVadilation();
   const navigate = useNavigate();
 
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);
-    navigate("/viewjobs");
+    /*     navigate("/viewjobs");
+     */
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
     // Filter Comma from UI display for send data to server
     filterComma(minSalary);
     filterComma(maxSalary);
     const recruiterId = localStorage.getItem("id");
-    const recruiterLogo = localStorage.getItem("id");
-    alert(recruiterLogo);
 
     // --------------------------------------
-    event.preventDefault();
+
     setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
 
     if (filterComma(maxSalary) > filterComma(minSalary)) {
@@ -69,18 +78,24 @@ function CreateJobPage() {
         optionalReq,
         createdJobDate,
         recruiterId,
-        recruiterLogo,
       };
-      createJob(data);
-      resetJobData();
-      setIsError(false);
+      setTimeout(function () {
+        createJob(data);
+        resetJobData();
+        setIsError(false);
+        setLoading(false);
+        setIsAlert(true);
+      }, 500);
     } else {
       setIsError(true);
+      setLoading(false);
     }
   };
 
   return (
     <Wrapper>
+      <AlertDialog textDialog={`Job has been created!`} />
+      <BackDropLoading />
       <form id="createjob-form" onSubmit={handleSubmit}>
         <HeadingText className="pt-8">Create new job posting</HeadingText>
         <SectionWrapper>

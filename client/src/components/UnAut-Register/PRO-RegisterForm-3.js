@@ -82,8 +82,8 @@ function ProRegisterForm3() {
           rows={4}
           cols={30}
         />
-        <Limitation>Between 100 and 2000 characters</Limitation>
       </Container>
+      <Limitation>Between 100 and 2000 characters</Limitation>
 
       <Label>UPLOAD/UPDATE YOUR CV</Label>
       <UploadFileSection>
@@ -102,7 +102,7 @@ function ProRegisterForm3() {
 }
 
 const Input = styled.input`
-  width: 360px;
+  width: 600px;
   height: 36px;
   border-radius: 8px;
   font-family: var(--secondary-font);

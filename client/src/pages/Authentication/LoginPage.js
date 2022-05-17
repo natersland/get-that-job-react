@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
 // Picture ------------------------------------
-import maleStandingWithSmile from "../../img/Group 65.png";
+import maleStandingWithSmile from "../../assets/people/man-login.svg";
 // components ------------------------------------
 import SelectRole from "../../components/UnAut-Register/SelectRole";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
 import { useVadilation } from "../../contexts/vadilation";
 import { useNav } from "../../contexts/navigate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
 export default function LoginPage() {
   const {
     role,
@@ -19,24 +21,30 @@ export default function LoginPage() {
     setEmail,
     resetUserData,
   } = useUserData();
-  const { isErrorPassword, isErrorEmail } = useVadilation();
+  const { isErrorPassword, isErrorEmail, handleClickOpen, setLoading } =
+    useVadilation();
   const { login } = useAuth();
   const { setMenuIndex } = useNav();
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
-    setMenuIndex(1);
-    login({
-      email,
-      password,
-      role,
-    });
-    resetUserData();
-    setRole("professional");
+    setLoading(true);
+    setTimeout(function () {
+      setMenuIndex(1);
+      login({
+        email,
+        password,
+        role,
+      });
+      resetUserData();
+      setRole("professional");
+      setLoading(false);
+    }, 100);
   };
-
   return (
     <WrapperLogin>
+      <AlertDialog textDialog={`Wrong role account! please try again.`} />
+      <BackDropLoading />
       <WrapperLoginLeft>
         <LoginZoneWrapper>
           <LoginIntroduction>

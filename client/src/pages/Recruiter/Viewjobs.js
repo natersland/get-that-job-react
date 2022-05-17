@@ -11,6 +11,8 @@ import building from "../../img/building-3-line.png";
 import calendar from "../../img/calendar-2-line.png";
 import money from "../../img/money-dollar-circle-line.png";
 import arrowUp from "../../img/arrow-up-s-line.png";
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import { useVadilation } from "../../contexts/vadilation";
 
 /*
  */ const datas = [
@@ -54,7 +56,8 @@ import arrowUp from "../../img/arrow-up-s-line.png";
 
 function ViewJobs() {
   const [select, setSelect] = useState("option1");
-
+  const userRole = localStorage.getItem("role");
+  const { fistLogIn } = useVadilation();
   const handleSelectChange = (event) => {
     const value = event.target.value;
     setSelect(value);
@@ -73,6 +76,9 @@ function ViewJobs() {
 
   return (
     <Content>
+      {fistLogIn ? (
+        <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+      ) : null}
       <Heading>
         <HeadingText>Job Posting</HeadingText>
         <HeadingText2Title>

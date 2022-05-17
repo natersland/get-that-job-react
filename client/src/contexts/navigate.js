@@ -45,7 +45,7 @@ function NavigateProvider(props) {
         navigate("/findjobs"); // Find that job
         setMenuIndex(index + 1); // setMenuIndex มีไว้เพื่อเซ็ทให้เมื่อกด sidebar ที่ปุ่มหน้าไหนแล้วจะเปลี่ยนเป็นสีขาวตรงปุ่ม
       } else if (index === 1) {
-        navigate("*"); // Your applications
+        navigate("/seemore"); // Your applications
         setMenuIndex(index + 1);
       } else if (index === 2) {
         navigate("*"); // Following
@@ -64,7 +64,7 @@ function NavigateProvider(props) {
         navigate("/createjob"); // Create New Job
         setMenuIndex(index + 1);
       } else if (index === 2) {
-        navigate("/updateprofile"); // Profile
+        navigate("/profile"); // Profile
         setMenuIndex(index + 1);
       } else if (index === 3) {
         logout(); // Log out

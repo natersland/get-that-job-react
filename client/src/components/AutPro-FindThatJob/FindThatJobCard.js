@@ -9,14 +9,12 @@ import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
-import { useUserData } from "../../contexts/usersData";
 import { useJobsData } from "../../contexts/jobsData";
 // Contexts --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //
 function FindThatJobCard() {
-  const { jobs, setJobs, searchJobText, setSearchJobText, getJobs } =
-    useJobsData();
+  const { jobs } = useJobsData();
   const { textUpperCase } = UtilitiesFunction();
   return (
     <Wrapper>
@@ -42,7 +40,11 @@ function FindThatJobCard() {
                 <ContentLeft>
                   <CompanyLogoWrapper>
                     <CompanyLogoJa
-                      src={company[0].companyLogo[0].url}
+                      src={
+                        company[0].companyLogo[0]
+                          ? company[0].companyLogo[0].url
+                          : { CompanyLogo }
+                      }
                     ></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>

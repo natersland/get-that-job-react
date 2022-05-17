@@ -25,6 +25,7 @@ function jwtInterceptor() {
       ) {
         window.localStorage.removeItem("token");
         window.localStorage.removeItem("role");
+        window.localStorage.removeItem("id");
         window.location.replace("/login");
       }
       return Promise.reject(error);

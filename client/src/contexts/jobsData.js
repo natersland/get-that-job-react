@@ -11,29 +11,17 @@ function JobsDataProvider(props) {
   const [jobType, setJobType] = useState("");
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
-
   // Additional Information -----------------------------------------
   const [aboutJob, setAboutJob] = useState("");
   const [mandatoryReq, setMandatoryReq] = useState("");
   const [optionalReq, setOptionalReq] = useState("");
-
-  // Others Data -----------------------------------------
   const [createdJobDate, setCreatedJobDate] = useState("");
-  const [totalCandidates, setTotalCandidates] = useState(0);
-  const [candidatesOnTrack, setCandidatesOnTrack] = useState(0);
-  const [jobsStatus, setJobsStatus] = useState(null);
-  // Connecting to Jobs Database & Searchbox ---------------------
+  // State for Connecting to Jobs Database Backend ---------------------
   const [jobs, setJobs] = useState([]);
-  const [searchJobText, setSearchJobText] = useState("");
-  const [searchMinSalaryText, setSearchMinSalaryText] = useState(null);
-  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState(null);
-  const [keywords, setKeywords] = useState("");
-  const [keywordsNumber, setKeywordsNumber] = useState("");
-  const [createdby, setCreateby] = useState("");
-  // Error State ------------------------------------------
+  // Conditional State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  // State only for Filter Job Feature -------------------------------
+  // State only for Gathered Data -------------------------------
   const [jobCategoryList, setJobCategoryList] = useState([
     "Manufacturing",
     "Legal",
@@ -53,7 +41,7 @@ function JobsDataProvider(props) {
     setMandatoryReq("");
     setOptionalReq("");
   };
-  // Get Data for mapping in Find that Job Page ----------------------------------------
+  // Get Data from server fx  ----------------------------------------
   const getJobs = async () => {
     try {
       /*  const params = new URLSearchParams();
@@ -80,6 +68,19 @@ function JobsDataProvider(props) {
       jobs,
       isError,
       isLoading,
+    };
+  };
+  const getOneJob = async () => {
+    const jobId = null;
+    try {
+      const results = await axios.get(`http://localhost:4000/jobs?${jobId}`);
+      console.log(results);
+      setJobs(results.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      jobs,
     };
   };
   /*  */
@@ -125,36 +126,18 @@ function JobsDataProvider(props) {
         setMandatoryReq,
         optionalReq,
         setOptionalReq,
-        // Others Data -----------------------------------------
         createdJobDate,
         setCreatedJobDate,
-        totalCandidates,
-        setTotalCandidates,
-        candidatesOnTrack,
-        setCandidatesOnTrack,
-        jobsStatus,
-        setJobsStatus,
-        // Connecting to Jobs Database & Searchbox ---------------------
+        // Connecting to Jobs Database  ---------------------
         jobs,
         setJobs,
-        searchJobText,
-        setSearchJobText,
-        searchMinSalaryText,
-        setSearchMinSalaryText,
-        searchMaxSalaryText,
-        setSearchMaxSalaryText,
         getJobs,
-        createdby,
-        setCreateby,
+        getOneJob,
         // State only for Filter Job Feature -------------------------------
         jobCategoryList,
         setJobCategoryList,
         jobTypeList,
         setJobTypeList,
-        keywords,
-        setKeywords,
-        keywordsNumber,
-        setKeywordsNumber,
         // Error State ------------------------------------------
         isError,
         setIsError,

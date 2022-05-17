@@ -37,26 +37,26 @@ function RegFormButton() {
   //  fx เก็บปุ่ม Previous Button -----------------------------------
   const previousButton = () => {
     return (
-      <button
+      <Button
         className="btn btn-md btn-pink"
         onClick={() => {
           setStep((currentPage) => currentPage - 1);
         }}
       >
         <ArrowLeft /> PREVIOUS
-      </button>
+      </Button>
     );
   };
   //  fx เก็บปุ่ม SkipThis Button -----------------------------------
   const skipButton = () => {
     return (
-      <button
+      <Button
         className="btn btn-md btn-white pink-border"
         form="register-form"
         type="submit"
       >
         SKIP THIS!
-      </button>
+      </Button>
     );
   };
   // fx เก็บปุ่ม Finish Button -----------------------------------
@@ -130,4 +130,8 @@ const ButtonWrapper = styled.div`
   width: 360px;
   display: flex;
   justify-content: space-evenly;
+  margin-top: 15px;
+`;
+const Button = styled.button`
+  border-radius: 16px;
 `;

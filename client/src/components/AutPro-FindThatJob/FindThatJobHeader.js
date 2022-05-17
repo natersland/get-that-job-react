@@ -7,16 +7,16 @@ import { useJobsData } from "../../contexts/jobsData";
 import { useUserData } from "../../contexts/usersData";
 
 function FindThatJobHeader() {
+  const [searchJobText, setSearchJobText] = useState("");
+  const [searchMinSalaryText, setSearchMinSalaryText] = useState(null);
+  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState(null);
+  const [keywords, setKeywords] = useState("");
+  const [keywordsNumber, setKeywordsNumber] = useState("");
+
   const {
     jobs,
     setJobs,
     setUsers,
-    searchJobText,
-    setSearchJobText,
-    searchMinSalaryText,
-    setSearchMinSalaryText,
-    searchMaxSalaryText,
-    setSearchMaxSalaryText,
     jobCategoryList,
     setJobCategoryList,
     jobTypeList,
@@ -26,8 +26,6 @@ function FindThatJobHeader() {
     jobTitle,
     setJobTitle,
     getJobs,
-    keywords,
-    keywordsNumber,
   } = useJobsData();
 
   // Filter Seach Text --------------------------------------------

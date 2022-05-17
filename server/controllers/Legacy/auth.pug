@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { login } from "../controllers/auth.js";
-import multer from "multer";
-import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 import { db } from "../utils/db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import multer from "multer";
+import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 // Schema Medels ---------------------
 import UsersProfessional from "../models/UsersProfessional.js";
 import UsersRecruiter from "../models/UsersRecruiter.js";
+// -----------------------------------
 
 const authRouter = Router();
 
@@ -15,53 +16,8 @@ const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
-// Login User -------------------------------------------
-authRouter.post("/login", login);
-// Register User ------------------------------------------
-authRouter.post("/register", uploadFile, async (req, res, next) => {
-  try {
-    const userRole = req.body.role;
-    function checkUserRole(role) {
-      if (String(role) === "professional") {
-        const user = new UsersProfessional(req.body);
-        return user;
-      } else if (String(role) === "recruiter") {
-        const user = new UsersRecruiter(req.body);
-        return user;
-      } else {
-        console.log(`Wrong role please check again Role is: ${role}`);
-      }
-    }
-    const user = checkUserRole(userRole);
 
-    if (String(userRole) === "professional") {
-      // if professional: Upload Files: cv file
-      const uploadFileUrl = await cloudinaryUploadCV(req.files);
-      user["uploadFiles"] = uploadFileUrl;
-    } else if (String(userRole) === "recruiter") {
-      // if recruiter: Upload Files ----------------------------------------
-      const logoFileUrl = await cloudinaryUploadLogo(req.files);
-      user["companyLogo"] = logoFileUrl;
-    }
-    // hashing password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    await db.collection("users").insertOne(user);
-    console.log(user);
-    res.status(200).json(`User has been created successfully`);
-
-    /* await db
-      .collection("users")
-      .aggregate([{ $addFields: { userId: { $toString: "$_id" } } }])
-      .insertOne(user); */
-  } catch (error) {
-    next(error);
-  }
-});
-
-// register เส้นเก่า *ไม่ใช้แล้ว ---------------------------------------
-authRouter.post("/registerV1", uploadFile, async (req, res) => {
+authRouter.post("/register", uploadFile, async (req, res) => {
   const role = req.body.role;
 
   console.log(typeof role);
@@ -78,6 +34,9 @@ authRouter.post("/registerV1", uploadFile, async (req, res) => {
       title: req.body.title,
       experience: req.body.experience,
       education: req.body.education,
+      userAppiedJobs: req.body.userAppiedJobs,
+      userFollowJobs: req.body.userFollowJobs,
+      userFollowJobs: req.body.userFollowJobs,
     };
     // Upload Files ----------------------------------------
 
@@ -121,4 +80,44 @@ authRouter.post("/registerV1", uploadFile, async (req, res) => {
     Message: "User has been created successfully",
   });
 });
+
+// Login Zone -------------------------------------------
+authRouter.post("/login", async (req, res) => {
+  const user = await db.collection("users").findOne({
+    email: req.body.email,
+  });
+
+  if (!user) {
+    return res.status(404).json({
+      message: "user not found",
+    });
+  }
+
+  const isValidPassword = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+
+  if (!isValidPassword) {
+    return res.status(400).json({
+      message: "password not valid",
+    });
+  }
+
+  const token = jwt.sign(
+    { id: user._id, email: user.email, role: user.role },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "900000",
+    }
+  );
+
+  return res.json({
+    message: "login succesfully",
+    token,
+  });
+});
+
+// ------------------------------------------------------
+
 export default authRouter;
