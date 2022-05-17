@@ -36,6 +36,9 @@ function CreateJobPage() {
     jobCategoryList,
     jobTypeList,
     resetJobData,
+    userId,
+    createdby,
+    setCreateby,
   } = useJobsData();
   const navigate = useNavigate();
 
@@ -44,10 +47,12 @@ function CreateJobPage() {
     await axios.post("http://localhost:4000/jobs/create", data);
     navigate("/viewjobs");
   };
+
   const handleSubmit = (event) => {
     // Filter Comma from UI display for send data to server
     filterComma(minSalary);
     filterComma(maxSalary);
+    setCreateby(userId);
     // --------------------------------------
     event.preventDefault();
     setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
@@ -62,6 +67,7 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
+        createdby,
       };
       createJob(data);
       resetJobData();

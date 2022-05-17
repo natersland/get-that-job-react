@@ -18,8 +18,8 @@ jobRouter.get("/", async (req, res) => {
   const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
 
   const query = {};
-  /*   console.log(`5555555555: ${keywords}`);
-   */ if (searchJobText) {
+
+  if (searchJobText) {
     query.jobTitle = searchJobText;
   } else if (searchMinSalaryText) {
     query.minSalary = searchMinSalaryText;
@@ -28,8 +28,20 @@ jobRouter.get("/", async (req, res) => {
   } else if (keywords) {
     query.jobTitle = new RegExp(`${keywords}`, "i");
   }
-
   const jobs = await collection.find(query).toArray();
+
+  await collection
+    .aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "createdby",
+          foreignField: "_id",
+          as: "jobs",
+        },
+      },
+    ])
+    .toArray();
 
   return res.json({ data: jobs });
 });
@@ -52,29 +64,18 @@ jobRouter.get("/:id", async (req, res) => {
   });
 });
 
-/* jobRouter.post("/create", async (req, res) => {
-  //create/:userId
+jobRouter.post("/create", async (req, res) => {
   try {
-    const userId = req.params.id;
     const newJob = new Jobs(req.body);
-
-    const saveJob = await db.collection("jobs").insertOne(newJob);
-    try {
-      await collection2.findOneAndUpdate(
-        { _id: userId },
-        { $push: { job: saveJob._id } }
-      );
-    } catch (error) {
-      res.status(500).json(error);
-    }
+    await db.collection("jobs").insertOne(newJob);
     res.status(200).json(`New job has been created successful`);
     console.log(newJob);
   } catch (error) {
-    next(error);
+    res.status(500).json(error);
   }
-}); */
+});
 
-jobRouter.post("/create", async (req, res) => {
+/* jobRouter.post("/create", async (req, res) => {
   //create/:userId
 
   const userId = req.body.id;
@@ -82,13 +83,19 @@ jobRouter.post("/create", async (req, res) => {
   await db.collection("jobs").insertOne(newJob, userId);
 
   const pipeline = [
-    { $match: { categories: "Bakery" } },
-    { $group: { _id: "$stars", count: { $sum: 1 } } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "createdby",
+        foreignField: "_id",
+        as: "jobs",
+      },
+    },
   ];
 
-  res.status(200).json(`New job has been created successful`);
+  return res.status(200).json(`New job has been created successful`);
   console.log(newJob, userId);
-});
+}); */
 
 // CREATE JOB ----------------------------
 /* jobRouter.post("/create", async (req, res) => {
