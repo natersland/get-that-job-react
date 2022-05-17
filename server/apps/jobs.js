@@ -18,6 +18,18 @@ jobRouter.get("/", async (req, res) => {
   const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
 
   const query = {};
+  const jobs = await collection
+    .aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "recruiterId",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+    ])
+    .toArray();
 
   if (searchJobText) {
     query.jobTitle = searchJobText;
@@ -28,22 +40,9 @@ jobRouter.get("/", async (req, res) => {
   } else if (keywords) {
     query.jobTitle = new RegExp(`${keywords}`, "i");
   }
-  const jobs = await collection.find(query).toArray();
+  const filter = await collection.find(query).toArray();
 
-  await collection
-    .aggregate([
-      {
-        $lookup: {
-          from: "users",
-          localField: "createdby",
-          foreignField: "_id",
-          as: "jobs",
-        },
-      },
-    ])
-    .toArray();
-
-  return res.json({ data: jobs });
+  return res.json({ data: jobs }), filter;
 });
 // CREATE JOB V2 ----------------------------
 /* {

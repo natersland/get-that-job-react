@@ -6,6 +6,16 @@ import { ObjectId } from "mongodb";
 import UsersRecruiter from "./UsersRecruiter.js";
 
 const JobsSchema = new mongoose.Schema({
+  recruiterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UsersRecruiter",
+    required: [true, "Job must be belong to an user:recruiter"],
+  },
+  recruiterLogo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UsersRecruiter",
+    required: [true, "Logo must be belong to an user:recruiter"],
+  },
   jobTitle: {
     type: String,
     required: [true, "An job must have a title"],
@@ -56,20 +66,13 @@ const JobsSchema = new mongoose.Schema({
   },
   candidateData: {
     totalCandidates: {
-      // ต้องเอาไป join กับ DB:users:professional
       type: Number,
       default: 0,
     },
     candidatesOnTrack: {
-      // ต้องเอาไป join กับ DB:users:professional
       type: Number,
       default: 0,
     },
-  },
-  createdby: {
-    type: mongoose.Schema.ObjectId,
-    ref: "UsersRecruiter",
-    required: [true, "Job must be belong to an user:recruiter"],
   },
   jobStatus: {
     type: Boolean,
@@ -77,11 +80,11 @@ const JobsSchema = new mongoose.Schema({
   },
 });
 
-JobsSchema.pre(/^find/, function (next) {
+/* JobsSchema.pre(/^find/, function (next) {
   this.populate({
     path: "createdby",
     select: "companyName",
   });
-});
+}); */
 
 export default mongoose.model("Job", JobsSchema);

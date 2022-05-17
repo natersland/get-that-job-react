@@ -30,9 +30,8 @@ const UsersRecruiterSchema = new mongoose.Schema(
       default: "",
     },
     companyLogo: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Jobs",
-      required: [true, "CompanyLogo must be belong to an user:recruiter"],
+      type: [{}],
+      default: null,
     },
   },
   {

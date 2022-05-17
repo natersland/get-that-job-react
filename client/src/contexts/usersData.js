@@ -102,6 +102,7 @@ function UserDataProvider(props) {
         setCreatedJobs,
         userId,
         setUserId,
+        storedUserId,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
       }}
