@@ -1,33 +1,47 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
+import { ObjectId } from "mongodb";
+
+// Schemas Models ----------------------------
+import UsersRecruiter from "./UsersRecruiter.js";
 
 const JobsSchema = new mongoose.Schema({
+  recruiterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UsersRecruiter",
+    required: [true, "Job must be belong to an user:recruiter"],
+  },
+  recruiterLogo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UsersRecruiter",
+    required: [true, "Logo must be belong to an user:recruiter"],
+  },
   jobTitle: {
     type: String,
-    required: true,
+    required: [true, "An job must have a title"],
   },
   jobCategory: {
     type: String,
-    required: true,
+    required: [true, "An job must have a category"],
     default: "Manufacturing",
   },
   jobType: {
     type: String,
-    required: true,
+    required: [true, "An job must have a type"],
     default: "Full Time",
   },
   minSalary: {
     type: Number,
     min: 0,
     max: 999999,
-    required: true,
+    required: [true, "An job must have a min salary"],
     default: 500,
   },
   maxSalary: {
     type: Number,
     min: 0,
     max: 999999,
-    required: true,
+    required: [true, "An job must have a max salary"],
     default: 1500,
   },
   aboutJob: {
@@ -50,19 +64,27 @@ const JobsSchema = new mongoose.Schema({
     required: true,
     default: new Date(),
   },
-  totalCandidates: {
-    // ต้องเอาไป join กับ DB:users:professional
-    type: Number,
-    default: 0,
-  },
-  candidatesOnTrack: {
-    // ต้องเอาไป join กับ DB:users:professional
-    type: Number,
-    default: 0,
+  candidateData: {
+    totalCandidates: {
+      type: Number,
+      default: 0,
+    },
+    candidatesOnTrack: {
+      type: Number,
+      default: 0,
+    },
   },
   jobStatus: {
     type: Boolean,
     default: true,
   },
 });
+
+/* JobsSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "createdby",
+    select: "companyName",
+  });
+}); */
+
 export default mongoose.model("Job", JobsSchema);

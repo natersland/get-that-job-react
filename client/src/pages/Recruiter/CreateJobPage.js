@@ -44,13 +44,19 @@ function CreateJobPage() {
     await axios.post("http://localhost:4000/jobs/create", data);
     navigate("/viewjobs");
   };
+
   const handleSubmit = (event) => {
     // Filter Comma from UI display for send data to server
     filterComma(minSalary);
     filterComma(maxSalary);
+    const recruiterId = localStorage.getItem("id");
+    const recruiterLogo = localStorage.getItem("id");
+    alert(recruiterLogo);
+
     // --------------------------------------
     event.preventDefault();
     setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
+
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
         jobTitle,
@@ -62,6 +68,8 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
+        recruiterId,
+        recruiterLogo,
       };
       createJob(data);
       resetJobData();
@@ -81,7 +89,7 @@ function CreateJobPage() {
           <TextLabel>{textUpperCase("Job title")}</TextLabel>
           <InputText
             id="job-title"
-            name="job-title"
+            name="jobTitle"
             onChange={(e) => setJobTitle(e.target.value)}
             value={jobTitle}
             className="pink-border gtj-input"

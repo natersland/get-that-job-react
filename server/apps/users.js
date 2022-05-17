@@ -24,8 +24,28 @@ usersRouter.post("/create/recruiter", async (req, res) => {
   try {
     const newRecruiter = new UsersRecruiter(req.body);
     await db.collection("users").insertOne(newRecruiter);
-    res.status(200).json(`New recruiter has been created successful!`);
+    /*  const user = await collection
+      .aggregate([
+        {
+          $addFields: {
+            userId: {
+              $toString: "$_id",
+            },
+          },
+        },
+        {
+          $project: {
+            email: 1,
+            feeds: { $concatArrays: ["$feeds", "$shared_feeds"] },
+          },
+        },
+      ]) */
+    /* .toArray() */ res
+      .status(200)
+      .json(`New recruiter has been created successful!`);
     console.log(newRecruiter);
+    /*    res.status(200).json(user[0]);
+    console.log(user[0]); */
   } catch (error) {
     res.status(500).json(error);
   }
@@ -60,6 +80,18 @@ usersRouter.get("/:id", async (req, res) => {
   try {
     const userId = ObjectId(req.params.id);
     const user = await collection.find({ _id: userId }).toArray();
+    /*   const user = await collection
+      .aggregate([
+        {
+          $addFields: {
+            userId: {
+              $toString: "$_id",
+            },
+          },
+        },
+      ])
+      .toArray(); */
+
     res.status(200).json(user[0]);
     console.log(user[0]);
   } catch (error) {
