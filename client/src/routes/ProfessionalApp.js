@@ -18,11 +18,11 @@ function ProfessionalApp() {
         {/* Professional Route Start Here ------------------------------------ */}
         <Route path="/" element={<FindJobsPage />} />
         <Route path="/findjobs" element={<FindJobsPage />} />
+        <Route path="/findjobs/:id" element={<SeeMorePage />} />
         <Route path="/applications" element={<NotFoundPage />} />
         <Route path="/following" element={<NotFoundPage />} />
         <Route path="/profile" element={<NotFoundPage />} />
         {/* Just for test Route Start Here ------------------------------------ */}
-        <Route path="/seemore" element={<SeeMorePage />} />
       </Routes>
     </div>
   );

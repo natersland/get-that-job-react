@@ -58,8 +58,20 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const keywords = req.query.keywords;
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
-
     const query = {};
+    if (searchJobText) {
+      query.jobTitle = searchJobText;
+    } else if (searchJobText) {
+      query.company.companyName = searchJobText;
+    } else if (searchMinSalaryText) {
+      query.minSalary = searchMinSalaryText;
+    } else if (searchMaxSalaryText) {
+      query.maxSalary = searchMaxSalaryText;
+    } else if (keywords) {
+      query.jobTitle = new RegExp(`${keywords}`, "i");
+    } else if (keywords) {
+      query.company.companyName = new RegExp(`${keywords}`, "i");
+    }
     const jobs = await collection
       .aggregate([
         {
@@ -70,21 +82,11 @@ export const getAllJobsWithFilter = async (req, res, next) => {
             as: "company",
           },
         },
+        { $match: query },
       ])
       .toArray();
 
-    if (searchJobText) {
-      query.jobTitle = searchJobText;
-    } else if (searchMinSalaryText) {
-      query.minSalary = searchMinSalaryText;
-    } else if (searchMaxSalaryText) {
-      query.maxSalary = searchMaxSalaryText;
-    } else if (keywords) {
-      query.jobTitle = new RegExp(`${keywords}`, "i");
-    }
-    const filter = await collection.find(query).toArray();
-
-    return res.json({ data: jobs }), filter;
+    return res.json({ data: jobs });
   } catch (error) {
     next(error);
   }
@@ -99,16 +101,29 @@ export const getAllJobsWithFilter = async (req, res, next) => {
 } */
 };
 
-export const getOneJob = async (req, res, next) => {
-  try {
-    const jobId = ObjectId(req.params.id);
-    const job = await collection.find({ _id: jobId }).toArray();
-    res.status(200).json(job[0]);
-    console.log(job[0]);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+export const getOneJob = async (req, res) => {
+  const jobId = ObjectId(req.params.id);
+  const job = await collection
+    .aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "recruiterId",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+      { $match: { _id: jobId } },
+    ])
+    .toArray();
+  return res.json({ data: job[0] });
 };
+
+/* export const getOneJob = async (req, res) => {
+  const jobId = ObjectId(req.params.id);
+  const job = await collection.find({ _id: jobId }).toArray();
+  return res.json({ data: job[0] });
+}; */
 
 export const updateJob = async (req, res, next) => {
   try {

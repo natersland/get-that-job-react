@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
@@ -10,18 +10,28 @@ import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
+import { useVadilation } from "../../contexts/vadilation";
 // Contexts --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-//
+//Components --------------------
+import BackDropLoading from "../Utilities/BackDropLoading";
+
 function FindThatJobCard() {
-  const { jobs } = useJobsData();
+  const { jobs, selectedJobId, setSelectedJobId } = useJobsData();
   const { textUpperCase } = UtilitiesFunction();
+  const navigate = useNavigate();
+  const { setLoading } = useVadilation();
+
+  const openJob = () => {};
+
   return (
     <Wrapper>
+      <BackDropLoading />
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
       <FindThatJobWrapper>
         {jobs.map((items, index) => {
           const {
+            _id,
             jobTitle,
             jobCategory,
             jobType,
@@ -93,8 +103,19 @@ function FindThatJobCard() {
                 <FollowButton className="btn btn-white btn-md">
                   {textUpperCase("follow")}
                 </FollowButton>
-                <SeeMoreButton className="btn btn-white btn-md pink-border">
-                  {textUpperCase("see more")}
+                <SeeMoreButton
+                  className="btn btn-white btn-md pink-border uppercase"
+                  onClick={() => {
+                    setLoading(true);
+                    localStorage.setItem("jobId", _id);
+                    setTimeout(function () {
+                      navigate(`/findjobs/${_id}}`);
+                      setLoading(false);
+                    }, 500);
+                    
+                  }}
+                >
+                  see more
                 </SeeMoreButton>
               </JobCardFooter>
             </JobCardWrapper>

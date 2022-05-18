@@ -2,24 +2,128 @@ import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------
 import Alert from "@mui/material/Alert";
-// Utils
+import SeletedCompanyDetail from "../../components/AuthPro-SharedComponents/SeletedCompanyDetail.js";
+import SeletedCompany from "../../components/AuthPro-SharedComponents/SeletedCompany";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
+
+// Utils ------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
+// Pictures -------------------------------------
+import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
   const { filterComma, textUpperCase, addCommas, removeCommas } =
     UtilitiesFunction();
+  const { getOneJob, job, setJob } = useJobsData();
 
-  return <Wrapper></Wrapper>;
+  const jobId = localStorage.getItem("jobId");
+
+  useEffect(() => {
+    getOneJob(jobId);
+  }, []);
+
+  useEffect(() => {
+    console.log(`5555555555555555555 ${job}`);
+  }, [job]);
+
+  const contentData = [
+    { title: "About The company name SA", content: "" }, // aboutCompany
+    { title: "About the job position", content: job.aboutJob }, // aboutJob
+    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
+    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
+  ];
+
+  const applyNowBtn = () => {
+    return (
+      <button className="btn btn-lg btn-pink uppercase">
+        <span>
+          <img className="mr-2" src={NavigationIcon} />
+        </span>
+        apply now
+      </button>
+    );
+  };
+  return (
+    <Wrapper>
+      <Header>
+        <CompanyWrapper>
+          <HeaderLeft>
+            <SeletedCompany />
+          </HeaderLeft>
+          <HeaderRight>{applyNowBtn()}</HeaderRight>
+        </CompanyWrapper>
+        <HeaderTitleWrapper>
+          <SeletedCompanyDetail />
+        </HeaderTitleWrapper>
+      </Header>
+      <ContentWrapper>
+        {contentData.map((items, index) => {
+          const { title, content } = items;
+          return (
+            <ContentBox key={index}>
+              <ContentHeading className="text-pinkprimary">
+                {title}
+              </ContentHeading>
+              {content}
+            </ContentBox>
+          );
+        })}
+
+        <ContentFooter>{applyNowBtn()}</ContentFooter>
+      </ContentWrapper>
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`
-  width: 65%;
-  margin: auto;
+  width: 75%;
+  border: 1px dash black;
+  padding: 25px 0;
+  margin-left: 350px;
+`;
+const Header = styled.section`
+  display: flex;
+  flex-direction: column;
+`;
+const CompanyWrapper = styled.div`
+  display: flex;
+`;
+
+const HeaderLeft = styled.div`
+  width: 80%;
+`;
+const HeaderRight = styled.div`
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+const HeaderTitleWrapper = styled.div`
+  padding: 45px;
+`;
+const ContentWrapper = styled.section``;
+const Content = styled.section``;
+const ContentBox = styled.div`
+  width: 80%;
+  margin: 10px 0;
+`;
+
+const ContentHeading = styled.h3`
+  font-size: 1.5rem;
+`;
+const ContentText = styled.p`
+  color: var(--primary-text-color);
+  font-size: 1rem;
+`;
+const ContentFooter = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
 `;
 
 export default SeeMorePage;

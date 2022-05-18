@@ -8,8 +8,8 @@ import { useUserData } from "../../contexts/usersData";
 
 function FindThatJobHeader() {
   const [searchJobText, setSearchJobText] = useState("");
-  const [searchMinSalaryText, setSearchMinSalaryText] = useState(null);
-  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState(null);
+  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
+  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
   const [keywords, setKeywords] = useState("");
   const [keywordsNumber, setKeywordsNumber] = useState("");
 
@@ -26,6 +26,8 @@ function FindThatJobHeader() {
     jobTitle,
     setJobTitle,
     getJobs,
+    filter,
+    setFilter,
   } = useJobsData();
 
   // Filter Seach Text --------------------------------------------
@@ -201,7 +203,7 @@ function FindThatJobHeader() {
                 type="text"
                 maxLength={6}
                 placeholder="min"
-                onChange={(e) => setSearchMinSalaryText(Number(e.target.value))}
+                onChange={(e) => setSearchMinSalaryText(e.target.value)}
                 value={searchMinSalaryText}
               ></SearchSalary>
               <Dash>
@@ -214,7 +216,7 @@ function FindThatJobHeader() {
                 type="text"
                 maxLength={6}
                 placeholder="max"
-                onChange={(e) => setSearchMaxSalaryText(Number(e.target.value))}
+                onChange={(e) => setSearchMaxSalaryText(e.target.value)}
                 value={searchMaxSalaryText}
               ></SearchSalary>
             </SubSalaryBox>
@@ -222,13 +224,13 @@ function FindThatJobHeader() {
         </InputWrapperSection>
       </FilterInputWrapper>
       {/* ---------------------------------------------------------- */}
-      {`Search Input Text: ${searchJobText}`}
+      {/* {`Search Input Text: ${searchJobText}`}
       <br></br>
       {`Job Data: ${jobs.length}`}
       <br></br>
       {`typeof minSalary input: ${typeof searchMinSalaryText}`}
       <br></br>
-      {`typeof maxSalary input: ${typeof searchMaxSalaryText}`}
+      {`typeof maxSalary input: ${typeof searchMaxSalaryText}`} */}
     </Wrapper>
   );
 }

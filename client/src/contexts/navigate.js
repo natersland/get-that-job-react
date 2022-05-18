@@ -45,7 +45,7 @@ function NavigateProvider(props) {
         navigate("/findjobs"); // Find that job
         setMenuIndex(index + 1); // setMenuIndex มีไว้เพื่อเซ็ทให้เมื่อกด sidebar ที่ปุ่มหน้าไหนแล้วจะเปลี่ยนเป็นสีขาวตรงปุ่ม
       } else if (index === 1) {
-        navigate("/seemore"); // Your applications
+        navigate("*"); // Your applications
         setMenuIndex(index + 1);
       } else if (index === 2) {
         navigate("*"); // Following
