@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
 // Images
-import image from "../../img/discussing.png";
+import Woman from "../../assets/people/woman-regis.svg";
 //Contexts
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
@@ -9,9 +9,11 @@ import { useVadilation } from "../../contexts/vadilation";
 // Components
 import MainRegisterForm from "../../components/UnAut-Register/MainRegisterForm";
 import SelectRole from "../../components/UnAut-Register/SelectRole";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
 /* import AlertNotification from "../../components/Utilities/AlertNotification";
  */ import RoleStepsBox from "../../components/UnAut-Register/RoleStepsBox";
 import RegFormButton from "../../components/UnAut-Register/RegFormButton";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 function RegisterPage() {
   const {
     // Shared state between Professional & Recruiter -----------------------------------------
@@ -44,11 +46,15 @@ function RegisterPage() {
     setStep,
     isErrorEmail,
     isErrorPassword,
+    setLoading,
+    setIsAlert,
   } = useVadilation();
   const { register, login } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
+    setIsAlert(true);
     if (role === "professional") {
       setRole("professional");
       const formData = new FormData();
@@ -70,7 +76,9 @@ function RegisterPage() {
       for (let uploadFileKey in uploadFiles) {
         formData.append("cvFile", uploadFiles[uploadFileKey]);
       }
-      register(formData);
+      setTimeout(function () {
+        register(formData);
+      }, 500);
     } else if (role === "recruiter") {
       setRole("recruiter");
       const formData = new FormData();
@@ -85,8 +93,9 @@ function RegisterPage() {
       for (let uploadFileKey in companyLogo) {
         formData.append("logoFile", companyLogo[uploadFileKey]);
       }
-
-      register(formData);
+      setTimeout(function () {
+        register(formData);
+      }, 500);
     }
     login({
       email,
@@ -99,6 +108,7 @@ function RegisterPage() {
 
   return (
     <Wrapper>
+      <BackDropLoading />
       <LeftBox>
         <form
           className="professional-register-form"
@@ -138,12 +148,12 @@ function RegisterPage() {
             </Progressbar>
           </Detail>
         </form>
-        <FormWrapper></FormWrapper> {/* <--- อันนี้มันมีไว้ทำไมอ่ะ  */}
+        <FormWrapper></FormWrapper>
       </LeftBox>
 
       <RightBox>
         <BorderImage>
-          <GirlImage src={image} alt="Girl"></GirlImage>
+          <GirlImage src={Woman} alt="Girl"></GirlImage>
         </BorderImage>
       </RightBox>
     </Wrapper>

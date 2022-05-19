@@ -82,6 +82,9 @@ const Container = styled.div`
 const Label = styled.label`
   font-size: 400;
   font-size: 10px;
+  line-height: 12.1px;
   margin-top: 4px;
+  color: var(--primary-text-color);
+  font-family: var(--secondary-text-colo);
 `;
 export default ProRegisterForm1;

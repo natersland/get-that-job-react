@@ -22,13 +22,23 @@ function AuthProvider(props) {
   );
   const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
   const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
-  const { ifInputIsBlank } = useVadilation();
+  const { ifInputIsBlank, setLoading, setIsAlert, setFirstLogIn } =
+    useVadilation();
+
+  const removeLocalStorageData = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("id");
+    localStorage.removeItem("rightAcc");
+  };
+
   // register  ---------------------------------------------------------
   const register = async (data) => {
     await axios.post("http://localhost:4000/auth/register", data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     navigate("/");
+    setLoading(false);
   };
 
   // login  ---------------------------------------------------------
@@ -44,16 +54,17 @@ function AuthProvider(props) {
 
     if (userDataFromToken.role === role) {
       localStorage.setItem("rightAcc", true);
-      alert(`Login successful! Welcome to ${userDataFromToken.role} account`);
-      if (userDataFromToken.role === "professional") {
+      setFirstLogIn(true);
+      setIsAlert(true);
+      /*       alert(`Login successful! Welcome to ${userDataFromToken.role} account`);
+       */ if (userDataFromToken.role === "professional") {
         navigate("/findjobs");
       } else if (userDataFromToken.role === "recruiter") {
         navigate("/viewjobs");
       }
     } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      alert(`Wrong account role please try again`);
+      setIsAlert(true);
+      removeLocalStorageData();
       navigate("/login");
     }
     resetUserData();
@@ -62,11 +73,13 @@ function AuthProvider(props) {
 
   // logout ---------------------------------------------------------
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("rightAcc");
-    setState({ ...state, user: null, error: null });
-    navigate("/");
+    setLoading(true);
+    setTimeout(function () {
+      removeLocalStorageData();
+      setState({ ...state, user: null, error: null });
+      navigate("/");
+      setLoading(false);
+    }, 500);
   };
 
   return (

@@ -22,6 +22,7 @@
 body {
   background-color: RGB(245, 245, 246);
   font-family: var(--primary-font);
+  color: var(--primary-text-color);
 }
 
 /* 🍓🍓🍓 CSS Structure -------------------------------- */
@@ -120,8 +121,6 @@ body {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
 }
 
-
-
 /* --------------------------------------------*/
 /* Webkit Zone ------------------------*/
 ::-webkit-file-upload-button {
@@ -138,12 +137,12 @@ body {
   cursor: pointer;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none; 
-} 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 
 /* pages -> recruiter CSS Zone ------------------------*/
 .dollar-icon {

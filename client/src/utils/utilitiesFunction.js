@@ -17,6 +17,11 @@ const UtilitiesFunction = () => {
   };
   // ---------------------------------------------------------------------
 
-  return { filterComma, textUpperCase, addCommas, removeCommas };
+  return {
+    filterComma,
+    textUpperCase,
+    addCommas,
+    removeCommas,
+  };
 };
 export default UtilitiesFunction;

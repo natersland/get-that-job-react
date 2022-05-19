@@ -8,13 +8,13 @@ function VadilationProvider(props) {
   const { password, email, passwordConfirmed } = useUserData();
   // Others -----------------------------------------
   const [roleBtn, setRoleBtn] = useState("");
+  const [fistLogIn, setFirstLogIn] = useState(false);
   // This Zone is for Register form vadilate only -------------------------------------
   const [step, setStep] = useState(0);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const [isErrorRoleRec, setIsErrorRoleRec] = useState(false);
   const [isErrorRolePro, setIsErrorRolePro] = useState(false);
-
   // Form Vadilate Checker Fx -----------------------------------
   const ifInputIsBlank = () => {
     // if input is blank
@@ -76,12 +76,34 @@ function VadilationProvider(props) {
       setIsErrorPassword(false);
     }
   };
+  // Backdrop Loading... Zone ---------------------------
+  const [loading, setLoading] = React.useState(false);
+  const handleClose = () => {
+    setLoading(false);
+  };
+  const handleToggle = () => {
+    setLoading(!loading);
+  };
+
+  // Alert Dialog Zone -----------------------------------
+  const [isAlert, setIsAlert] = React.useState(false);
+
+  const openAlert = () => {
+    isAlert(true);
+  };
+
+  const closeAlert = () => {
+    setIsAlert(false);
+    setFirstLogIn(false);
+  };
   return (
     <VadilationContext.Provider
       value={{
         // Others -----------------------------------------
         roleBtn,
         setRoleBtn,
+        fistLogIn,
+        setFirstLogIn,
         // This Zone is for Register form vadilate only -------------------------------------
         step,
         setStep,
@@ -98,6 +120,16 @@ function VadilationProvider(props) {
         ifPasswordIsBlank,
         ifPassWordIsNotCorrect,
         nextFormVadilateChecker,
+        // Backdrop Loading... Zone ---------------------------
+        loading,
+        setLoading,
+        handleClose,
+        handleToggle,
+        // Alert Dialog Zone -----------------------------------
+        isAlert,
+        setIsAlert,
+        openAlert,
+        closeAlert,
       }}
     >
       {props.children}

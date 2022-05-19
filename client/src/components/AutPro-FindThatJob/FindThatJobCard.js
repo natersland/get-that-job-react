@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
@@ -9,21 +9,27 @@ import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
-import { useUserData } from "../../contexts/usersData";
 import { useJobsData } from "../../contexts/jobsData";
+import { useVadilation } from "../../contexts/vadilation";
 // Contexts --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-//
+//Components --------------------
+import BackDropLoading from "../Utilities/BackDropLoading";
+
 function FindThatJobCard() {
-  const { jobs, setJobs, searchJobText, setSearchJobText, getJobs } =
-    useJobsData();
+  const { jobs } = useJobsData();
   const { textUpperCase } = UtilitiesFunction();
+  const navigate = useNavigate();
+  const { setLoading } = useVadilation();
+
   return (
     <Wrapper>
+      <BackDropLoading />
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
       <FindThatJobWrapper>
         {jobs.map((items, index) => {
           const {
+            _id,
             jobTitle,
             jobCategory,
             jobType,
@@ -33,7 +39,6 @@ function FindThatJobCard() {
           } = items;
           const newMinNumber = minSalary / 1000;
           const newMaxNumber = maxSalary / 1000;
-          console.log(items);
 
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
@@ -42,7 +47,11 @@ function FindThatJobCard() {
                 <ContentLeft>
                   <CompanyLogoWrapper>
                     <CompanyLogoJa
-                      src={company[0].companyLogo[0].url}
+                      src={
+                        company[0].companyLogo[0]
+                          ? company[0].companyLogo[0].url
+                          : { CompanyLogo }
+                      }
                     ></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
@@ -91,8 +100,18 @@ function FindThatJobCard() {
                 <FollowButton className="btn btn-white btn-md">
                   {textUpperCase("follow")}
                 </FollowButton>
-                <SeeMoreButton className="btn btn-white btn-md pink-border">
-                  {textUpperCase("see more")}
+                <SeeMoreButton
+                  className="btn btn-white btn-md pink-border uppercase"
+                  onClick={() => {
+                    setLoading(true);
+                    localStorage.setItem("jobId", _id);
+                    setTimeout(function () {
+                      navigate(`/findjobs/${_id}}`);
+                      setLoading(false);
+                    }, 500);
+                  }}
+                >
+                  see more
                 </SeeMoreButton>
               </JobCardFooter>
             </JobCardWrapper>

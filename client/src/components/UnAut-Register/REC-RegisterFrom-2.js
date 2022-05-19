@@ -13,20 +13,17 @@ function RecRegisterForm2() {
     setCompanyLogo,
   } = useUserData();
 
-  console.log(companyWebsite, about, companyLogo);
-
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     setCompanyLogo({
       ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
-    console.log(companyLogo);
   };
 
   return (
     <Wrapper>
-      <div>
+      <div className="mb-5">
         <Label1>
           {" "}
           YOU CAN COMPLETE THIS INFORMATION LATER BUT WE RECOMMENED YOU TO DO IT
@@ -62,23 +59,18 @@ function RecRegisterForm2() {
           cols={30}
           minlength="5"
         />
-        <Limitation> Between 100 and 2000 characters </Limitation>
-        <Label2>UPLOAD THE COMPANY LOGO</Label2>
+        <Limitation>Between 100 and 2000 characters</Limitation>
+
+        <Label>UPLOAD/UPDATE YOUR CV</Label>
         <UploadFileSection>
-          <UploadButton htmlFor="uploadFile">
-            <ChooseFile>Choose Image</ChooseFile>
-          </UploadButton>
-          <Input
+          <input
             id="uploadFile"
             name="logo"
             type="file"
-            placeholder="Enter last name here"
-            onChange={handleFileChange}
             accept="image/*"
             maxSize={5}
-            hidden
+            onChange={handleFileChange}
           />
-          <FileName>No file chosen</FileName>
         </UploadFileSection>
         <Limitation>PNG, JPEG,IMG</Limitation>
       </div>
@@ -95,10 +87,15 @@ const Wrapper = styled.div`
 `;
 
 const Label = styled.label`
-  font-family: var(--seconary-font);
-  font-weight: 400;
+  font-size: 400;
   font-size: 10px;
-  color: #373737;
+  line-height: 12.1px;
+  letter: 1.5px;
+  letter-spacing: 1.5px;
+  margin-top: 4px;
+  color: var(--primary-text-color);
+  font-family: var(--secondary-text-colo);
+  text-transform: uppercase;
 `;
 
 const Label1 = styled.label`

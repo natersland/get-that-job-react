@@ -40,6 +40,7 @@ function NavigateProvider(props) {
   // SideBar -----------------------------------
 
   const sidebarLinkChecker = (index, role) => {
+    localStorage.removeItem("jobId");
     if (role === "professional") {
       if (index === 0) {
         navigate("/findjobs"); // Find that job
@@ -64,7 +65,7 @@ function NavigateProvider(props) {
         navigate("/createjob"); // Create New Job
         setMenuIndex(index + 1);
       } else if (index === 2) {
-        navigate("/updateprofile"); // Profile
+        navigate("/profile"); // Profile
         setMenuIndex(index + 1);
       } else if (index === 3) {
         logout(); // Log out

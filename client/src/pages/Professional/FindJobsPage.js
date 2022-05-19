@@ -2,10 +2,14 @@ import styled from "@emotion/styled";
 // Components
 import FindThatJobCard from "../../components/AutPro-FindThatJob/FindThatJobCard";
 import FindThatJobHeader from "../../components/AutPro-FindThatJob/FindThatJobHeader";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 
 function FindJobsPage() {
+  const userRole = localStorage.getItem("role");
+
   return (
     <Wrapper>
+      <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
       <FindThatJobHeader />
       <FindThatJobCard />
     </Wrapper>

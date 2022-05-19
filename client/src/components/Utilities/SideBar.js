@@ -5,6 +5,7 @@ import Jobposition from "../../img/briefcase-line.png";
 import CreateJob from "../../img/file-add-line.png";
 import UserProfile from "../../img/user-line.png";
 import LogOut from "../../img/logout-circle-line.png";
+import BackDropLoading from "./BackDropLoading";
 
 // Pro NavBar Pictures ----------------------------
 import MagnigyGlassIcon from "../../assets/search-line.svg";
@@ -15,6 +16,7 @@ import ProfileIcon from "../../assets/user-line.svg";
 import { useNav } from "../../contexts/navigate";
 // Components
 import AboutUs from "./AboutUs";
+import { useVadilation } from "../../contexts/vadilation";
 
 const navProData = [
   {
@@ -59,9 +61,9 @@ const navRecData = [
 
 function Sidebar({ barRole }) {
   const { homePageRoute, sidebarLinkChecker, menuIndex } = useNav();
-
   return (
     <SidebarWrapper>
+      <BackDropLoading />
       <LogoWrapper>
         <Logo
           className="Logo"
@@ -69,6 +71,7 @@ function Sidebar({ barRole }) {
           alt="brand logo"
           onClick={() => {
             homePageRoute();
+            localStorage.removeItem("jobId");
           }}></Logo>
       </LogoWrapper>
       <Menu>

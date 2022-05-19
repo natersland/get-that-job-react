@@ -15,6 +15,12 @@ const cloudinaryUploadCV = async (files) => {
       await fs.unlink(file.path);
     }
     return fileUrl;
+  } else {
+    fileUrl.push({
+      url: null,
+      publicId: null,
+    });
+    return fileUrl;
   }
 };
 
@@ -32,7 +38,12 @@ const cloudinaryUploadLogo = async (files) => {
       });
       await fs.unlink(file.path);
     }
-
+    return logoUrl;
+  } else {
+    logoUrl.push({
+      url: "https://res.cloudinary.com/gtjadmin/image/upload/v1652809230/register/logoFile/placeholder-company_j67t9a.jpg",
+      publicId: null,
+    });
     return logoUrl;
   }
 };

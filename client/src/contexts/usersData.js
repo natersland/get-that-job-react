@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const UsersDataContext = React.createContext();
 
 function UserDataProvider(props) {
-  const storedUserId = localStorage.getItem("id");
   // Shared state between Professional & Recruiter -----------------------------------------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,14 +21,10 @@ function UserDataProvider(props) {
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [about, setAbout] = useState("");
-  // User & Company Profile -----------------------------------------
   const [companyLogo, setCompanyLogo] = useState({});
-  // State for Connecting to Users Database -----------------------------------------
+  // State for Connecting to Users Database Backend ---------------------
   const [users, setUsers] = useState([]);
-  const [userAppiedJobs, setUserAppiedJobs] = useState([]);
-  const [userFollowJobs, setUserFollowJobs] = useState([]);
-  const [createdJobs, setCreatedJobs] = useState([]); // เก็บงานที่ user recruiter: สร้างทั้งหมด
-  const [userId, setUserId] = useState(storedUserId);
+
   // Fx for reset data in state ---------------------------------------
   const resetUserData = () => {
     setEmail("");
@@ -52,6 +47,35 @@ function UserDataProvider(props) {
     setCompanyLogo("");
     // ---------------
   };
+  // Get users data from server fx  ----------------------------------------
+  const userId = localStorage.getItem("id");
+  const getAllUsers = async () => {
+    try {
+      const results = await axios.get(`http://localhost:4000/users?`);
+      console.log(results);
+      setUsers(results.data.data);
+      /*       setIsLoading(false); */
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      users,
+    };
+  };
+  const getOneUser = async () => {
+    try {
+      const results = await axios.get(`http://localhost:4000/users?/${userId}`);
+      console.log(results);
+      setUsers(results.data.data);
+      /*       setIsLoading(false); */
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      users,
+    };
+  };
+
   return (
     <UsersDataContext.Provider
       value={{
@@ -94,15 +118,8 @@ function UserDataProvider(props) {
         // State for Connecting to Users Database -----------------------------
         users,
         setUsers,
-        userAppiedJobs,
-        setUserAppiedJobs,
-        userFollowJobs,
-        setUserFollowJobs,
-        createdJobs,
-        setCreatedJobs,
-        userId,
-        setUserId,
-        storedUserId,
+        getAllUsers,
+        getOneUser,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
       }}>
