@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
-import { useUserData } from "../../contexts/usersData";
-
 function FindThatJobHeader() {
   const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");

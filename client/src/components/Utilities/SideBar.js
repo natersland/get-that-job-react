@@ -71,6 +71,7 @@ function Sidebar({ barRole }) {
           alt="brand logo"
           onClick={() => {
             homePageRoute();
+            localStorage.removeItem("jobId");
           }}
         ></Logo>
       </LogoWrapper>

@@ -161,7 +161,7 @@ export const deleteJob = async (req, res, next) => {
 
 export const getAllJobs = async (req, res, next) => {
   try {
-    const jobs = await collection.find().toArray();
+    const jobs = await collection.find().limit(5).toArray();
     res.status(200).json(jobs);
     console.log(`Get all job data has been successful!`);
   } catch (error) {

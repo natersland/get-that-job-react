@@ -6,8 +6,9 @@ import CalendarIcon from "../../assets/calendar-2-line2.svg";
 import MoneyIcon from "../../assets/money-dollar-circle-line2.svg";
 import ClockIcon from "../../assets/time-line.svg";
 import { useJobsData } from "../../contexts/jobsData";
-
+import UtilitiesFunction from "../../utils/utilitiesFunction";
 function SeletedCompanyDetail({ jobId }) {
+  const { addCommas } = UtilitiesFunction();
   const { job } = useJobsData();
   const jobDetailsData = [
     {
@@ -22,7 +23,7 @@ function SeletedCompanyDetail({ jobId }) {
     },
     {
       label: "Salary",
-      jobLabel: `${job.minSalary} - ${job.maxSalary}`,
+      jobLabel: `${addCommas(job.minSalary)} - ${addCommas(job.maxSalary)}`,
       icon: MoneyIcon,
     },
   ];
@@ -32,9 +33,9 @@ function SeletedCompanyDetail({ jobId }) {
         <JobTitle>{job.jobTitle}</JobTitle>
         <CreatedDate>
           <span>
-            <img className="mr-1" src={ClockIcon} />
+            <img className="mr-1" src={ClockIcon} alt="Clock Icon" />
           </span>{" "}
-          POSTED {moment("14022022", "DDMMYYYY").fromNow()}
+          POSTED {job.createdJobDate}
         </CreatedDate>
       </HeaderWrapper>
       <JobDetailsWrapper>
@@ -45,7 +46,7 @@ function SeletedCompanyDetail({ jobId }) {
               <DetailLabel>{label}</DetailLabel>
               <JobDetail>
                 <span>
-                  <img className="mr-2" src={icon} />
+                  <img className="mr-2" src={icon} alt="Icon" />
                 </span>
                 {jobLabel}
               </JobDetail>

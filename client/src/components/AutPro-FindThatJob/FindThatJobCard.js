@@ -17,12 +17,10 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 import BackDropLoading from "../Utilities/BackDropLoading";
 
 function FindThatJobCard() {
-  const { jobs, selectedJobId, setSelectedJobId } = useJobsData();
+  const { jobs } = useJobsData();
   const { textUpperCase } = UtilitiesFunction();
   const navigate = useNavigate();
   const { setLoading } = useVadilation();
-
-  const openJob = () => {};
 
   return (
     <Wrapper>
@@ -41,7 +39,6 @@ function FindThatJobCard() {
           } = items;
           const newMinNumber = minSalary / 1000;
           const newMaxNumber = maxSalary / 1000;
-          console.log(items);
 
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
@@ -112,7 +109,6 @@ function FindThatJobCard() {
                       navigate(`/findjobs/${_id}}`);
                       setLoading(false);
                     }, 500);
-                    
                   }}
                 >
                   see more

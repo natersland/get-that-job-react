@@ -60,7 +60,7 @@ const JobsSchema = new mongoose.Schema(
     createdJobDate: {
       type: String,
       required: true,
-      default: new Date(),
+      default: Date.now(),
     },
     candidateData: {
       totalCandidates: {

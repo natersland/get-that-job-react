@@ -18,10 +18,9 @@ function JobsDataProvider(props) {
   const [createdJobDate, setCreatedJobDate] = useState("");
   // State for Connecting to Jobs Database Backend ---------------------
   const [jobs, setJobs] = useState([]);
-  const [job, setJob] = useState([]);
+  const [job, setJob] = useState({});
   const [filter, setFilter] = useState([]);
   const [seeMore, setSeeMore] = useState([]);
-  const [selectedJobId, setSelectedJobId] = useState();
   // Conditional State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -32,6 +31,13 @@ function JobsDataProvider(props) {
     "Education",
     "Government",
     "Sales",
+    "Sports & Outdoor",
+    "Transporation",
+    "Science",
+    "Entertrainment",
+    "Food",
+    "Electronics",
+    "Finance",
   ]);
   const [jobTypeList, setJobTypeList] = useState(["Full Time", "Part Time"]);
   // Fx for reset data in state ---------------------------------------
@@ -45,53 +51,6 @@ function JobsDataProvider(props) {
     setMandatoryReq("");
     setOptionalReq("");
   };
-  // Get Data from server fx  ----------------------------------------
-  const getJobs = async () => {
-    try {
-      /*  const params = new URLSearchParams();
-      params.append("searchJobText", searchJobText);
-      params.append("keywords", keywords);
-      params.append("keywordsNumber", keywordsNumber);
-      params.append("jobType", jobType);
-      params.append("jobTitle", jobTitle);
-      params.append("minSalary", minSalary);
-      params.append("searchMinSalaryText", searchMinSalaryText);
-      params.append("searchMaxSalaryText", searchMaxSalaryText); */
-      /*       setIsError(false);
-      setIsLoading(true); */
-
-      const results = await axios.get(`http://localhost:4000/jobs?`);
-      console.log(results);
-      setJobs(results.data.data);
-      setFilter(results.data.search);
-
-      /*       setIsLoading(false); */
-    } catch (error) {
-      /*       setIsError(true);
-      setIsLoading(false); */
-    }
-    return {
-      jobs,
-      isError,
-      isLoading,
-    };
-  };
-
-  const getOneJob = async (jobId) => {
-    try {
-      const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
-      console.log(results.data.data);
-      setJob(results.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-    return {
-      job,
-    };
-  };
-  /*   useEffect(() => {
-    job;
-  }, [job]); */
 
   return (
     <JobsDataContext.Provider
@@ -121,15 +80,10 @@ function JobsDataProvider(props) {
         setJobs,
         job,
         setJob,
-        getJobs,
-        getOneJob,
         filter,
         setFilter,
         seeMore,
         setSeeMore,
-        getOneJob,
-        selectedJobId,
-        setSelectedJobId,
         // State only for Filter Job Feature -------------------------------
         jobCategoryList,
         setJobCategoryList,

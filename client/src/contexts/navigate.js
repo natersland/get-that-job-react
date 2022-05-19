@@ -40,6 +40,7 @@ function NavigateProvider(props) {
   // SideBar -----------------------------------
 
   const sidebarLinkChecker = (index, role) => {
+    localStorage.removeItem("jobId");
     if (role === "professional") {
       if (index === 0) {
         navigate("/findjobs"); // Find that job

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 import { useJobsData } from "../../contexts/jobsData";
 import CompanyIcon from "../../assets/building-3-line2.svg";
 import CalendarIcon from "../../assets/calendar-2-line2.svg";
@@ -7,19 +8,32 @@ import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 
 function SeletedCompany({ jobId }) {
-  const { job, getOneJob } = useJobsData();
+  const { job } = useJobsData();
+  const navigate = useNavigate();
+  console.log(job);
   return (
     <Wrapper>
-      <BackBtn className="btn">{`<   back`}</BackBtn>
+      <BackBtn
+        className="btn"
+        onClick={() => {
+          navigate("/findjobs");
+          localStorage.removeItem("jobId");
+        }}
+      >{`<   back`}</BackBtn>
       <CompanyWrapper>
         <LeftWrapper>
           <LogoWrapper>
-            <img src={CompanyLogo} />
+            {/* <img src={CompanyLogo} /> */}
+            <LogoImg src={job.company?.[0]?.companyLogo?.[0].url} />
+            {/*             <LogoImg src={job.company[0].companyLogo[0].url} />
+             */}{" "}
           </LogoWrapper>
         </LeftWrapper>
         <RightWrapper>
           {" "}
-          <JobTitleText className="uppercase"></JobTitleText>
+          <JobTitleText className="uppercase">
+            {job.company?.[0]?.companyName}
+          </JobTitleText>
           <FollowingBox>
             <FollowCircle>
               <FollowIcon src={FocusIcon}></FollowIcon>
@@ -71,6 +85,10 @@ const LogoWrapper = styled.div`
   height: 74.67px;
   display: flex;
   align-items: center;
+  overflow: hidden;
+`;
+const LogoImg = styled.img`
+  object-fit: cover;
 `;
 const RightWrapper = styled.div`
   width: 400px;

@@ -1,38 +1,49 @@
 import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------
-import Alert from "@mui/material/Alert";
 import SeletedCompanyDetail from "../../components/AuthPro-SharedComponents/SeletedCompanyDetail.js";
 import SeletedCompany from "../../components/AuthPro-SharedComponents/SeletedCompany";
-import BackDropLoading from "../../components/Utilities/BackDropLoading";
-
-// Utils ------------------------------------
-import UtilitiesFunction from "../../utils/utilitiesFunction";
 // Pictures -------------------------------------
 import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
-  const { filterComma, textUpperCase, addCommas, removeCommas } =
-    UtilitiesFunction();
-  const { getOneJob, job, setJob } = useJobsData();
+  const { job, setJob } = useJobsData();
 
-  const jobId = localStorage.getItem("jobId");
+  const getOneJob = async () => {
+    try {
+      const jobId = localStorage.getItem("jobId");
+      const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
+      console.log("getOneJob", results.data.data);
+      setJob(results.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      job,
+    };
+  };
 
   useEffect(() => {
-    getOneJob(jobId);
+    getOneJob();
+    let timeOut;
+    if (job) {
+      timeOut = setTimeout(job, 1000);
+    }
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, []);
 
-  useEffect(() => {
-    console.log(`5555555555555555555 ${job}`);
-  }, [job]);
+  /*   useMemo(() => {
+    getOneJob();
+  }, [job]); */
 
   const contentData = [
-    { title: "About The company name SA", content: "" }, // aboutCompany
+    { title: "About The company name SA", content: "job" }, // aboutCompany
     { title: "About the job position", content: job.aboutJob }, // aboutJob
     { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
     { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
@@ -42,7 +53,7 @@ function SeeMorePage() {
     return (
       <button className="btn btn-lg btn-pink uppercase">
         <span>
-          <img className="mr-2" src={NavigationIcon} />
+          <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
         </span>
         apply now
       </button>
