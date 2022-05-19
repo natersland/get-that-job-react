@@ -96,8 +96,7 @@ function JobsDataProvider(props) {
         setIsLoading,
         // Fx for reset data in state ---------------------------------------
         resetJobData,
-      }}
-    >
+      }}>
       {props.children}
     </JobsDataContext.Provider>
   );

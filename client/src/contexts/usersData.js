@@ -122,8 +122,7 @@ function UserDataProvider(props) {
         getOneUser,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
-      }}
-    >
+      }}>
       {props.children}
     </UsersDataContext.Provider>
   );

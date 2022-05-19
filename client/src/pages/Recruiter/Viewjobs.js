@@ -13,6 +13,9 @@ import money from "../../img/money-dollar-circle-line.png";
 import arrowUp from "../../img/arrow-up-s-line.png";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import { useVadilation } from "../../contexts/vadilation";
+//import arrowUp from "../../img/arrow-up-s-line.png";
+//import { JobsDataProvider } from "../../contexts/jobsData";
+
 
 /*
  */ const datas = [
@@ -52,6 +55,42 @@ import { useVadilation } from "../../contexts/vadilation";
     optionalRequirement:
       "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
   },
+  {
+    id: "3",
+    jobTitle: "The job title 3",
+    openOn: "07/11/20",
+    jobsStatus: false,
+    totalCandidate: "5",
+    candidateOnTrack: "0",
+    jobType: "Full Time",
+    minSalary: "2.0k",
+    maxSalary: "2.5k",
+    companyName: "Manufactoring",
+    aboutTheJob:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
+    requirement:
+      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
+    optionalRequirement:
+      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
+  },
+  {
+    id: "4",
+    jobTitle: "The job title 4",
+    openOn: "07/11/20",
+    jobsStatus: true,
+    totalCandidate: "5",
+    candidateOnTrack: "2",
+    jobType: "Full Time",
+    minSalary: "2.0k",
+    maxSalary: "2.5k",
+    companyName: "Manufactoring",
+    aboutTheJob:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
+    requirement:
+      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
+    optionalRequirement:
+      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
+  },
 ];
 
 function ViewJobs() {
@@ -74,6 +113,8 @@ function ViewJobs() {
   //const [color,setColor]=useState('#f48fb1');
   //const [textColor,setTextColor]=useState('white');
 
+  //const { jobsStatus, setJobsStatus } = JobsDataProvider();
+
   return (
     <Content>
       {fistLogIn ? (
@@ -87,6 +128,7 @@ function ViewJobs() {
         <RadioForm>
           <RadioForm1>
             <RadioBtn
+              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="all"
               name="filter"
@@ -103,6 +145,7 @@ function ViewJobs() {
 
           <RadioForm1>
             <RadioBtn
+              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="trackedCandidate"
               name="filter"
@@ -117,6 +160,7 @@ function ViewJobs() {
 
           <RadioForm1>
             <RadioBtn
+              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="closed"
               name="filter"
@@ -164,6 +208,8 @@ function ViewJobs() {
       console.log(index);
       console.log(datas[index].jobsStatus);
     };
+
+    //const [jobsStatus, setJobsStatus] = useState(false);
 
     return (
       <div>
@@ -249,22 +295,20 @@ function ViewJobs() {
                     onClick={() => {
                       closeJobStatus(props.id - 1);
                     }}
-                    isActive={props.jobsStatus}
-                  >
+                    isActive={props.jobsStatus}>
                     <CloseDiv>
                       <Img2>
                         <img src={close} />
                       </Img2>
-                      <Text3>ClOSED</Text3>
+                      <Text3>ClOSE</Text3>
                     </CloseDiv>
                   </CloseJobButton>
                 ) : (
                   <CloseJobButton
-                    className="btn btn-md jaaaaaaaaaaaaa"
+                    className="btn btn-md"
                     type="button"
                     isActive={props.jobsStatus}
-                    disabled
-                  >
+                    disabled>
                     <CloseDiv>
                       <Img2>
                         <img src={close} />
@@ -308,7 +352,13 @@ function ViewJobs() {
             </JobCardDetails>
           )}
           <button onClick={() => setToggle(!toggle)}>
-            <Toggle>{toggle ? "show less" : "show more"}</Toggle>
+            <Toggle>
+              {toggle ? (
+                <i class="fas fa-angle-up" />
+              ) : (
+                <i class="fas fa-angle-down" />
+              )}
+            </Toggle>
           </button>
         </Jobcard>
       </div>
@@ -438,7 +488,7 @@ const Jobcard = styled.div`
 `;
 
 const Toggle = styled.div`
-  border: 1px solid yellow;
+  color: #616161;
   width: 50px;
   margin-left: 890px;
 `;
@@ -590,5 +640,7 @@ const Detail = styled.div`
 
 const CloseJobButton = styled.button`
   background-color: ${(props) =>
-    props.isActive ? "var(--primary-brand-color)" : "--tertiary-text-color"};
+    props.isActive
+      ? "var(--primary-brand-color)"
+      : "var(--tertiary-text-color)"};
 `;

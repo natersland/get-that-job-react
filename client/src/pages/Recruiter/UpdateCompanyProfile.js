@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
 import { useUserData } from "../../contexts/usersData";
@@ -16,9 +17,38 @@ function UpdateCompanyProfile() {
     about,
     setAbout,
   } = useUserData();
+  const comProfileData = localStorage.getItem("id");
+  console.log(comProfileData);
+
+  const getComUsers = async () => {
+    const results = await axios.get(
+      `http://localhost:4000/users/${comProfileData}`
+    );
+    console.log(results.data.email);
+    //setCompanyLogo(results.data.companyLogo);
+    setEmail(results.data.email);
+    setCompanyName(results.data.companyName);
+    setCompanyWebsite(results.data.companyWebsite);
+    setAbout(results.data.about);
+  };
+
+  useEffect(() => {
+    getComUsers();
+  }, []);
+  const updateComProfile = async () => {
+    await axios.put(`http://localhost:4000/users/${comProfileData}`, {
+      companyLogo,
+      email,
+      companyName,
+      companyWebsite,
+      about,
+    });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    updateComProfile();
+    alert(`Your company profile has been updated`);
   };
 
   const handleFileChange = (event) => {
@@ -36,7 +66,11 @@ function UpdateCompanyProfile() {
         <H1>Profile</H1>
       </div>
 
-      <Form id="updateCompany-form" onSubmit={handleSubmit}>
+      <Form
+        id="updateCompany-form"
+        onSubmit={(e) => {
+          handleSubmit(e);
+        }}>
         <CompanyLogoWrap>
           <div>
             {Object.keys(companyLogo).map((companyLogoKey) => {
