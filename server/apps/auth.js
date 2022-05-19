@@ -17,9 +17,6 @@ const uploadFile = multerUpload.fields([
   { name: "logoFile", maxCount: 1 },
 ]);
 
-/* const multerLogoUpload = multer({ dest: "uploadLogo/" });
-const logo = multerLogoUpload.fields([{ name: "uploadLogo", maxCount: 1 }]);
- */
 authRouter.post("/register", uploadFile, async (req, res) => {
   const role = req.body.role;
 
@@ -70,6 +67,11 @@ authRouter.post("/register", uploadFile, async (req, res) => {
 
     await db.collection("users").insertOne(user);
     console.log(user);
+
+    /* await db
+      .collection("users")
+      .aggregate([{ $addFields: { userId: { $toString: "$_id" } } }])
+      .insertOne(user); */
   } else {
     console.log(`Wrong role please check again Role is: ${role}`);
   }
@@ -115,6 +117,7 @@ authRouter.post("/login", async (req, res) => {
     token,
   });
 });
+
 // ------------------------------------------------------
 
 export default authRouter;

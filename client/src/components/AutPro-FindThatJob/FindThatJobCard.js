@@ -18,23 +18,32 @@ function FindThatJobCard() {
   const { jobs, setJobs, searchJobText, setSearchJobText, getJobs } =
     useJobsData();
   const { textUpperCase } = UtilitiesFunction();
-
   return (
     <Wrapper>
       <JobsCounterNumber>{jobs.length} jobs for you</JobsCounterNumber>
       <FindThatJobWrapper>
         {jobs.map((items, index) => {
-          const { jobTitle, jobCategory, jobType, minSalary, maxSalary } =
-            items;
+          const {
+            jobTitle,
+            jobCategory,
+            jobType,
+            minSalary,
+            maxSalary,
+            company,
+          } = items;
           const newMinNumber = minSalary / 1000;
           const newMaxNumber = maxSalary / 1000;
+          console.log(items);
+
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
               <JobCardContent>
                 {/* Left Side ---------------------------------------------- */}
                 <ContentLeft>
                   <CompanyLogoWrapper>
-                    <CompanyLogoJa src={CompanyLogo}></CompanyLogoJa>
+                    <CompanyLogoJa
+                      src={company[0].companyLogo[0].url}
+                    ></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
                 {/* Right Side ---------------------------------------------- */}
@@ -50,7 +59,7 @@ function FindThatJobCard() {
                     {jobCategory}
                   </JobCategory>
                   <JobTitle>{jobTitle}</JobTitle>
-                  <CompanyName>The Company Name</CompanyName>
+                  <CompanyName>{company[0].companyName}</CompanyName>
                   {/* Left Side: Sub Content ---------------------------------------------- */}
                   <SubContentWrapper>
                     {" "}

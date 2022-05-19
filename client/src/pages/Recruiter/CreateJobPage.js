@@ -53,9 +53,14 @@ function CreateJobPage() {
     filterComma(minSalary);
     filterComma(maxSalary);
     setCreateby(userId);
+    const recruiterId = localStorage.getItem("id");
+    const recruiterLogo = localStorage.getItem("id");
+    alert(recruiterLogo);
+
     // --------------------------------------
     event.preventDefault();
     setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
+
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
         jobTitle,
@@ -68,6 +73,8 @@ function CreateJobPage() {
         optionalReq,
         createdJobDate,
         createdby,
+        recruiterId,
+        recruiterLogo,
       };
       createJob(data);
       resetJobData();
