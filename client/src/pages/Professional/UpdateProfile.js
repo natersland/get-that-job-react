@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { useUserData } from "../../contexts/usersData";
 import axios from "axios";
 import { useEffect } from "react";
+import {useVadilation} from "../../contexts/vadilation"
 
 //const UsersDataContext = React.createContext();
 
@@ -36,6 +37,9 @@ function UpdatePersonalProfile() {
   console.log(title);
   const profileData = localStorage.getItem("id");
   console.log(profileData);
+
+  const {isErrorEmail,
+    setIsErrorEmail,} = useVadilation();
 
   const getUsers = async () => {
     const getResults = await axios.get(
@@ -72,11 +76,23 @@ function UpdatePersonalProfile() {
       education,
     });
   };
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProfile();
+    if (email === "") {
+      setIsErrorEmail(true);
+      alert("email can not be blank");
+    }
+    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      //  if email is not validattion
+      setIsErrorEmail(true);
+    } else {
+      updateProfile();
     alert(`Your profile has been updated`);
+      //setIsErrorEmail(false);
+    }
+    
   };
   /* const updateData = new FormData();{
  

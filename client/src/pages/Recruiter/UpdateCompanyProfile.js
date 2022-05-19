@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
 import { useUserData } from "../../contexts/usersData";
+import {useVadilation} from "../../contexts/vadilation";
 
 function UpdateCompanyProfile() {
   const {
@@ -17,6 +18,10 @@ function UpdateCompanyProfile() {
     about,
     setAbout,
   } = useUserData();
+
+  const {isErrorEmail,
+    setIsErrorEmail,} = useVadilation();
+
   const comProfileData = localStorage.getItem("id");
   console.log(comProfileData);
 
@@ -24,7 +29,7 @@ function UpdateCompanyProfile() {
     const results = await axios.get(
       `http://localhost:4000/users/${comProfileData}`
     );
-    console.log(results.data.email);
+    //console.log(results.data.email);
     //setCompanyLogo(results.data.companyLogo);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
@@ -35,6 +40,7 @@ function UpdateCompanyProfile() {
   useEffect(() => {
     getComUsers();
   }, []);
+  
   const updateComProfile = async () => {
     await axios.put(`http://localhost:4000/users/${comProfileData}`, {
       companyLogo,
@@ -45,10 +51,24 @@ function UpdateCompanyProfile() {
     });
   };
 
+  
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateComProfile();
+    if (email === "") {
+      setIsErrorEmail(true);
+      alert("email can not be blank");
+    }
+    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      //  if email is not validattion
+      setIsErrorEmail(true);
+    } else {
+      updateComProfile();
     alert(`Your company profile has been updated`);
+      //setIsErrorEmail(false);
+    }
+  
+    
   };
 
   const handleFileChange = (event) => {
@@ -94,8 +114,8 @@ function UpdateCompanyProfile() {
                 id="uploadFile"
                 name="logo"
                 type="file"
-                onChange={handleFileChange}
-                accept="image/*"
+                onChange={handleFileChange} 
+                accept=".jpg,.jpeg,.png"
               />
             </UploadFileSection>
             <Limitation>PNG, JPEG,IMG</Limitation>
