@@ -22,7 +22,6 @@ function JobsDataProvider(props) {
   const [totalCandidates, setTotalCandidates] = useState(0);
   const [candidatesOnTrack, setCandidatesOnTrack] = useState(0);
   const [jobsStatus, setJobsStatus] = useState(null);
-
   // Connecting to Jobs Database & Searchbox ---------------------
   const [jobs, setJobs] = useState([]);
   const [searchJobText, setSearchJobText] = useState("");
@@ -30,6 +29,7 @@ function JobsDataProvider(props) {
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState(null);
   const [keywords, setKeywords] = useState("");
   const [keywordsNumber, setKeywordsNumber] = useState("");
+  const [createdby, setCreateby] = useState("");
   // Error State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -144,6 +144,8 @@ function JobsDataProvider(props) {
         searchMaxSalaryText,
         setSearchMaxSalaryText,
         getJobs,
+        createdby,
+        setCreateby,
         // State only for Filter Job Feature -------------------------------
         jobCategoryList,
         setJobCategoryList,
@@ -160,8 +162,7 @@ function JobsDataProvider(props) {
         setIsLoading,
         // Fx for reset data in state ---------------------------------------
         resetJobData,
-      }}
-    >
+      }}>
       {props.children}
     </JobsDataContext.Provider>
   );

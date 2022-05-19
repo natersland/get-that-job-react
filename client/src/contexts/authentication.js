@@ -39,7 +39,7 @@ function AuthProvider(props) {
     const userDataFromToken = jwtDecode(token);
     localStorage.setItem("token", token);
     localStorage.setItem("role", userDataFromToken.role);
-    localStorage.setItem("name", userDataFromToken.name);
+    localStorage.setItem("id", userDataFromToken.id);
     setState({ ...state, user: userDataFromToken });
 
     if (userDataFromToken.role === role) {
@@ -80,8 +80,7 @@ function AuthProvider(props) {
         isProfessional,
         isRecruiter,
         isRightAccount,
-      }}
-    >
+      }}>
       {props.children}
     </AuthContext.Provider>
   );

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const UsersDataContext = React.createContext();
 
 function UserDataProvider(props) {
+  const storedUserId = localStorage.getItem("id");
   // Shared state between Professional & Recruiter -----------------------------------------
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +29,7 @@ function UserDataProvider(props) {
   const [userAppiedJobs, setUserAppiedJobs] = useState([]);
   const [userFollowJobs, setUserFollowJobs] = useState([]);
   const [createdJobs, setCreatedJobs] = useState([]); // เก็บงานที่ user recruiter: สร้างทั้งหมด
+  const [userId, setUserId] = useState(storedUserId);
   // Fx for reset data in state ---------------------------------------
   const resetUserData = () => {
     setEmail("");
@@ -98,10 +100,11 @@ function UserDataProvider(props) {
         setUserFollowJobs,
         createdJobs,
         setCreatedJobs,
+        userId,
+        setUserId,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
-      }}
-    >
+      }}>
       {props.children}
     </UsersDataContext.Provider>
   );
