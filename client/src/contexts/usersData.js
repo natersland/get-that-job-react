@@ -105,8 +105,7 @@ function UserDataProvider(props) {
         storedUserId,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
-      }}
-    >
+      }}>
       {props.children}
     </UsersDataContext.Provider>
   );

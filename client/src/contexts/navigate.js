@@ -51,7 +51,7 @@ function NavigateProvider(props) {
         navigate("*"); // Following
         setMenuIndex(index + 1);
       } else if (index === 3) {
-        navigate("*"); // Profile
+        navigate("/updateprofile"); // Profile
         setMenuIndex(index + 1);
       } else if (index === 4) {
         logout(); // logout
@@ -81,8 +81,7 @@ function NavigateProvider(props) {
         sidebarLinkChecker,
         menuIndex,
         setMenuIndex,
-      }}
-    >
+      }}>
       {props.children}
     </NavigateContext.Provider>
   );

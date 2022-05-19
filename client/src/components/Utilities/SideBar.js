@@ -69,8 +69,7 @@ function Sidebar({ barRole }) {
           alt="brand logo"
           onClick={() => {
             homePageRoute();
-          }}
-        ></Logo>
+          }}></Logo>
       </LogoWrapper>
       <Menu>
         {barRole === "professional"
@@ -82,8 +81,7 @@ function Sidebar({ barRole }) {
                   onClick={() => {
                     sidebarLinkChecker(index, "professional");
                   }}
-                  isActive={menuIndex}
-                >
+                  isActive={menuIndex}>
                   <img src={nav_icon} alt={text_menu} />
                   <MenuText>{text_menu}</MenuText>
                 </MenuList>
@@ -97,8 +95,7 @@ function Sidebar({ barRole }) {
                   onClick={() => {
                     sidebarLinkChecker(index, "recruiter");
                   }}
-                  isActive={menuIndex}
-                >
+                  isActive={menuIndex}>
                   <img src={nav_icon} alt={text_menu} />
                   <MenuText>{text_menu}</MenuText>
                 </MenuList>
@@ -139,25 +136,25 @@ const MenuList = styled.div`
   flex-direction: row;
   padding: 13px 0 13px 18px;
 
-  &:nth-child(1) {
+  &:nth-of-type(1) {
     background-color: ${(props) =>
       props.isActive === 1
         ? " RGB(245, 245, 246)"
         : "var(--tertiary-text-color)"};
   }
-  &:nth-child(2) {
+  &:nth-of-type(2) {
     background-color: ${(props) =>
       props.isActive === 2
         ? " RGB(245, 245, 246)"
         : "var(--tertiary-text-color)"};
   }
-  &:nth-child(3) {
+  &:nth-of-type(3) {
     background-color: ${(props) =>
       props.isActive === 3
         ? " RGB(245, 245, 246)"
         : "var(--tertiary-text-color)"};
   }
-  &:nth-child(4) {
+  &:nth-of-type(4) {
     background-color: ${(props) =>
       props.isActive === 4
         ? " RGB(245, 245, 246)"

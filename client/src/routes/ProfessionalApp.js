@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "../pages/NotFoundPage";
 import FindJobsPage from "../pages/Professional/FindJobsPage";
 import ComponentIndex from "../components/ComponentIndex";
-import UpdateCompanyProfile from "../pages/Recruiter/CreateJobPage";
+import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
 
 // Components
 import Sidebar from "../components/Utilities/SideBar";
@@ -20,7 +20,7 @@ function ProfessionalApp() {
         <Route path="/findjobs" element={<FindJobsPage />} />
         <Route path="/applications" element={<NotFoundPage />} />
         <Route path="/following" element={<NotFoundPage />} />
-        <Route path="/profile" element={<UpdateCompanyProfile />} />
+        <Route path="/updateprofile" element={<UpdatePersonalProfile />} />
       </Routes>
     </div>
   );

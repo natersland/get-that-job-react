@@ -36,6 +36,9 @@ function CreateJobPage() {
     jobCategoryList,
     jobTypeList,
     resetJobData,
+    userId,
+    createdby,
+    setCreateby,
   } = useJobsData();
   const navigate = useNavigate();
 
@@ -49,6 +52,7 @@ function CreateJobPage() {
     // Filter Comma from UI display for send data to server
     filterComma(minSalary);
     filterComma(maxSalary);
+    setCreateby(userId);
     const recruiterId = localStorage.getItem("id");
     const recruiterLogo = localStorage.getItem("id");
     alert(recruiterLogo);
@@ -68,6 +72,7 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
+        createdby,
         recruiterId,
         recruiterLogo,
       };
@@ -94,8 +99,7 @@ function CreateJobPage() {
             value={jobTitle}
             className="pink-border gtj-input"
             placeholder="Software engineer"
-            required
-          ></InputText>
+            required></InputText>
           {/* ------------ Job Category ------------ */}
           <SectionText>
             <TextLabel>{textUpperCase("Job Category")}</TextLabel>
@@ -107,8 +111,7 @@ function CreateJobPage() {
             value={jobCategory}
             className="pink-border gtj-input"
             placeholder="Select or create a category"
-            required
-          >
+            required>
             <option value="" disabled selected>
               Select or create a category
             </option>
@@ -125,8 +128,7 @@ function CreateJobPage() {
             value={jobType}
             className="pink-border gtj-input"
             placeholder="Select a type"
-            required
-          >
+            required>
             {" "}
             <option value="" disabled selected>
               Select a type
@@ -149,8 +151,7 @@ function CreateJobPage() {
               value={minSalary}
               className="pink-border gtj-input dollar-icon"
               placeholder="min"
-              required
-            ></InputSalary>
+              required></InputSalary>
             <Dash>
               <DashLine></DashLine>
             </Dash>
@@ -165,8 +166,7 @@ function CreateJobPage() {
               value={maxSalary}
               className="pink-border gtj-input  dollar-icon"
               placeholder="max"
-              required
-            ></InputSalary>
+              required></InputSalary>
           </SalaryWrapper>
           {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
           {isError ? (
@@ -189,8 +189,7 @@ function CreateJobPage() {
             value={aboutJob}
             className="pink-border gtj-input"
             placeholder="Describe the main functions and characteristics of your job position"
-            rows={7}
-          ></TextAreaInput>
+            rows={7}></TextAreaInput>
           {/* ------------ Mandatory Requirements ------------ */}
           <TextLabel>{textUpperCase("Mandatory Requirements")}</TextLabel>
           <TextAreaInput
@@ -200,8 +199,7 @@ function CreateJobPage() {
             value={mandatoryReq}
             className="pink-border gtj-input"
             placeholder="List each mandatory requirement in a new line"
-            rows={7}
-          ></TextAreaInput>
+            rows={7}></TextAreaInput>
           {/* ------------ Optional Requirements ------------ */}
           <TextLabel>{textUpperCase("Optional Requirements")}</TextLabel>
           <TextAreaInput
@@ -211,15 +209,13 @@ function CreateJobPage() {
             value={optionalReq}
             className="pink-border gtj-input"
             placeholder="List each mandatory requirement in a new line"
-            rows={3}
-          ></TextAreaInput>
+            rows={3}></TextAreaInput>
         </SectionWrapper>
         <SectionWrapper>
           <button
             className="btn btn-md btn-pink"
             type="submit"
-            form="createjob-form"
-          >
+            form="createjob-form">
             Post this job
           </button>
         </SectionWrapper>
