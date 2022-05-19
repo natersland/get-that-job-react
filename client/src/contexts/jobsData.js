@@ -21,6 +21,8 @@ function JobsDataProvider(props) {
   const [job, setJob] = useState({});
   const [filter, setFilter] = useState([]);
   const [seeMore, setSeeMore] = useState([]);
+  const [createdby, setCreateby] = useState([]);
+
   // Conditional State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -84,6 +86,8 @@ function JobsDataProvider(props) {
         setFilter,
         seeMore,
         setSeeMore,
+        createdby,
+        setCreateby,
         // State only for Filter Job Feature -------------------------------
         jobCategoryList,
         setJobCategoryList,
@@ -96,7 +100,8 @@ function JobsDataProvider(props) {
         setIsLoading,
         // Fx for reset data in state ---------------------------------------
         resetJobData,
-      }}>
+      }}
+    >
       {props.children}
     </JobsDataContext.Provider>
   );

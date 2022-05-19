@@ -6,6 +6,7 @@ import {
   getAllJobs,
   getAllJobsWithFilter,
   getOneJob,
+  natTestCountByJobsCat,
   updateJob,
 } from "../controllers/jobs.js";
 const jobRouter = Router();
@@ -22,6 +23,9 @@ jobRouter.get("/:id", getOneJob);
 jobRouter.put("/:id", updateJob);
 // DELETE JOB ----------------------------
 jobRouter.delete("/:id", deleteJob);
+// TEST ROUTES ----------------------------
+jobRouter.get("/countByCat", natTestCountByJobsCat);
+
 // Create Job (อันเก่า *ไม่ใช้แล้ว) -----------------------------
 jobRouter.post("/createjob", createJobV1);
 

@@ -3,7 +3,6 @@ import moment from "moment";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
-
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------

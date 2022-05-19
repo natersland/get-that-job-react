@@ -63,6 +63,20 @@ export const getAllJobsWithFilter = async (req, res, next) => {
   }
 };
 
+export const natTestCountByJobsCat = async (req, res, next) => {
+  const categories = req.query.categories.split(",");
+  try {
+    const list = await Promise.all(
+      categories.map((category) => {
+        return collection.countDocuments({ jobCategory: categories });
+      })
+    );
+    res.status(200).json(list);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getOneJob = async (req, res) => {
   const jobId = ObjectId(req.params.id);
   const job = await collection
