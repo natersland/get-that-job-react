@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 function FindThatJobHeader() {
@@ -58,6 +57,7 @@ function FindThatJobHeader() {
     setJobs(result);
     console.log(userSelect);
   };
+
   // Filter Salary --------------------------------------------
   const searchMinSalary = async () => {
     const results = await axios.get(
@@ -73,40 +73,6 @@ function FindThatJobHeader() {
     setJobs(results.data.data);
   };
 
-  /*  useEffect(() => {
-    getJobs(
-      jobType,
-
-      keywords
-    );
-    searchJobWord();
-    searchMinSalary();
-    searchMaxSalary()
-    dropDownFilter();
-
-    let timer;
-
-    const setTimer = (fx1, fx2) => {
-      if (fx1) {
-        timer = setTimeout(fx2, 1000);
-      }
-    };
-    if (searchJobText) {
-      timer = setTimeout(searchJobWord, 5000);
-    } else if (searchMinSalaryText) {
-      timer = setTimeout(searchMinSalary, 5000);
-    } else if (searchMaxSalaryText) {
-      timer = setTimeout(searchMaxSalary, 5000);
-    }
-    setTimer(searchJobWord, searchJobText);
-    setTimer(searchMinSalary, searchMinSalaryText);
-    setTimer(searchMaxSalary, searchMaxSalaryText);
-    setTimer(dropDownFilter);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [searchJobText, searchMinSalaryText, searchMaxSalaryText]); */
   useEffect(() => {
     searchJobWord();
     searchMinSalary();

@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------
@@ -12,7 +14,8 @@ import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
   const { job, setJob } = useJobsData();
-
+  const location = useLocation();
+  console.log("hi", location);
   const getOneJob = async () => {
     try {
       const jobId = localStorage.getItem("jobId");

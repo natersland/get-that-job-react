@@ -56,8 +56,7 @@ function AuthProvider(props) {
       localStorage.setItem("rightAcc", true);
       setFirstLogIn(true);
       setIsAlert(true);
-      /*       alert(`Login successful! Welcome to ${userDataFromToken.role} account`);
-       */ if (userDataFromToken.role === "professional") {
+      if (userDataFromToken.role === "professional") {
         navigate("/findjobs");
       } else if (userDataFromToken.role === "recruiter") {
         navigate("/viewjobs");
@@ -93,7 +92,8 @@ function AuthProvider(props) {
         isProfessional,
         isRecruiter,
         isRightAccount,
-      }}>
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

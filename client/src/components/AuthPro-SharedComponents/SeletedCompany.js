@@ -23,10 +23,7 @@ function SeletedCompany({ jobId }) {
       <CompanyWrapper>
         <LeftWrapper>
           <LogoWrapper>
-            {/* <img src={CompanyLogo} /> */}
             <LogoImg src={job.company?.[0]?.companyLogo?.[0].url} />
-            {/*             <LogoImg src={job.company[0].companyLogo[0].url} />
-             */}{" "}
           </LogoWrapper>
         </LeftWrapper>
         <RightWrapper>

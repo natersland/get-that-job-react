@@ -18,40 +18,11 @@ export const createJob = async (req, res, next) => {
     next(error);
   }
 };
-
-/* jobRouter.post("/create", async (req, res) => {
-  //create/:userId
-
-  const userId = req.body.id;
-  const newJob = new Jobs(req.body);
-  await db.collection("jobs").insertOne(newJob, userId);
-
-  const pipeline = [
-    {
-      $lookup: {
-        from: "users",
-        localField: "createdby",
-        foreignField: "_id",
-        as: "jobs",
-      },
-    },
-  ];
-
-  return res.status(200).json(`New job has been created successful`);
-  console.log(newJob, userId);
-}); */
-
-// CREATE JOB ----------------------------
-/* jobRouter.post("/create", async (req, res) => {
-  try {
-    const newJob = new Jobs(req.body);
-    await db.collection("jobs").insertOne(newJob);
-    res.status(200).json(`New job has been created successful`);
-    console.log(newJob);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-}); */
+/* export const getOneJob = async (req, res) => {
+  const jobId = ObjectId(req.params.id);
+  const job = await collection.find({ _id: jobId }).toArray();
+  return res.json({ data: job[0] });
+}; */
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
     const searchJobText = req.query.searchJobText;
@@ -62,7 +33,7 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     if (searchJobText) {
       query.jobTitle = searchJobText;
     } else if (searchJobText) {
-      query.company.companyName = searchJobText;
+      query.company[0].companyName = searchJobText;
     } else if (searchMinSalaryText) {
       query.minSalary = searchMinSalaryText;
     } else if (searchMaxSalaryText) {
@@ -70,7 +41,7 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     } else if (keywords) {
       query.jobTitle = new RegExp(`${keywords}`, "i");
     } else if (keywords) {
-      query.company.companyName = new RegExp(`${keywords}`, "i");
+      query.company[0].companyName = new RegExp(`${keywords}`, "i");
     }
     const jobs = await collection
       .aggregate([
@@ -90,15 +61,6 @@ export const getAllJobsWithFilter = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  // CREATE JOB V2 ----------------------------
-  /* {
-  "jobTitle": "sdvsdv",
-  "jobIdNumber": [
-      {
-          "idNumber": 101
-      }
-  ]
-} */
 };
 
 export const getOneJob = async (req, res) => {
@@ -118,12 +80,6 @@ export const getOneJob = async (req, res) => {
     .toArray();
   return res.json({ data: job[0] });
 };
-
-/* export const getOneJob = async (req, res) => {
-  const jobId = ObjectId(req.params.id);
-  const job = await collection.find({ _id: jobId }).toArray();
-  return res.json({ data: job[0] });
-}; */
 
 export const updateJob = async (req, res, next) => {
   try {
