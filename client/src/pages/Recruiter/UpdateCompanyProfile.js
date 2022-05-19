@@ -202,6 +202,7 @@ const Label2 = styled.label`
   font-weight: 400;
   font-size: 10px;
   color: #616161;
+  margin-left: 12px;
 `;
 const UploadFileSection = styled.div`
   display: flex;
@@ -266,6 +267,7 @@ const Limitation = styled.p`
   width: 380px;
   margin-top: 0px;
   color: #8e8e8e;
+  margin-left: 12px;
 `;
 const CompanyLogoWrap = styled.div`
   display: flex;

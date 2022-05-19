@@ -49,6 +49,8 @@ body {
   height: 56px;
 }
 
+
+
 /* ------------------------------------- */
 /* โครง Input (ใช้สร้างรูปทรงของ input) */
 .gtj-input {
@@ -109,6 +111,7 @@ body {
   outline: none;
   border: 1px solid var(--primary-brand-color);
 }
+
 
 /* ⚡️⚡️⚡️ Shadows -------------------------------- */
 .shadow-medium {

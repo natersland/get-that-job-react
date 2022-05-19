@@ -11,7 +11,10 @@ import money from "../../img/money-dollar-circle-line.png";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import { useVadilation } from "../../contexts/vadilation";
 import close2 from "../../img/close2.png";
+import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
+import { AppBar } from "@mui/material";
+import '../../App.css'
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
 
@@ -45,21 +48,14 @@ function ViewJobs() {
   const [ job, setJob ] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
+  console.log(job)
+    
+
   const handleSelectChange = (event) => {
     const value = event.target.value;
-  };
+  }; //---delete----
  
-  /*const { 
-    jobTitle,setJobTitle,
-    jobCategory, setJobCategory,
-    jobType,setJobType,
-    minSalary,setMinSalary,
-    maxSalary,setMaxSalary,
-    aboutJob,setAboutJob,
-    mandatoryReq,setMandatoryReq,
-    optionalReq,setOptionalReq,
-    createdJobDate,setCreatedJobDate} = useJobsData();
-     */
+  
     const comProfileData = localStorage.getItem("id");
 
     const getJobPost = async () => {
@@ -79,7 +75,6 @@ function ViewJobs() {
       job
     };
    
-    
 
     /* setJobTitle(results.data.jobs.jobTitle);
     setJobCategory(results.data.jobs.jobCategory);
@@ -186,24 +181,28 @@ function ViewJobs() {
 
   function Job(props) {
     const [toggle, setToggle] = useState(false);
-
-    /* const closeJobStatus = (index) => {
-      job[index].jobStatus = false;
-      console.log(index);
-      console.log(job[index].jobStatus);
-    }; */
+    const [close, setClose] = useState(false);
+    const [font, setFont] = useState(false);
+    const [disable, setDisable] = useState(false);
+    
 
     /*const closeJobStatus = (index) => {
       job[index].jobStatus = true;
       console.log(index);
       console.log(job[index].jobStatus);
     };*/
-    const handleCloseCLick = () => {
-      job.jobStatus = false;
+
+    /*onst handleCloseCLick = () => {
+      job.jobStatus = true;
       console.log(job.jobStatus)
-    }
+    }*/
     //const [jobsStatus, setJobsStatus] = useState(false);
 
+    const click = () => {
+      setClose(!close)
+      setDisable(true)
+      setFont(!font)
+    }
     return (
       <div>
         <Jobcard key={props._id}>
@@ -281,36 +280,33 @@ function ViewJobs() {
               </JobCardHeader3Left3>
 
               <JobCardHeader3Left3>
-                {props.jobsStatus ? (
-                  <CloseJobButton
-                    className="btn btn-md"
-                    type="button"
-                    onClick={() => {
-                      handleCloseCLick
-                      (props._id - 1)
+              <JobCardHeader3Left3>
+                
+                  <button 
+                    style = {{
+                      borderRadius:'16px',
+                      padding: '8px 16px',
+                      height: '40px',
+                      width:'140px',
+                      backgroundColor:close? '#E1E2E1' : '#BF5F82'
                     }}
-                    isActive={props.jobStatus}>
-                    <CloseDiv>
-                      <Img2>
-                        <img src={close2} />
-                      </Img2>
-                      <Text3>ClOSE</Text3>
-                    </CloseDiv>
-                  </CloseJobButton>
-                ) : (
-                  <CloseJobButton
-                    className="btn btn-md"
                     type="button"
-                    isActive={props.jobStatus}
-                    disabled>
+                    disabled={disable}
+                    onClick={click}>
                     <CloseDiv>
                       <Img2>
                         <img src={close2} />
                       </Img2>
-                      <Text8>ClOSED</Text8>
+                      <p style={{
+                        color:close? 'lightgray' : 'white',
+                    }}> {close? 'CLOSED': 'CLOSE'}</p>
                     </CloseDiv>
-                  </CloseJobButton>
-                )}
+                  </button>
+                
+                
+              </JobCardHeader3Left3>
+                  
+                    
               </JobCardHeader3Left3>
             </JobCardHeader3>
           </JobCardHeader>
@@ -572,7 +568,7 @@ const JobCardHeader3Left3 = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 70px;
 `;
 
@@ -603,7 +599,7 @@ const Img = styled.div`
 const JobCardHeader3 = styled.div`
   display: flex;
   flex-direction: row;
-  width: 180px;
+  width: 220px;
   justify-content: space-between;
   margin-right: 95px;
 `;
@@ -636,7 +632,7 @@ const CloseDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 75px;
+  width: 88px;
   align-items: center;
 `;
 
