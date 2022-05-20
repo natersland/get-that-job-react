@@ -176,6 +176,7 @@ function ViewJobs() {
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
+    //document.getElementById('buttonID').disabled = true;
 
     /*const closeJobStatus = (index) => {
       job[index].jobStatus = true;
@@ -284,7 +285,7 @@ function ViewJobs() {
 
               <JobCardHeader3Left3>
                 <JobCardHeader3Left3>
-                  <button
+                  <button id="buttonID"
                     style={{
                       borderRadius: "16px",
                       padding: "8px 16px",

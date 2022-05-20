@@ -116,7 +116,7 @@ function UpdateCompanyProfile() {
                 name="logoFile"
                 type="file"
                 onChange={handleFileChange}
-                accept=".jpg,.jpeg,.png"
+                accept="image/*"
               />
             </UploadFileSection>
             <Limitation>PNG, JPEG,IMG</Limitation>
