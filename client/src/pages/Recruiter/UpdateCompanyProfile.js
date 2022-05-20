@@ -70,7 +70,8 @@ function UpdateCompanyProfile() {
         id="updateCompany-form"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}>
+        }}
+      >
         <CompanyLogoWrap>
           <div>
             {Object.keys(companyLogo).map((companyLogoKey) => {
@@ -138,7 +139,8 @@ function UpdateCompanyProfile() {
         <Button
           form="updateCompany-form"
           type="submit"
-          className="btn btn-lg btn-pink">
+          className="btn btn-lg btn-pink"
+        >
           UPDATE PROFILE
         </Button>
       </Form>
@@ -153,8 +155,10 @@ const H1 = styled.h1`
   font-family: var(--primary-font);
 `;
 const MarginWrap = styled.div`
-  margin-left: 300px;
-  padding-top: 30px;
+  width: 65%;
+  margin: auto;
+  margin-bottom: 100px;
+  padding: 2rem 0;
 `;
 
 const Button = styled.button`

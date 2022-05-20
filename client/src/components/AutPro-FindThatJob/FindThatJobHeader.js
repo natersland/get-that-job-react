@@ -65,7 +65,6 @@ function FindThatJobHeader() {
     );
     setJobs(results.data.data);
   };
-
   const searchMaxSalary = async () => {
     const results = await axios(
       `http://localhost:4000/jobs?searchMaxSalaryText=${searchMaxSalaryText}`
@@ -82,7 +81,6 @@ function FindThatJobHeader() {
   ) => {
     const results = await axios(`http://localhost:4000/jobs`);
     const jobData = results.data.data;
-
     const filterText = jobData.filter((item) => {
       return (
         item.jobTitle.toLowerCase().match(text) ||
@@ -95,13 +93,12 @@ function FindThatJobHeader() {
     const filterType = jobData.filter((item) =z> {
       return item.jobType === type;
     });
-
     setJobs(filterText);
   }; */
 
   const search = async (text) => {
     const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&keywordName=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}`
+      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}`
     );
     const jobData = results.data.data;
     const filter = jobData.filter((item) => {
@@ -116,11 +113,9 @@ function FindThatJobHeader() {
     searchMaxSalary(); */
     search();
     /*   let timeOut;
-
     if (searchJobText) {
       timeOut = setTimeout(searchJobWord, 1000);
     }
-
     return () => {
       clearTimeout(timeOut);
     }; */

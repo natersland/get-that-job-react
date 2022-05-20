@@ -21,7 +21,7 @@ export default function LoginPage() {
     setEmail,
     resetUserData,
   } = useUserData();
-  const { isErrorPassword, isErrorEmail, handleClickOpen, setLoading } =
+  const { isErrorPassword, isErrorEmail, isValidAccount, setLoading } =
     useVadilation();
   const { login } = useAuth();
   const { setMenuIndex } = useNav();
@@ -55,6 +55,12 @@ export default function LoginPage() {
           </LoginIntroduction>
           <SelectRole />
 
+          {/*แจ้งเตือนเมื่อ user ไม่ใส่ Password ------------------------ */}
+          {isValidAccount ? (
+            <Alert className="mt-2 mb-2 w-12/12" severity="error">
+              Wrong account or password. Please try again.
+            </Alert>
+          ) : null}
           {/*แจ้งเตือนเมื่อ user ไม่ใส่ email ------------------------ */}
           {isErrorEmail ? (
             <Alert className="mt-2 mb-2 w-12/12" severity="error">

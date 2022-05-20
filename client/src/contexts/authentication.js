@@ -22,8 +22,13 @@ function AuthProvider(props) {
   );
   const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
   const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
-  const { ifInputIsBlank, setLoading, setIsAlert, setFirstLogIn } =
-    useVadilation();
+  const {
+    ifInputIsBlank,
+    setLoading,
+    setIsAlert,
+    setFirstLogIn,
+    setIsAccountValid,
+  } = useVadilation();
 
   const removeLocalStorageData = () => {
     localStorage.removeItem("token");
@@ -47,6 +52,9 @@ function AuthProvider(props) {
     const result = await axios.post("http://localhost:4000/auth/login", data);
     const token = result.data.token;
     const userDataFromToken = jwtDecode(token);
+    if (!userDataFromToken) {
+      setIsAccountValid(true);
+    }
     localStorage.setItem("token", token);
     localStorage.setItem("role", userDataFromToken.role);
     localStorage.setItem("id", userDataFromToken.id);

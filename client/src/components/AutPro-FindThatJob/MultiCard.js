@@ -9,12 +9,12 @@ import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
-import { useJobsData } from "../../../contexts/jobsData";
-import { useVadilation } from "../../../contexts/vadilation";
+import { useJobsData } from "../../contexts/jobsData";
+import { useVadilation } from "../../contexts/vadilation";
 // Contexts --------------------
-import UtilitiesFunction from "../../../utils/utilitiesFunction";
+import UtilitiesFunction from "../../utils/utilitiesFunction";
 //Components --------------------
-import BackDropLoading from "../../Utilities/BackDropLoading";
+import BackDropLoading from "../Utilities/BackDropLoading";
 
 function MultiCard({ fetchData }) {
   const { jobs } = useJobsData();

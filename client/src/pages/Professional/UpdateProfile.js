@@ -110,7 +110,8 @@ function UpdatePersonalProfile() {
         id="update-Professional-form"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}>
+        }}
+      >
         <LabelText htmlFor="email">EMAIL</LabelText>
         <Input
           type="email"
@@ -210,7 +211,8 @@ function UpdatePersonalProfile() {
         <Button
           form="update-Professional-form"
           type="submit"
-          className="btn btn-md btn-pink">
+          className="btn btn-md btn-pink"
+        >
           SAVE CHANGE
         </Button>
       </Form>
@@ -243,9 +245,9 @@ const Texth4 = styled.p`
   margin-top: 35px;
 `;
 const MarginWrap = styled.div`
-  margin-left: 300px;
-  padding-top: 30px;
-  margin-bottom: 50px;
+  width: 65%;
+  margin: auto;
+  margin-bottom: 100px;
 `;
 
 const Button = styled.button`

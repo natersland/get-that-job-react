@@ -245,6 +245,7 @@ function CreateJobPage() {
 const Wrapper = styled.div`
   width: 65%;
   margin: auto;
+  margin-bottom: 100px;
 `;
 const HeadingText = styled.h1`
   font-size: 2.125rem;

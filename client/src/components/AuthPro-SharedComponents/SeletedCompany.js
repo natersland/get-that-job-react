@@ -86,6 +86,8 @@ const LogoWrapper = styled.div`
 `;
 const LogoImg = styled.img`
   object-fit: cover;
+  width: 100%;
+  height: 100%;
 `;
 const RightWrapper = styled.div`
   width: 400px;

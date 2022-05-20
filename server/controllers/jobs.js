@@ -47,25 +47,48 @@ export const createJob = async (req, res, next) => {
     item.company[0].companyName.toLowerCase().match(text)
   );
 }); */
+
+/* let result = jobData
+  .filter((searchtext) => {
+    return (
+      searchtext.jobTitle.toLowerCase().match(text) ||
+      searchtext.company[0].companyName.toLowerCase().match(text)
+    );
+  })
+  .filter((category) => {
+    return category.category === category;
+  })
+  .filter((jobType) => {
+    return jobType.jobType === type;
+  });
+setJobs(result);
+ */
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
-    const searchJobText = req.query.searchJobText;
+    /*     const searchJobText = req.query.searchJobText; */
     const keywords = req.query.keywords;
-    const keywordName = req.query.keywordName;
+    /* const keywordName = req.query.keywordName; */
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const query = {};
-    if (searchJobText) {
+    if (keywords || searchMinSalaryText || searchMaxSalaryText) {
+      query.$or = [
+        { jobTitle: { $regex: keywords, $options: "i" } },
+        { minSalary: searchMinSalaryText },
+        { maxSalary: searchMaxSalaryText },
+      ];
+    }
+    /*  if (searchJobText) {
       query.jobTitle = searchJobText;
+    } else if (searchJobText) {
+      query.company.companyName = searchJobText;
     } else if (searchMinSalaryText) {
       query.minSalary = searchMinSalaryText;
     } else if (searchMaxSalaryText) {
       query.maxSalary = searchMaxSalaryText;
     } else if (keywords) {
       query.jobTitle = new RegExp(`${keywords}`, "i");
-    } else if (keywordName) {
-      query.company[0].companyName = new RegExp(`${keywordName}`, "i");
-    }
+    } */
     const jobs = await collection
       .aggregate([
         {

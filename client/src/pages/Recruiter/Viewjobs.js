@@ -16,7 +16,6 @@ import { useVadilation } from "../../contexts/vadilation";
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
 
-
 /*
  */ const datas = [
   {
@@ -295,7 +294,8 @@ function ViewJobs() {
                     onClick={() => {
                       closeJobStatus(props.id - 1);
                     }}
-                    isActive={props.jobsStatus}>
+                    isActive={props.jobsStatus}
+                  >
                     <CloseDiv>
                       <Img2>
                         <img src={close} />
@@ -308,7 +308,8 @@ function ViewJobs() {
                     className="btn btn-md"
                     type="button"
                     isActive={props.jobsStatus}
-                    disabled>
+                    disabled
+                  >
                     <CloseDiv>
                       <Img2>
                         <img src={close} />

@@ -3,11 +3,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 // Hooks --------------------
-import useFetch from "../../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 // Contexts --------------------
-import { useJobsData } from "../../../contexts/jobsData";
-import FindThatJobCard from "../FindThatJobCard";
-import MultiCard from "../MultiCard";
+import { useJobsData } from "../../contexts/jobsData";
+import FindThatJobCard from "./FindThatJobCard";
 function FindMultiverse() {
   const { jobCategoryList, jobTypeList } = useJobsData();
   // Multiverse Filter Fx --------------------------------

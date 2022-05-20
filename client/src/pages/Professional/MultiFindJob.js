@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import FindMultiverse from "../../components/AutPro-FindThatJob/FindMultiverse";
 import FindMultiverse2 from "../../components/AutPro-FindThatJob/FindMultiverse2";
 // Components
-import FindThatJobCard from "../FindThatJobCard";
-import AlertDialog from "../../Utilities/AlertDialog";
+import FindThatJobCard from "../../components/AutPro-FindThatJob/FindThatJobCard";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 
 function MultiFindJob() {
   const userRole = localStorage.getItem("role");

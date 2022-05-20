@@ -19,7 +19,7 @@ jobRouter.post("/create", createJob);
 // ดึงข้อมูล JOBS ทั้งหมด (แบบมีฟีลเตอร์ + lookup) ----------------------------
 jobRouter.get("/", getAllJobsWithFilter);
 // ดึงข้อมูล JOBS ทั้งหมด (ไม่มีฟีลเตอร์ & no lookup) ----------------------------
-jobRouter.get("/data", testGetAllJobsWithFilterV2);
+jobRouter.get("/data", getAllJobs);
 // filter Zone ----------------------------
 jobRouter.get("/countCategory", countCategoty);
 jobRouter.get("/countType", countType);

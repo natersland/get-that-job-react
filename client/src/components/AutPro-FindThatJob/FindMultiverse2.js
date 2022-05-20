@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { useEffect, useState } from "react";
 // Contexts --------------------
-import { useJobsData } from "../../../contexts/jobsData";
+import { useJobsData } from "../../contexts/jobsData";
 function FindMultiverse2() {
   const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
@@ -25,6 +25,8 @@ function FindMultiverse2() {
     setJobType(userSelect);
   };
 
+  const [filter, setFilter] = useState({ active: false });
+
   const multiverseFilter = async (
     text,
     category,
@@ -32,9 +34,7 @@ function FindMultiverse2() {
     searchMinSalaryText,
     searchMaxSalaryText
   ) => {
-    const results = await axios(
-      `http://localhost:4000/jobs/data?jobTitle=${text}`
-    );
+    const results = await axios(`http://localhost:4000/jobs`);
     const jobData = results.data.data;
 
     // Filter Everything ---------------------
@@ -49,7 +49,7 @@ function FindMultiverse2() {
     const filterCategory = filterText.filter((item) => {
       return item.jobCategory === category;
     });
-    const result = filterCategory.filter((item) => {
+    const filterType = filterCategory.filter((item) => {
       return item.jobType === type;
     });
 
@@ -62,8 +62,31 @@ function FindMultiverse2() {
       );
     });
     // Condition Here ---------------------
+    if (text !== "" || category !== "" || type !== "") {
+      if (text !== "") {
+        setJobs(filterText);
+      } else if (category !== "") {
+        setJobs(filterCategory);
+      } else if (category !== "") {
+        setJobs(filterType);
+      }
+    }
 
-    setJobs(filterText);
+    if ((text !== "" && category !== "") || (text !== "" && type !== "")) {
+      if (text !== "" && category !== "") {
+        let result = jobData
+          .filter((items) => {
+            return (
+              items.jobTitle.toLowerCase().match(text) ||
+              items.company[0].companyName.toLowerCase().match(text)
+            );
+          })
+          .filter((items) => {
+            return items.jobType === type;
+          });
+        setJobs(result);
+      }
+    }
   };
 
   useEffect(() => {

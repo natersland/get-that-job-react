@@ -87,7 +87,6 @@ function SeeMorePage() {
 
 const Wrapper = styled.div`
   width: 75%;
-  border: 1px dash black;
   padding: 25px 0;
   margin-left: 350px;
 `;
