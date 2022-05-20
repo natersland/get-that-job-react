@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useVadilation } from "../../contexts/vadilation";
@@ -17,39 +17,31 @@ function CreateJobPage() {
   const [isError, setIsError] = useState(false);
   const { filterComma, textUpperCase, addCommas, removeCommas } =
     UtilitiesFunction();
-  const {
-    jobTitle,
-    setJobTitle,
-    jobCategory,
-    setJobCategory,
-    jobType,
-    setJobType,
-    minSalary,
-    setMinSalary,
-    maxSalary,
-    setMaxSalary,
-    aboutJob,
-    setAboutJob,
-    mandatoryReq,
-    setMandatoryReq,
-    optionalReq,
-    setOptionalReq,
-    createdJobDate,
-    setCreatedJobDate,
-    jobCategoryList,
-    jobTypeList,
-    resetJobData,
-    userId,
-    createdby,
-    setCreateby,
-  } = useJobsData();
-  const {
-    // This Zone is for Register form vadilate only -------------------------------------
-    setLoading,
-    setIsAlert,
-  } = useVadilation();
+  const { jobCategoryList, jobTypeList } = useJobsData();
+  const { setLoading, setIsAlert } = useVadilation();
+  const [jobTitle, setJobTitle] = useState(String);
+  const [jobCategory, setJobCategory] = useState(String);
+  const [jobType, setJobType] = useState(String);
+  const [minSalary, setMinSalary] = useState(Number);
+  const [maxSalary, setMaxSalary] = useState(Number);
+  const [aboutJob, setAboutJob] = useState(String);
+  const [mandatoryReq, setMandatoryReq] = useState(String);
+  const [optionalReq, setOptionalReq] = useState(String);
+  const [candidateData, setCandidateData] = useState({});
+
   const navigate = useNavigate();
 
+  const resetJobData = () => {
+    setJobTitle("");
+    setJobCategory("");
+    setJobType("");
+    setMinSalary(0);
+    setMaxSalary(0);
+    setAboutJob("");
+    setMandatoryReq("");
+    setOptionalReq("");
+    setCandidateData({});
+  };
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);
@@ -61,17 +53,14 @@ function CreateJobPage() {
     event.preventDefault();
     setLoading(true);
     // Filter Comma from UI display for send data to server
-    filterComma(minSalary);
-    filterComma(maxSalary);
-    setCreateby(userId);
     const recruiterId = localStorage.getItem("id");
-
+    const createdJobDate = moment().format("MMMM Do YYYY, h:mm:ss a");
+    /*     filterComma(minSalary);
+    filterComma(maxSalary); */
     // --------------------------------------
-
-    setCreatedJobDate(moment().format("MMMM Do YYYY, h:mm:ss a"));
-
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
+        recruiterId,
         jobTitle,
         jobCategory,
         jobType,
@@ -81,7 +70,6 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
-        recruiterId,
       };
       setTimeout(function () {
         createJob(data);
@@ -96,6 +84,7 @@ function CreateJobPage() {
     }
   };
 
+  useEffect(() => {}, [minSalary, maxSalary]);
   return (
     <Wrapper>
       <AlertDialog textDialog={`Job has been created!`} />

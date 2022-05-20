@@ -20,6 +20,8 @@ function NavigateProvider(props) {
   const homePageRoute = () => {
     navigate("/");
     resetUserData();
+    setIsErrorEmail(false);
+    setIsErrorPassword(false);
     setMenuIndex(null);
   };
   const navBarLinkChecker = (index) => {
@@ -35,12 +37,16 @@ function NavigateProvider(props) {
   };
   // Homepage -----------------------------------
   const registerRoute = () => {
+    setIsErrorEmail(false);
+    setIsErrorPassword(false);
     navigate("/register");
   };
   // SideBar -----------------------------------
 
   const sidebarLinkChecker = (index, role) => {
     localStorage.removeItem("jobId");
+    setIsErrorEmail(false);
+    setIsErrorPassword(false);
     if (role === "professional") {
       if (index === 0) {
         navigate("/findjobs"); // Find that job
@@ -82,7 +88,8 @@ function NavigateProvider(props) {
         sidebarLinkChecker,
         menuIndex,
         setMenuIndex,
-      }}>
+      }}
+    >
       {props.children}
     </NavigateContext.Provider>
   );

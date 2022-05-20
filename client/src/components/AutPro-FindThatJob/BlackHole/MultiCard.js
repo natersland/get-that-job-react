@@ -9,28 +9,25 @@ import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
-import { useJobsData } from "../../contexts/jobsData";
-import { useVadilation } from "../../contexts/vadilation";
+import { useJobsData } from "../../../contexts/jobsData";
+import { useVadilation } from "../../../contexts/vadilation";
 // Contexts --------------------
-import UtilitiesFunction from "../../utils/utilitiesFunction";
+import UtilitiesFunction from "../../../utils/utilitiesFunction";
 //Components --------------------
-import BackDropLoading from "../Utilities/BackDropLoading";
+import BackDropLoading from "../../Utilities/BackDropLoading";
 
-function FindThatJobCard() {
+function MultiCard({ fetchData }) {
   const { jobs } = useJobsData();
   const { textUpperCase } = UtilitiesFunction();
   const navigate = useNavigate();
   const { setLoading } = useVadilation();
 
-  const componentDidMount = () => {
-    window.scrollTo(0, 0);
-  };
   return (
     <Wrapper>
       <BackDropLoading />
-      <JobsCounterNumber>{jobs?.length} jobs for you</JobsCounterNumber>
+      <JobsCounterNumber>{fetchData.length} jobs for you</JobsCounterNumber>
       <FindThatJobWrapper>
-        {jobs?.map((items, index) => {
+        {fetchData.map((items, index) => {
           const {
             _id,
             jobTitle,
@@ -110,7 +107,6 @@ function FindThatJobCard() {
                     localStorage.setItem("jobId", _id);
                     setTimeout(function () {
                       navigate(`/findjobs/${_id}}`);
-                      componentDidMount();
                       setLoading(false);
                     }, 500);
                   }}
@@ -125,7 +121,7 @@ function FindThatJobCard() {
     </Wrapper>
   );
 }
-export default FindThatJobCard;
+export default MultiCard;
 
 //  CSS Zone --------------------------
 const Wrapper = styled.section`
