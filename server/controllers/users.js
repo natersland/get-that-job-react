@@ -106,19 +106,10 @@ export const getOneUserData = async (req, res, next) => {
   }
 };
 
-export const updateUserData = async (req, res, next) => {
-  try {
-    const userId = ObjectId(req.params.id);
-    const updateUserData = {
-      ...req.body,
-    };
-    await collection.updateOne({ _id: userId }, { $set: updateUserData });
-    res.status(200).json(`User ${userId} has been updated successful`);
-    console.log(`Updated user data id:${userId} successful!`);
-  } catch (error) {
-    next(error);
-  }
+/* export const updateUserData = async (req, res, next) => {
+
 };
+ */
 export const deleteUser = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);

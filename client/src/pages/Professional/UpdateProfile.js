@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { useUserData } from "../../contexts/usersData";
 import axios from "axios";
 import { useEffect } from "react";
-import {useVadilation} from "../../contexts/vadilation"
+import { useVadilation } from "../../contexts/vadilation";
 
 //const UsersDataContext = React.createContext();
 
@@ -38,8 +38,7 @@ function UpdatePersonalProfile() {
   const profileData = localStorage.getItem("id");
   console.log(profileData);
 
-  const {isErrorEmail,
-    setIsErrorEmail,} = useVadilation();
+  const { isErrorEmail, setIsErrorEmail } = useVadilation();
 
   const getUsers = async () => {
     const getResults = await axios.get(
@@ -55,7 +54,7 @@ function UpdatePersonalProfile() {
     setTitle(getResults.data.title);
     setExperience(getResults.data.experience);
     setEducation(getResults.data.education);
-    //setUploadFiles(getResults.data.uploadFiles);
+    setUploadFiles(getResults.data.uploadFiles);
   };
 
   useEffect(() => {
@@ -74,9 +73,9 @@ function UpdatePersonalProfile() {
       title,
       experience,
       education,
+      uploadFiles,
     });
   };
- 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,10 +88,9 @@ function UpdatePersonalProfile() {
       setIsErrorEmail(true);
     } else {
       updateProfile();
-    alert(`Your profile has been updated`);
+      alert(`Your profile has been updated`);
       //setIsErrorEmail(false);
     }
-    
   };
   /* const updateData = new FormData();{
  

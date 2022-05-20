@@ -1,4 +1,4 @@
-import React ,{ useState, useEffect }from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
@@ -14,10 +14,9 @@ import close2 from "../../img/close2.png";
 import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
 import { AppBar } from "@mui/material";
-import '../../App.css'
+import "../../App.css";
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
-
 
 /*
 const datas = [
@@ -41,40 +40,35 @@ const datas = [
   }
 ];*/
 
-
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  const [select, setSelect] = useState("option1");
-  const [ job, setJob ] = useState([]);
+  const [status, setStatus] = useState("option1");
+  const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
-  console.log(job)
-    
+  console.log(job);
 
   const handleSelectChange = (event) => {
     const value = event.target.value;
   }; //---delete----
- 
-  
-    const comProfileData = localStorage.getItem("id");
 
-    const getJobPost = async () => {
-      try{
+  const comProfileData = localStorage.getItem("id");
 
-       const results = await axios.get(
-      `http://localhost:4000/users/${comProfileData}`);
-      
-      setJob(results.data.jobs)
+  const getJobPost = async () => {
+    try {
+      const results = await axios.get(
+        `http://localhost:4000/users/${comProfileData}`
+      );
+      setStatus(results.data.jobs);
+      setJob(results.data.jobs);
 
-      //console.log("GET JOB POST", results.data)
-
-    }catch (error) {
-      console.log(error)
+      console.log("GET JOB POST", results.data.jobs);
+    } catch (error) {
+      console.log(error);
     }
-    return{
-      job
+    return {
+      job,
     };
-   
 
     /* setJobTitle(results.data.jobs.jobTitle);
     setJobCategory(results.data.jobs.jobCategory);
@@ -85,14 +79,13 @@ function ViewJobs() {
     setMandatoryReq(results.data.jobs.mandatoryReq);
     setOptionalReq(results.data.jobs.optionalReq);
     setCreatedJobDate(results.data.jobs.createdJobDate); */
-   
-  }; 
- 
+  };
+
   //console.log("STATE job",job);
   useEffect(() => {
     getJobPost();
-  }, []);  
-  
+  }, []);
+
   return (
     <Content>
       {fistLogIn ? (
@@ -111,7 +104,7 @@ function ViewJobs() {
               id="all"
               name="filter"
               //value="option1"
-              
+
               onChange={(event) => handleSelectChange(event)}
             />
 
@@ -127,7 +120,6 @@ function ViewJobs() {
               type="radio"
               id="trackedCandidate"
               name="filter"
-              
               //checked={select === "option2"}
               onChange={(event) => handleSelectChange(event)}
             />
@@ -177,14 +169,13 @@ function ViewJobs() {
       })}
     </Content>
   );
-//------------------------------2nd function -----------------------------------//
+  //------------------------------2nd function -----------------------------------//
 
   function Job(props) {
     const [toggle, setToggle] = useState(false);
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
-    
 
     /*const closeJobStatus = (index) => {
       job[index].jobStatus = true;
@@ -192,24 +183,35 @@ function ViewJobs() {
       console.log(job[index].jobStatus);
     };*/
 
-    /*onst handleCloseCLick = () => {
-      job.jobStatus = true;
-      console.log(job.jobStatus)
-    }*/
+    const handleCloseCLick = () => {
+      if ((job.jobStatus = true)) {
+        job.jobStatus = false;
+        setClose(!close);
+        setDisable(true);
+        setFont(!font);
+      } else {
+        job.jobStatus = true;
+        setClose(close);
+        setDisable(false);
+        setFont(font);
+      }
+      console.log(job.jobStatus);
+    };
     //const [jobsStatus, setJobsStatus] = useState(false);
 
     const click = () => {
-      setClose(!close)
-      setDisable(true)
-      setFont(!font)
-    }
+      setClose(!close);
+      setDisable(true);
+      setFont(!font);
+    };
+
     return (
       <div>
         <Jobcard key={props._id}>
           <JobCardHeader>
             <JobCardHeader1>
               <div>
-                <JobTitle>{props.jobTitle}</JobTitle>
+                <JobTitle key={props._id}>{props.jobTitle}</JobTitle>
               </div>
               <JobCardHeader1Left>
                 <JobCardHeader1Left1>
@@ -217,7 +219,7 @@ function ViewJobs() {
                     <img src={building} />
                   </Img>
                   <div>
-                    <Text1>{props.jobCategory}</Text1>
+                    <Text1 key={props._id}>{props.jobCategory}</Text1>
                   </div>
                 </JobCardHeader1Left1>
                 <JobCardHeader1Left2>
@@ -225,7 +227,7 @@ function ViewJobs() {
                     <img src={calendar} />
                   </Img>
                   <div>
-                    <Text1>{props.jobType}</Text1>
+                    <Text1 key={props._id}>{props.jobType}</Text1>
                   </div>
                 </JobCardHeader1Left2>
                 <JobCardHeader1Left2>
@@ -233,7 +235,7 @@ function ViewJobs() {
                     <img src={money} />
                   </Img>
                   <div>
-                    <Text1>
+                    <Text1 key={props._id}>
                       {props.minSalary} {props.maxSalary}{" "}
                     </Text1>
                   </div>
@@ -245,14 +247,15 @@ function ViewJobs() {
                 <JobCardHeader2Left4>
                   <img src={mailOpen} />
                 </JobCardHeader2Left4>
-                <Text2>Open on</Text2> <Text2>{props.openOn}</Text2>
+                <Text2>Open on</Text2>{" "}
+                <Text2 key={props._id}>{props.openOn}</Text2>
               </JobCardHeader2Left5>
               <JobCardHeader2Left2>
                 <JobCardHeader2Left3>
                   <Img>
                     <img src={account} />
                   </Img>
-                  <Text2>{props.totalCandidate}</Text2>{" "}
+                  <Text2 key={props._id}>{props.totalCandidate}</Text2>{" "}
                 </JobCardHeader2Left3>
                 <Text2>Total</Text2> <Text2>Candidates</Text2>
               </JobCardHeader2Left2>
@@ -261,7 +264,7 @@ function ViewJobs() {
                   <Img>
                     <img src={pinkperson} />
                   </Img>
-                  <Text2>{props.candidateOnTrack}</Text2>{" "}
+                  <Text2 key={props._id}>{props.candidateOnTrack}</Text2>{" "}
                 </JobCardHeader2Left3>
                 <Text2p>Candidates </Text2p> <Text2p> on track</Text2p>
               </JobCardHeader2Left2>
@@ -280,33 +283,32 @@ function ViewJobs() {
               </JobCardHeader3Left3>
 
               <JobCardHeader3Left3>
-              <JobCardHeader3Left3>
-                
-                  <button 
-                    style = {{
-                      borderRadius:'16px',
-                      padding: '8px 16px',
-                      height: '40px',
-                      width:'140px',
-                      backgroundColor:close? '#E1E2E1' : '#BF5F82'
+                <JobCardHeader3Left3>
+                  <button
+                    style={{
+                      borderRadius: "16px",
+                      padding: "8px 16px",
+                      height: "40px",
+                      width: "140px",
+                      backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                     }}
                     type="button"
                     disabled={disable}
-                    onClick={click}>
+                    onClick={handleCloseCLick}>
                     <CloseDiv>
                       <Img2>
                         <img src={close2} />
                       </Img2>
-                      <p style={{
-                        color:close? 'lightgray' : 'white',
-                    }}> {close? 'CLOSED': 'CLOSE'}</p>
+                      <p
+                        style={{
+                          color: close ? "lightgray" : "white",
+                        }}>
+                        {" "}
+                        {close ? "CLOSED" : "CLOSE"}
+                      </p>
                     </CloseDiv>
                   </button>
-                
-                
-              </JobCardHeader3Left3>
-                  
-                    
+                </JobCardHeader3Left3>
               </JobCardHeader3Left3>
             </JobCardHeader3>
           </JobCardHeader>
@@ -385,8 +387,7 @@ const HeadingText2 = styled.p`
   font-size: 10px;
   font-weight: 400;
   font-font-family: var(--seconary-font);
-  color: var(--primary-text-
-    color);
+  color: var(--primary-text- color);
 `;
 const HeadingText3 = styled.p`
   font-size: 14px;
@@ -402,8 +403,7 @@ const RadioForm = styled.div`
   width: 300px;
 `;
 const RadioBtn = styled.input`
-accent-color:var(--secoundary-brand-color);
-  
+  accent-color: var(--secoundary-brand-color);
 `;
 
 const RadioForm1 = styled.div`
@@ -435,7 +435,7 @@ const Text2 = styled.p`
 const Text2p = styled.p`
   font-size: 12px;
   font-family: var(--seconary-font);
-  color:#F48FB1;
+  color: #f48fb1;
   font-weight: 400;
 `;
 const Text3 = styled.p`
