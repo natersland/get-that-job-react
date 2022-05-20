@@ -15,6 +15,10 @@ const UtilitiesFunction = () => {
     const text = props;
     return text.toUpperCase();
   };
+  // Up to the top page ---------------------------------
+  const componentDidMount = () => {
+    window.scrollTo(0, 0);
+  };
   // ---------------------------------------------------------------------
 
   return {
@@ -22,6 +26,7 @@ const UtilitiesFunction = () => {
     textUpperCase,
     addCommas,
     removeCommas,
+    componentDidMount,
   };
 };
 export default UtilitiesFunction;

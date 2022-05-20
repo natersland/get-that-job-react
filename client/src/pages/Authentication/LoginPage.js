@@ -50,7 +50,8 @@ export default function LoginPage() {
           <LoginIntroduction>
             <LoginHeaderText>Welcome back</LoginHeaderText>
             <LoginIntroText>Login to you account as...</LoginIntroText>
-            <h1>{`Current Role is ${role}`}</h1>
+            {/*             <h1>{`Current Role is ${role}`}</h1>
+             */}{" "}
           </LoginIntroduction>
           <SelectRole />
 

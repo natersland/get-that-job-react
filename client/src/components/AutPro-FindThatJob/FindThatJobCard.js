@@ -18,13 +18,10 @@ import BackDropLoading from "../Utilities/BackDropLoading";
 
 function FindThatJobCard() {
   const { jobs } = useJobsData();
-  const { textUpperCase } = UtilitiesFunction();
+  const { textUpperCase, componentDidMount } = UtilitiesFunction();
   const navigate = useNavigate();
   const { setLoading } = useVadilation();
 
-  const componentDidMount = () => {
-    window.scrollTo(0, 0);
-  };
   return (
     <Wrapper>
       <BackDropLoading />

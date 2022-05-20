@@ -15,8 +15,14 @@ import AlertDialog from "../../components/Utilities/AlertDialog";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
-  const { filterComma, textUpperCase, addCommas, removeCommas } =
-    UtilitiesFunction();
+  const {
+    filterComma,
+    textUpperCase,
+    addCommas,
+    removeCommas,
+    componentDidMount,
+  } = UtilitiesFunction();
+
   const { jobCategoryList, jobTypeList } = useJobsData();
   const { setLoading, setIsAlert } = useVadilation();
   const [jobTitle, setJobTitle] = useState(String);

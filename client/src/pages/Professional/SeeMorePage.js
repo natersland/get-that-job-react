@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
 import { useState, useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------
@@ -13,8 +12,6 @@ import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
   const { job, setJob } = useJobsData();
-  const location = useLocation();
-  console.log("hi", location);
   const getOneJob = async () => {
     try {
       const jobId = localStorage.getItem("jobId");
@@ -28,6 +25,12 @@ function SeeMorePage() {
       job,
     };
   };
+  const contentData = [
+    { title: "About The company name SA", content: job.company?.about }, // aboutCompany
+    { title: "About the job position", content: job.aboutJob }, // aboutJob
+    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
+    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
+  ];
 
   useEffect(() => {
     getOneJob();
@@ -39,17 +42,6 @@ function SeeMorePage() {
       clearTimeout(timeOut);
     };
   }, []);
-
-  /*   useMemo(() => {
-    getOneJob();
-  }, [job]); */
-
-  const contentData = [
-    { title: "About The company name SA", content: "job" }, // aboutCompany
-    { title: "About the job position", content: job.aboutJob }, // aboutJob
-    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
-    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
-  ];
 
   const applyNowBtn = () => {
     return (

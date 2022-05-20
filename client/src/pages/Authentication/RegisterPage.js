@@ -119,8 +119,8 @@ function RegisterPage() {
             <Progressbar>
               <Title>Good choice!</Title>
               <Caption className="mb-4">Create a new account as...</Caption>
-              <h1>{`Current Role is: ${role}`}</h1>
-              <h1>{`Current Step is: ${step}`}</h1>
+              {/*               <h1>{`Current Role is: ${role}`}</h1>
+              <h1>{`Current Step is: ${step}`}</h1> */}
               <SelectRole />
               {/* เช็ค role: แล้วให้ใช้  step box ของ role นั้นๆ ------------------------ */}
               {role === "professional" ? (
