@@ -76,6 +76,7 @@ function CreateJobPage() {
         mandatoryReq,
         optionalReq,
         createdJobDate,
+        recruiterId,
       };
       setTimeout(function () {
         createJob(data);

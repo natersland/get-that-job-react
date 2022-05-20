@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
 import { useUserData } from "../../contexts/usersData";
+import { useVadilation } from "../../contexts/vadilation";
 
 function UpdateCompanyProfile() {
   const {
@@ -17,14 +18,17 @@ function UpdateCompanyProfile() {
     about,
     setAbout,
   } = useUserData();
+
+  const { isErrorEmail, setIsErrorEmail } = useVadilation();
+
   const comProfileData = localStorage.getItem("id");
-  console.log(comProfileData);
+  //console.log(comProfileData);
 
   const getComUsers = async () => {
     const results = await axios.get(
       `http://localhost:4000/users/${comProfileData}`
     );
-    console.log(results.data.email);
+    //console.log(results.data.companyLogo);
     //setCompanyLogo(results.data.companyLogo);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
@@ -35,20 +39,37 @@ function UpdateCompanyProfile() {
   useEffect(() => {
     getComUsers();
   }, []);
-  const updateComProfile = async () => {
-    await axios.put(`http://localhost:4000/users/${comProfileData}`, {
-      companyLogo,
-      email,
-      companyName,
-      companyWebsite,
-      about,
+
+  const updateComProfile = async (formData) => {
+    await axios.put(`http://localhost:4000/users/${comProfileData}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
+    console.log(companyLogo);
   };
 
   const handleSubmit = (event) => {
+    console.log("hi");
     event.preventDefault();
-    updateComProfile();
+    if (email === "") {
+      setIsErrorEmail(true);
+      alert("email can not be blank");
+    }
+    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+      //  if email is not validattion
+      setIsErrorEmail(true);
+    }
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("companyName", companyName);
+    formData.append("website", companyWebsite);
+    formData.append("about", about);
+
+    for (let uploadFileKey in companyLogo) {
+      formData.append("logoFile", companyLogo[uploadFileKey]);
+    }
+    updateComProfile(formData);
     alert(`Your company profile has been updated`);
+    //setIsErrorEmail(false);
   };
 
   const handleFileChange = (event) => {
@@ -57,7 +78,7 @@ function UpdateCompanyProfile() {
       ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
-    console.log(companyLogo);
+    console.log(event.target.files);
   };
 
   return (
@@ -93,7 +114,7 @@ function UpdateCompanyProfile() {
             <UploadFileSection>
               <Input1
                 id="uploadFile"
-                name="logo"
+                name="logoFile"
                 type="file"
                 onChange={handleFileChange}
                 accept="image/*"
@@ -186,6 +207,7 @@ const Label2 = styled.label`
   font-weight: 400;
   font-size: 10px;
   color: #616161;
+  margin-left: 12px;
 `;
 const UploadFileSection = styled.div`
   display: flex;
@@ -250,6 +272,7 @@ const Limitation = styled.p`
   width: 380px;
   margin-top: 0px;
   color: #8e8e8e;
+  margin-left: 12px;
 `;
 const CompanyLogoWrap = styled.div`
   display: flex;
