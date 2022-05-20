@@ -51,6 +51,18 @@ export const createRecuiter = async (req, res, next) => {
 export const getAllUserData = async (req, res, next) => {
   try {
     const users = await collection.find().toArray();
+    /* const users = await collection
+      .aggregate([
+        {
+          $lookup: {
+            from: "jobs",
+            localField: "_id",
+            foreignField: "recruiterId",
+            as: "jobs",
+          },
+        },
+      ])
+      .toArray(); */
     res.status(200).json(users);
     console.log(`Get all users data has been successful!`);
   } catch (error) {
@@ -61,7 +73,8 @@ export const getAllUserData = async (req, res, next) => {
 export const getOneUserData = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
-    const user = await collection.find({ _id: userId }).toArray();
+    /*     const user = await collection.find({ _id: userId }).toArray();
+     */
     /*   const user = await collection
             .aggregate([
               {
@@ -73,7 +86,19 @@ export const getOneUserData = async (req, res, next) => {
               },
             ])
             .toArray(); */
-
+    const user = await collection
+      .aggregate([
+        {
+          $lookup: {
+            from: "jobs",
+            localField: "_id",
+            foreignField: "recruiterId",
+            as: "jobs",
+          },
+        },
+        { $match: { _id: userId } },
+      ])
+      .toArray();
     res.status(200).json(user[0]);
     console.log(user[0]);
   } catch (error) {
@@ -81,19 +106,10 @@ export const getOneUserData = async (req, res, next) => {
   }
 };
 
-export const updateUserData = async (req, res, next) => {
-  try {
-    const userId = ObjectId(req.params.id);
-    const updateUserData = {
-      ...req.body,
-    };
-    await collection.updateOne({ _id: userId }, { $set: updateUserData });
-    res.status(200).json(`User ${userId} has been updated successful`);
-    console.log(`Updated user data id:${userId} successful!`);
-  } catch (error) {
-    next(error);
-  }
+/* export const updateUserData = async (req, res, next) => {
+
 };
+ */
 export const deleteUser = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);

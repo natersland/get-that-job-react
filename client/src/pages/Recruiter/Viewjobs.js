@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import styled from "@emotion/styled";
-import { useState } from "react";
-/* import "./App.css"; */
 import "../../App.css";
 import mailOpen from "../../img/mail-open-line.png";
 import account from "../../img/account-circle-line.png";
 import search from "../../img/search-line.png";
-import close from "../../img/close-circle-line.png";
 import building from "../../img/building-3-line.png";
 import calendar from "../../img/calendar-2-line.png";
 import money from "../../img/money-dollar-circle-line.png";
-import arrowUp from "../../img/arrow-up-s-line.png";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import { useVadilation } from "../../contexts/vadilation";
+import close2 from "../../img/close2.png";
+import closeWhite from "../../img/closeWhite.png";
+import pinkperson from "../../img/pinkperson.png";
+import { AppBar } from "@mui/material";
+import "../../App.css";
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
 
-
 /*
- */ const datas = [
+const datas = [
   {
     id: "1",
     jobTitle: "The job title",
@@ -29,91 +30,61 @@ import { useVadilation } from "../../contexts/vadilation";
     jobType: "Full Time",
     minSalary: "2.0k",
     maxSalary: "2.5k",
-    companyName: "Manufactoring",
+    jobCategory: "Manufactoring",
     aboutTheJob:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
     requirement:
       "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
     optionalRequirement:
       "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
-  },
-  {
-    id: "2",
-    jobTitle: "The job title 2",
-    openOn: "07/11/20",
-    jobsStatus: false,
-    totalCandidate: "5",
-    candidateOnTrack: "3",
-    jobType: "Full Time",
-    minSalary: "2.0k",
-    maxSalary: "2.5k",
-    companyName: "Manufactoring",
-    aboutTheJob:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
-    requirement:
-      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
-    optionalRequirement:
-      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
-  },
-  {
-    id: "3",
-    jobTitle: "The job title 3",
-    openOn: "07/11/20",
-    jobsStatus: false,
-    totalCandidate: "5",
-    candidateOnTrack: "0",
-    jobType: "Full Time",
-    minSalary: "2.0k",
-    maxSalary: "2.5k",
-    companyName: "Manufactoring",
-    aboutTheJob:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
-    requirement:
-      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
-    optionalRequirement:
-      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
-  },
-  {
-    id: "4",
-    jobTitle: "The job title 4",
-    openOn: "07/11/20",
-    jobsStatus: true,
-    totalCandidate: "5",
-    candidateOnTrack: "2",
-    jobType: "Full Time",
-    minSalary: "2.0k",
-    maxSalary: "2.5k",
-    companyName: "Manufactoring",
-    aboutTheJob:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
-    requirement:
-      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
-    optionalRequirement:
-      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
-  },
-];
+  }
+];*/
 
+//------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  const [select, setSelect] = useState("option1");
+  const [status, setStatus] = useState("option1");
+  const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
+  console.log(job);
+
   const handleSelectChange = (event) => {
     const value = event.target.value;
-    setSelect(value);
+  }; //---delete----
+
+  const comProfileData = localStorage.getItem("id");
+
+  const getJobPost = async () => {
+    try {
+      const results = await axios.get(
+        `http://localhost:4000/users/${comProfileData}`
+      );
+      setStatus(results.data.jobs);
+      setJob(results.data.jobs);
+
+      console.log("GET JOB POST", results.data.jobs);
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      job,
+    };
+
+    /* setJobTitle(results.data.jobs.jobTitle);
+    setJobCategory(results.data.jobs.jobCategory);
+    setJobType(results.data.jobs.jobType);
+    setMinSalary(results.data.jobs.minSalary);
+    setMaxSalary(results.data.jobs.maxSalary);
+    setAboutJob(results.data.jobs.aboutJob);
+    setMandatoryReq(results.data.jobs.mandatoryReq);
+    setOptionalReq(results.data.jobs.optionalReq);
+    setCreatedJobDate(results.data.jobs.createdJobDate); */
   };
 
-  /* const  handleCloseBtn = event => {
-    const value= event.target.value
-    setDisable(value)
-    if(disable === disable){
-
-    }
-  } */
-
-  //const [color,setColor]=useState('#f48fb1');
-  //const [textColor,setTextColor]=useState('white');
-
-  //const { jobsStatus, setJobsStatus } = JobsDataProvider();
+  //console.log("STATE job",job);
+  useEffect(() => {
+    getJobPost();
+  }, []);
 
   return (
     <Content>
@@ -128,12 +99,12 @@ function ViewJobs() {
         <RadioForm>
           <RadioForm1>
             <RadioBtn
-              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
+              className="checked:bg-white"
               type="radio"
               id="all"
               name="filter"
-              value="option1"
-              checked={select === "option1"}
+              //value="option1"
+
               onChange={(event) => handleSelectChange(event)}
             />
 
@@ -145,12 +116,11 @@ function ViewJobs() {
 
           <RadioForm1>
             <RadioBtn
-              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
+              //className=" form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
               type="radio"
               id="trackedCandidate"
               name="filter"
-              value="option2"
-              checked={select === "option2"}
+              //checked={select === "option2"}
               onChange={(event) => handleSelectChange(event)}
             />
             <label htmlFor="trackedCandidate">
@@ -160,12 +130,12 @@ function ViewJobs() {
 
           <RadioForm1>
             <RadioBtn
-              className="form-check-input form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
+              className=""
               type="radio"
               id="closed"
               name="filter"
-              value="option3"
-              checked={select === "option3"}
+              //value="option3"
+              //checked={select === "option3"}
               onChange={(event) => handleSelectChange(event)}
             />
             <label htmlFor="closed">
@@ -176,48 +146,73 @@ function ViewJobs() {
       </Heading>
 
       <Heading1>
-        <Text5>4 Jobs posting found</Text5>
+        <Text5> {job.length} Jobs posting found</Text5>
       </Heading1>
-      {datas.map((data) => {
+      {job?.map((data) => {
         return (
           <Job
-            id={data.id}
+            id={data._id}
             jobTitle={data.jobTitle}
-            companyName={data.companyName}
-            jobsStatus={data.jobsStatus}
+            jobCategory={data.jobCategory}
+            jobsStatus={data.jobStatus}
             jobType={data.jobType}
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}
             openOn={data.openOn}
             totalCandidate={data.totalCandidate}
             candidateOnTrack={data.candidateOnTrack}
-            aboutTheJob={data.aboutTheJob}
-            requirement={data.requirement}
-            optionalRequirement={data.optionalRequirement}
+            aboutTheJob={data.aboutJob}
+            requirement={data.mandatoryReq}
+            optionalRequirement={data.optionalReq}
           />
         );
       })}
     </Content>
   );
+  //------------------------------2nd function -----------------------------------//
 
   function Job(props) {
     const [toggle, setToggle] = useState(false);
+    const [close, setClose] = useState(false);
+    const [font, setFont] = useState(false);
+    const [disable, setDisable] = useState(false);
+    //document.getElementById('buttonID').disabled = true;
 
-    const closeJobStatus = (index) => {
-      datas[index].jobsStatus = false;
+    /*const closeJobStatus = (index) => {
+      job[index].jobStatus = true;
       console.log(index);
-      console.log(datas[index].jobsStatus);
-    };
+      console.log(job[index].jobStatus);
+    };*/
 
+    const handleCloseCLick = () => {
+      if ((job.jobStatus = true)) {
+        job.jobStatus = false;
+        setClose(!close);
+        setDisable(true);
+        setFont(!font);
+      } else {
+        job.jobStatus = true;
+        setClose(close);
+        setDisable(false);
+        setFont(font);
+      }
+      console.log(job.jobStatus);
+    };
     //const [jobsStatus, setJobsStatus] = useState(false);
+
+    const click = () => {
+      setClose(!close);
+      setDisable(true);
+      setFont(!font);
+    };
 
     return (
       <div>
-        <Jobcard key={datas.id}>
+        <Jobcard key={props._id}>
           <JobCardHeader>
             <JobCardHeader1>
               <div>
-                <JobTitle>{props.jobTitle}</JobTitle>
+                <JobTitle key={props._id}>{props.jobTitle}</JobTitle>
               </div>
               <JobCardHeader1Left>
                 <JobCardHeader1Left1>
@@ -225,7 +220,7 @@ function ViewJobs() {
                     <img src={building} />
                   </Img>
                   <div>
-                    <Text1>{props.companyName}</Text1>
+                    <Text1 key={props._id}>{props.jobCategory}</Text1>
                   </div>
                 </JobCardHeader1Left1>
                 <JobCardHeader1Left2>
@@ -233,7 +228,7 @@ function ViewJobs() {
                     <img src={calendar} />
                   </Img>
                   <div>
-                    <Text1>{props.jobType}</Text1>
+                    <Text1 key={props._id}>{props.jobType}</Text1>
                   </div>
                 </JobCardHeader1Left2>
                 <JobCardHeader1Left2>
@@ -241,7 +236,7 @@ function ViewJobs() {
                     <img src={money} />
                   </Img>
                   <div>
-                    <Text1>
+                    <Text1 key={props._id}>
                       {props.minSalary} {props.maxSalary}{" "}
                     </Text1>
                   </div>
@@ -253,25 +248,26 @@ function ViewJobs() {
                 <JobCardHeader2Left4>
                   <img src={mailOpen} />
                 </JobCardHeader2Left4>
-                <Text2>Open on</Text2> <Text2>{props.openOn}</Text2>
+                <Text2>Open on</Text2>{" "}
+                <Text2 key={props._id}>{props.openOn}</Text2>
               </JobCardHeader2Left5>
               <JobCardHeader2Left2>
                 <JobCardHeader2Left3>
                   <Img>
                     <img src={account} />
                   </Img>
-                  <Text2>{props.totalCandidate}</Text2>{" "}
+                  <Text2 key={props._id}>{props.totalCandidate}</Text2>{" "}
                 </JobCardHeader2Left3>
                 <Text2>Total</Text2> <Text2>Candidates</Text2>
               </JobCardHeader2Left2>
               <JobCardHeader2Left2>
                 <JobCardHeader2Left3>
                   <Img>
-                    <img src={account} />
+                    <img src={pinkperson} />
                   </Img>
-                  <Text2>{props.candidateOnTrack}</Text2>{" "}
+                  <Text2 key={props._id}>{props.candidateOnTrack}</Text2>{" "}
                 </JobCardHeader2Left3>
-                <Text2>Candidates </Text2> <Text2> on track</Text2>
+                <Text2p>Candidates </Text2p> <Text2p> on track</Text2p>
               </JobCardHeader2Left2>
             </JobCardHeader2>
 
@@ -288,35 +284,32 @@ function ViewJobs() {
               </JobCardHeader3Left3>
 
               <JobCardHeader3Left3>
-                {props.jobsStatus ? (
-                  <CloseJobButton
-                    className="btn btn-md"
-                    type="button"
-                    onClick={() => {
-                      closeJobStatus(props.id - 1);
+                <JobCardHeader3Left3>
+                  <button id="buttonID"
+                    style={{
+                      borderRadius: "16px",
+                      padding: "8px 16px",
+                      height: "40px",
+                      width: "140px",
+                      backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                     }}
-                    isActive={props.jobsStatus}>
-                    <CloseDiv>
-                      <Img2>
-                        <img src={close} />
-                      </Img2>
-                      <Text3>ClOSE</Text3>
-                    </CloseDiv>
-                  </CloseJobButton>
-                ) : (
-                  <CloseJobButton
-                    className="btn btn-md"
                     type="button"
-                    isActive={props.jobsStatus}
-                    disabled>
+                    disabled={disable}
+                    onClick={handleCloseCLick}>
                     <CloseDiv>
                       <Img2>
-                        <img src={close} />
+                        <img src={close2} />
                       </Img2>
-                      <Text3>ClOSED</Text3>
+                      <p
+                        style={{
+                          color: close ? "lightgray" : "white",
+                        }}>
+                        {" "}
+                        {close ? "CLOSED" : "CLOSE"}
+                      </p>
                     </CloseDiv>
-                  </CloseJobButton>
-                )}
+                  </button>
+                </JobCardHeader3Left3>
               </JobCardHeader3Left3>
             </JobCardHeader3>
           </JobCardHeader>
@@ -395,7 +388,7 @@ const HeadingText2 = styled.p`
   font-size: 10px;
   font-weight: 400;
   font-font-family: var(--seconary-font);
-  color: var(--primary-text-color);
+  color: var(--primary-text- color);
 `;
 const HeadingText3 = styled.p`
   font-size: 14px;
@@ -407,12 +400,11 @@ const RadioForm = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-
-  width: 280px;
+  align-items: center;
+  width: 300px;
 `;
 const RadioBtn = styled.input`
-  /* accent-color: var(--secoundary-brand-color); */
-  /* color: violet; */
+  accent-color: var(--secoundary-brand-color);
 `;
 
 const RadioForm1 = styled.div`
@@ -441,10 +433,23 @@ const Text2 = styled.p`
   color: var(--gray);
   font-weight: 400;
 `;
+const Text2p = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #f48fb1;
+  font-weight: 400;
+`;
 const Text3 = styled.p`
   font-size: 14px;
   font-family: var(--seconary-font);
-  color: var(--black);
+  color: white;
+  font-weight: 500;
+`;
+
+const Text8 = styled.p`
+  font-size: 14px;
+  font-family: var(--seconary-font);
+  color: white;
   font-weight: 500;
 `;
 
@@ -564,7 +569,7 @@ const JobCardHeader3Left3 = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 70px;
 `;
 
@@ -595,7 +600,7 @@ const Img = styled.div`
 const JobCardHeader3 = styled.div`
   display: flex;
   flex-direction: row;
-  width: 180px;
+  width: 220px;
   justify-content: space-between;
   margin-right: 95px;
 `;
@@ -628,7 +633,7 @@ const CloseDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 70px;
+  width: 88px;
   align-items: center;
 `;
 
@@ -641,6 +646,6 @@ const Detail = styled.div`
 const CloseJobButton = styled.button`
   background-color: ${(props) =>
     props.isActive
-      ? "var(--primary-brand-color)"
-      : "var(--tertiary-text-color)"};
+      ? "var(--tertiary-text-color)"
+      : "var(--primary-brand-color)"};
 `;
