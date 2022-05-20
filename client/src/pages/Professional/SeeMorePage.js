@@ -12,7 +12,6 @@ import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
   const { job, setJob } = useJobsData();
-
   const getOneJob = async () => {
     try {
       const jobId = localStorage.getItem("jobId");
@@ -26,6 +25,12 @@ function SeeMorePage() {
       job,
     };
   };
+  const contentData = [
+    { title: "About The company name SA", content: job.company?.about }, // aboutCompany
+    { title: "About the job position", content: job.aboutJob }, // aboutJob
+    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
+    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
+  ];
 
   useEffect(() => {
     getOneJob();
@@ -37,17 +42,6 @@ function SeeMorePage() {
       clearTimeout(timeOut);
     };
   }, []);
-
-  /*   useMemo(() => {
-    getOneJob();
-  }, [job]); */
-
-  const contentData = [
-    { title: "About The company name SA", content: "job" }, // aboutCompany
-    { title: "About the job position", content: job.aboutJob }, // aboutJob
-    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
-    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
-  ];
 
   const applyNowBtn = () => {
     return (
@@ -93,7 +87,6 @@ function SeeMorePage() {
 
 const Wrapper = styled.div`
   width: 75%;
-  border: 1px dash black;
   padding: 25px 0;
   margin-left: 350px;
 `;

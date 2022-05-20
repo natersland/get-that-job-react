@@ -7,12 +7,12 @@ const VadilationContext = React.createContext();
 function VadilationProvider(props) {
   const { password, email, passwordConfirmed } = useUserData();
   // Others -----------------------------------------
-  const [roleBtn, setRoleBtn] = useState("");
   const [fistLogIn, setFirstLogIn] = useState(false);
   // This Zone is for Register form vadilate only -------------------------------------
   const [step, setStep] = useState(0);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
   const [isErrorPassword, setIsErrorPassword] = useState(false);
+  const [isAccountValid, setIsAccountValid] = useState(false);
   const [isErrorRoleRec, setIsErrorRoleRec] = useState(false);
   const [isErrorRolePro, setIsErrorRolePro] = useState(false);
   // Form Vadilate Checker Fx -----------------------------------
@@ -100,8 +100,6 @@ function VadilationProvider(props) {
     <VadilationContext.Provider
       value={{
         // Others -----------------------------------------
-        roleBtn,
-        setRoleBtn,
         fistLogIn,
         setFirstLogIn,
         // This Zone is for Register form vadilate only -------------------------------------
@@ -115,6 +113,8 @@ function VadilationProvider(props) {
         setIsErrorRoleRec,
         isErrorRolePro,
         setIsErrorRolePro,
+        isAccountValid,
+        setIsAccountValid,
         // vadilate fx only -------------------------------------
         ifInputIsBlank,
         ifPasswordIsBlank,

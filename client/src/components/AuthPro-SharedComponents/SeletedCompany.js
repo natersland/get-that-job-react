@@ -23,10 +23,7 @@ function SeletedCompany({ jobId }) {
       <CompanyWrapper>
         <LeftWrapper>
           <LogoWrapper>
-            {/* <img src={CompanyLogo} /> */}
             <LogoImg src={job.company?.[0]?.companyLogo?.[0].url} />
-            {/*             <LogoImg src={job.company[0].companyLogo[0].url} />
-             */}{" "}
           </LogoWrapper>
         </LeftWrapper>
         <RightWrapper>
@@ -89,6 +86,8 @@ const LogoWrapper = styled.div`
 `;
 const LogoImg = styled.img`
   object-fit: cover;
+  width: 100%;
+  height: 100%;
 `;
 const RightWrapper = styled.div`
   width: 400px;

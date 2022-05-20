@@ -1,126 +1,46 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+// Hooks --------------------
+import useFetch from "../../hooks/useFetch";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
-function FindThatJobHeader() {
+import FindThatJobCard from "./FindThatJobCard";
+function FindMultiverse() {
+  const { jobCategoryList, jobTypeList } = useJobsData();
+  // Multiverse Filter Fx --------------------------------
+  const location = useLocation();
   const [searchJobText, setSearchJobText] = useState("");
-  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
-  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
+  const [jobCategory, setjobCategory] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [searchMinSalaryText, setSearchMinSalaryText] = useState(undefined);
+  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState(undefined);
   const [keywords, setKeywords] = useState("");
-  const [keywordsNumber, setKeywordsNumber] = useState("");
+  const { jobs, setJobs } = useJobsData();
 
-  const {
-    jobs,
-    setJobs,
-    setUsers,
-    jobCategoryList,
-    setJobCategoryList,
-    jobTypeList,
-    setJobTypeList,
-    jobType,
-    setJobType,
-    jobTitle,
-    setJobTitle,
-    getJobs,
-    filter,
-    setFilter,
-  } = useJobsData();
-
-  // Filter Seach Text --------------------------------------------
-  /*   const searchJobWord = async () => {
+  const { data, loading, error, reFetch } = useFetch(
+    `countCategory?categories=Government,Education`
+  );
+  const searchJobWord = async () => {
     const results = await axios(
-      `http://localhost:4000/jobs?keywords=${searchJobText}`
+      `http://localhost:4000/jobs/data?jobTitle=${searchJobText}&jobCategory=${jobCategory}`
     );
     setJobs(results.data.data);
-  }; */
+    console.log(results);
 
-  // Categoty Filter  --------------------------------------------
-  const categoryFilter = async (e) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
-    const userSelect = e.target.value;
-    const result = jobData.filter((item) => {
-      return item.jobCategory === userSelect;
-    });
-    setJobs(result);
-    console.log(userSelect);
-  };
-  // Type Filter  --------------------------------------------
-  const typeFilter = async (e) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
-    const userSelect = e.target.value;
-    const result = jobData.filter((item) => {
-      return item.jobType === userSelect;
-    });
-    setJobs(result);
-    console.log(userSelect);
-  };
-
-  // Filter Salary --------------------------------------------
-  /*  const searchMinSalary = async () => {
-    const results = await axios.get(
-      `http://localhost:4000/jobs?searchMinSalaryText=${searchMinSalaryText}`
-    );
-    setJobs(results.data.data);
-  };
-  const searchMaxSalary = async () => {
-    const results = await axios(
-      `http://localhost:4000/jobs?searchMaxSalaryText=${searchMaxSalaryText}`
-    );
-    setJobs(results.data.data);
-  }; */
-
-  /*  const multiverseFilter = async (
-    text,
-    category,
-    type,
-    searchMinSalaryText,
-    searchMaxSalaryText
-  ) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
-    const filterText = jobData.filter((item) => {
-      return (
-        item.jobTitle.toLowerCase().match(text) ||
-        item.company[0].companyName.toLowerCase().match(text)
-      );
-    });
-    const filterCategory = jobData.filter((item) => {
-      return item.jobCategory === category;
-    });
-    const filterType = jobData.filter((item) =z> {
-      return item.jobType === type;
-    });
-    setJobs(filterText);
-  }; */
-
-  const search = async (text) => {
-    const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}`
-    );
-    const jobData = results.data.data;
-    const filter = jobData.filter((item) => {
-      return item.company[0].companyName.toLowerCase().match(text);
-    });
-    setJobs(filter);
+    /*     console.log(data); */
+    /*     const handleClick = () => {
+      reFetch();
+    };
+ */
   };
 
   useEffect(() => {
-    /* searchJobWord(); */
-    /* searchMinSalary();
-    searchMaxSalary(); */
-    search();
-    /*   let timeOut;
-    if (searchJobText) {
-      timeOut = setTimeout(searchJobWord, 1000);
-    }
-    return () => {
-      clearTimeout(timeOut);
-    }; */
-  }, [searchJobText, searchMinSalaryText, searchMaxSalaryText]);
+    searchJobWord();
+  }, [jobCategory]);
 
+  console.log("hi", jobs);
   return (
     <Wrapper className="pt-8">
       {/* ------------- Header Section  ------------- */}
@@ -147,7 +67,7 @@ function FindThatJobHeader() {
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={categoryFilter}
+            onChange={(e) => setjobCategory(e.target.value.toString())}
           >
             <option value="" disabled selected>
               Select a category
@@ -168,7 +88,7 @@ function FindThatJobHeader() {
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={typeFilter}
+            onChange={(e) => setJobType(e.target.value.toString())}
           >
             <option value="" disabled selected>
               Select a type
@@ -222,10 +142,17 @@ function FindThatJobHeader() {
       {`typeof minSalary input: ${typeof searchMinSalaryText}`}
       <br></br>
       {`typeof maxSalary input: ${typeof searchMaxSalaryText}`} */}
+      {/*       {loading ? (
+        "loading"
+      ) : (
+        <>
+          <MultiCard fetchData={data} />
+        </>
+      )} */}
     </Wrapper>
   );
 }
-export default FindThatJobHeader;
+export default FindMultiverse;
 const Wrapper = styled.section``;
 const HeaderSection = styled.div``;
 const HeadingText = styled.h1`
