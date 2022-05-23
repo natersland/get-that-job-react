@@ -49,29 +49,17 @@ const UsersProfessionalSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    userAppiedJobs: {
-      type: Array,
-      default: [],
-    },
-    userFollowJobs: {
-      type: Array,
-      default: [],
-    },
-    userAppiedJobs: [
-      // ถ้า recruiter กด Mark as started ข้อมูลใน totalCandidates[index] จะย้ายไปอยู่ candidatesOnTrack ข้างล่างสุด
+    appiedJobs: [
       {
-        jobAppliedId: mongoose.Schema.Types.ObjectId, // เป็น id ที่ถูก gen ใหม่ ตอนกดสมัครงาน
-        appliedDate: { type: [Date], default: new Date() },
-        isApply: { type: [Boolean], default: true }, // ถ้า Mark as started,Finished ต้องเปลี่ยนเป็น false
-        isReview: { type: [Boolean], default: false }, // ถ้า Mark as started ต้องเปลี่ยนเป็น true และอันอื่น false หมด
-        isFinised: { type: [Boolean], default: false }, // ถ้า Finished ต้องเปลี่ยนเป็น true และอันอื่น false หมด
+        applicationId: mongoose.Schema.Types.ObjectId,
       },
     ],
-    userFollowJobs: {
-      type: [{}], // เมื่อ recruiter กด Mark as started ข้อมูลจะย้ายจาก totalCandidates มาอยู่ในนี้
-    },
-
-    uploadFiles: {
+    followingJobs: [
+      {
+        jobId: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    cvFiles: {
       type: [{}],
       default: null,
     },

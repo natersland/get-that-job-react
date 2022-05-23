@@ -36,8 +36,8 @@ authRouter.post("/register", uploadFile, async (req, res, next) => {
 
     if (String(userRole) === "professional") {
       // if professional: Upload Files: cv file
-      const uploadFileUrl = await cloudinaryUploadCV(req.files);
-      user["uploadFiles"] = uploadFileUrl;
+      const cvFileUrl = await cloudinaryUploadCV(req.files);
+      user["cvFiles"] = cvFileUrl;
     } else if (String(userRole) === "recruiter") {
       // if recruiter: Upload Files ----------------------------------------
       const logoFileUrl = await cloudinaryUploadLogo(req.files);
