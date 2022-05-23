@@ -2,8 +2,8 @@ import { db } from "../utils/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { createError } from "../utils/error.js";
-/* export const register = uploadFile(async (req, res, next) => {}); // ยังใช้ไม่ได้
- */
+import multer from "multer";
+
 export const login = async (req, res, next) => {
   try {
     const user = await db.collection("users").findOne({
@@ -31,8 +31,9 @@ export const login = async (req, res, next) => {
       }
     );
 
-    return res.status(200).json({
-      message: `Login succesfull! welcome ${user.email}`,
+    res.status(200).json({
+      message: `Login Successful! Welcome ${user.email}`,
+      user_id: user._id,
       token,
     });
   } catch (error) {

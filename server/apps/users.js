@@ -5,6 +5,7 @@ import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 import { db } from "../utils/db.js";
 
 import {
+  changeUserPassWord,
   createProfessional,
   createRecuiter,
   deleteUser,
@@ -14,17 +15,16 @@ import {
 
 const usersRouter = Router();
 
+// Multer & collection for update user data -----------------------------
 const multerUpload = multer({ dest: "upload/" });
 const uploadFile = multerUpload.fields([{ name: "logoFile", maxCount: 1 }]);
 const collection = db.collection("users");
 // CREATE User  ----------------------------
 usersRouter.post("/create/professional", createProfessional);
 usersRouter.post("/create/recruiter", createRecuiter);
-/* // UPDATE User Data ----------------------------
-usersRouter.put("/:id", updateUserData); */
-// DELETE User Data ----------------------------
-usersRouter.delete("/:id", deleteUser);
-// ดึงข้อมูล User 1 คน ----------------------------
+// เปลี่ยนรหัส user *ไว้ใช้ตอนลืมพาส รหัสจะเข้า jwt เหมือนเดิม ----------------------------
+usersRouter.put("/changepass/:id", changeUserPassWord); // ยิงจาก postman เท่านั้น - ใน body ใส่แค่ password
+// อัพเดต User 1 คน ----------------------------
 usersRouter.put("/:id", uploadFile, async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
@@ -41,7 +41,9 @@ usersRouter.put("/:id", uploadFile, async (req, res, next) => {
     next(error);
   }
 });
-
+// DELETE User Data ----------------------------
+usersRouter.delete("/:id", deleteUser);
+// ดึงข้อมูล User 1 คน ----------------------------
 usersRouter.get("/:id", getOneUserData);
 // ดึงข้อมูล User ทั้งหมด ----------------------------
 usersRouter.get("/", getAllUserData);

@@ -212,8 +212,8 @@ function UpdatePersonalProfile() {
                 id="uploadCV"
                 name="CV"
                 type="file"
-                value={uploadFiles[0]}
-                onChange={handleFileChange}
+                /*                 value={uploadFiles[0]}
+                 */ onChange={handleFileChange}
                 accept=".pdf"
                 maxSize={5}
               />

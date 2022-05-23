@@ -285,7 +285,8 @@ function ViewJobs() {
 
               <JobCardHeader3Left3>
                 <JobCardHeader3Left3>
-                  <button id="buttonID"
+                  <button
+                    id="buttonID"
                     style={{
                       borderRadius: "16px",
                       padding: "8px 16px",
@@ -293,25 +294,10 @@ function ViewJobs() {
                       width: "140px",
                       backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                     }}
-                    isActive={props.jobsStatus}
-                  >
-                    <CloseDiv>
-                      <Img2>
-                        <img src={close} />
-                      </Img2>
-                      <Text3>ClOSE</Text3>
-                    </CloseDiv>
-                  </CloseJobButton>
-                ) : (
-                  <CloseJobButton
-                    className="btn btn-md"
-                    type="button"
-                    isActive={props.jobsStatus}
-                    disabled
-                  >
                     type="button"
                     disabled={disable}
-                    onClick={handleCloseCLick}>
+                    onClick={handleCloseCLick}
+                  >
                     <CloseDiv>
                       <Img2>
                         <img src={close2} />
@@ -319,7 +305,8 @@ function ViewJobs() {
                       <p
                         style={{
                           color: close ? "lightgray" : "white",
-                        }}>
+                        }}
+                      >
                         {" "}
                         {close ? "CLOSED" : "CLOSE"}
                       </p>

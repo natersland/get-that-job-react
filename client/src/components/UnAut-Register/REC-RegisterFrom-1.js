@@ -15,8 +15,6 @@ function RecRegisterForm1() {
     setPasswordConfirmed,
   } = useUserData();
 
-  console.log(companyName, email, password, passwordConfirmed);
-
   return (
     <Wrapper>
       <div className="mb-5">
