@@ -26,10 +26,10 @@ function SeeMorePage() {
     };
   };
   const contentData = [
-    { title: "About The company name SA", content: job.company?.about }, // aboutCompany
-    { title: "About the job position", content: job.aboutJob }, // aboutJob
-    { title: "Mandatory Requirements", content: job.mandatoryReq }, // mandatoryReq
-    { title: "Optional Requirements", content: job.optionalReq }, // optionalReq
+    { title: "About The company name SA", content: job?.company.about }, // aboutCompany // เอา [0] ออก เพราะใส่ไปแล้วบึ้ม
+    { title: "About the job position", content: job?.aboutJob }, // aboutJob
+    { title: "Mandatory Requirements", content: job?.mandatoryReq }, // mandatoryReq
+    { title: "Optional Requirements", content: job?.optionalReq }, // optionalReq
   ];
 
   useEffect(() => {

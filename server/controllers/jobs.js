@@ -10,24 +10,17 @@ const collection = db.collection("jobs");
 const collection2 = db.collection("users");
 
 export const createJob = async (req, res, next) => {
-  if (req.body.aboutJob === "") {
-    req.body.aboutJob = "-";
-  }
-  if (req.body.mandatoryReq === "") {
-    req.body.mandatoryReq = "-";
-  }
-  if (req.body.optionalReq === "") {
-    req.body.optionalReq = "-";
-  }
+  // ถ้า recruiter ไม่ใส่อะไรมาในช่อง aboutJob, mandatoryReq, optionalReq ให้ค่าเริ่มต้นเป็น "-"
+  req.body.aboutJob === "" ? (req.body.aboutJob = "-") : null;
+  req.body.mandatoryReq === "" ? (req.body.mandatoryReq = "-") : null;
+  req.body.optionalReq === "" ? (req.body.optionalReq = "-") : null;
+  // ------------------------------------------------------------------------------
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
     return Number(result);
   };
 
   try {
-    console.log(req.body.minSalary);
-    console.log(req.body.maxSalary);
-    /*     const newJob = new Jobs(req.body); */
     const newJob = new Jobs({
       recruiterId: req.body.recruiterId,
       jobTitle: req.body.jobTitle,
@@ -77,30 +70,39 @@ setJobs(result);
  */
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
-    /*     const searchJobText = req.query.searchJobText; */
     const keywords = req.query.keywords;
     /* const keywordName = req.query.keywordName; */
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
+    const searchJobType = req.query.searchJobType;
+
     const query = {};
-    if (keywords || searchMinSalaryText || searchMaxSalaryText) {
+    if (query) {
       query.$or = [
-        { jobTitle: { $regex: keywords, $options: "i" } },
-        { minSalary: searchMinSalaryText },
-        { maxSalary: searchMaxSalaryText },
+        {
+          $and: [
+            {
+              jobTitle: {
+                $regex: keywords.split(" ").join("|"),
+                $options: "i",
+              },
+            },
+
+            {
+              $and: [
+                {
+                  $and: [
+                    { minSalary: { $gte: searchMinSalaryText } },
+                    { maxSalary: { $gte: searchMaxSalaryText } },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       ];
     }
-    /*  if (searchJobText) {
-      query.jobTitle = searchJobText;
-    } else if (searchJobText) {
-      query.company.companyName = searchJobText;
-    } else if (searchMinSalaryText) {
-      query.minSalary = searchMinSalaryText;
-    } else if (searchMaxSalaryText) {
-      query.maxSalary = searchMaxSalaryText;
-    } else if (keywords) {
-      query.jobTitle = new RegExp(`${keywords}`, "i");
-    } */
+
     const jobs = await collection
       .aggregate([
         {

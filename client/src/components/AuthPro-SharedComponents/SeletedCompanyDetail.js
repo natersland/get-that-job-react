@@ -13,33 +13,33 @@ function SeletedCompanyDetail({ jobId }) {
   const jobDetailsData = [
     {
       label: "Category",
-      jobLabel: job.jobCategory,
+      jobLabel: job?.jobCategory,
       icon: CompanyIcon,
     },
     {
       label: "Type",
-      jobLabel: job.jobType,
+      jobLabel: job?.jobType,
       icon: CalendarIcon,
     },
     {
       label: "Salary",
-      jobLabel: `${addCommas(job.minSalary)} - ${addCommas(job.maxSalary)}`,
+      jobLabel: `${addCommas(job?.minSalary)} - ${addCommas(job?.maxSalary)}`,
       icon: MoneyIcon,
     },
   ];
   return (
     <Wrapper>
       <HeaderWrapper>
-        <JobTitle>{job.jobTitle}</JobTitle>
+        <JobTitle>{job?.jobTitle}</JobTitle>
         <CreatedDate>
           <span>
             <img className="mr-1" src={ClockIcon} alt="Clock Icon" />
           </span>{" "}
-          POSTED {moment().startOf(job.createdJobDate).fromNow()}
+          POSTED {moment().startOf(job?.createdJobDate).fromNow()}
         </CreatedDate>
       </HeaderWrapper>
       <JobDetailsWrapper>
-        {jobDetailsData.map((items, index) => {
+        {jobDetailsData?.map((items, index) => {
           const { label, jobLabel, icon } = items;
           return (
             <DetailsBox className="pink-border shadow-medium" key={index}>

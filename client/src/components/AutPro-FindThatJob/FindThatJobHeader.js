@@ -3,29 +3,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
-function FindThatJobHeader() {
+
+function FindThatJobHeader({ setPaginationLoading }) {
+  const { setJobs, jobCategoryList, jobTypeList } = useJobsData();
+  // State for filter searching ----------------------------------
   const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
-  const [keywords, setKeywords] = useState("");
+  const [jobCategory, setJobcategory] = useState("");
+  const [jobType, setJobType] = useState("");
   const [keywordsNumber, setKeywordsNumber] = useState("");
-
-  const {
-    jobs,
-    setJobs,
-    setUsers,
-    jobCategoryList,
-    setJobCategoryList,
-    jobTypeList,
-    setJobTypeList,
-    jobType,
-    setJobType,
-    jobTitle,
-    setJobTitle,
-    getJobs,
-    filter,
-    setFilter,
-  } = useJobsData();
 
   // Filter Seach Text --------------------------------------------
   /*   const searchJobWord = async () => {
@@ -37,25 +24,15 @@ function FindThatJobHeader() {
 
   // Categoty Filter  --------------------------------------------
   const categoryFilter = async (e) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
     const userSelect = e.target.value;
-    const result = jobData.filter((item) => {
-      return item.jobCategory === userSelect;
-    });
-    setJobs(result);
-    console.log(userSelect);
+    setJobcategory(userSelect);
+    console.log("hi", jobCategory);
   };
-  // Type Filter  --------------------------------------------
+  // Categoty Filter  --------------------------------------------
   const typeFilter = async (e) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
     const userSelect = e.target.value;
-    const result = jobData.filter((item) => {
-      return item.jobType === userSelect;
-    });
-    setJobs(result);
-    console.log(userSelect);
+    setJobType(userSelect);
+    console.log("hi", jobType);
   };
 
   // Filter Salary --------------------------------------------
@@ -97,14 +74,16 @@ function FindThatJobHeader() {
   }; */
 
   const search = async (text) => {
+    setPaginationLoading(true);
     const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}`
+      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&jobType=${typeFilter}`
     );
     const jobData = results.data.data;
     const filter = jobData.filter((item) => {
       return item.company[0].companyName.toLowerCase().match(text);
     });
     setJobs(filter);
+    setPaginationLoading(false);
   };
 
   useEffect(() => {
@@ -119,7 +98,13 @@ function FindThatJobHeader() {
     return () => {
       clearTimeout(timeOut);
     }; */
-  }, [searchJobText, searchMinSalaryText, searchMaxSalaryText]);
+  }, [
+    searchJobText,
+    searchMinSalaryText,
+    searchMaxSalaryText,
+    jobCategory,
+    jobType,
+  ]);
 
   return (
     <Wrapper className="pt-8">
@@ -169,6 +154,8 @@ function FindThatJobHeader() {
             id="jobType"
             name="jobType"
             onChange={typeFilter}
+            /*             onChange={}
+             */
           >
             <option value="" disabled selected>
               Select a type

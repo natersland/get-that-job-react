@@ -55,6 +55,7 @@ function ProRegisterForm2() {
           id="birthDate"
           name="birthDate"
           type="date"
+          required
           className="gtj-input pink-border "
           placeholder="Pick a date"
           onChange={(event) => {
