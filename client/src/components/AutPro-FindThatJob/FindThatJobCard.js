@@ -15,8 +15,9 @@ import { useVadilation } from "../../contexts/vadilation";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //Components --------------------
 import BackDropLoading from "../Utilities/BackDropLoading";
+import CircularIndeterminate from "../Utilities/CircularIndeterminate";
 
-function FindThatJobCard() {
+function FindThatJobCard({ paginationLoading }) {
   const { jobs } = useJobsData();
   const { textUpperCase, componentDidMount } = UtilitiesFunction();
   const navigate = useNavigate();
@@ -26,99 +27,103 @@ function FindThatJobCard() {
     <Wrapper>
       <BackDropLoading />
       <JobsCounterNumber>{jobs?.length} jobs for you</JobsCounterNumber>
-      <FindThatJobWrapper>
-        {jobs?.map((items, index) => {
-          const {
-            _id,
-            jobTitle,
-            jobCategory,
-            jobType,
-            minSalary,
-            maxSalary,
-            company,
-          } = items;
-          const newMinNumber = minSalary / 1000;
-          const newMaxNumber = maxSalary / 1000;
+      {paginationLoading ? (
+        <CircularIndeterminate />
+      ) : (
+        <FindThatJobWrapper>
+          {jobs?.map((items, index) => {
+            const {
+              _id,
+              jobTitle,
+              jobCategory,
+              jobType,
+              minSalary,
+              maxSalary,
+              company,
+            } = items;
+            const newMinNumber = minSalary / 1000;
+            const newMaxNumber = maxSalary / 1000;
 
-          return (
-            <JobCardWrapper className="shadow-medium" key={index}>
-              <JobCardContent>
-                {/* Left Side ---------------------------------------------- */}
-                <ContentLeft>
-                  <CompanyLogoWrapper>
-                    <CompanyLogoJa
-                      src={
-                        company[0].companyLogo[0]
-                          ? company[0].companyLogo[0].url
-                          : { CompanyLogo }
-                      }
-                    ></CompanyLogoJa>
-                  </CompanyLogoWrapper>
-                </ContentLeft>
-                {/* Right Side ---------------------------------------------- */}
-                <ContentRight>
-                  <JobCategory>
-                    <span>
-                      <img
-                        className="mr-1"
-                        src={CompanyIcon}
-                        alt="Company Icon"
-                      />
-                    </span>{" "}
-                    {jobCategory}
-                  </JobCategory>
-                  <JobTitle>{jobTitle}</JobTitle>
-                  <CompanyName>{company[0].companyName}</CompanyName>
-                  {/* Left Side: Sub Content ---------------------------------------------- */}
-                  <SubContentWrapper>
-                    {" "}
-                    <JobType>
-                      <span className="mr-1">
-                        <img src={CalendarIcon} alt="Calendar Icon" />
-                      </span>
-                      {jobType}
-                    </JobType>
-                    <Salary>
-                      <span className="mr-1">
-                        <img src={DollarLineIcon} alt="DollarIcon" />
-                      </span>
-                      {minSalary < 100
-                        ? `${minSalary}$ - `
-                        : `${newMinNumber.toFixed(1)}k - `}
-                      {maxSalary < 100
-                        ? `${maxSalary}$`
-                        : `${newMaxNumber.toFixed(1)}k`}
-                    </Salary>
-                  </SubContentWrapper>
-                </ContentRight>
-              </JobCardContent>
-              {/* Left Side: Footer ---------------------------------------------- */}
-              <JobCardFooter>
-                <FollowCircle>
-                  <FollowIcon src={FocusIcon}></FollowIcon>
-                </FollowCircle>
-                <FollowButton className="btn btn-white btn-md">
-                  {textUpperCase("follow")}
-                </FollowButton>
-                <SeeMoreButton
-                  className="btn btn-white btn-md pink-border uppercase"
-                  onClick={() => {
-                    setLoading(true);
-                    localStorage.setItem("jobId", _id);
-                    setTimeout(function () {
-                      navigate(`/findjobs/${_id}}`);
-                      componentDidMount();
-                      setLoading(false);
-                    }, 500);
-                  }}
-                >
-                  see more
-                </SeeMoreButton>
-              </JobCardFooter>
-            </JobCardWrapper>
-          );
-        })}
-      </FindThatJobWrapper>
+            return (
+              <JobCardWrapper className="shadow-medium" key={index}>
+                <JobCardContent>
+                  {/* Left Side ---------------------------------------------- */}
+                  <ContentLeft>
+                    <CompanyLogoWrapper>
+                      <CompanyLogoJa
+                        src={
+                          company[0].companyLogo[0]
+                            ? company[0].companyLogo[0].url
+                            : { CompanyLogo }
+                        }
+                      ></CompanyLogoJa>
+                    </CompanyLogoWrapper>
+                  </ContentLeft>
+                  {/* Right Side ---------------------------------------------- */}
+                  <ContentRight>
+                    <JobCategory>
+                      <span>
+                        <img
+                          className="mr-1"
+                          src={CompanyIcon}
+                          alt="Company Icon"
+                        />
+                      </span>{" "}
+                      {jobCategory}
+                    </JobCategory>
+                    <JobTitle>{jobTitle}</JobTitle>
+                    <CompanyName>{company[0].companyName}</CompanyName>
+                    {/* Left Side: Sub Content ---------------------------------------------- */}
+                    <SubContentWrapper>
+                      {" "}
+                      <JobType>
+                        <span className="mr-1">
+                          <img src={CalendarIcon} alt="Calendar Icon" />
+                        </span>
+                        {jobType}
+                      </JobType>
+                      <Salary>
+                        <span className="mr-1">
+                          <img src={DollarLineIcon} alt="DollarIcon" />
+                        </span>
+                        {minSalary < 100
+                          ? `${minSalary}$ - `
+                          : `${newMinNumber.toFixed(1)}k - `}
+                        {maxSalary < 100
+                          ? `${maxSalary}$`
+                          : `${newMaxNumber.toFixed(1)}k`}
+                      </Salary>
+                    </SubContentWrapper>
+                  </ContentRight>
+                </JobCardContent>
+                {/* Left Side: Footer ---------------------------------------------- */}
+                <JobCardFooter>
+                  <FollowCircle>
+                    <FollowIcon src={FocusIcon}></FollowIcon>
+                  </FollowCircle>
+                  <FollowButton className="btn btn-white btn-md">
+                    {textUpperCase("follow")}
+                  </FollowButton>
+                  <SeeMoreButton
+                    className="btn btn-white btn-md pink-border uppercase"
+                    onClick={() => {
+                      setLoading(true);
+                      localStorage.setItem("jobId", _id);
+                      setTimeout(function () {
+                        navigate(`/findjobs/${_id}}`);
+                        componentDidMount();
+                        setLoading(false);
+                      }, 500);
+                    }}
+                  >
+                    see more
+                  </SeeMoreButton>
+                </JobCardFooter>
+              </JobCardWrapper>
+            );
+          })}
+        </FindThatJobWrapper>
+      )}
     </Wrapper>
   );
 }

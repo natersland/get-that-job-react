@@ -65,7 +65,6 @@ export const getAllUserData = async (req, res, next) => {
       ])
       .toArray(); */
     res.status(200).json(users);
-    console.log(`Get all users data has been successful!`);
   } catch (error) {
     next(error);
   }
@@ -101,7 +100,6 @@ export const getOneUserData = async (req, res, next) => {
       ])
       .toArray();
     res.status(200).json(user[0]);
-    console.log(user[0]);
   } catch (error) {
     next(error);
   }

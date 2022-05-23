@@ -43,7 +43,7 @@ export default function LoginPage() {
   };
   return (
     <WrapperLogin>
-      <AlertDialog textDialog={`Wrong role account! please try again.`} />
+      <AlertDialog textDialog="Text" />
       <BackDropLoading />
       <WrapperLoginLeft>
         <LoginZoneWrapper>

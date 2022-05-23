@@ -5,8 +5,8 @@ import FindJobsPage from "../pages/Professional/FindJobsPage";
 import ComponentIndex from "../components/ComponentIndex";
 import SeeMorePage from "../pages/Professional/SeeMorePage";
 import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
-import MultiFindJob from "../pages/Professional/MultiFindJob";
-
+/* import MultiFindJob from "../pages/Professional/MultiFindJob";
+ */
 // Components
 import Sidebar from "../components/Utilities/SideBar";
 
@@ -26,8 +26,8 @@ function ProfessionalApp() {
         <Route path="/profile" element={<NotFoundPage />} />
         {/* Just for test Route Start Here ------------------------------------ */}
         <Route path="/updateprofile" element={<UpdatePersonalProfile />} />
-        <Route path="/multiverse" element={<MultiFindJob />} />
-
+        {/*         <Route path="/multiverse" element={<MultiFindJob />} />
+         */}
       </Routes>
     </div>
   );
