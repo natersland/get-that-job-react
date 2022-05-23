@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap');
 :root {
   /* Brand Color */
   --primary-brand-color: #bf5f82;
@@ -10,8 +10,8 @@
   --primary-text-color: #373737;
   --secondary-text-color: #5c5c5c;
   --tertiary-text-color: #e1e2e1;
-  --primary-font: "Montserrat", sans-serif;
-  --seconary-font: "Inter", sans-serif;
+  --primary-font: 'Noto Sans Thai',"Montserrat", sans-serif;
+  --seconary-font: 'Noto Sans Thai',"Inter", sans-serif;
 
   /* Other Color */
   --gray: #616161;
@@ -21,7 +21,8 @@
 
 body {
   background-color: RGB(245, 245, 246);
-  font-family: var(--primary-font);
+  font-family: var(--primary-font), ;
+  font-family: 'Noto Sans Thai', "Montserrat", sans-serif;
   color: var(--primary-text-color);
 }
 
