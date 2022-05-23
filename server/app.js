@@ -4,7 +4,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-
 // cloud and database -------------------------
 import cloudinary from "cloudinary";
 import { client } from "./utils/db.js";

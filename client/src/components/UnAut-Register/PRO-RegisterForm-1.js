@@ -13,8 +13,6 @@ function ProRegisterForm1() {
     setPasswordConfirmed,
   } = useUserData();
 
-  console.log(`Hello ${password}`);
-
   return (
     <div>
       <Container>

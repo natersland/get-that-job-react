@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
 
 const UsersProfessionalSchema = new mongoose.Schema(
   {
@@ -58,14 +57,30 @@ const UsersProfessionalSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    userAppiedJobs: [
+      // ถ้า recruiter กด Mark as started ข้อมูลใน totalCandidates[index] จะย้ายไปอยู่ candidatesOnTrack ข้างล่างสุด
+      {
+        jobAppliedId: mongoose.Schema.Types.ObjectId, // เป็น id ที่ถูก gen ใหม่ ตอนกดสมัครงาน
+        appliedDate: { type: [Date], default: new Date() },
+        isApply: { type: [Boolean], default: true }, // ถ้า Mark as started,Finished ต้องเปลี่ยนเป็น false
+        isReview: { type: [Boolean], default: false }, // ถ้า Mark as started ต้องเปลี่ยนเป็น true และอันอื่น false หมด
+        isFinised: { type: [Boolean], default: false }, // ถ้า Finished ต้องเปลี่ยนเป็น true และอันอื่น false หมด
+      },
+    ],
+    userFollowJobs: {
+      type: [{}], // เมื่อ recruiter กด Mark as started ข้อมูลจะย้ายจาก totalCandidates มาอยู่ในนี้
+    },
+
     uploadFiles: {
       type: [{}],
       default: null,
     },
+    memberSince: {
+      type: Date,
+      required: true,
+      default: new Date().toISOString(),
+    },
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
+  { timestamps: true }
 );
 export default mongoose.model("UserProfessional", UsersProfessionalSchema);
