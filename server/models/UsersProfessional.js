@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
 
 const UsersProfessionalSchema = new mongoose.Schema(
   {
@@ -50,22 +49,26 @@ const UsersProfessionalSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    userAppiedJobs: {
-      type: Array,
-      default: [],
-    },
-    userFollowJobs: {
-      type: Array,
-      default: [],
-    },
-    uploadFiles: {
+    appiedJobs: [
+      {
+        applicationId: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    followingJobs: [
+      {
+        jobId: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    cvFiles: {
       type: [{}],
       default: null,
     },
+    memberSince: {
+      type: Date,
+      required: true,
+      default: new Date().toISOString(),
+    },
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
+  { timestamps: true }
 );
 export default mongoose.model("UserProfessional", UsersProfessionalSchema);

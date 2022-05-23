@@ -33,7 +33,6 @@ function CreateJobPage() {
   const [aboutJob, setAboutJob] = useState(String);
   const [mandatoryReq, setMandatoryReq] = useState(String);
   const [optionalReq, setOptionalReq] = useState(String);
-  const [candidateData, setCandidateData] = useState({});
 
   const navigate = useNavigate();
 
@@ -46,23 +45,17 @@ function CreateJobPage() {
     setAboutJob("");
     setMandatoryReq("");
     setOptionalReq("");
-    setCandidateData({});
   };
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);
-    /*     navigate("/viewjobs");
-     */
+    /*     navigate("/viewjobs"); */
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    // Filter Comma from UI display for send data to server
     const recruiterId = localStorage.getItem("id");
-    const createdJobDate = moment().format("MMMM Do YYYY, h:mm:ss a");
-    /*     filterComma(minSalary);
-    filterComma(maxSalary); */
     // --------------------------------------
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
@@ -75,8 +68,6 @@ function CreateJobPage() {
         aboutJob,
         mandatoryReq,
         optionalReq,
-        createdJobDate,
-        recruiterId,
       };
       setTimeout(function () {
         createJob(data);

@@ -36,8 +36,8 @@ authRouter.post("/register", uploadFile, async (req, res, next) => {
 
     if (String(userRole) === "professional") {
       // if professional: Upload Files: cv file
-      const uploadFileUrl = await cloudinaryUploadCV(req.files);
-      user["uploadFiles"] = uploadFileUrl;
+      const cvFileUrl = await cloudinaryUploadCV(req.files);
+      user["cvFiles"] = cvFileUrl;
     } else if (String(userRole) === "recruiter") {
       // if recruiter: Upload Files ----------------------------------------
       const logoFileUrl = await cloudinaryUploadLogo(req.files);
@@ -59,8 +59,9 @@ authRouter.post("/register", uploadFile, async (req, res, next) => {
     next(error);
   }
 });
-
-// register เส้นเก่า *ไม่ใช้แล้ว ---------------------------------------
+/* authRouter.post("/register2", uploadFile, register); // ยังใช้ไม่ได้
+ */
+// register เส้นเก่า *ไม่ใช้แล้ว (เอาไว้สำรอง เผื่อเส้นใหม่อ๊อง) ---------------------------------------
 authRouter.post("/registerV1", uploadFile, async (req, res) => {
   const role = req.body.role;
 

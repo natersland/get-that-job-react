@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
+import bcrypt from "bcrypt";
 // Schema Medels ---------------------
 import UsersProfessional from "../models/UsersProfessional.js";
 import UsersRecruiter from "../models/UsersRecruiter.js";
@@ -106,10 +107,24 @@ export const getOneUserData = async (req, res, next) => {
   }
 };
 
-/* export const updateUserData = async (req, res, next) => {
+export const changeUserPassWord = async (req, res, next) => {
+  try {
+    const userId = ObjectId(req.params.id);
+    const userData = {
+      password: req.body.password,
+    };
+    // hashing password
+    const salt = await bcrypt.genSalt(10);
+    userData.password = await bcrypt.hash(userData.password, salt);
 
+    await collection.updateOne({ _id: userId }, { $set: userData });
+    res.status(200).json(`User ${userId} has been updated successful`);
+    console.log(`Updated user data id:${userId} successful!`);
+  } catch (error) {
+    next(error);
+  }
 };
- */
+
 export const deleteUser = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);

@@ -35,7 +35,7 @@ function SeletedCompanyDetail({ jobId }) {
           <span>
             <img className="mr-1" src={ClockIcon} alt="Clock Icon" />
           </span>{" "}
-          POSTED {job.createdJobDate}
+          POSTED {moment().startOf(job.createdJobDate).fromNow()}
         </CreatedDate>
       </HeaderWrapper>
       <JobDetailsWrapper>
