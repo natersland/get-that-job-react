@@ -3,16 +3,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
+import morgan from "morgan";
 // cloud and database -------------------------
 import cloudinary from "cloudinary";
 import { client } from "./utils/db.js";
-// middleware -------------------------
-import logger from "./middlewares/logger.js";
+
 // router -----------------------------------
-import authRouter from "./routes/auth.js";
-import jobRouter from "./routes/jobs.js";
-import usersRouter from "./routes/users.js";
-import applicationsRouter from "./routes/applications.js";
+import authRouter from "./routes/authRoutes.js";
+import jobRouter from "./routes/jobsRoutes.js";
+import usersRouter from "./routes/usersRoutes.js";
+import applicationsRouter from "./routes/applicationsRoutes.js";
+
+
 
 // --------------------------------------------------------
 
@@ -26,20 +28,21 @@ async function init() {
     secure: true,
   });
 
-  // initialize server and setting -----------------
+  // 1) initialize server and setting -----------------
   const app = express();
   const port = 4000;
   await client.connect();
 
-  // middleware -----------------
+  // 2) middleware -----------------
   app.use(express.json());
   app.use(cors());
   app.use(bodyParser.json());
+  app.use(morgan("dev")); // เอาไว้ logger ดู HTTP request ใน node terminal
 
-  // Custom middleware
-  /*  app.use(logger); */ // เอาไว้ log ว่า ยิง api ไปที่ไหน
+  // 3) custom middleware
 
-  // app routers -----------------
+
+  // 4) app routers -----------------
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/jobs", jobRouter);
@@ -55,7 +58,7 @@ async function init() {
       stack: err.stack,
     });
   });
-  // response from server -----------------
+  // 5) response from server -----------------
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
   });

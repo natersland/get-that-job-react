@@ -10,7 +10,7 @@ import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 function CompanyHeader({ jobId }) {
   const { job } = useJobsData();
   const navigate = useNavigate();
-  console.log(job);
+
   return (
     <Wrapper>
       <BackBtn

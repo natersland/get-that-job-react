@@ -6,6 +6,10 @@ const JobSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "UsersRecruiter",
     },
+    applicationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ApplicationModel",
+    },
     jobTitle: {
       type: String,
     },

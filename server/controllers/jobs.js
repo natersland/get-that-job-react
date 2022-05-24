@@ -33,7 +33,7 @@ export const createJob = async (req, res, next) => {
       optionalReq: req.body.optionalReq,
       createdJobDate: req.body.createdJobDate,
     });
-    await db.collection("jobs").insertOne(newJob);
+    await jobsCollection.insertOne(newJob);
     res.status(200).json(`New job has been created successful`);
     console.log(newJob);
   } catch (error) {
