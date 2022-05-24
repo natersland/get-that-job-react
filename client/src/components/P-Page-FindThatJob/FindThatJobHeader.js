@@ -76,7 +76,7 @@ function FindThatJobHeader({ setPaginationLoading }) {
   const search = async (text) => {
     setPaginationLoading(true);
     const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&jobType=${typeFilter}`
+      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&jobCategory=${jobCategory}&jobType=${jobType}`
     );
     const jobData = results.data.data;
     const filter = jobData.filter((item) => {
