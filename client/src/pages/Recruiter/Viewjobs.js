@@ -14,9 +14,8 @@ import close2 from "../../img/close2.png";
 import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
 import { AppBar } from "@mui/material";
-import "../../App.css";
-//import arrowUp from "../../img/arrow-up-s-line.png";
-//import { JobsDataProvider } from "../../contexts/jobsData";
+import { useJobsData } from "../../contexts/jobsData";
+import _ from "lodash";
 
 /*
 const datas = [
@@ -42,12 +41,11 @@ const datas = [
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  const [status, setStatus] = useState("option1");
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
-  console.log(job);
-
+  //console.log(job);
+  let { jobStatus, setJobStatus } = useJobsData();
   const handleSelectChange = (event) => {
     const value = event.target.value;
   }; //---delete----
@@ -59,27 +57,24 @@ function ViewJobs() {
       const results = await axios.get(
         `http://localhost:4000/users/${comProfileData}`
       );
-      setStatus(results.data.jobs);
-      setJob(results.data.jobs);
+      console.log(results.data.job[0].jobStatus);
+      //setJobStatus(results.data.jobs[0].jobStatus);
+      setJob(_.reverse(results.data.jobs));
 
-      console.log("GET JOB POST", results.data.jobs);
+      // console.log("GET JOB POST", results.data.jobs);
     } catch (error) {
       console.log(error);
     }
     return {
       job,
     };
-
-    /* setJobTitle(results.data.jobs.jobTitle);
-    setJobCategory(results.data.jobs.jobCategory);
-    setJobType(results.data.jobs.jobType);
-    setMinSalary(results.data.jobs.minSalary);
-    setMaxSalary(results.data.jobs.maxSalary);
-    setAboutJob(results.data.jobs.aboutJob);
-    setMandatoryReq(results.data.jobs.mandatoryReq);
-    setOptionalReq(results.data.jobs.optionalReq);
-    setCreatedJobDate(results.data.jobs.createdJobDate); */
   };
+  const updateStatus = async () => {
+    await axios.put(`http://localhost:4000/users/${comProfileData}`, {
+      job,
+    });
+  };
+  //console.log(jobStatus);
 
   //console.log("STATE job",job);
   useEffect(() => {
@@ -154,7 +149,7 @@ function ViewJobs() {
             id={data._id}
             jobTitle={data.jobTitle}
             jobCategory={data.jobCategory}
-            jobsStatus={data.jobStatus}
+            jobStatus={data.jobStatus}
             jobType={data.jobType}
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}
@@ -176,6 +171,7 @@ function ViewJobs() {
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
+
     //document.getElementById('buttonID').disabled = true;
 
     /*const closeJobStatus = (index) => {
@@ -183,20 +179,26 @@ function ViewJobs() {
       console.log(index);
       console.log(job[index].jobStatus);
     };*/
+    let handleCloseCLick1 = (event) => {
+      event.preventDefault();
+      job.jobStatus = false;
+      updateStatus();
+      setClose(!close);
+      setDisable(true);
+      setFont(!font);
 
-    const handleCloseCLick = () => {
-      if ((job.jobStatus = true)) {
+      console.log(jobStatus);
+    };
+    let handleCloseCLick = (event) => {
+      event.preventDefault();
+      if (job.jobStatus === true) {
         job.jobStatus = false;
+        updateStatus();
         setClose(!close);
         setDisable(true);
         setFont(!font);
-      } else {
-        job.jobStatus = true;
-        setClose(close);
-        setDisable(false);
-        setFont(font);
       }
-      console.log(job.jobStatus);
+      console.log(jobStatus);
     };
     //const [jobsStatus, setJobsStatus] = useState(false);
 
@@ -205,7 +207,7 @@ function ViewJobs() {
       setDisable(true);
       setFont(!font);
     };
-
+    //console.log(job[0].jobStatus);
     return (
       <div>
         <Jobcard key={props._id}>
@@ -285,33 +287,40 @@ function ViewJobs() {
 
               <JobCardHeader3Left3>
                 <JobCardHeader3Left3>
-                  <button
-                    id="buttonID"
-                    style={{
-                      borderRadius: "16px",
-                      padding: "8px 16px",
-                      height: "40px",
-                      width: "140px",
-                      backgroundColor: close ? "#E1E2E1" : "#BF5F82",
-                    }}
-                    type="button"
-                    disabled={disable}
-                    onClick={handleCloseCLick}
-                  >
-                    <CloseDiv>
-                      <Img2>
-                        <img src={close2} />
-                      </Img2>
-                      <p
-                        style={{
-                          color: close ? "lightgray" : "white",
-                        }}
-                      >
-                        {" "}
-                        {close ? "CLOSED" : "CLOSE"}
-                      </p>
-                    </CloseDiv>
-                  </button>
+                  <form
+                    id="submitCloseBtn"
+                    onSubmit={(e) => {
+                      handleCloseCLick(e);
+                    }}>
+                    <button
+                      htmlFor="submitCloseBtn"
+                      id="buttonID"
+                      style={{
+                        borderRadius: "16px",
+                        padding: "8px 16px",
+                        height: "40px",
+                        width: "140px",
+                        backgroundColor: close ? "#E1E2E1" : "#BF5F82",
+                      }}
+                      value={job.jobStatus}
+                      type="submit"
+                      //disabled={disable}
+                      /* onClick={handleCloseCLick}*/
+                    >
+                      <CloseDiv>
+                        <Img2>
+                          <img src={close2} />
+                        </Img2>
+                        <p
+                          style={{
+                            color: close ? "lightgray" : "white",
+                          }}>
+                          {" "}
+                          {close ? "CLOSED" : "CLOSE"}
+                        </p>
+                      </CloseDiv>
+                    </button>
+                  </form>
                 </JobCardHeader3Left3>
               </JobCardHeader3Left3>
             </JobCardHeader3>

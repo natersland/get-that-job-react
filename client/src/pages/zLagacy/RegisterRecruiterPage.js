@@ -92,14 +92,15 @@ function RegisterRecruiterPage() {
     register(formData);
   };
 
+  const finish = ">";
+
   return (
     <Wrapper>
       <LeftBox>
         <form
           className="recruiter-register-form"
           id="register-form"
-          onSubmit={handleSubmit}
-        >
+          onSubmit={handleSubmit}>
           <Detail>
             <Progressbar>
               <Title>Good choice!</Title>
@@ -196,8 +197,7 @@ function RegisterRecruiterPage() {
               type="submit"
               onClick={() => {
                 setStep((currentPage) => currentPage + 1);
-              }}
-            >
+              }}>
               NEXT <Question />
             </NextButton>
           )}
@@ -397,7 +397,7 @@ const FinishButton = styled.button`
   background-color: var(--secoundary-brand-color);
   cursor: pointer;
   margin-left: 30px;
-  margin-top: 15px;
+  margin-top: 20px;
 `;
 
 const SkipButton = styled.button`

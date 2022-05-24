@@ -22,6 +22,7 @@ function UserDataProvider(props) {
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [about, setAbout] = useState("");
   const [companyLogo, setCompanyLogo] = useState({});
+
   // State for Connecting to Users Database Backend ---------------------
   const [users, setUsers] = useState([]);
 
@@ -112,6 +113,7 @@ function UserDataProvider(props) {
         setCompanyWebsite,
         about,
         setAbout,
+
         // User & Company Profile -----------------------------------------
         companyLogo,
         setCompanyLogo,

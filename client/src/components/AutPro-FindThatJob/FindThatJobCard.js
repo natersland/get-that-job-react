@@ -39,6 +39,7 @@ function FindThatJobCard() {
           } = items;
           const newMinNumber = minSalary / 1000;
           const newMaxNumber = maxSalary / 1000;
+          console.log(jobs);
 
           return (
             <JobCardWrapper className="shadow-medium" key={index}>
@@ -51,8 +52,7 @@ function FindThatJobCard() {
                         company[0].companyLogo[0]
                           ? company[0].companyLogo[0].url
                           : { CompanyLogo }
-                      }
-                    ></CompanyLogoJa>
+                      }></CompanyLogoJa>
                   </CompanyLogoWrapper>
                 </ContentLeft>
                 {/* Right Side ---------------------------------------------- */}
@@ -110,8 +110,7 @@ function FindThatJobCard() {
                       componentDidMount();
                       setLoading(false);
                     }, 500);
-                  }}
-                >
+                  }}>
                   see more
                 </SeeMoreButton>
               </JobCardFooter>

@@ -16,6 +16,7 @@ function JobsDataProvider(props) {
   const [mandatoryReq, setMandatoryReq] = useState("");
   const [optionalReq, setOptionalReq] = useState("");
   const [createdJobDate, setCreatedJobDate] = useState("");
+  const [jobStatus, setJobStatus] = useState();
   // State for Connecting to Jobs Database Backend ---------------------
   const [jobs, setJobs] = useState([]);
   const [job, setJob] = useState({});
@@ -77,6 +78,9 @@ function JobsDataProvider(props) {
         setOptionalReq,
         createdJobDate,
         setCreatedJobDate,
+        jobStatus,
+        setJobStatus,
+
         // Connecting to Jobs Database  ---------------------
         jobs,
         setJobs,
@@ -100,8 +104,7 @@ function JobsDataProvider(props) {
         setIsLoading,
         // Fx for reset data in state ---------------------------------------
         resetJobData,
-      }}
-    >
+      }}>
       {props.children}
     </JobsDataContext.Provider>
   );
