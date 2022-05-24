@@ -7,11 +7,14 @@ import morgan from "morgan";
 // cloud and database -------------------------
 import cloudinary from "cloudinary";
 import { client } from "./utils/db.js";
+
 // router -----------------------------------
 import authRouter from "./routes/authRoutes.js";
 import jobRouter from "./routes/jobsRoutes.js";
 import usersRouter from "./routes/usersRoutes.js";
 import applicationsRouter from "./routes/applicationsRoutes.js";
+
+
 
 // --------------------------------------------------------
 
@@ -37,6 +40,7 @@ async function init() {
   app.use(morgan("dev")); // เอาไว้ logger ดู HTTP request ใน node terminal
 
   // 3) custom middleware
+
 
   // 4) app routers -----------------
   app.use("/auth", authRouter);

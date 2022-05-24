@@ -1,13 +1,16 @@
 import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
 // Schema Medels ---------------------
+
 import ApplicationModel from "../models/ApplicationModel.js";
+
 import RecruiterModel from "../models/RecruiterModel.js";
 import ProfessionalModel from "../models/ProfessionalModel.js";
 // Database ---------------------------
 const appCollection = db.collection("applications");
 const jobsCollection = db.collection("jobs");
 const usersCollection = db.collection("users");
+
 
 export const createApplication = async (req, res, next) => {
   try {
@@ -39,3 +42,4 @@ export const getAllApplication = async (req, res, next) => {
     next(error);
   }
 };
+
