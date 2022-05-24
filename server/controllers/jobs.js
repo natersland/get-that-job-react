@@ -2,12 +2,12 @@ import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
 import mongoose from "mongoose";
 // Schema Models ---------------------
-import Jobs from "../models/Jobs.js";
-import UsersRecruiter from "../models/UsersRecruiter.js";
-//------------------------------------
-
-const collection = db.collection("jobs");
-const collection2 = db.collection("users");
+import JobModel from "../models/JobModel.js";
+import RecruiterModel from "../models/RecruiterModel.js";
+// Database ---------------------------
+const appCollection = db.collection("applications");
+const jobsCollection = db.collection("jobs");
+const usersCollection = db.collection("users");
 
 export const createJob = async (req, res, next) => {
   // ถ้า recruiter ไม่ใส่อะไรมาในช่อง aboutJob, mandatoryReq, optionalReq ให้ค่าเริ่มต้นเป็น "-"
@@ -21,7 +21,7 @@ export const createJob = async (req, res, next) => {
   };
 
   try {
-    const newJob = new Jobs({
+    const newJob = new JobModel({
       recruiterId: req.body.recruiterId,
       jobTitle: req.body.jobTitle,
       jobCategory: req.body.jobCategory,
@@ -42,7 +42,7 @@ export const createJob = async (req, res, next) => {
 };
 /* export const getOneJob = async (req, res) => {
   const jobId = ObjectId(req.params.id);
-  const job = await collection.find({ _id: jobId }).toArray();
+  const job = await jobsCollection.find({ _id: jobId }).toArray();
   return res.json({ data: job[0] });
 }; */
 
@@ -103,8 +103,13 @@ export const getAllJobsWithFilter = async (req, res, next) => {
       ];
     }
 
-    const jobs = await collection
+    const jobs = await jobsCollection
       .aggregate([
+        {
+          $sort: {
+            createdJobDate: -1,
+          },
+        },
         {
           $lookup: {
             from: "users",
@@ -124,8 +129,13 @@ export const getAllJobsWithFilter = async (req, res, next) => {
 };
 export const getOneJob = async (req, res) => {
   const jobId = mongoose.Types.ObjectId(req.params.id.trim());
-  const job = await collection
+  const job = await jobsCollection
     .aggregate([
+      {
+        $sort: {
+          createdJobDate: -1,
+        },
+      },
       {
         $lookup: {
           from: "users",
@@ -146,7 +156,7 @@ export const updateJob = async (req, res, next) => {
     const updateJobData = {
       ...req.body,
     };
-    await collection.updateOne({ _id: jobId }, { $set: updateJobData });
+    await jobsCollection.updateOne({ _id: jobId }, { $set: updateJobData });
     res.status(200).json(`Job ${jobId} has been updated successful`);
     console.log(`Updated job data id:${jobId} successful!`);
   } catch (error) {
@@ -159,14 +169,14 @@ export const deleteJob = async (req, res, next) => {
     const userId = ObjectId(req.params.id);
     const jobId = ObjectId(req.params.id);
     try {
-      await collection2.findOneAndUpdate(
+      await usersCollection.findOneAndUpdate(
         { _id: userId },
         { $pull: { job: req.params.id } }
       );
     } catch (error) {
       res.status(500).json(error);
     }
-    await collection.deleteOne({ _id: jobId });
+    await jobsCollection.deleteOne({ _id: jobId });
     res.status(200).json(`Job ${jobId} has been deleted successful`);
     console.log(`Job ${jobId} has been deleted successful`);
   } catch (error) {
@@ -178,7 +188,7 @@ export const getAllJobs = async (req, res, next) => {
   try {
     const query = {};
 
-    const jobs = await collection
+    const jobs = await jobsCollection
       .aggregate([
         {
           $lookup: {
@@ -206,7 +216,7 @@ export const createJobV1 = async (req, res, next) => {
       return Number(result);
     };
 
-    const user = {
+    const job = {
       jobTitle: req.body.jobTitle,
       jobCategory: req.body.jobCategory,
       jobType: req.body.jobType,
@@ -221,7 +231,7 @@ export const createJobV1 = async (req, res, next) => {
       jobsStatus: req.body.jobsStatus,
     };
 
-    await db.collection("jobs").insertOne(user);
+    await db.jobsCollection("jobs").insertOne(job);
 
     return res.json({
       Message: "Create new job has been created successfully",

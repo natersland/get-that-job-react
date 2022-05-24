@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UsersRecruiterSchema = new mongoose.Schema(
+const RecruiterSchema = new mongoose.Schema(
   {
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -23,17 +23,17 @@ const UsersRecruiterSchema = new mongoose.Schema(
     },
     companyName: {
       type: String,
-      default: "",
+      default: "-",
       required: true,
     },
     companyWebsite: {
       type: String,
-      default: "",
+      default: "-",
       required: true,
     },
     about: {
       type: String,
-      default: "",
+      default: "-",
       required: true,
     },
     companyLogo: {
@@ -48,5 +48,5 @@ const UsersRecruiterSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-export default mongoose.model("UsersRecruiter", UsersRecruiterSchema);
+export default mongoose.model("RecruiterModel", RecruiterSchema);
 /* userId: { type: mongoose.Schema.Types.ObjectId, ref: "UsersRecruiter" }, */

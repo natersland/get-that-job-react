@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-import UsersProfessional from "./UsersProfessional.js";
 
-const JobsSchema = new mongoose.Schema(
+const JobSchema = new mongoose.Schema(
   {
     recruiterId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -47,11 +46,6 @@ const JobsSchema = new mongoose.Schema(
       required: false,
       default: "-",
     },
-    candidates: [
-      {
-        applicationId: mongoose.Schema.Types.ObjectId,
-      },
-    ],
     jobStatus: {
       type: Boolean,
       required: true,
@@ -61,4 +55,4 @@ const JobsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("Job", JobsSchema);
+export default mongoose.model("JobModel", JobSchema);

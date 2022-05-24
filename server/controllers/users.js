@@ -2,15 +2,14 @@ import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
 import bcrypt from "bcrypt";
 // Schema Medels ---------------------
-import UsersProfessional from "../models/UsersProfessional.js";
-import UsersRecruiter from "../models/UsersRecruiter.js";
-// -----------------------------------
-
-const collection = db.collection("users");
+import RecruiterModel from "../models/RecruiterModel.js";
+import ProfessionalModel from "../models/ProfessionalModel.js";
+// Database ---------------------------
+const usersCollection = db.collection("users");
 
 export const createProfessional = async (req, res, next) => {
   try {
-    const newProfessional = new UsersProfessional(req.body);
+    const newProfessional = new ProfessionalModel(req.body);
     await db.collection("users").insertOne(newProfessional);
     res.status(200).json(`New professional has been created successful!`);
     console.log(newProfessional);
@@ -20,9 +19,9 @@ export const createProfessional = async (req, res, next) => {
 };
 export const createRecuiter = async (req, res, next) => {
   try {
-    const newRecruiter = new UsersRecruiter(req.body);
+    const newRecruiter = new RecruiterModel(req.body);
     await db.collection("users").insertOne(newRecruiter);
-    /*  const user = await collection
+    /*  const user = await usersCollection
           .aggregate([
             {
               $addFields: {
@@ -51,8 +50,8 @@ export const createRecuiter = async (req, res, next) => {
 
 export const getAllUserData = async (req, res, next) => {
   try {
-    const users = await collection.find().toArray();
-    /* const users = await collection
+    const users = await usersCollection.find().toArray();
+    /* const users = await usersCollection
       .aggregate([
         {
           $lookup: {
@@ -73,9 +72,9 @@ export const getAllUserData = async (req, res, next) => {
 export const getOneUserData = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
-    /*     const user = await collection.find({ _id: userId }).toArray();
+    /*     const user = await usersCollection.find({ _id: userId }).toArray();
      */
-    /*   const user = await collection
+    /*   const user = await usersCollection
             .aggregate([
               {
                 $addFields: {
@@ -86,7 +85,7 @@ export const getOneUserData = async (req, res, next) => {
               },
             ])
             .toArray(); */
-    const user = await collection
+    const user = await usersCollection
       .aggregate([
         {
           $lookup: {
@@ -115,7 +114,7 @@ export const changeUserPassWord = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     userData.password = await bcrypt.hash(userData.password, salt);
 
-    await collection.updateOne({ _id: userId }, { $set: userData });
+    await usersCollection.updateOne({ _id: userId }, { $set: userData });
     res.status(200).json(`User ${userId} has been updated successful`);
     console.log(`Updated user data id:${userId} successful!`);
   } catch (error) {
@@ -126,7 +125,7 @@ export const changeUserPassWord = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
-    await collection.deleteOne({ _id: userId });
+    await userCollection.deleteOne({ _id: userId });
     res.status(200).json("User is has been deleted successful");
     console.log(`User ${userId} has been deleted successful`);
   } catch (error) {

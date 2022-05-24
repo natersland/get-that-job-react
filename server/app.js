@@ -1,4 +1,3 @@
-// --------------------------------------------------------
 // packages -----------------------------
 import express from "express";
 import bodyParser from "body-parser";
@@ -7,11 +6,13 @@ import dotenv from "dotenv";
 // cloud and database -------------------------
 import cloudinary from "cloudinary";
 import { client } from "./utils/db.js";
-
+// middleware -------------------------
+import logger from "./middlewares/logger.js";
 // router -----------------------------------
-import authRouter from "./apps/auth.js";
-import jobRouter from "./apps/jobs.js";
-import usersRouter from "./apps/users.js";
+import authRouter from "./routes/auth.js";
+import jobRouter from "./routes/jobs.js";
+import usersRouter from "./routes/users.js";
+import applicationsRouter from "./routes/applications.js";
 
 // --------------------------------------------------------
 
@@ -35,10 +36,14 @@ async function init() {
   app.use(cors());
   app.use(bodyParser.json());
 
+  // Custom middleware
+  /*  app.use(logger); */ // เอาไว้ log ว่า ยิง api ไปที่ไหน
+
   // app routers -----------------
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/jobs", jobRouter);
+  app.use("/applications", applicationsRouter);
 
   app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;

@@ -1,4 +1,7 @@
 import { Router } from "express";
+// middleware -----------------------------
+import protect from "../middlewares/protect.js";
+// Controller  -----------------------------
 import {
   createJob,
   createJobV1,
@@ -9,7 +12,8 @@ import {
   updateJob,
 } from "../controllers/jobs.js";
 const jobRouter = Router();
-
+/* jobRouter.use(protect);
+ */
 // Create Job V2 (ให้ใช้อันนี้) ----------------------------
 jobRouter.post("/create", createJob);
 // ดึงข้อมูล JOBS ทั้งหมด (แบบมีฟีลเตอร์ + lookup) ----------------------------

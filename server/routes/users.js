@@ -3,7 +3,9 @@ import multer from "multer";
 import { ObjectId } from "mongodb";
 import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 import { db } from "../utils/db.js";
-
+// middleware -----------------------------
+import protect from "../middlewares/protect.js";
+// Controller  -----------------------------
 import {
   changeUserPassWord,
   createProfessional,
@@ -14,7 +16,8 @@ import {
 } from "../controllers/users.js";
 
 const usersRouter = Router();
-
+/* usersRouter.use(protect);
+ */
 // Multer & collection for update user data -----------------------------
 const multerUpload = multer({ dest: "upload/" });
 const uploadFile = multerUpload.fields([{ name: "logoFile", maxCount: 1 }]);
@@ -23,7 +26,7 @@ const collection = db.collection("users");
 usersRouter.post("/create/professional", createProfessional);
 usersRouter.post("/create/recruiter", createRecuiter);
 // เปลี่ยนรหัส user *ไว้ใช้ตอนลืมพาส รหัสจะเข้า jwt เหมือนเดิม ----------------------------
-usersRouter.put("/changepass/:id", changeUserPassWord); // ยิงจาก postman เท่านั้น - ใน body ใส่แค่ password
+usersRouter.patch("/changepass/:id", changeUserPassWord); // ยิงจาก postman เท่านั้น - ใน body ใส่แค่ password
 // อัพเดต User 1 คน ----------------------------
 usersRouter.put("/:id", uploadFile, async (req, res, next) => {
   try {

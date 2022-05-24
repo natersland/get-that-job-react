@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UsersProfessionalSchema = new mongoose.Schema(
+const ProfessionalSchema = new mongoose.Schema(
   {
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -27,27 +27,27 @@ const UsersProfessionalSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      default: "",
+      default: "-",
     },
     birthDate: {
       type: String,
-      default: "",
+      default: "-",
     },
     linkedin: {
       type: String,
-      default: "",
+      default: "-",
     },
     title: {
       type: String,
-      default: "",
+      default: "-",
     },
     experience: {
       type: String,
-      default: "",
+      default: "-",
     },
     education: {
       type: String,
-      default: "",
+      default: "-",
     },
     appiedJobs: [
       {
@@ -71,4 +71,4 @@ const UsersProfessionalSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-export default mongoose.model("UserProfessional", UsersProfessionalSchema);
+export default mongoose.model("ProfessionalModel", ProfessionalSchema);

@@ -5,8 +5,8 @@ import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 import { db } from "../utils/db.js";
 import bcrypt from "bcrypt";
 // Schema Medels ---------------------
-import UsersProfessional from "../models/UsersProfessional.js";
-import UsersRecruiter from "../models/UsersRecruiter.js";
+import RecruiterModel from "../models/RecruiterModel.js";
+import ProfessionalModel from "../models/ProfessionalModel.js";
 
 const authRouter = Router();
 
@@ -23,10 +23,20 @@ authRouter.post("/register", uploadFile, async (req, res, next) => {
     const userRole = req.body.role;
     function checkUserRole(role) {
       if (String(role) === "professional") {
-        const user = new UsersProfessional(req.body);
+        // ถ้า professional ไม่ใส่อะไรมาในช่อง ที่ไม่ได้ required ตอนสมัคร ให้เซ็ทค่า default เป็น "-"
+        req.body.name === "" ? (req.body.name = "-") : null;
+        req.body.phone === "" ? (req.body.phone = "-") : null;
+        req.body.linkedin === "" ? (req.body.linkedin = "-") : null;
+        req.body.title === "" ? (req.body.title = "-") : null;
+        req.body.experience === "" ? (req.body.experience = "-") : null;
+        req.body.education === "" ? (req.body.education = "-") : null;
+        const user = new ProfessionalModel(req.body);
         return user;
       } else if (String(role) === "recruiter") {
-        const user = new UsersRecruiter(req.body);
+        // ถ้า recruiter ไม่ใส่อะไรมาในช่อง ที่ไม่ได้ required ตอนสมัคร ให้เซ็ทค่า default เป็น "-"
+        req.body.companyName === "" ? (req.body.companyName = "-") : null;
+        req.body.about === "" ? (req.body.about = "-") : null;
+        const user = new RecruiterModel(req.body);
         return user;
       } else {
         console.log(`Wrong role please check again Role is: ${role}`);
