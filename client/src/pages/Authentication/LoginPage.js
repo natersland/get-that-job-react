@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../assets/people/man-login.svg";
 // components ------------------------------------
-import SelectRole from "../../components/UnAut-Register/SelectRole";
+import SelectRole from "../../components/Page-Register/SelectRole";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 //Contexts ------------------------------------
 import { useUserData } from "../../contexts/usersData";

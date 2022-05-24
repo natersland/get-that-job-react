@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 // Components
-import AlertNotification from "./Utilities/AlertNotification";
 
 const ComponentIndex = () => {
   return (
@@ -9,7 +8,6 @@ const ComponentIndex = () => {
         <SectionHeader>Notification</SectionHeader>
         <ComponentZone>
           <ComponentLabel>Component Name: AlertNotification</ComponentLabel>
-          <AlertNotification text="insert text here" />
         </ComponentZone>
       </Section>
       <Section>

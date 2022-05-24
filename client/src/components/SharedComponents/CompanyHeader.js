@@ -7,7 +7,7 @@ import MoneyIcon from "../../assets/calendar-2-line2.svg";
 import FocusIcon from "../../assets/focus.svg";
 import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 
-function SeletedCompany({ jobId }) {
+function CompanyHeader({ jobId }) {
   const { job } = useJobsData();
   const navigate = useNavigate();
   console.log(job);
@@ -44,7 +44,7 @@ function SeletedCompany({ jobId }) {
     </Wrapper>
   );
 }
-export default SeletedCompany;
+export default CompanyHeader;
 
 const Wrapper = styled.div`
   display: flex;
