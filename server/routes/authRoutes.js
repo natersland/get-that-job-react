@@ -15,10 +15,11 @@ const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
-// Login User -------------------------------------------
+// Login User -> http://localhost:4000/auth/login
 authRouter.post("/login", login);
-// Register User ------------------------------------------
+// Register User -> http://localhost:4000/auth/register
 authRouter.post("/register", uploadFile, async (req, res, next) => {
+  //
   try {
     const userRole = req.body.role;
     function checkUserRole(role) {
@@ -71,7 +72,7 @@ authRouter.post("/register", uploadFile, async (req, res, next) => {
 });
 /* authRouter.post("/register2", uploadFile, register); // ยังใช้ไม่ได้
  */
-// register เส้นเก่า *ไม่ใช้แล้ว (เอาไว้สำรอง เผื่อเส้นใหม่อ๊อง) ---------------------------------------
+// register เส้นเก่า *ไม่ใช้แล้ว (เอาไว้สำรอง เผื่อเส้นใหม่อ๊อง) -> http://localhost:4000/auth/registerV1
 authRouter.post("/registerV1", uploadFile, async (req, res) => {
   const role = req.body.role;
 
