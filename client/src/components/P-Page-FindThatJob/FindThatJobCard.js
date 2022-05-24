@@ -152,7 +152,7 @@ const JobCardWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   border-radius: 8px;
-  width: 290px;
+  width: 320px;
   padding: 16px;
   background-color: var(--white);
 `;
@@ -160,7 +160,7 @@ const JobCardContent = styled.div`
   display: flex;
 `;
 const ContentLeft = styled.div`
-  margin-right: 10.67px;
+  margin-right: 15px;
 `;
 
 const CompanyLogoWrapper = styled.div`

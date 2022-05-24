@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 // Components
-import NavBar from "../components/Utilities/Navbar";
+import Navbar from "../components/Navagation/Navbar";
 // Pages
 import LoginPage from "../pages/Authentication/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
@@ -11,7 +11,7 @@ import ComponentIndex from "../components/ComponentIndex";
 export default function UnauthenticatedApp() {
   return (
     <div className="App">
-      <NavBar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />

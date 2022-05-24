@@ -1,9 +1,9 @@
 import React from "react";
 
-function Pagination({ jobPerPage, totalJobs, paginate }) {
+function Pagination({ contentPerPage, totalContents, paginate }) {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalJobs / jobsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalContents / contentPerPage); i++) {
     pageNumbers.push(i);
   }
 

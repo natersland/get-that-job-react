@@ -14,6 +14,7 @@ import close2 from "../../img/close2.png";
 import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
 import { AppBar } from "@mui/material";
+import _ from "lodash";
 import "../../App.css";
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
@@ -60,7 +61,7 @@ function ViewJobs() {
         `http://localhost:4000/users/${comProfileData}`
       );
       setStatus(results.data.jobs);
-      setJob(results.data.jobs);
+      setJob(_.reverse(results.data.jobs));
 
       console.log("GET JOB POST", results.data.jobs);
     } catch (error) {
@@ -146,7 +147,7 @@ function ViewJobs() {
       </Heading>
 
       <Heading1>
-        <Text5> {job.length} Jobs posting found</Text5>
+        <Text5> {job?.length} Jobs posting found</Text5>
       </Heading1>
       {job?.map((data) => {
         return (
@@ -154,7 +155,7 @@ function ViewJobs() {
             id={data._id}
             jobTitle={data.jobTitle}
             jobCategory={data.jobCategory}
-            jobsStatus={data.jobStatus}
+            jobsStatus={data?.jobStatus}
             jobType={data.jobType}
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}

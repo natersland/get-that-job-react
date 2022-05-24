@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 // Components
-import FindThatJobCard from "../../components/AutPro-FindThatJob/FindThatJobCard";
-import FindThatJobHeader from "../../components/AutPro-FindThatJob/FindThatJobHeader";
+import FindThatJobCard from "../../components/P-Page-FindThatJob/FindThatJobCard";
+import FindThatJobHeader from "../../components/P-Page-FindThatJob/FindThatJobHeader";
 /* import Pagination from "../../components/AutPro-FindThatJob/Pagination";
  */ import AlertDialog from "../../components/Utilities/AlertDialog";
 // Contexts ----------------------

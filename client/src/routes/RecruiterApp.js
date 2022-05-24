@@ -6,7 +6,7 @@ import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
 import ViewJobs from "../pages/Recruiter/Viewjobs";
 // Components
-import Sidebar from "../components/Utilities/SideBar";
+import Sidebar from "../components/Navagation/SideBar";
 
 function RecruiterApp() {
   return (

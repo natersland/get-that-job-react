@@ -5,7 +5,7 @@ import Jobposition from "../../img/briefcase-line.png";
 import CreateJob from "../../img/file-add-line.png";
 import UserProfile from "../../img/user-line.png";
 import LogOut from "../../img/logout-circle-line.png";
-import BackDropLoading from "./BackDropLoading";
+import BackDropLoading from "../Utilities/BackDropLoading";
 
 // Pro NavBar Pictures ----------------------------
 import MagnigyGlassIcon from "../../assets/search-line.svg";
@@ -72,7 +72,8 @@ function Sidebar({ barRole }) {
           onClick={() => {
             homePageRoute();
             localStorage.removeItem("jobId");
-          }}></Logo>
+          }}
+        ></Logo>
       </LogoWrapper>
       <Menu>
         {barRole === "professional"
@@ -84,7 +85,8 @@ function Sidebar({ barRole }) {
                   onClick={() => {
                     sidebarLinkChecker(index, "professional");
                   }}
-                  isActive={menuIndex}>
+                  isActive={menuIndex}
+                >
                   <img src={nav_icon} alt={text_menu} />
                   <MenuText>{text_menu}</MenuText>
                 </MenuList>
@@ -98,7 +100,8 @@ function Sidebar({ barRole }) {
                   onClick={() => {
                     sidebarLinkChecker(index, "recruiter");
                   }}
-                  isActive={menuIndex}>
+                  isActive={menuIndex}
+                >
                   <img src={nav_icon} alt={text_menu} />
                   <MenuText>{text_menu}</MenuText>
                 </MenuList>

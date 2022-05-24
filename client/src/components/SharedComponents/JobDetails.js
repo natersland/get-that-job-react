@@ -7,7 +7,7 @@ import MoneyIcon from "../../assets/money-dollar-circle-line2.svg";
 import ClockIcon from "../../assets/time-line.svg";
 import { useJobsData } from "../../contexts/jobsData";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-function SeletedCompanyDetail({ jobId }) {
+function JobDetails({ jobId }) {
   const { addCommas } = UtilitiesFunction();
   const { job } = useJobsData();
   const jobDetailsData = [
@@ -35,8 +35,7 @@ function SeletedCompanyDetail({ jobId }) {
           <span>
             <img className="mr-1" src={ClockIcon} alt="Clock Icon" />
           </span>{" "}
-          POSTED {moment().startOf(job?.createdJobDate).fromNow()}
-
+          POSTED {moment(job?.createdJobDate).fromNow()}
         </CreatedDate>
       </HeaderWrapper>
       <JobDetailsWrapper>
@@ -58,7 +57,7 @@ function SeletedCompanyDetail({ jobId }) {
     </Wrapper>
   );
 }
-export default SeletedCompanyDetail;
+export default JobDetails;
 
 const Wrapper = styled.div`
   display: flex;

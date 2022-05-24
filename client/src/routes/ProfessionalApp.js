@@ -8,7 +8,7 @@ import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
 /* import MultiFindJob from "../pages/Professional/MultiFindJob";
  */
 // Components
-import Sidebar from "../components/Utilities/SideBar";
+import Sidebar from "../components/Navagation/SideBar";
 
 function ProfessionalApp() {
   return (

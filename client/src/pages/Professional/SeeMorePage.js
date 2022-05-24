@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import moment from "moment";
 import axios from "axios";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 //Components ------------------------------------
-import SeletedCompanyDetail from "../../components/AuthPro-SharedComponents/SeletedCompanyDetail.js";
-import SeletedCompany from "../../components/AuthPro-SharedComponents/SeletedCompany";
+import CompanyHeader from "../../components/SharedComponents/CompanyHeader";
+import JobDetails from "../../components/SharedComponents/JobDetails";
 // Pictures -------------------------------------
 import NavigationIcon from "../../assets/navigation-line.svg";
 
@@ -58,12 +58,12 @@ function SeeMorePage() {
       <Header>
         <CompanyWrapper>
           <HeaderLeft>
-            <SeletedCompany />
+            <CompanyHeader />
           </HeaderLeft>
           <HeaderRight>{applyNowBtn()}</HeaderRight>
         </CompanyWrapper>
         <HeaderTitleWrapper>
-          <SeletedCompanyDetail />
+          <JobDetails />
         </HeaderTitleWrapper>
       </Header>
       <ContentWrapper>
