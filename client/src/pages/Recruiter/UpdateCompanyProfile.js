@@ -19,6 +19,13 @@ function UpdateCompanyProfile() {
     setAbout,
   } = useUserData();
 
+  const handleFileChange = (event) => {
+    const uniqueId = Date.now();
+    setCompanyLogo({
+      [uniqueId]: event.target.files[0],
+    });
+  };
+
   const { isErrorEmail, setIsErrorEmail } = useVadilation();
 
   const comProfileData = localStorage.getItem("id");
@@ -28,8 +35,6 @@ function UpdateCompanyProfile() {
     const results = await axios.get(
       `http://localhost:4000/users/${comProfileData}`
     );
-    //console.log(results.data.companyLogo);
-    //setCompanyLogo(results.data.companyLogo);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
     setCompanyWebsite(results.data.companyWebsite);
@@ -61,24 +66,13 @@ function UpdateCompanyProfile() {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("companyName", companyName);
-    formData.append("website", companyWebsite);
+    formData.append("companyWebsite", companyWebsite);
     formData.append("about", about);
+    formData.append("logoFile", companyLogo[0]);
 
-    for (let uploadFileKey in companyLogo) {
-      formData.append("logoFile", companyLogo[uploadFileKey]);
-    }
     updateComProfile(formData);
     alert(`Your company profile has been updated`);
     //setIsErrorEmail(false);
-  };
-
-  const handleFileChange = (event) => {
-    const uniqueId = Date.now();
-    setCompanyLogo({
-      ...companyLogo,
-      [uniqueId]: event.target.files[0],
-    });
-    console.log(event.target.files);
   };
 
   return (
@@ -91,20 +85,20 @@ function UpdateCompanyProfile() {
         id="updateCompany-form"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <CompanyLogoWrap>
           <div>
             {Object.keys(companyLogo).map((companyLogoKey) => {
               const file = companyLogo[companyLogoKey];
+
               return (
-                <div key={companyLogo}>
+                <Logo key={companyLogo}>
                   <img
                     width="100px"
                     src={URL.createObjectURL(file)}
                     alt={file.name}
                   />
-                </div>
+                </Logo>
               );
             })}
           </div>
@@ -160,8 +154,7 @@ function UpdateCompanyProfile() {
         <Button
           form="updateCompany-form"
           type="submit"
-          className="btn btn-lg btn-pink"
-        >
+          className="btn btn-lg btn-pink">
           UPDATE PROFILE
         </Button>
       </Form>
@@ -180,6 +173,9 @@ const MarginWrap = styled.div`
   margin: auto;
   margin-bottom: 100px;
   padding: 2rem 0;
+`;
+const Logo = styled.div`
+  margin-right: 10px;
 `;
 
 const Button = styled.button`
@@ -207,12 +203,9 @@ const Label2 = styled.label`
   font-weight: 400;
   font-size: 10px;
   color: #616161;
-  margin-left: 12px;
+  margin: 0px;
 `;
 const UploadFileSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   font-family: var(--secondary-font);
   color: var(--primary-text-color);
   letter-spacing: 1.25px;
@@ -240,8 +233,6 @@ const Input1 = styled.input`
   width: 360px;
   height: 36px;
   border-radius: 8px;
-
-  padding-left: 10px;
   padding-right: 10px;
   color: #8e8e8e;
 `;
@@ -272,16 +263,13 @@ const Limitation = styled.p`
   width: 380px;
   margin-top: 0px;
   color: #8e8e8e;
-  margin-left: 12px;
 `;
 const CompanyLogoWrap = styled.div`
   display: flex;
 `;
 const InputFileWrap = styled.div`
-  margin-left: 15px;
   display: flex;
   flex-direction: column;
-
   justify-content: flex-end;
 `;
 
