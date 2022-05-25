@@ -49,11 +49,6 @@ const ProfessionalSchema = new mongoose.Schema(
       type: String,
       default: "-",
     },
-    appiedJobs: [
-      {
-        applicationId: mongoose.Schema.Types.ObjectId,
-      },
-    ],
     followingJobs: [
       {
         jobId: mongoose.Schema.Types.ObjectId,

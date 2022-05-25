@@ -19,7 +19,7 @@ import CircularIndeterminate from "../Utilities/CircularIndeterminate";
 
 function FindThatJobCard({ paginationLoading }) {
   const { jobs } = useJobsData();
-  const { textUpperCase, componentDidMount } = UtilitiesFunction();
+  const { componentDidMount } = UtilitiesFunction();
   const navigate = useNavigate();
   const { setLoading } = useVadilation();
 
@@ -101,8 +101,8 @@ function FindThatJobCard({ paginationLoading }) {
                   <FollowCircle>
                     <FollowIcon src={FocusIcon}></FollowIcon>
                   </FollowCircle>
-                  <FollowButton className="btn btn-white btn-md">
-                    {textUpperCase("follow")}
+                  <FollowButton className="btn btn-white btn-md uppercase">
+                    follow
                   </FollowButton>
                   <SeeMoreButton
                     className="btn btn-white btn-md pink-border uppercase"
