@@ -52,15 +52,17 @@ function SeeMorePage() {
 
   const handleSubmit = () => {
     /*     event.preventDefault(); */
-    const data = { professionalId, jobId };
+    const data = { professionalId, jobId, appliedDate: Date.now() };
     createApplication(data);
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
-  const { data } = useFetch(`http://localhost:4000/users/${professionalId}`);
+  const { data, reFetch } = useFetch(
+    `http://localhost:4000/users/${professionalId}`
+  );
   const checkUserProfile = async () => {
     if (
-      data.cvFiles?.[0] === undefined ||
+      data?.cvFiles?.[0] === undefined ||
       data?.phone === "" ||
       data?.phone === "-" ||
       data?.name === "" ||
@@ -73,9 +75,10 @@ function SeeMorePage() {
     } else {
       handleSubmit();
       alert(
-        `Congratulation! You already applied ${job.jobTitle}!\nRedirect to your applications in 5 secound...(ตอนนี้ยังไม่ได้ทำ)`
+        `Congratulation! You already applied ${job?.jobTitle}!\nRedirect to your applications in 5 secound...(ตอนนี้ยังไม่ได้ทำ)`
       );
       setMenuIndex(2);
+      reFetch();
       navigate("/applications");
     }
   };

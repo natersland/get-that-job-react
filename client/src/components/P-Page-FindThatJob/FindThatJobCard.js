@@ -6,23 +6,37 @@ import { useNavigate } from "react-router-dom";
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
 import FocusIcon from "../../assets/focus.svg";
-import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useVadilation } from "../../contexts/vadilation";
-// Contexts --------------------
+// Utils --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //Components --------------------
 import BackDropLoading from "../Utilities/BackDropLoading";
 import CircularIndeterminate from "../Utilities/CircularIndeterminate";
+// Hooks -------------------------
+import useFetch from "../../hooks/useFetch";
 
 function FindThatJobCard({ paginationLoading }) {
+  const professionalId = localStorage.getItem("id");
   const { jobs } = useJobsData();
-  const { componentDidMount } = UtilitiesFunction();
+  const { componentDidMount, convertSalary } = UtilitiesFunction();
   const navigate = useNavigate();
   const { setLoading } = useVadilation();
-
+  const { data, reFetch } = useFetch(
+    `http://localhost:4000/users/${professionalId}`
+  );
+  const checkUserApplyStatus = (index) => {
+    let i = 0;
+    while (i < data?.applications.length) {
+      if (data?.applications[i].jobId === jobs?.[index]._id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
   return (
     <Wrapper>
       <BackDropLoading />
@@ -41,8 +55,6 @@ function FindThatJobCard({ paginationLoading }) {
               maxSalary,
               company,
             } = items;
-            const newMinNumber = minSalary / 1000;
-            const newMaxNumber = maxSalary / 1000;
 
             return (
               <JobCardWrapper className="shadow-medium" key={index}>
@@ -54,7 +66,7 @@ function FindThatJobCard({ paginationLoading }) {
                         src={
                           company[0].companyLogo[0]
                             ? company[0].companyLogo[0].url
-                            : { CompanyLogo }
+                            : null
                         }
                       ></CompanyLogoJa>
                     </CompanyLogoWrapper>
@@ -86,12 +98,7 @@ function FindThatJobCard({ paginationLoading }) {
                         <span className="mr-1">
                           <img src={DollarLineIcon} alt="DollarIcon" />
                         </span>
-                        {minSalary < 100
-                          ? `${minSalary}$ - `
-                          : `${newMinNumber.toFixed(1)}k - `}
-                        {maxSalary < 100
-                          ? `${maxSalary}$`
-                          : `${newMaxNumber.toFixed(1)}k`}
+                        {convertSalary(minSalary)} - {convertSalary(maxSalary)}
                       </Salary>
                     </SubContentWrapper>
                   </ContentRight>
@@ -104,20 +111,37 @@ function FindThatJobCard({ paginationLoading }) {
                   <FollowButton className="btn btn-white btn-md uppercase">
                     follow
                   </FollowButton>
-                  <SeeMoreButton
-                    className="btn btn-white btn-md pink-border uppercase"
-                    onClick={() => {
-                      setLoading(true);
-                      localStorage.setItem("jobId", _id);
-                      setTimeout(function () {
-                        navigate(`/findjobs/${_id}}`);
-                        componentDidMount();
-                        setLoading(false);
-                      }, 500);
-                    }}
-                  >
-                    see more
-                  </SeeMoreButton>
+                  {checkUserApplyStatus(index)}
+                  {checkUserApplyStatus ? (
+                    <SeeMoreButton
+                      className="btn btn-gray btn-md uppercase hover:#616161"
+                      onClick={() => {
+                        setLoading(true);
+                        localStorage.setItem("jobId", _id);
+                        setTimeout(function () {
+                          componentDidMount();
+                          setLoading(false);
+                        }, 500);
+                      }}
+                    >
+                      Applied
+                    </SeeMoreButton>
+                  ) : (
+                    <SeeMoreButton
+                      className="btn btn-white btn-md pink-border uppercase"
+                      onClick={() => {
+                        setLoading(true);
+                        localStorage.setItem("jobId", _id);
+                        setTimeout(function () {
+                          navigate(`/findjobs/${_id}}`);
+                          componentDidMount();
+                          setLoading(false);
+                        }, 500);
+                      }}
+                    >
+                      see more
+                    </SeeMoreButton>
+                  )}
                 </JobCardFooter>
               </JobCardWrapper>
             );
@@ -238,9 +262,4 @@ const FollowCircle = styled.div`
   cursor: pointer;
 `;
 const FollowIcon = styled.img``;
-const SeeMoreButton = styled.button`
-  &:hover {
-    background-color: var(--secoundary-brand-color);
-    color: white;
-  }
-`;
+const SeeMoreButton = styled.button``;

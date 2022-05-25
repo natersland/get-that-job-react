@@ -15,16 +15,18 @@ const ApplicationSchema = new mongoose.Schema(
     applicationStatus: {
       type: String,
       required: true,
-      default: "reviewing", // มีทั้งหมด 4 สถานะ 1.applied 2.reviewing 3.finished 4.declined
+      default: "applied", // มีทั้งหมด 4 สถานะ 1.applied 2.reviewing 3.finished 4.declined
     },
     appliedDate: {
       type: Date,
       required: true,
-      default: new Date().toISOString(),
+      default: Date.now(),
+    },
+    declinedDate: {
+      type: Date,
     },
   },
   { timestamps: true }
 );
 
 export default mongoose.model("ApplicationModel", ApplicationSchema);
-

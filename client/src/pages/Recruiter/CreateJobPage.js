@@ -68,6 +68,7 @@ function CreateJobPage() {
         aboutJob,
         mandatoryReq,
         optionalReq,
+        createdJobDate: Date.now(),
       };
       setTimeout(function () {
         createJob(data);

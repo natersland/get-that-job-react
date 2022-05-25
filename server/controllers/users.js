@@ -103,6 +103,15 @@ export const getOneUserData = async (req, res, next) => {
             as: "applications",
           },
         },
+        /*  { $unwind: "$applications" }, */
+        /*         {
+          $lookup: {
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "status",
+          },
+        }, */
         { $match: { _id: userId } },
       ])
       .toArray();
