@@ -40,11 +40,28 @@ export const createJob = async (req, res, next) => {
     next(error);
   }
 };
-/* export const getOneJob = async (req, res) => {
-  const jobId = ObjectId(req.params.id);
-  const job = await jobsCollection.find({ _id: jobId }).toArray();
+export const getOneJob = async (req, res) => {
+  const jobId = mongoose.Types.ObjectId(req.params.id.trim());
+  const job = await jobsCollection
+    .aggregate([
+      {
+        $sort: {
+          createdJobDate: -1,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "recruiterId",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+      { $match: { _id: jobId } },
+    ])
+    .toArray();
   return res.json({ data: job[0] });
-}; */
+};
 
 /* const filterText = jobData.filter((item) => {
   return (
@@ -74,7 +91,8 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     /* const keywordName = req.query.keywordName; */
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
-    const searchJobType = req.query.searchJobType;
+    const searchJobType = req.query.jobType;
+    const searchJobCategory = req.query.searchJobCategory;
 
     const query = {};
     if (query) {
@@ -86,17 +104,10 @@ export const getAllJobsWithFilter = async (req, res, next) => {
                 $regex: keywords.split(" ").join("|"),
                 $options: "i",
               },
-            },
-
-            {
-              $and: [
-                {
-                  $and: [
-                    { minSalary: { $gte: searchMinSalaryText } },
-                    { maxSalary: { $gte: searchMaxSalaryText } },
-                  ],
-                },
-              ],
+              jobCategory: { $regex: searchJobCategory },
+              jobType: { $regex: searchJobType },
+              minSalary: { $gte: searchMinSalaryText },
+              maxSalary: { $gte: searchMaxSalaryText },
             },
           ],
         },
@@ -126,28 +137,6 @@ export const getAllJobsWithFilter = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-export const getOneJob = async (req, res) => {
-  const jobId = mongoose.Types.ObjectId(req.params.id.trim());
-  const job = await jobsCollection
-    .aggregate([
-      {
-        $sort: {
-          createdJobDate: -1,
-        },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "recruiterId",
-          foreignField: "_id",
-          as: "company",
-        },
-      },
-      { $match: { _id: jobId } },
-    ])
-    .toArray();
-  return res.json({ data: job[0] });
 };
 
 export const updateJob = async (req, res, next) => {

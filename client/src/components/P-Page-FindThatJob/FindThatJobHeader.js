@@ -4,107 +4,22 @@ import { useEffect, useState } from "react";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 
-function FindThatJobHeader({ setPaginationLoading }) {
-  const { setJobs, jobCategoryList, jobTypeList } = useJobsData();
-  // State for filter searching ----------------------------------
-  const [searchJobText, setSearchJobText] = useState("");
-  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
-  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
-  const [jobCategory, setJobcategory] = useState("");
-  const [jobType, setJobType] = useState("");
-  const [keywordsNumber, setKeywordsNumber] = useState("");
-
-  // Filter Seach Text --------------------------------------------
-  /*   const searchJobWord = async () => {
-    const results = await axios(
-      `http://localhost:4000/jobs?keywords=${searchJobText}`
-    );
-    setJobs(results.data.data);
-  }; */
-
-  // Categoty Filter  --------------------------------------------
-  const categoryFilter = async (e) => {
-    const userSelect = e.target.value;
-    setJobcategory(userSelect);
-    console.log("hi", jobCategory);
-  };
-  // Categoty Filter  --------------------------------------------
-  const typeFilter = async (e) => {
-    const userSelect = e.target.value;
-    setJobType(userSelect);
-    console.log("hi", jobType);
-  };
-
-  // Filter Salary --------------------------------------------
-  /*  const searchMinSalary = async () => {
-    const results = await axios.get(
-      `http://localhost:4000/jobs?searchMinSalaryText=${searchMinSalaryText}`
-    );
-    setJobs(results.data.data);
-  };
-  const searchMaxSalary = async () => {
-    const results = await axios(
-      `http://localhost:4000/jobs?searchMaxSalaryText=${searchMaxSalaryText}`
-    );
-    setJobs(results.data.data);
-  }; */
-
-  /*  const multiverseFilter = async (
-    text,
-    category,
-    type,
-    searchMinSalaryText,
-    searchMaxSalaryText
-  ) => {
-    const results = await axios(`http://localhost:4000/jobs`);
-    const jobData = results.data.data;
-    const filterText = jobData.filter((item) => {
-      return (
-        item.jobTitle.toLowerCase().match(text) ||
-        item.company[0].companyName.toLowerCase().match(text)
-      );
-    });
-    const filterCategory = jobData.filter((item) => {
-      return item.jobCategory === category;
-    });
-    const filterType = jobData.filter((item) =z> {
-      return item.jobType === type;
-    });
-    setJobs(filterText);
-  }; */
-
-  const search = async (text) => {
-    setPaginationLoading(true);
-    const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&jobCategory=${jobCategory}&jobType=${jobType}`
-    );
-    const jobData = results.data.data;
-    const filter = jobData.filter((item) => {
-      return item.company[0].companyName.toLowerCase().match(text);
-    });
-    setJobs(filter);
-    setPaginationLoading(false);
-  };
-
-  useEffect(() => {
-    /* searchJobWord(); */
-    /* searchMinSalary();
-    searchMaxSalary(); */
-    search();
-    /*   let timeOut;
-    if (searchJobText) {
-      timeOut = setTimeout(searchJobWord, 1000);
-    }
-    return () => {
-      clearTimeout(timeOut);
-    }; */
-  }, [
-    searchJobText,
-    searchMinSalaryText,
-    searchMaxSalaryText,
-    jobCategory,
-    jobType,
-  ]);
+function FindThatJobHeader({
+  setPaginationLoading,
+  setSearchJobText,
+  setSearchMinSalaryText,
+  setSearchMaxSalaryText,
+  setsearchJobCategory,
+  setJobType,
+  searchJobText,
+  searchMinSalaryText,
+  searchMaxSalaryText,
+  searchJobCategory,
+  keywordsNumber,
+  setKeywordsNumber,
+  jobType,
+}) {
+  const { jobTypeList, jobCategoryList } = useJobsData();
 
   return (
     <Wrapper className="pt-8">
@@ -132,7 +47,7 @@ function FindThatJobHeader({ setPaginationLoading }) {
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={categoryFilter}
+            onChange={(e) => setsearchJobCategory(e.target.value)}
           >
             <option value="" disabled selected>
               Select a category
@@ -153,9 +68,7 @@ function FindThatJobHeader({ setPaginationLoading }) {
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={typeFilter}
-            /*             onChange={}
-             */
+            onChange={(e) => setJobType(e.target.value)}
           >
             <option value="" disabled selected>
               Select a type

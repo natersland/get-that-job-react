@@ -11,6 +11,7 @@ import RecRegisterForm2 from "./REC-RegisterFrom-2";
 function MainRegisterForm({ userRole }) {
   const { role } = useUserData();
   const { step } = useVadilation();
+  //  fx เช็คว่าตอนนี้ user อยู่ที่ register form step ที่เท่าไหร่ ให้ render ไปที่ form อันนั้น
   const StepDisplay = () => {
     if (step === 0) {
       return userRole === "professional" ? (

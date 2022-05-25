@@ -98,29 +98,6 @@ function RegFormButton() {
       {step === 0 ? null : skipButton()}
       {nextBtnChecker()}
       {finishBtnChecker()}
-      {/* Old Code Start Here ----------------------------------------------------------}
-      {/*       {step === 0 || step === 1 ? (
-        <button
-          className="btn btn-md btn-pink"
-          type="button" //ถ้า button อยู่ใน form ใช้อันนี้ค่าาา เพราะ default = submit
-          onClick={() => {
-            nextFormPasswordChecker(role);
-          }}
-        >
-          {" "}
-          NEXT <ArrowRight />
-        </button>
-      ) : null} */}
-      {/*       {step === 0 || step === 1 ? null : (
-        <button
-          className="btn btn-md btn-pink"
-          form="register-form"
-          type="submit"
-        >
-          {" "}
-          FINISH <ArrowRight />
-        </button>
-      )} */}
     </ButtonWrapper>
   );
 }

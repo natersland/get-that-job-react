@@ -8,6 +8,7 @@ export default function SelectRole() {
   const { role, setRole } = useUserData();
   const { step } = useVadilation();
 
+  // เช็คเงื่อนไข ถ้า user มี state เป็น role อะไรอยู่ (ที่เลือกค้างไว้) เมื่อคลิกให้เซ็ทเป็นค่าตรงกันข้าม
   const selectRoleBTN = () => {
     if (role === "professional") {
       setRole("recruiter");
@@ -16,55 +17,51 @@ export default function SelectRole() {
     }
   };
 
+  // fx เก็บปุ่ม select role
   const roleButton = () => {
+    // fx เก็บเทมเพลทปุ่มเลือก role
+    const roleBtnTemplete = (isSelect, status, text) => {
+      return (
+        <RoleButton
+          onClick={selectRoleBTN}
+          isSelect={isSelect}
+          disabled={status}
+        >
+          {text}
+        </RoleButton>
+      );
+    };
+    // เช็คเงื่อนไข: ถ้า user อยู่ที่ register step ที่ 1 ให้เซ็ทค่าปุ่ม select role ตามนี้
     if (step === 0) {
       if (role === "professional") {
         return (
           <div>
-            {" "}
-            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-              professional
-            </RoleButton>
-            <RoleButton onClick={selectRoleBTN} isSelect={false}>
-              Recruiter
-            </RoleButton>
+            {roleBtnTemplete(true, true, "professional")}
+            {roleBtnTemplete(false, false, "Recruiter")}
           </div>
         );
       } else {
         return (
           <div>
-            <RoleButton onClick={selectRoleBTN} isSelect={false}>
-              professional
-            </RoleButton>
-            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-              Recruiter
-            </RoleButton>
+            {roleBtnTemplete(false, false, "professional")}
+            {roleBtnTemplete(true, true, "Recruiter")}
           </div>
         );
       }
+      // เช็คเงื่อนไข: ถ้า user อยู่ที่ register step มากกว่า 1 ให้เซ็ทค่าปุ่ม select role ตามนี้
     } else if (step >= 1) {
       if (role === "professional") {
         return (
           <div>
-            {" "}
-            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-              professional
-            </RoleButton>
-            <RoleButton onClick={selectRoleBTN} isSelect={false} disabled>
-              Recruiter
-            </RoleButton>
+            {roleBtnTemplete(true, true, "professional")}
+            {roleBtnTemplete(false, true, "Recruiter")}
           </div>
         );
       } else {
         return (
           <div>
-            {" "}
-            <RoleButton onClick={selectRoleBTN} isSelect={false} disabled>
-              professional
-            </RoleButton>
-            <RoleButton onClick={selectRoleBTN} isSelect={true} disabled>
-              Recruiter
-            </RoleButton>
+            {roleBtnTemplete(false, true, "professional")}
+            {roleBtnTemplete(true, true, "Recruiter")}
           </div>
         );
       }
@@ -98,9 +95,6 @@ const RoleButton = styled.button`
     props.isSelect
       ? "2.5px solid var(--secoundary-brand-color)"
       : "2.5px solid #BDBDBD"};
-  /*     border-bottom: 2.5px solid var(--secoundary-brand-color);
-    
- */
 
   color: ${(props) =>
     props.isSelect ? "var(--primary-text-color)" : "#8E8E8E"};

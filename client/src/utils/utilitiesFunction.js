@@ -4,7 +4,7 @@ const UtilitiesFunction = () => {
     Number(num)
       .toString()
       .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const removeCommas = (num) => num.toString().replace(/[^0-9]/g, "");
+  const removeCommas = (num) => num.toString().replace(/[^0-9]/gi, "");
   // filtered comma from string number -------------------------------------------------
   const filterComma = (salary) => {
     let result = salary.replace(/[^\w\s]/gi, "");
@@ -20,6 +20,16 @@ const UtilitiesFunction = () => {
     window.scrollTo(0, 0);
   };
   // ---------------------------------------------------------------------
+  // Convert Salary to K or $ ---------------------------------
+  const convertSalary = (salary) => {
+    const newSalary = salary / 1000;
+    if (salary < 100) {
+      return `${salary}$`;
+    } else {
+      return `${newSalary.toFixed(1)}k`;
+    }
+  };
+  // ---------------------------------------------------------------------
 
   return {
     filterComma,
@@ -27,6 +37,7 @@ const UtilitiesFunction = () => {
     addCommas,
     removeCommas,
     componentDidMount,
+    convertSalary,
   };
 };
 export default UtilitiesFunction;

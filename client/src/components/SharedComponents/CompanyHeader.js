@@ -1,16 +1,14 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useJobsData } from "../../contexts/jobsData";
-import CompanyIcon from "../../assets/building-3-line2.svg";
-import CalendarIcon from "../../assets/calendar-2-line2.svg";
-import MoneyIcon from "../../assets/calendar-2-line2.svg";
 import FocusIcon from "../../assets/focus.svg";
-import CompanyLogo from "../../assets/placeholder/placeholder-company.jpg";
+import BackArrow from "../../assets/items/backArrow.svg";
 
-function CompanyHeader({ jobId }) {
+function CompanyHeader() {
+  // component for professional only
+  // component ตรงข้อมูลบริษัทในหน้า FindThatJob -> See More เอาไปใช้ได้กับหน้า ดูงานของบริษัทนี้ทั้งหมด (ไม่มีใน scope งาน)
   const { job } = useJobsData();
   const navigate = useNavigate();
-
   return (
     <Wrapper>
       <BackBtn
@@ -19,7 +17,10 @@ function CompanyHeader({ jobId }) {
           navigate("/findjobs");
           localStorage.removeItem("jobId");
         }}
-      >{`<   back`}</BackBtn>
+      >
+        <img src={BackArrow} className="mr-3" />
+        back
+      </BackBtn>
       <CompanyWrapper>
         <LeftWrapper>
           <LogoWrapper>
@@ -52,13 +53,11 @@ const Wrapper = styled.div`
   margin-left: 1rem;
   margin-bottom: 10px;
 `;
-const BackButtonWrapper = styled.div`
-  margin-right: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
+
 const BackBtn = styled.button`
+  display: flex;
+
+  align-items: center;
   letter-spacing: 1.25px;
   line-height: 24px;
   font-weight: 500;

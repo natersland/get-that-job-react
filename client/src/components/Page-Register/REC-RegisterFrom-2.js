@@ -104,13 +104,6 @@ const Label1 = styled.label`
   font-size: 10px;
   color: #616161;
 `;
-const Label2 = styled.label`
-  font-family: var(--seconary-font);
-  font-weight: 400;
-  font-size: 10px;
-  color: #616161;
-`;
-
 const Input = styled.input`
   width: 360px;
   height: 36px;
@@ -129,21 +122,6 @@ const Limitation = styled.p`
   margin-top: 0px;
   color: #8e8e8e;
 `;
-
-const UploadButton = styled.label`
-  margin-right: 15px;
-  width: 134px;
-  height: 35px;
-  border-radius: 8px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-
 const UploadFileSection = styled.div`
   display: flex;
   flex-direction: row;
@@ -151,20 +129,6 @@ const UploadFileSection = styled.div`
   font-family: var(--secondary-font);
   color: var(--primary-text-color);
   letter-spacing: 1.25px;
-`;
-
-const ChooseFile = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
-
-const FileName = styled.p`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  color: #616161;
-  font-size: 14px;
 `;
 
 const InputLimit = styled.textarea`

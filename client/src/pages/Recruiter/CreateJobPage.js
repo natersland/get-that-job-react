@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import moment from "moment";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -9,20 +8,15 @@ import { useVadilation } from "../../contexts/vadilation";
 //Components ------------------------------------
 import Alert from "@mui/material/Alert";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-// Utils
-import UtilitiesFunction from "../../utils/utilitiesFunction";
 import AlertDialog from "../../components/Utilities/AlertDialog";
+// Utils ------------------------------------
+import UtilitiesFunction from "../../utils/utilitiesFunction";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
-  const {
-    filterComma,
-    textUpperCase,
-    addCommas,
-    removeCommas,
-    componentDidMount,
-  } = UtilitiesFunction();
-
+  const { filterComma, textUpperCase, addCommas, removeCommas } =
+    UtilitiesFunction();
+  // state for this page form start here -------------------------------
   const { jobCategoryList, jobTypeList } = useJobsData();
   const { setLoading, setIsAlert } = useVadilation();
   const [jobTitle, setJobTitle] = useState(String);
@@ -34,7 +28,7 @@ function CreateJobPage() {
   const [mandatoryReq, setMandatoryReq] = useState(String);
   const [optionalReq, setOptionalReq] = useState(String);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // หลังจากสร้าง job ต้อง redirect ไปที่หน้า nikki
 
   const resetJobData = () => {
     setJobTitle("");
@@ -56,7 +50,8 @@ function CreateJobPage() {
     event.preventDefault();
     setLoading(true);
     const recruiterId = localStorage.getItem("id");
-    // --------------------------------------
+    // เงินเดือนที่ ส่งเข้ามาเก็บใน state มันจะมี comma ติดมาด้วย ต้องกรองออกก่อนเอามาเช็คเงื่อนไข
+    // ถ้าเงินเดือน maxSalary มากกว่า minSalary ให้ user สร้างงานได้เลย ถ้าไม่ ให้ขึ้นแจ้งให้ user ไปกรอกใหม่
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       const data = {
         recruiterId,
@@ -68,6 +63,7 @@ function CreateJobPage() {
         aboutJob,
         mandatoryReq,
         optionalReq,
+        createdJobDate: Date.now(),
       };
       setTimeout(function () {
         createJob(data);
