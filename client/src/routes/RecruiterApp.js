@@ -5,6 +5,7 @@ import ComponentIndex from "../components/ComponentIndex";
 import CreateJobPage from "../pages/Recruiter/CreateJobPage";
 import UpdateCompanyProfile from "../pages/Recruiter/UpdateCompanyProfile";
 import ViewJobs from "../pages/Recruiter/Viewjobs";
+import ViewJobPosting from "../pages/Recruiter/ViewJobPosting";
 // Components
 import Sidebar from "../components/Navagation/SideBar";
 
@@ -20,6 +21,7 @@ function RecruiterApp() {
         <Route path="/viewjobs" element={<ViewJobs />} />
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/profile" element={<UpdateCompanyProfile />} />
+        <Route path="/viewJobPosting" element={<ViewJobPosting />} />
         {/* Just for test Route Start Here ------------------------------------ */}
         <Route path="/updateprofile" element={<UpdateCompanyProfile />} />
       </Routes>

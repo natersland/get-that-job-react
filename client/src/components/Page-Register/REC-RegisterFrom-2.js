@@ -61,7 +61,7 @@ function RecRegisterForm2() {
         />
         <Limitation>Between 100 and 2000 characters</Limitation>
 
-        <Label>UPLOAD/UPDATE YOUR CV</Label>
+        <Label>UPLOAD COMPANY LOGO</Label>
         <UploadFileSection>
           <input
             id="uploadFile"
