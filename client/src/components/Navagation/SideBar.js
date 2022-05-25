@@ -14,10 +14,11 @@ import FocusIcon from "../../assets/focus-3-line.svg";
 import ProfileIcon from "../../assets/user-line.svg";
 // Context -------------------------------------
 import { useNav } from "../../contexts/navigate";
+import { useVadilation } from "../../contexts/vadilation";
 // Components
 import AboutUs from "./AboutUs";
-import { useVadilation } from "../../contexts/vadilation";
 
+// Pro = Professional
 const navProData = [
   {
     nav_icon: MagnigyGlassIcon,
@@ -40,6 +41,8 @@ const navProData = [
     text_menu: "Log Out",
   },
 ];
+
+// Rec = Recruiter
 const navRecData = [
   {
     nav_icon: Jobposition,
@@ -60,7 +63,8 @@ const navRecData = [
 ];
 
 function Sidebar({ barRole }) {
-  const { homePageRoute, sidebarLinkChecker, menuIndex } = useNav();
+  const { homePageRoute, sidebarLinkChecker, menuIndex, setMenuIndex } =
+    useNav();
   return (
     <SidebarWrapper>
       <BackDropLoading />
@@ -72,6 +76,7 @@ function Sidebar({ barRole }) {
           onClick={() => {
             homePageRoute();
             localStorage.removeItem("jobId");
+            setMenuIndex(1);
           }}
         ></Logo>
       </LogoWrapper>

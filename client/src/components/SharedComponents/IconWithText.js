@@ -4,6 +4,14 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function IconWithText({ icon, text, status }) {
+  // component for professional & recruiter
+  // component พวกที่มีไอคอนข้างบนละมี text ข้างล่าง ความปังคือมี fx เปลี่ยนสีสถานะให้พร้อมเลย ใช้ได้กับทั้ง professional และ recruiter
+  // วิธีเซ็ทค่าสี: ส่งผ่าน props มาตามบรรทัดที่ 6 โดย สเตตัสจะมี่ทั้งหมด 5 ค่า คือ
+  // 1. default: ตัวหนังสือสีเทาเข้ม
+  // 2. apllied, reviewing, finished: ตัวหนังสือสีชมพูอ่อน
+  // 3.declined: ตัวหนังสือสีชมพูเข้ม
+  // ดูตัวอย่างการใช้ที่ components -> P-Page-Applications -> ApplicationToggle -> บรรทัดที่ 49-64
+
   return (
     <Wrapper>
       <IconWrapper>

@@ -27,16 +27,7 @@ function FindThatJobCard({ paginationLoading }) {
   const { data, reFetch } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
-  const checkUserApplyStatus = (index) => {
-    let i = 0;
-    while (i < data?.applications.length) {
-      if (data?.applications[i].jobId === jobs?.[index]._id) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
+
   return (
     <Wrapper>
       <BackDropLoading />
@@ -111,37 +102,21 @@ function FindThatJobCard({ paginationLoading }) {
                   <FollowButton className="btn btn-white btn-md uppercase">
                     follow
                   </FollowButton>
-                  {checkUserApplyStatus(index)}
-                  {checkUserApplyStatus ? (
-                    <SeeMoreButton
-                      className="btn btn-gray btn-md uppercase hover:#616161"
-                      onClick={() => {
-                        setLoading(true);
-                        localStorage.setItem("jobId", _id);
-                        setTimeout(function () {
-                          componentDidMount();
-                          setLoading(false);
-                        }, 500);
-                      }}
-                    >
-                      Applied
-                    </SeeMoreButton>
-                  ) : (
-                    <SeeMoreButton
-                      className="btn btn-white btn-md pink-border uppercase"
-                      onClick={() => {
-                        setLoading(true);
-                        localStorage.setItem("jobId", _id);
-                        setTimeout(function () {
-                          navigate(`/findjobs/${_id}}`);
-                          componentDidMount();
-                          setLoading(false);
-                        }, 500);
-                      }}
-                    >
-                      see more
-                    </SeeMoreButton>
-                  )}
+
+                  <SeeMoreButton
+                    className="btn btn-white btn-md pink-border uppercase"
+                    onClick={() => {
+                      setLoading(true);
+                      localStorage.setItem("jobId", _id);
+                      setTimeout(function () {
+                        navigate(`/findjobs/${_id}}`);
+                        componentDidMount();
+                        setLoading(false);
+                      }, 500);
+                    }}
+                  >
+                    see more
+                  </SeeMoreButton>
                 </JobCardFooter>
               </JobCardWrapper>
             );

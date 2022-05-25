@@ -41,8 +41,25 @@ export const createJob = async (req, res, next) => {
   }
 };
 export const getOneJob = async (req, res) => {
-  const jobId = ObjectId(req.params.id);
-  const job = await jobsCollection.find({ _id: jobId }).toArray();
+  const jobId = mongoose.Types.ObjectId(req.params.id.trim());
+  const job = await jobsCollection
+    .aggregate([
+      {
+        $sort: {
+          createdJobDate: -1,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "recruiterId",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+      { $match: { _id: jobId } },
+    ])
+    .toArray();
   return res.json({ data: job[0] });
 };
 

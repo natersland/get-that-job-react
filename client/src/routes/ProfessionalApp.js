@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 // Pages --------------------------------------------
 import NotFoundPage from "../pages/NotFoundPage";
 import FindJobsPage from "../pages/Professional/FindJobsPage";
-import ComponentIndex from "../components/ComponentIndex";
 import SeeMorePage from "../pages/Professional/SeeMorePage";
 import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
 import ApplicationsPage from "../pages/Professional/ApplicationsPage";
@@ -14,7 +13,6 @@ function ProfessionalApp() {
     <div className="App">
       <Sidebar barRole="professional" />
       <Routes>
-        <Route path="/components" element={<ComponentIndex />} />
         <Route path="*" element={<NotFoundPage />}></Route>
         {/* Professional Route Start Here ------------------------------------ */}
         <Route path="/" element={<FindJobsPage />} />

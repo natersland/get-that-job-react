@@ -4,35 +4,22 @@ import { useEffect, useState } from "react";
 // Contexts --------------------
 import { useJobsData } from "../../contexts/jobsData";
 
-function FindThatJobHeader({ setPaginationLoading }) {
-  const { setJobs, jobCategoryList, jobTypeList } = useJobsData();
-  // State for filter searching ----------------------------------
-  const [searchJobText, setSearchJobText] = useState("");
-  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
-  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
-  const [searchJobCategory, setsearchJobCategory] = useState("");
-  const [jobType, setJobType] = useState("");
-  const [keywordsNumber, setKeywordsNumber] = useState("");
-
-  const search = async () => {
-    setPaginationLoading(true);
-    const results = await axios.get(
-      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
-    );
-
-    setJobs(results.data.data);
-    setPaginationLoading(false);
-  };
-
-  useEffect(() => {
-    search();
-  }, [
-    searchJobText,
-    searchMinSalaryText,
-    searchMaxSalaryText,
-    searchJobCategory,
-    jobType,
-  ]);
+function FindThatJobHeader({
+  setPaginationLoading,
+  setSearchJobText,
+  setSearchMinSalaryText,
+  setSearchMaxSalaryText,
+  setsearchJobCategory,
+  setJobType,
+  searchJobText,
+  searchMinSalaryText,
+  searchMaxSalaryText,
+  searchJobCategory,
+  keywordsNumber,
+  setKeywordsNumber,
+  jobType,
+}) {
+  const { jobTypeList, jobCategoryList } = useJobsData();
 
   return (
     <Wrapper className="pt-8">

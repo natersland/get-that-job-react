@@ -8,6 +8,8 @@ import ClockIcon from "../../assets/time-line.svg";
 import { useJobsData } from "../../contexts/jobsData";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 function JobDetails({ jobId }) {
+  // component for professional only
+  // component ตรงข้อมูลบริษัทในหน้า FindThatJob -> See More เอาไปใช้ได้กับหน้าสร้างใบสมัคร (ตัดออกจาก scope งานแล้ว)
   const { addCommas } = UtilitiesFunction();
   const { job } = useJobsData();
   const jobDetailsData = [

@@ -1,28 +1,25 @@
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import _ from "lodash";
 import axios from "axios";
 // components
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/P-Page-Applications/ApplicationToggle";
-// Hooks
-import useFetch from "../../hooks/useFetch";
-import ToggleCard from "../../components/SharedComponents/ToggleCard";
 
 function ApplicationsPage() {
   const [applications, setApplication] = useState([]);
   const [user, setUser] = useState({});
   const professionalId = localStorage.getItem("id");
-  const jobId = localStorage.getItem("jobId");
-  const getOneApplication = async () => {
+
+  // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
+  const getApplications = async () => {
     try {
       const results = await axios.get(
         `http://localhost:4000/users/${professionalId}`
       );
-      setApplication(_.reverse(results?.data?.applications));
+      setApplication(_.reverse(results?.data?.applications)); // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
       setUser(results.data);
     } catch (error) {
       console.log(error);
@@ -31,14 +28,16 @@ function ApplicationsPage() {
       applications,
     };
   };
-  console.log("hi", user?.experience);
+
   useEffect(() => {
-    getOneApplication();
+    getApplications();
   }, []);
+
   return (
     <Wrapper>
       <HeaderSection>
         <SectionHeadingText>Your applications</SectionHeadingText>
+        {/* RadioFilter Component Here -------------------- */}
         <RadioFilter />
       </HeaderSection>
       <ApplicationSection>
@@ -46,6 +45,7 @@ function ApplicationsPage() {
           {applications?.length === 0 ? "0 " : `${applications?.length} `}
           applications found
         </ApplicationFoundText>
+        {/* ApplicationToggle Component Here -------------------- */}
         {applications?.map((item, index) => {
           return (
             <ApplicationToggle

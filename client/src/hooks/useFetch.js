@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useFetch = (url) => {
+  // hook เอาไว้ใช้ fecth ข้อมูลต่างๆได้ทุกอย่าง
+  // ตัวอย่างการใช้ ไปดูได้ที่ pages -> Professional -> SeeMorePage
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

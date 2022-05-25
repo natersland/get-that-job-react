@@ -6,7 +6,6 @@ import LoginPage from "../pages/Authentication/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import HomePage from "../pages/HomePage";
 import RegisterPage from "../pages/Authentication/RegisterPage";
-import ComponentIndex from "../components/ComponentIndex";
 
 export default function UnauthenticatedApp() {
   return (
@@ -17,7 +16,6 @@ export default function UnauthenticatedApp() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />{" "}
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/components" element={<ComponentIndex />} />
         {/* Just for test Route Start Here ------------------------------------ */}
       </Routes>
     </div>

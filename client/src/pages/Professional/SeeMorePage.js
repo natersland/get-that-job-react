@@ -14,8 +14,10 @@ import JobDetails from "../../components/SharedComponents/JobDetails";
 import NavigationIcon from "../../assets/navigation-line.svg";
 
 function SeeMorePage() {
+  // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
   const jobId = localStorage.getItem("jobId");
+  // -----------------------------------------------------
   const navigate = useNavigate();
   const { job, setJob } = useJobsData();
   const { setMenuIndex } = useNav();
@@ -47,13 +49,6 @@ function SeeMorePage() {
   // fx สร้างใบสมัครงาน ----------------------------------
   const createApplication = async (data) => {
     await axios.post("http://localhost:4000/applications/create", data);
-    /*     navigate("/viewjobs"); */
-  };
-
-  const handleSubmit = () => {
-    /*     event.preventDefault(); */
-    const data = { professionalId, jobId, appliedDate: Date.now() };
-    createApplication(data);
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
@@ -61,6 +56,13 @@ function SeeMorePage() {
     `http://localhost:4000/users/${professionalId}`
   );
   const checkUserProfile = async () => {
+    // fx ส่งข้อมูลใบสมัครไป Back-End -----------------------
+    const handleSubmit = () => {
+      /*     event.preventDefault(); */ // <- ใส่มาแล้วบึ้มเลย
+      const data = { professionalId, jobId, appliedDate: Date.now() };
+      createApplication(data);
+    };
+
     if (
       data?.cvFiles?.[0] === undefined ||
       data?.phone === "" ||
@@ -71,7 +73,7 @@ function SeeMorePage() {
       alert(
         "Please upload your cv file, fill your name and phone before apply a job. "
       );
-      navigate("/updateprofile");
+      navigate("/profile");
     } else {
       handleSubmit();
       alert(
@@ -89,41 +91,33 @@ function SeeMorePage() {
     const result = applicationsData?.filter((item) => {
       return item.jobId === jobId;
     });
-    console.log("result", result);
     if (result?.length > 0) {
       status = false;
     } else {
       status = true;
     }
+    const button = (color, text, status) => {
+      return (
+        <button
+          className={`btn btn-lg ${color} uppercase`}
+          onClick={checkUserProfile}
+          disabled={status}
+        >
+          <span>
+            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
+          </span>
+          {text}
+        </button>
+      );
+    };
     if (status) {
-      return (
-        <button
-          className="btn btn-lg btn-pink uppercase"
-          onClick={checkUserProfile}
-        >
-          <span>
-            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
-          </span>
-          apply now
-        </button>
-      );
+      return button("btn-pink", "Apply Now", false);
     } else {
-      return (
-        <button
-          className="btn btn-lg btn-gray uppercase"
-          onClick={checkUserProfile}
-          disabled
-        >
-          <span>
-            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
-          </span>
-          applied
-        </button>
-      );
+      return button("btn-gray", "Applied", true);
     }
   };
   const contentData = [
-    { title: "About The company name SA", content: job?.company?.[0].about },
+    { title: "About The company name SA", content: job?.company?.[0].about }, // aboutCompany
     { title: "About the job position", content: job?.aboutJob }, // aboutJob
     { title: "Mandatory Requirements", content: job?.mandatoryReq }, // mandatoryReq
     { title: "Optional Requirements", content: job?.optionalReq }, // optionalReq
@@ -132,16 +126,19 @@ function SeeMorePage() {
   return (
     <Wrapper>
       <Header>
+        {/*โซนแสดงข้อมูลบริษัท Start Here -----------------------------  */}
         <CompanyWrapper>
           <HeaderLeft>
             <CompanyHeader />
           </HeaderLeft>
           <HeaderRight>{applyNowBtn()}</HeaderRight>
         </CompanyWrapper>
+        {/*โซนแสดงข้อมูลงาน Start Here -----------------------------  */}
         <HeaderTitleWrapper>
           <JobDetails />
         </HeaderTitleWrapper>
       </Header>
+      {/*โซนแสดงรายละเอียดงาน Start Here -----------------------------  */}
       <ContentWrapper>
         {contentData.map((items, index) => {
           const { title, content } = items;
@@ -154,7 +151,6 @@ function SeeMorePage() {
             </ContentBox>
           );
         })}
-
         <ContentFooter>{applyNowBtn()}</ContentFooter>
       </ContentWrapper>
     </Wrapper>
@@ -187,7 +183,6 @@ const HeaderTitleWrapper = styled.div`
   padding: 45px;
 `;
 const ContentWrapper = styled.section``;
-const Content = styled.section``;
 const ContentBox = styled.div`
   width: 80%;
   margin: 10px 0;
@@ -196,10 +191,7 @@ const ContentBox = styled.div`
 const ContentHeading = styled.h3`
   font-size: 1.5rem;
 `;
-const ContentText = styled.p`
-  color: var(--primary-text-color);
-  font-size: 1rem;
-`;
+
 const ContentFooter = styled.div`
   display: flex;
   justify-content: center;

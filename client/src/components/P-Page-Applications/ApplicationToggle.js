@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 // Pictures -----------------------------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import IndustryIcon from "../../assets/building-3-line.svg";
@@ -12,13 +10,12 @@ import AppliedIcon from "../../assets/status/applied.svg";
 import ReviewIcon from "../../assets/status/reviewing.svg";
 import FinishedIcon from "../../assets/status/finished.svg";
 import DeclineIcon from "../../assets/status/declined.svg";
-import ToggleSignIcon from "../../assets/items/Vector.svg";
 // Components -----------------------------------------
 import IconWithText from "../SharedComponents/IconWithText";
-// Hooks -----------------------------------------
-import useToggle from "../../hooks/useToggle";
-// Contexts -----------------------------------------
+import ToggleCard from "../SharedComponents/ToggleCard";
+// Utils -----------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
+
 function ApplicationToggle({
   companyLogo,
   jobTitle,
@@ -33,9 +30,10 @@ function ApplicationToggle({
   personalExperience,
   education,
 }) {
-  const { isOpen, toggle } = useToggle(false);
+  // Convert Salary มีอยู่ใน utils -> UtilitiesFunction เอาไว้ใช้แปลงเงินเดือนให้เป็นหน่วย k ได้
   const { convertSalary } = UtilitiesFunction();
 
+  // อันนี้เป็นข้อมูลที่อยู่ในส่วน JobDetail ใน Header Zone ----------------
   const jobDetailsData = [
     { icon: IndustryIcon, text: jobCategory },
     { icon: CalendarIcon, text: JobType },
@@ -46,54 +44,28 @@ function ApplicationToggle({
     { icon: ClockIcon, text: createdJobDate },
   ];
 
-  const toggleContent = () => {
-    return (
-      <ContentWrapper>
-        <HeaderText className="mb-2 mt-2">Professional experience</HeaderText>
-        <p>{personalExperience}</p>
-        <HeaderText className="mb-2 mt-2">Education</HeaderText>
-        <p className="mb-8">{education}</p>
-      </ContentWrapper>
-    );
-  };
+  // fx เช็คสถานะต่างๆ ถ้าสถานะตรงตามเงื่อนไขให้เปลี่ยนสี / ดีไซน์  ----------------
+  // IconWithText มีอยุู่ใน SharedComponents ใช้ด้วยกันได้
   const checkApplicationStatus = () => {
+    const statusComponent = (icon, status, text) => {
+      // status จะมีทั้งหมด 5 อัน  (default, apllied, reviewing, finished,declined) ถ้าใส่ไปแล้วมัันจะเปลี่ยนสีตามสถานะ
+      // ดูวิธีใช้ตรงหน้า components -> SharedComponents -> IconWithText
+      return <IconWithText icon={icon} status={status} text={text} />;
+    };
     if (applicationStatus === "applied") {
-      return (
-        <IconWithText
-          icon={AppliedIcon}
-          status="apllied"
-          text="Waiting for review"
-        />
-      );
+      return statusComponent(AppliedIcon, "apllied", "Waiting for review");
     } else if (applicationStatus === "reviewing") {
-      return (
-        <IconWithText
-          icon={ReviewIcon}
-          status="reviewing"
-          text="Review in progress"
-        />
-      );
+      return statusComponent(ReviewIcon, "reviewing", "Review in progress");
     } else if (applicationStatus === "finished") {
-      return (
-        <IconWithText
-          icon={FinishedIcon}
-          status="finished"
-          text="Review finished"
-        />
-      );
+      return statusComponent(FinishedIcon, "finished", "Review finished");
     } else if (applicationStatus === "declined") {
-      return (
-        <IconWithText
-          icon={DeclineIcon}
-          status="declined"
-          text="Declined on 07/11/20" // กลับมาเอา state มาใส่ด้วย
-        />
-      );
+      return statusComponent(DeclineIcon, "declined", "Declined on 07/11/20"); // กลับมาเอา state มาใส่ด้วย
     }
   };
-  return (
-    <Wrapper className="shadow-md">
-      {/* Header Section -----------------------------------*/}
+  // fx เก็บคอนเทนท์ส่วน Header ของ ToggleCard Component ------------------
+  // ToggleCard มีอยุู่ใน SharedComponents ใช้ด้วยกันได้
+  const headerContent = () => {
+    return (
       <HeaderSection>
         <JobWrapper>
           <CompanyLogoWrapper>
@@ -123,12 +95,25 @@ function ApplicationToggle({
           />
           {checkApplicationStatus()}
         </ApplicationStatusWrapper>
-        <ToggleWrapper>
-          <ToggleIcon src={ToggleSignIcon} onClick={toggle} />
-        </ToggleWrapper>
       </HeaderSection>
-      {/* Content Section -----------------------------------*/}
-      <ContentSection>{isOpen ? toggleContent() : null}</ContentSection>
+    );
+  };
+
+  // fx เก็บคอนเทนท์ส่วน Content(ที่ซ่อนใน toggle) ของ ToggleCard Component ------------------
+  const toggleContent = () => {
+    return (
+      <ContentWrapper>
+        <HeaderText className="mb-2 mt-2">Professional experience</HeaderText>
+        <p>{personalExperience}</p>
+        <HeaderText className="mb-2 mt-2">Education</HeaderText>
+        <p className="mb-8">{education}</p>
+      </ContentWrapper>
+    );
+  };
+
+  return (
+    <Wrapper className="shadow-md">
+      <ToggleCard header={headerContent()} content={toggleContent()} />
     </Wrapper>
   );
 }
@@ -143,10 +128,10 @@ const Wrapper = styled.div`
 // Header Section -----------------------------------
 const HeaderSection = styled.section`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   height: 96px;
-  padding: 0 15px;
+  width: 100%;
 `;
 // Header Section -----------------------------------
 // Section 1
@@ -209,18 +194,7 @@ const ApplicationStatusWrapper = styled.div`
   width: 30%;
   height: 100%;
 `;
-// Section 4
-const ToggleWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  height: 59.73px;
-  width: 5%;
-  cursor: pointer;
-`;
-const ToggleIcon = styled.img``;
-// Content Section -----------------------------------
-const ContentSection = styled.section``;
+// Content Zone ---------------
 const ContentWrapper = styled.div`
   padding: 20px;
   width: 85%;

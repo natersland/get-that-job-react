@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
+import axios from "axios";
 // Components
 import FindThatJobCard from "../../components/P-Page-FindThatJob/FindThatJobCard";
 import FindThatJobHeader from "../../components/P-Page-FindThatJob/FindThatJobHeader";
@@ -9,12 +10,19 @@ import FindThatJobHeader from "../../components/P-Page-FindThatJob/FindThatJobHe
 import { useJobsData } from "../../contexts/jobsData";
 function FindJobsPage() {
   const userRole = localStorage.getItem("role");
-  const { jobs } = useJobsData();
+  // State for filter searching ----------------------------------
+  const [searchJobText, setSearchJobText] = useState("");
+  const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
+  const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
+  const [searchJobCategory, setsearchJobCategory] = useState("");
+  const [jobType, setJobType] = useState("");
+  const [keywordsNumber, setKeywordsNumber] = useState("");
+  const { jobs, setJobs } = useJobsData();
+
   // Pagination Start Here ----------------------------------
   const [paginationLoading, setPaginationLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage, setJobsPerPage] = useState(12);
-
   // Get current posts
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
@@ -23,10 +31,43 @@ function FindJobsPage() {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const search = async () => {
+    setPaginationLoading(true);
+    const results = await axios.get(
+      `http://localhost:4000/jobs?keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
+    );
+    setJobs(results.data.data);
+    setPaginationLoading(false);
+  };
+
+  useEffect(() => {
+    search();
+  }, [
+    searchJobText,
+    searchMinSalaryText,
+    searchMaxSalaryText,
+    searchJobCategory,
+    jobType,
+  ]);
+
   return (
     <Wrapper>
       <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
-      <FindThatJobHeader setPaginationLoading={setPaginationLoading} />
+      <FindThatJobHeader
+        setSearchJobText={setSearchJobText}
+        setSearchMinSalaryText={setSearchMinSalaryText}
+        setSearchMaxSalaryText={setSearchMaxSalaryText}
+        setsearchJobCategory={setsearchJobCategory}
+        setJobType={setJobType}
+        setKeywordsNumber={setKeywordsNumber}
+        setPaginationLoading={setPaginationLoading}
+        searchJobText={searchJobText}
+        searchMinSalaryText={searchMinSalaryText}
+        searchMaxSalaryText={searchMaxSalaryText}
+        searchJobCategory={searchJobCategory}
+        keywordsNumber={keywordsNumber}
+        jobType={jobType}
+      />
       <FindThatJobCard
         /*         currentPage={currentPage}
          */ paginationLoading={paginationLoading}
