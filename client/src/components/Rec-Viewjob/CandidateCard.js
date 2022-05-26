@@ -5,10 +5,12 @@ import closedMail from "../../img/closedMail.png";
 import waiting from "../../img/waiting.png";
 import phone from "../../img/phone.png";
 import IN from "../../img/linkedin-box-line.png";
-
-function Candidate () {
+import IconWithText from "../SharedComponents/IconWithText";
+import ToggleCard from "../SharedComponents/ToggleCard";
+import load from "../../img/download-line.png";
+function Candidate1 () {
+  const CandidateCardHeader = () => {
     return(
-        <CandidateCard>
                 <BeforeToggleCard>
 
                     <CandidateLeftCard>
@@ -39,13 +41,11 @@ function Candidate () {
                         </CandidateCenterCard1>
 
                         <CandidateCenterCard2>
-                            <Icon><img src={closedMail}/></Icon>
-                            <IconLabel>Sent 1 day ago</IconLabel>
+                            <IconWithText icon={closedMail} text={'Sent 1 day ago'}/>
                         </CandidateCenterCard2>
 
                         <CandidateCenterCard3>
-                            <Icon><img src={waiting}/></Icon>
-                            <IconLabel> Waiting for review</IconLabel>
+                            <IconWithText icon={waiting} text={'Waiting for review'}/>
                         </CandidateCenterCard3>
 
                     </CandidateCenterCard>   
@@ -55,14 +55,55 @@ function Candidate () {
                                 <MarkText>MARK AS STARTED</MarkText>
                             </MarkTextButton>
                     </CandidateRightCard> 
-                    <ToggleButton>Tog</ToggleButton>
                 </BeforeToggleCard>
-            </CandidateCard>
-    )
+    )}
+
+    const CandidateContent = () => {
+      return (
+        <div>
+        <CandidateDetails>
+              <CandidateDetails1>
+                  <Title>About the job position</Title>
+                  <CandidateDetails2>
+                    <Detail>
+                      <p>about the job here</p>
+                    </Detail>
+                  </CandidateDetails2>
+              </CandidateDetails1>
+
+              <CandidateDetails1>
+                  <Title>Mandatory requirements</Title>
+                  <CandidateDetails2>
+                    <Detail>
+                      <p>Requirement here</p>
+                    </Detail>
+                  </CandidateDetails2>
+              </CandidateDetails1>
+        </CandidateDetails>
+
+        <Dowload>
+            <MarkTextButton>
+            <Icon><img src={load}/></Icon><MarkText>DOWLOAD CV</MarkText>
+            </MarkTextButton>
+        </Dowload> 
+        </div>
+      )
+    }
+
+    return (
+      <Wrapper2>
+        <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
+      </Wrapper2>
+    );
 }
 
-export default Candidate;
+export default Candidate1;
 
+const Wrapper2 = styled.div`
+  width: 100%;
+  border-radius: 8px;
+`;
+//----------------------------------------Before toggle---------------------------------------------------------//
 const BeforeToggleCard = styled.div`
   display: flex;
   flex-direction: row;
@@ -109,19 +150,6 @@ const TextInfo = styled.p`
 const ToggleButton = styled.button`
     margin-right: 10px;
     margin-top: 40px;
-`;
-
-const CandidateCard = styled.div`
-display: flex;
-flex-direction: column;
-border: 1px solid white;
-border-radius: 8px;
-box-shadow: 0 0 5px 3px #e1e2e1;
-width: 944px;
-height: 80px;
-background-color: white;
-padding-top: 10px;
-margin-top: 10px;
 `;
 
 const CandidateDiv = styled.div`
@@ -241,6 +269,45 @@ const MarkTextButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 14px;
   border:1px solid pink;
+`;
+
+//----------------------------------------After toggle---------------------------------------------------------//
+
+const CandidateDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-left: 25px;
+`;
+
+const CandidateDetails1 = styled.div`
+  margin-bottom: 5px;
+`;
+
+const CandidateDetails2 = styled.div`
+  margin-top: 5px;
+`;
+
+const Title = styled.p`
+  font-size: 16px;
+  font-family: var(--primary-font);
+  color: var(--primary-brand-color);
+  font-weight: 400;
+`;
+
+const Detail = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 760px;
+`;
+
+const Dowload = styled.div` 
+  width: 944px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 20px;
 `;

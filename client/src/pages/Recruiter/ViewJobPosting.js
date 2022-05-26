@@ -2,14 +2,21 @@ import React from "react";
 import styled from "@emotion/styled";
 import "../../App.css";
 import leftSign from "../../img/arrow-left-s-line.png";
-import Jobcard from "../../components/Rec-Viewjob/Jobcard";
-import CandidateCards from "../../components/Rec-Viewjob/CandidateCard";
+import Jobcard1 from "../../components/Rec-Viewjob/Jobcard";
+import Candidate1 from "../../components/Rec-Viewjob/CandidateCard";
+import { useNavigate } from "react-router-dom";
 
 function ViewJobPosting () {
+  const navigate = useNavigate();
     return (
     <Main>
         {/*-------------------------------------------------------*Header*------------------------------------------*/}
-            <Back>
+            <Back
+            onClick={() => {
+              navigate("/viewjobs");
+              localStorage.removeItem("userId");
+            }}
+            >
                 <IconBack><img src={leftSign} /></IconBack> 
                 <BackText> Back </BackText>
             </Back>
@@ -17,7 +24,7 @@ function ViewJobPosting () {
 
         {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
           
-        {<Jobcard/>}
+       {<Jobcard1/>}
         
 
         {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
@@ -88,7 +95,7 @@ function ViewJobPosting () {
         </Found>
         
         {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
-        {<CandidateCards/>}
+        {<Candidate1/>}
     </Main>
     )
 };
@@ -139,7 +146,6 @@ const IconBack = styled.div`
 //---------------------------------------------Filter Part-----------------------------------------------------//
 
 const FilterDiv = styled.div`
-  margin-top: 20px;
 `;
 
 const FilterText = styled.p`
