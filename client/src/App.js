@@ -1,4 +1,3 @@
-// CSS
 import "./App.css";
 // 🐳 Authentication Login & Register ------------------------
 import UnauthenticatedApp from "./routes/UnauthenticatedApp";

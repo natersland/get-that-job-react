@@ -103,12 +103,38 @@ export const getOneUserData = async (req, res, next) => {
             as: "applications",
           },
         },
-        /*  { $unwind: "$applications" }, */
-        /*         {
+        /*         { $unwind: "$applications" },
+         */ {
           $lookup: {
             from: "jobs",
-            localField: "jobId",
+            localField: "applications.jobId",
             foreignField: "_id",
+            as: "jobDetail",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "jobDetail.recruiterId",
+            foreignField: "_id",
+            as: "companyDetail",
+          },
+        },
+
+        /*  {
+          $lookup: {
+            from: "jobs",
+            localField: "_id",
+            foreignField: "recruiterId",
+            as: "jobs",
+          },
+        },
+        { $unwind: "jobs" },
+        {
+          $lookup: {
+            from: "applications",
+            localField: "jobs._id",
+            foreignField: "jobId",
             as: "status",
           },
         }, */

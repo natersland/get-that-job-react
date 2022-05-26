@@ -12,12 +12,15 @@ import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
 import { JobsDataProvider } from "./contexts/jobsData";
 import { VadilationProvider } from "./contexts/vadilation";
-
+/* import { ThemeProvider } from "@mui/material/styles";
+ */
 jwtInterceptor();
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      {/*       <ThemeProvider>
+       */}{" "}
       <UserDataProvider>
         <VadilationProvider>
           <AuthProvider>
@@ -29,6 +32,8 @@ ReactDOM.render(
           </AuthProvider>
         </VadilationProvider>
       </UserDataProvider>
+      {/*       </ThemeProvider>
+       */}{" "}
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

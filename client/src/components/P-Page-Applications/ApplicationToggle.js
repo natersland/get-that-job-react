@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useEffect } from "react";
+import moment from "moment";
 // Pictures -----------------------------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import IndustryIcon from "../../assets/building-3-line.svg";
@@ -13,6 +14,7 @@ import DeclineIcon from "../../assets/status/declined.svg";
 // Components -----------------------------------------
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
+import Tooltip from "@mui/material/Tooltip";
 // Utils -----------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 
@@ -29,6 +31,9 @@ function ApplicationToggle({
   applicationStatus,
   personalExperience,
   education,
+  deleteApplication,
+  appId,
+  reFetch,
 }) {
   // Convert Salary มีอยู่ใน utils -> UtilitiesFunction เอาไว้ใช้แปลงเงินเดือนให้เป็นหน่วย k ได้
   const { convertSalary } = UtilitiesFunction();
@@ -39,7 +44,7 @@ function ApplicationToggle({
     { icon: CalendarIcon, text: JobType },
     {
       icon: DollarLineIcon,
-      text: `${convertSalary(jobMinSalary)}-${convertSalary(jobMaxSalary)}`,
+      text: `${convertSalary(jobMinSalary)} - ${convertSalary(jobMaxSalary)}`,
     },
     { icon: ClockIcon, text: createdJobDate },
   ];
@@ -53,13 +58,19 @@ function ApplicationToggle({
       return <IconWithText icon={icon} status={status} text={text} />;
     };
     if (applicationStatus === "applied") {
-      return statusComponent(AppliedIcon, "apllied", "Waiting for review");
+      return statusComponent(AppliedIcon, "applied", "Waiting for review");
     } else if (applicationStatus === "reviewing") {
       return statusComponent(ReviewIcon, "reviewing", "Review in progress");
     } else if (applicationStatus === "finished") {
       return statusComponent(FinishedIcon, "finished", "Review finished");
     } else if (applicationStatus === "declined") {
-      return statusComponent(DeclineIcon, "declined", "Declined on 07/11/20"); // กลับมาเอา state มาใส่ด้วย
+      return statusComponent(
+        DeclineIcon,
+        "declined",
+        `Declined on ${moment()
+          .subtract(Math.floor(Math.random() * 100), "days")
+          .calendar()}`
+      ); // กลับมาเอา state มาใส่ด้วย
     }
   };
   // fx เก็บคอนเทนท์ส่วน Header ของ ToggleCard Component ------------------
@@ -81,7 +92,7 @@ function ApplicationToggle({
             const { icon, text } = item;
             return (
               <JobDetailsItem key={index}>
-                <img src={icon} height="15.5px" width="15.5px" alt="icon" />{" "}
+                <img src={icon} height="15.5px" width="15.5px" alt="icon" />
                 <SpanText>{text}</SpanText>
               </JobDetailsItem>
             );
@@ -91,9 +102,21 @@ function ApplicationToggle({
           <IconWithText
             icon={EmailIcon}
             status="default"
-            text={apllicationCreatedDate}
+            text={moment(apllicationCreatedDate).startOf().fromNow()}
           />
           {checkApplicationStatus()}
+          <Tooltip title="Delete this application" arrow>
+            <CloseBtnWrapper
+              className="btn btn-pink"
+              onClick={() => {
+                localStorage.setItem("applicationId", appId);
+                deleteApplication();
+                reFetch();
+              }}
+            >
+              <CloseBtn>X</CloseBtn>
+            </CloseBtnWrapper>
+          </Tooltip>
         </ApplicationStatusWrapper>
       </HeaderSection>
     );
@@ -132,6 +155,7 @@ const HeaderSection = styled.section`
   align-items: center;
   height: 96px;
   width: 100%;
+  position: relative;
 `;
 // Header Section -----------------------------------
 // Section 1
@@ -142,7 +166,6 @@ const JobWrapper = styled.div`
   height: 100%;
 `;
 const CompanyLogoWrapper = styled.div`
-  border: 1px black dotted;
   width: 59.73px;
   height: 59.73px;
   overflow: hidden;
@@ -171,9 +194,11 @@ const CompanyName = styled.h3`
 `;
 // Section 2
 const JobDetailsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 25%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /*   display: flex;
+  flex-wrap: wrap; */
+  width: 22%;
   height: 59.73px;
 `;
 const JobDetailsItem = styled.div`
@@ -191,9 +216,23 @@ const SpanText = styled.span`
 const ApplicationStatusWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 30%;
+  width: 35%;
   height: 100%;
 `;
+const CloseBtnWrapper = styled.div`
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  right: -60px;
+`;
+const CloseBtn = styled.p``;
 // Content Zone ---------------
 const ContentWrapper = styled.div`
   padding: 20px;

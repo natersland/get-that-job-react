@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import axios from "axios";
+import _ from "lodash";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useNav } from "../../contexts/navigate";
@@ -58,8 +59,22 @@ function SeeMorePage() {
   const checkUserProfile = async () => {
     // fx ส่งข้อมูลใบสมัครไป Back-End -----------------------
     const handleSubmit = () => {
-      /*     event.preventDefault(); */ // <- ใส่มาแล้วบึ้มเลย
-      const data = { professionalId, jobId, appliedDate: Date.now() };
+      const applicationStatus = [
+        "applied",
+        "reviewing",
+        "declined",
+        "finished",
+      ];
+      const randomStatus =
+        applicationStatus[Math.floor(Math.random() * applicationStatus.length)];
+
+      /* event.preventDefault(); */ // <- ใส่มาแล้วบึ้มเลย
+      const data = {
+        professionalId,
+        jobId,
+        appliedDate: Date.now(),
+        applicationStatus: randomStatus,
+      };
       createApplication(data);
     };
 

@@ -46,7 +46,7 @@ const HeaderSection = styled.section`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 96px;
+  padding: 5px 0 5px 0;
   width: 100%;
 `;
 // Header Section -----------------------------------

@@ -5,6 +5,7 @@ module.exports = {
       pinkprimary: "#bf5f82",
       pinksecoundary: "#f48fb1 ",
       pinktertiary: "#ffc1e3",
+      white: "#fff",
     },
   },
   plugins: [],

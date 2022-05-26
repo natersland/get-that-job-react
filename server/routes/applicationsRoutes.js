@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createApplication,
+  deleteApplication,
   getAllApplication,
 } from "../controllers/applicationsControllers.js";
 // middleware -----------------------------
@@ -21,6 +22,6 @@ applicationsRouter
   // อัพเดตสถานะใบสมัคร -> http://localhost:4000/applications/:id
   .put("/:id")
   // ลบใบสมัคร -> http://localhost:4000/applications/:id
-  .delete("/:id");
+  .delete("/:id", deleteApplication);
 
 export default applicationsRouter;
