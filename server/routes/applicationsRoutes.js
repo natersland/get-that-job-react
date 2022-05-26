@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createApplication,
   getAllApplication,
-} from "../controllers/applications.js";
+} from "../controllers/applicationsControllers.js";
 // middleware -----------------------------
 import protect from "../middlewares/protect.js";
 // Controller  -----------------------------

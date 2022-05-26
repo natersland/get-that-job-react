@@ -237,4 +237,9 @@ const FollowCircle = styled.div`
   cursor: pointer;
 `;
 const FollowIcon = styled.img``;
-const SeeMoreButton = styled.button``;
+const SeeMoreButton = styled.button`
+  &:hover {
+    background-color: var(--secoundary-brand-color);
+    color: white;
+  }
+`;

@@ -13,7 +13,7 @@ import {
   deleteUser,
   getAllUserData,
   getOneUserData,
-} from "../controllers/users.js";
+} from "../controllers/usersControllers.js";
 
 const usersRouter = Router();
 /* usersRouter.use(protect);

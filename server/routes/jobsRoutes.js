@@ -11,7 +11,7 @@ import {
   getAllJobsWithFilter,
   getOneJob,
   updateJob,
-} from "../controllers/jobs.js";
+} from "../controllers/jobsControllers.js";
 const jobRouter = Router();
 const router = express.Router();
 
