@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
+
 // Schema Medels ---------------------
 
 import ApplicationModel from "../models/ApplicationModel.js";
@@ -10,7 +11,6 @@ import ProfessionalModel from "../models/ProfessionalModel.js";
 const appCollection = db.collection("applications");
 const jobsCollection = db.collection("jobs");
 const usersCollection = db.collection("users");
-
 
 export const createApplication = async (req, res, next) => {
   try {
@@ -43,3 +43,14 @@ export const getAllApplication = async (req, res, next) => {
   }
 };
 
+export const deleteApplication = async (req, res, next) => {
+  try {
+    const appId = ObjectId(req.params.id);
+
+    await appCollection.deleteOne({ _id: appId });
+    res.status(200).json(`Application ${appId} has been deleted successful`);
+    console.log(`Application ${appId} has been deleted successful`);
+  } catch (error) {
+    next(error);
+  }
+};

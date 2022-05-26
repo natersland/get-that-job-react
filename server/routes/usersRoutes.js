@@ -13,7 +13,7 @@ import {
   deleteUser,
   getAllUserData,
   getOneUserData,
-} from "../controllers/users.js";
+} from "../controllers/usersControllers.js";
 
 const usersRouter = Router();
 /* usersRouter.use(protect);
@@ -34,10 +34,22 @@ usersRouter.put("/:id", uploadFile, async (req, res, next) => {
     const updateUserData = {
       ...req.body,
     };
-    /*     const logoFileUrl = await cloudinaryUploadLogo(req.files);
-    user["companyLogo"] = logoFileUrl; */
+    const logoFileUrl = await cloudinaryUploadLogo(req.files);
+    user["companyLogo"] = logoFileUrl;
 
-    await collection.updateOne({ _id: userId }, { $set: updateUserData });
+    await collection
+      .aggregate([
+        {
+          $lookup: {
+            from: "jobs",
+            localField: "_id",
+            foreignField: "recruiterId",
+            as: "jobs",
+          },
+        },
+        { $match: { _id: userId } },
+      ])
+      .updateOne({ _id: userId }, { $set: updateUserData });
     res.status(200).json(`User ${userId} has been updated successful`);
     console.log(`Updated user data id:${userId} successful!`);
   } catch (error) {

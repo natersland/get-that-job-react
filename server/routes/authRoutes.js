@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login } from "../controllers/auth.js";
+import { login } from "../controllers/authControllers.js";
 import multer from "multer";
 import { cloudinaryUploadCV, cloudinaryUploadLogo } from "../utils/upload.js";
 import { db } from "../utils/db.js";
