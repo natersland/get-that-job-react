@@ -31,7 +31,6 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 96px;
   height: 96px;
-
   color: var(--gray);
   font-size: 0.85rem;
 `;

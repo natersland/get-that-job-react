@@ -9,11 +9,13 @@ import close2 from "../../img/close2.png";
 import mailOpen from "../../img/mail-open-line.png";
 import account from "../../img/account-circle-line.png";
 import pinkperson from "../../img/pinkperson.png";
+import IconWithText from "../SharedComponents/IconWithText";
+import ToggleCard from "../SharedComponents/ToggleCard";
 
-
-function Jobcard () {
+function Jobcard1 (){
+  const JobCardHeader = () => {
     return (
-        <JobCard>
+        
                 <BeforeToggleCard>
                     <JobLeftCard>
                         <JobCardDiv>
@@ -51,21 +53,15 @@ function Jobcard () {
                     <JobCenterCard>
 
                         <JobCenterCard1>
-                            <Icon><img src={mailOpen} /></Icon>
-                            <IconLabel>Open on</IconLabel>
-                            <IconLabel>18/11/2022</IconLabel>
+                            <IconWithText icon={mailOpen} text={'Open on 18/11/2022'}/>                     
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <Icon><img src={account} /><Number>5</Number></Icon>
-                            <IconLabel>Total</IconLabel>
-                            <IconLabel>Candidates</IconLabel>
+                            <IconWithText icon={account} text={'Total candidates'}/>      
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <Icon><img src={pinkperson} /><Number>3</Number></Icon>
-                            <IconLabel>Candiadtes</IconLabel>
-                            <IconLabel>on track</IconLabel>
+                            <IconWithText icon={pinkperson} text={'Candidates on track'}/>
                         </JobCenterCard1>
 
                     </JobCenterCard>   
@@ -90,14 +86,57 @@ function Jobcard () {
                             </CloseDiv>
                         </button>
                     </JobRightCard>
-                    <ToggleButton>Tog</ToggleButton> 
                 </BeforeToggleCard>
-            </JobCard>
-    )
+            
+    )}
+    const JobcardContent = () => {
+      return (
+        <JobCardDetails>
+              <JobCardDetails1>
+                  <Title>About the job position</Title>
+                  <JobCardDetails2>
+                    <Detail>
+                      <p>about the job here</p>
+                    </Detail>
+                  </JobCardDetails2>
+              </JobCardDetails1>
+
+              <JobCardDetails1>
+                  <Title>Mandatory requirements</Title>
+                  <JobCardDetails2>
+                    <Detail>
+                      <p>Requirement here</p>
+                    </Detail>
+                  </JobCardDetails2>
+              </JobCardDetails1>
+
+              <JobCardDetails1>
+                  <Title>Optional Requirements</Title>
+                  <JobCardDetails2>
+                    <Detail>
+                      <p>Optional Requirement here</p>
+                    </Detail>
+                  </JobCardDetails2>
+              </JobCardDetails1>
+        </JobCardDetails>
+      )
+    }
+
+    return (
+      <Wrapper1>
+        <ToggleCard header={JobCardHeader()} content={JobcardContent()} />
+      </Wrapper1>
+    );
 }
 
-export default Jobcard;
+export default Jobcard1;
 
+const Wrapper1 = styled.div`
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 20px;
+`;
+//------------------------------------------Before toggle----------------------------------------------------------//
 const BeforeToggleCard = styled.div`
   display: flex;
   flex-direction: row;
@@ -151,18 +190,6 @@ const TextInfo = styled.p`
 const ToggleButton = styled.button`
     margin-right: 10px;
     margin-top: 40px;
-`;
-
-const JobCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    border: 1px solid white;
-    border-radius: 8px;
-    box-shadow: 0 0 5px 3px #e1e2e1;
-    width: 944px;
-    height: 80px;
-    margin-top: 20px;
-    background-color: white;
 `;
 
 const JobCardDiv = styled.div`
@@ -259,4 +286,35 @@ const Number = styled.div`
   display: flex;
   align-content: center;
   font-size: 12px;
+`;
+
+//------------------------------------------After toggle----------------------------------------------------------//
+
+const JobCardDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-left: 25px;
+`;
+
+const JobCardDetails1 = styled.div`
+  margin-bottom: 5px;
+`;
+
+const JobCardDetails2 = styled.div`
+  margin-top: 5px;
+`;
+
+const Title = styled.p`
+  font-size: 16px;
+  font-family: var(--primary-font);
+  color: var(--primary-brand-color);
+  font-weight: 400;
+`;
+
+const Detail = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 760px;
 `;
