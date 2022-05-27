@@ -57,8 +57,9 @@ function ViewJobs() {
       const results = await axios.get(
         `http://localhost:4000/users/${comProfileData}`
       );
-      console.log(results.data.job[0].jobStatus);
+      // console.log(results.data.job[0].jobStatus);
       //setJobStatus(results.data.jobs[0].jobStatus);
+      console.log(results.data.jobs, "results.data.jobs");
       setJob(_.reverse(results.data.jobs));
 
       // console.log("GET JOB POST", results.data.jobs);
@@ -69,8 +70,16 @@ function ViewJobs() {
       job,
     };
   };
-  const updateStatus = async () => {
+  const updateStatus = async (newJob) => {
+    console.log(newJob, "job");
     await axios.put(`http://localhost:4000/users/${comProfileData}`, {
+      jobs: newJob,
+    });
+  };
+
+  const updateStatusByJobId = async (jobId, job) => {
+    console.log(jobId, job, "job");
+    await axios.put(`http://localhost:4000/users/${jobId}`, {
       job,
     });
   };
@@ -159,6 +168,7 @@ function ViewJobs() {
             aboutTheJob={data.aboutJob}
             requirement={data.mandatoryReq}
             optionalRequirement={data.optionalReq}
+            jobList={job}
           />
         );
       })}
@@ -171,6 +181,15 @@ function ViewJobs() {
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
+
+    useEffect(() => {
+      if (props.jobStatus === false) {
+        console.log(props.jobStatus, "props.jobStatus");
+        setClose(true);
+        setDisable(true);
+        setFont(true);
+      }
+    }, []);
 
     //document.getElementById('buttonID').disabled = true;
 
@@ -189,11 +208,21 @@ function ViewJobs() {
 
       console.log(jobStatus);
     };
+
     let handleCloseCLick = (event) => {
       event.preventDefault();
-      if (job.jobStatus === true) {
-        job.jobStatus = false;
-        updateStatus();
+
+      if (props.jobStatus === true) {
+        let newJob = props.jobList;
+
+        const objIndex = props.jobList.findIndex((j) => j._id === props.id);
+
+        newJob[objIndex].jobStatus = false;
+
+        console.log(newJob, "newJob");
+
+        // updateStatus(newJob);
+        updateStatusByJobId(newJob[objIndex]._id, newJob[objIndex]);
         setClose(!close);
         setDisable(true);
         setFont(!font);
@@ -359,9 +388,9 @@ function ViewJobs() {
           <button onClick={() => setToggle(!toggle)}>
             <Toggle>
               {toggle ? (
-                <i class="fas fa-angle-up" />
+                <i className="fas fa-angle-up" />
               ) : (
-                <i class="fas fa-angle-down" />
+                <i className="fas fa-angle-down" />
               )}
             </Toggle>
           </button>

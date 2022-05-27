@@ -136,8 +136,7 @@ function FindThatJobHeader() {
             type="text"
             onChange={(e) => setSearchJobText(e.target.value)}
             value={searchJobText}
-            placeholder="manufacturing, sales, swim"
-          ></SearchBox>
+            placeholder="manufacturing, sales, swim"></SearchBox>
         </InputWrapper>
       </HeaderSection>
       {/* ------------- Category, Type, Salary Range Zone ------------- */}
@@ -147,8 +146,7 @@ function FindThatJobHeader() {
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={categoryFilter}
-          >
+            onChange={categoryFilter}>
             <option value="" disabled selected>
               Select a category
             </option>
@@ -168,8 +166,7 @@ function FindThatJobHeader() {
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={typeFilter}
-          >
+            onChange={typeFilter}>
             <option value="" disabled selected>
               Select a type
             </option>
@@ -195,8 +192,7 @@ function FindThatJobHeader() {
                 maxLength={6}
                 placeholder="min"
                 onChange={(e) => setSearchMinSalaryText(e.target.value)}
-                value={searchMinSalaryText}
-              ></SearchSalary>
+                value={searchMinSalaryText}></SearchSalary>
               <Dash>
                 <DashLine></DashLine>
               </Dash>
@@ -208,8 +204,7 @@ function FindThatJobHeader() {
                 maxLength={6}
                 placeholder="max"
                 onChange={(e) => setSearchMaxSalaryText(e.target.value)}
-                value={searchMaxSalaryText}
-              ></SearchSalary>
+                value={searchMaxSalaryText}></SearchSalary>
             </SubSalaryBox>
           </SalaryBox>
         </InputWrapperSection>

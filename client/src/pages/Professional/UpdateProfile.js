@@ -124,8 +124,7 @@ function UpdatePersonalProfile() {
         id="update-Professional-form"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}
-      >
+        }}>
         <LabelText htmlFor="email">EMAIL</LabelText>
         <Input
           type="email"
@@ -225,8 +224,7 @@ function UpdatePersonalProfile() {
         <Button
           form="update-Professional-form"
           type="submit"
-          className="btn btn-md btn-pink"
-        >
+          className="btn btn-md btn-pink">
           SAVE CHANGE
         </Button>
       </Form>

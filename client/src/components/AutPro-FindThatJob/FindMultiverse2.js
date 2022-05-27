@@ -114,8 +114,7 @@ function FindMultiverse2() {
             type="text"
             onChange={(e) => setSearchJobText(e.target.value)}
             value={searchJobText}
-            placeholder="manufacturing, sales, swim"
-          ></SearchBox>
+            placeholder="manufacturing, sales, swim"></SearchBox>
         </InputWrapper>
       </HeaderSection>
       {/* ------------- Category, Type, Salary Range Zone ------------- */}
@@ -125,8 +124,7 @@ function FindMultiverse2() {
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={selectedCategory}
-          >
+            onChange={selectedCategory}>
             <option value="" disabled selected>
               Select a category
             </option>
@@ -146,8 +144,7 @@ function FindMultiverse2() {
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={selectedType}
-          >
+            onChange={selectedType}>
             <option value="" disabled selected>
               Select a type
             </option>
@@ -173,8 +170,7 @@ function FindMultiverse2() {
                 maxLength={6}
                 placeholder="min"
                 onChange={(e) => setSearchMinSalaryText(e.target.value)}
-                value={searchMinSalaryText}
-              ></SearchSalary>
+                value={searchMinSalaryText}></SearchSalary>
               <Dash>
                 <DashLine></DashLine>
               </Dash>
@@ -186,8 +182,7 @@ function FindMultiverse2() {
                 maxLength={6}
                 placeholder="max"
                 onChange={(e) => setSearchMaxSalaryText(e.target.value)}
-                value={searchMaxSalaryText}
-              ></SearchSalary>
+                value={searchMaxSalaryText}></SearchSalary>
             </SubSalaryBox>
           </SalaryBox>
         </InputWrapperSection>

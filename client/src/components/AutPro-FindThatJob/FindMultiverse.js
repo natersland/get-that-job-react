@@ -56,8 +56,7 @@ function FindMultiverse() {
             type="text"
             onChange={(e) => setSearchJobText(e.target.value)}
             value={searchJobText}
-            placeholder="manufacturing, sales, swim"
-          ></SearchBox>
+            placeholder="manufacturing, sales, swim"></SearchBox>
         </InputWrapper>
       </HeaderSection>
       {/* ------------- Category, Type, Salary Range Zone ------------- */}
@@ -67,8 +66,7 @@ function FindMultiverse() {
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={(e) => setjobCategory(e.target.value.toString())}
-          >
+            onChange={(e) => setjobCategory(e.target.value.toString())}>
             <option value="" disabled selected>
               Select a category
             </option>
@@ -88,8 +86,7 @@ function FindMultiverse() {
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={(e) => setJobType(e.target.value.toString())}
-          >
+            onChange={(e) => setJobType(e.target.value.toString())}>
             <option value="" disabled selected>
               Select a type
             </option>
@@ -115,8 +112,7 @@ function FindMultiverse() {
                 maxLength={6}
                 placeholder="min"
                 onChange={(e) => setSearchMinSalaryText(e.target.value)}
-                value={searchMinSalaryText}
-              ></SearchSalary>
+                value={searchMinSalaryText}></SearchSalary>
               <Dash>
                 <DashLine></DashLine>
               </Dash>
@@ -128,8 +124,7 @@ function FindMultiverse() {
                 maxLength={6}
                 placeholder="max"
                 onChange={(e) => setSearchMaxSalaryText(e.target.value)}
-                value={searchMaxSalaryText}
-              ></SearchSalary>
+                value={searchMaxSalaryText}></SearchSalary>
             </SubSalaryBox>
           </SalaryBox>
         </InputWrapperSection>

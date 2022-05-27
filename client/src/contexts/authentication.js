@@ -100,8 +100,7 @@ function AuthProvider(props) {
         isProfessional,
         isRecruiter,
         isRightAccount,
-      }}
-    >
+      }}>
       {props.children}
     </AuthContext.Provider>
   );
