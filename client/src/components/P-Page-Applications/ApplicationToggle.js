@@ -11,6 +11,7 @@ import AppliedIcon from "../../assets/status/applied.svg";
 import ReviewIcon from "../../assets/status/reviewing.svg";
 import FinishedIcon from "../../assets/status/finished.svg";
 import DeclineIcon from "../../assets/status/declined.svg";
+import CrossIcon from "../../assets/icons/cross-icon.svg";
 // Components -----------------------------------------
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
@@ -34,6 +35,7 @@ function ApplicationToggle({
   deleteApplication,
   appId,
   reFetch,
+  handleChangeApplicationStatus,
 }) {
   // Convert Salary มีอยู่ใน utils -> UtilitiesFunction เอาไว้ใช้แปลงเงินเดือนให้เป็นหน่วย k ได้
   const { convertSalary } = UtilitiesFunction();
@@ -122,6 +124,34 @@ function ApplicationToggle({
     );
   };
 
+  // fx Decline Button Status Checker ------------------------
+  const declineBtnStatusChecker = (status) => {
+    const declineBtn = (text, color, btnStatus) => {
+      return (
+        <DeclineBtn
+          className={`btn btn-md ${color} uppercase`}
+          disabled={btnStatus}
+          onClick={() => {
+            localStorage.setItem("applicationId", appId);
+            handleChangeApplicationStatus();
+            /*             reFetch();
+             */
+          }}
+        >
+          <span className="mr-2">
+            {status === "declined" ? null : <img src={CrossIcon} />}
+          </span>
+          {text}
+        </DeclineBtn>
+      );
+    };
+    if (status != "declined") {
+      return declineBtn("decline application", "btn-active", false);
+    } else {
+      return declineBtn("decline application", "btn-gray", true);
+    }
+  };
+
   // fx เก็บคอนเทนท์ส่วน Content(ที่ซ่อนใน toggle) ของ ToggleCard Component ------------------
   const toggleContent = () => {
     return (
@@ -130,6 +160,9 @@ function ApplicationToggle({
         <p>{personalExperience}</p>
         <HeaderText className="mb-2 mt-2">Education</HeaderText>
         <p className="mb-8">{education}</p>
+        <DeclineBtnWrapper>
+          {declineBtnStatusChecker(applicationStatus)}
+        </DeclineBtnWrapper>
       </ContentWrapper>
     );
   };
@@ -140,6 +173,7 @@ function ApplicationToggle({
     </Wrapper>
   );
 }
+
 export default ApplicationToggle;
 
 const Wrapper = styled.div`
@@ -244,4 +278,12 @@ const HeaderText = styled.h1`
   letter-spacing: 0.15px;
 
   color: var(--primary-brand-color);
+`;
+const DeclineBtnWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100px;
+`;
+const DeclineBtn = styled.button`
+  padding: 20px;
 `;

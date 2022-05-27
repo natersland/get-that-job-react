@@ -8,7 +8,6 @@ import axios from "axios";
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/P-Page-Applications/ApplicationToggle";
 // Hooks ------------------------------------
-
 function ApplicationsPage() {
   const [applications, setApplication] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
@@ -44,6 +43,23 @@ function ApplicationsPage() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // fx เปลี่ยนสเตตัสใบสมัคร
+  const changeApplicationStatus = async (applicationData) => {
+    await axios.patch(
+      `http://localhost:4000/applications/${appplicationId}`,
+      applicationData
+    );
+  };
+  console.log(`http://localhost:4000/applications/${appplicationId}`);
+
+  const handleChangeApplicationStatus = () => {
+    const applicationData = {
+      applicationStatus: "declined",
+      decliedDate: Date.now(),
+    };
+    changeApplicationStatus(applicationData);
   };
 
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
@@ -91,6 +107,7 @@ function ApplicationsPage() {
           deleteApplication={deleteApplication}
           appId={item?._id}
           reFetch={reFetch}
+          handleChangeApplicationStatus={handleChangeApplicationStatus}
         />
       );
     };
@@ -109,8 +126,9 @@ function ApplicationsPage() {
   });
   useEffect(() => {
     getApplications();
-    deleteApplication();
-    reFetch();
+    deleteApplication(); /* reFetch(); */
+    /*     changeApplicationStatus();
+     */
   }, [appplicationId]);
 
   return (

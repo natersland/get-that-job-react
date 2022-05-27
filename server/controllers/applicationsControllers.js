@@ -54,3 +54,15 @@ export const deleteApplication = async (req, res, next) => {
     next(error);
   }
 };
+
+export const declineApplication = async (req, res) => {
+  const declinedApp = {
+    applicationStatus: req.body.applicationStatus,
+    declinedDate: req.body.declinedDate,
+  };
+
+  const appId = ObjectId(req.params.id);
+  await appCollection.updateOne({ _id: appId }, { $set: declinedApp });
+  res.status(200).json(`Application ${appId} has been declined successful`);
+  console.log(`Application ${appId} has been declined successful`);
+};

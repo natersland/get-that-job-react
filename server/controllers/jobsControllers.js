@@ -63,28 +63,6 @@ export const getOneJob = async (req, res) => {
   return res.json({ data: job[0] });
 };
 
-/* const filterText = jobData.filter((item) => {
-  return (
-    item.jobTitle.toLowerCase().match(text) ||
-    item.company[0].companyName.toLowerCase().match(text)
-  );
-}); */
-
-/* let result = jobData
-  .filter((searchtext) => {
-    return (
-      searchtext.jobTitle.toLowerCase().match(text) ||
-      searchtext.company[0].companyName.toLowerCase().match(text)
-    );
-  })
-  .filter((category) => {
-    return category.category === category;
-  })
-  .filter((jobType) => {
-    return jobType.jobType === type;
-  });
-setJobs(result);
- */
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
     const keywords = req.query.keywords;
