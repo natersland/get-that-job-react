@@ -56,19 +56,13 @@ function SeeMorePage() {
   const { data, reFetch } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
-  const checkUserProfile = async () => {
-    // fx ส่งข้อมูลใบสมัครไป Back-End -----------------------
+  const checkUserProfile = async (event) => {
     const handleSubmit = () => {
-      const applicationStatus = [
-        "applied",
-        "reviewing",
-        "declined",
-        "finished",
-      ];
+      const applicationStatus = ["applied", "reviewing", "finished"];
       const randomStatus =
         applicationStatus[Math.floor(Math.random() * applicationStatus.length)];
 
-      /* event.preventDefault(); */ // <- ใส่มาแล้วบึ้มเลย
+      event.preventDefault();
       const data = {
         professionalId,
         jobId,
@@ -77,7 +71,6 @@ function SeeMorePage() {
       };
       createApplication(data);
     };
-
     if (
       data?.cvFiles?.[0] === undefined ||
       data?.phone === "" ||

@@ -23,7 +23,7 @@ const JobSchema = new mongoose.Schema(
     },
     jobType: {
       type: String,
-      required: [true, "An job must have a type"],
+      required: true,
     },
     minSalary: {
       type: Number,

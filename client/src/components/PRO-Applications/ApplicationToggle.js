@@ -35,7 +35,8 @@ function ApplicationToggle({
   deleteApplication,
   appId,
   reFetch,
-  handleChangeApplicationStatus,
+  changeApplicationStatus,
+  declinedDate,
 }) {
   // Convert Salary มีอยู่ใน utils -> UtilitiesFunction เอาไว้ใช้แปลงเงินเดือนให้เป็นหน่วย k ได้
   const { convertSalary } = UtilitiesFunction();
@@ -69,9 +70,7 @@ function ApplicationToggle({
       return statusComponent(
         DeclineIcon,
         "declined",
-        `Declined on ${moment()
-          .subtract(Math.floor(Math.random() * 100), "days")
-          .calendar()}`
+        `Declined on ${moment(declinedDate).format("L")}`
       ); // กลับมาเอา state มาใส่ด้วย
     }
   };
@@ -104,7 +103,7 @@ function ApplicationToggle({
           <IconWithText
             icon={EmailIcon}
             status="default"
-            text={moment(apllicationCreatedDate).startOf().fromNow()}
+            text={apllicationCreatedDate}
           />
           {checkApplicationStatus()}
           <Tooltip title="Delete this application" arrow>
@@ -131,11 +130,9 @@ function ApplicationToggle({
         <DeclineBtn
           className={`btn btn-md ${color} uppercase`}
           disabled={btnStatus}
-          onClick={() => {
+          onClick={(e) => {
             localStorage.setItem("applicationId", appId);
-            handleChangeApplicationStatus();
-            /*             reFetch();
-             */
+            changeApplicationStatus(e);
           }}
         >
           <span className="mr-2">

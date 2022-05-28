@@ -9,16 +9,16 @@ const RecruiterSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "An user:recruiter must have a email"],
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "An user:recruiter must have a password"],
+      required: true,
     },
     role: {
       type: String,
-      required: [true, "An user:recruiter must have a role"],
+      required: true,
       default: "recruiter",
     },
     companyName: {

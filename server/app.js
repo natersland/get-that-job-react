@@ -14,8 +14,6 @@ import jobRouter from "./routes/jobsRoutes.js";
 import usersRouter from "./routes/usersRoutes.js";
 import applicationsRouter from "./routes/applicationsRoutes.js";
 
-
-
 // --------------------------------------------------------
 
 async function init() {
@@ -28,21 +26,20 @@ async function init() {
     secure: true,
   });
 
-  // 1) initialize server and setting -----------------
+  // initialize server and setting -----------------
   const app = express();
   const port = 4000;
   await client.connect();
 
-  // 2) middleware -----------------
+  // middleware -----------------
   app.use(express.json());
   app.use(cors());
   app.use(bodyParser.json());
   app.use(morgan("dev")); // เอาไว้ logger ดู HTTP request ใน node terminal
 
-  // 3) custom middleware
+  // custom middleware
 
-
-  // 4) app routers -----------------
+  // app routers -----------------
   app.use("/auth", authRouter);
   app.use("/users", usersRouter);
   app.use("/jobs", jobRouter);
@@ -58,7 +55,7 @@ async function init() {
       stack: err.stack,
     });
   });
-  // 5) response from server -----------------
+  // response from server -----------------
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
   });

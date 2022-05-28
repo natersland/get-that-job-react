@@ -19,7 +19,6 @@ function ProfessionalApp() {
         <Route path="/findjobs" element={<FindJobsPage />} />
         <Route path="/findjobs/:id" element={<SeeMorePage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
-
         <Route path="/following" element={<NotFoundPage />} />
         <Route path="/profile" element={<UpdatePersonalProfile />} />
         {/* Just for test Route Start Here ------------------------------------ */}

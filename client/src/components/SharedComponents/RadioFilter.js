@@ -79,7 +79,6 @@ export default function RadioFilter({
   stateVariable, // state ที่ใช้เก็บค่า value ของ radio ตอน user เลือก
   setStateVariable, // state ที่ใช้ set ค่า value ของ radio ตอน user เลือก
 }) {
-  console.log(stateVariable);
   return (
     <FormControl>
       <FormLabel id="redio-filter">{formlabel}</FormLabel>

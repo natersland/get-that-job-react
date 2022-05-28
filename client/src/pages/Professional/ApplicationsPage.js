@@ -6,7 +6,7 @@ import _ from "lodash";
 import axios from "axios";
 // components ----------------------------------
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
-import ApplicationToggle from "../../components/P-Page-Applications/ApplicationToggle";
+import ApplicationToggle from "../../components/PRO-Applications/ApplicationToggle";
 // Hooks ------------------------------------
 function ApplicationsPage() {
   const [applications, setApplication] = useState([]);
@@ -15,14 +15,13 @@ function ApplicationsPage() {
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
   const professionalId = localStorage.getItem("id");
-  const appplicationId = localStorage.getItem("applicationId");
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
-
   const getApplications = async () => {
     try {
       const results = await axios.get(url);
-      setApplication(_.reverse(results?.data?.applications)); // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
+      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
+      setApplication(_.reverse(results?.data?.applications));
       setUserJobs(results?.data?.jobDetail);
       setUser(results.data);
       setCompaniesData(results?.data?.companyDetail);
@@ -33,35 +32,6 @@ function ApplicationsPage() {
       applications,
     };
   };
-  // fx ลบใบสมัคร
-  const deleteApplication = async () => {
-    try {
-      await axios.delete(
-        `http://localhost:4000/applications/${appplicationId}`
-      );
-      localStorage.removeItem("applicationId");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // fx เปลี่ยนสเตตัสใบสมัคร
-  const changeApplicationStatus = async (applicationData) => {
-    await axios.patch(
-      `http://localhost:4000/applications/${appplicationId}`,
-      applicationData
-    );
-  };
-  console.log(`http://localhost:4000/applications/${appplicationId}`);
-
-  const handleChangeApplicationStatus = () => {
-    const applicationData = {
-      applicationStatus: "declined",
-      decliedDate: Date.now(),
-    };
-    changeApplicationStatus(applicationData);
-  };
-
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
   const reFetch = async () => {
     try {
@@ -72,7 +42,37 @@ function ApplicationsPage() {
     }
   };
 
-  // เก็บข้อมูล radio เพื่อส่งไปใน component "RadioFilter" (shared component)
+  // fx เปลี่ยนสเตตัสใบสมัคร ----------------------------------------------
+  const changeApplicationStatus = async (e) => {
+    const appplicationIdforStatus = localStorage.getItem("applicationId");
+    try {
+      e.preventDefault();
+      const data = { applicationStatus: "declined" };
+      await axios.put(
+        `http://localhost:4000/applications/${appplicationIdforStatus}`,
+        data
+      );
+      reFetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // fx ลบใบสมัคร ----------------------------------------------
+  const deleteApplication = async () => {
+    const appplicationIdforDelete = localStorage.getItem("applicationId");
+    try {
+      await axios.delete(
+        `http://localhost:4000/applications/${appplicationIdforDelete}`
+      );
+      localStorage.removeItem("applicationId");
+      reFetch();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // เก็บข้อมูล radio เพื่อส่งไปใน component "RadioFilter" (shared component) ----------------
   const radioFilterData = [
     { value: "all", label: "All" },
     { value: "applied", label: "Waiting" },
@@ -81,13 +81,12 @@ function ApplicationsPage() {
     { value: "declined", label: "Declined" },
   ];
 
-  // fx แสดงข้อมูลใบสมัครของ professional ทั้งหมด + ฟีลเตอร์ด้วย map
-  const applicationsData = applications?.map((item, index) => {
+  // fx แสดงข้อมูลใบสมัครของ professional ทั้งหมด + ฟีลเตอร์ด้วย map ----------------------------------------------
+  const applicationsData = applications?.map((applicationData, index) => {
     // หา jobId ที่อยู่ใน application ที่ตรงกับ jobId ใน jobDetail และ company detail ที่ lookup มา
     // ถ้าไม่หาข้อมูลจะ map ออกมามั่วมาก เพราะ jobDetail ไม่ได้เรียงตาม index ของ application ที่ user ส่งใบสมัครมา
-    let jobDetail = _.find(userJobs, { _id: item?.jobId });
+    let jobDetail = _.find(userJobs, { _id: applicationData?.jobId });
     let companyDetail = _.find(companiesData, { _id: jobDetail?.recruiterId });
-    console.log("hi", companyDetail);
     const data = () => {
       return (
         <ApplicationToggle
@@ -100,14 +99,17 @@ function ApplicationsPage() {
           jobMaxSalary={jobDetail?.maxSalary}
           companyName={companyDetail?.companyName}
           createdJobDate={moment(jobDetail?.createdJobDate).startOf().fromNow()}
-          apllicationCreatedDate={item?.appliedDate} // ไม่แปลงวันที่ตรงนี้เพราะจะเอาวันที่ไป reuse ตรง decline status ช่วงก่อน demo
-          applicationStatus={item?.applicationStatus}
+          apllicationCreatedDate={moment(applicationData?.appliedDate)
+            .startOf()
+            .fromNow()}
+          declinedDate={applicationData?.declinedDate}
+          applicationStatus={applicationData?.applicationStatus}
           personalExperience={user?.experience}
           education={user?.education}
           deleteApplication={deleteApplication}
-          appId={item?._id}
+          appId={applicationData?._id}
           reFetch={reFetch}
-          handleChangeApplicationStatus={handleChangeApplicationStatus}
+          changeApplicationStatus={changeApplicationStatus}
         />
       );
     };
@@ -115,7 +117,7 @@ function ApplicationsPage() {
     if (filterApllication === "all") {
       return data();
       // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
-    } else if (filterApllication === item?.applicationStatus) {
+    } else if (filterApllication === applicationData?.applicationStatus) {
       return data();
     }
   });
@@ -126,10 +128,9 @@ function ApplicationsPage() {
   });
   useEffect(() => {
     getApplications();
-    deleteApplication(); /* reFetch(); */
-    /*     changeApplicationStatus();
-     */
-  }, [appplicationId]);
+    changeApplicationStatus();
+    reFetch();
+  }, []);
 
   return (
     <Wrapper>
@@ -145,7 +146,7 @@ function ApplicationsPage() {
       </HeaderSection>
       <p className="bg-pinkprimary text-white p-2 mt-3">
         **เปลี่ยนให้ตอนกดสมัครงาน random สถานะใบสมัคร applied, reviewing,
-        declined, finished, ก่อน demo อย่าลืมไปแก้ด้วย
+        finished, ก่อน demo อย่าลืมไปแก้ด้วย
       </p>
       <ApplicationSection>
         <ApplicationFoundText>
