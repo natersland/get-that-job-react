@@ -9,16 +9,16 @@ const ProfessionalSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "An user:professional must have a email"],
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "An user:professional must have a password"],
+      required: true,
     },
     role: {
       type: String,
-      required: [true, "An user:professional must have a role"],
+      required: true,
       default: "professional",
     },
     name: {

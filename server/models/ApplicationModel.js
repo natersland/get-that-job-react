@@ -24,6 +24,7 @@ const ApplicationSchema = new mongoose.Schema(
     },
     declinedDate: {
       type: Date,
+      default: null,
     },
   },
   { timestamps: true }

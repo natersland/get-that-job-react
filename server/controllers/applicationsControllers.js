@@ -1,10 +1,7 @@
 import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
-
 // Schema Medels ---------------------
-
 import ApplicationModel from "../models/ApplicationModel.js";
-
 import RecruiterModel from "../models/RecruiterModel.js";
 import ProfessionalModel from "../models/ProfessionalModel.js";
 // Database ---------------------------
@@ -12,18 +9,8 @@ const appCollection = db.collection("applications");
 const jobsCollection = db.collection("jobs");
 const usersCollection = db.collection("users");
 
-export const createApplication = async (req, res, next) => {
-  try {
-    const newApplication = new ApplicationModel(req.body);
-    await appCollection.insertOne(newApplication);
-    res.status(200).json(`New application has been created successful`);
-    console.log(newApplication);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getAllApplication = async (req, res, next) => {
+// GET - ดึงข้อมูลใบสมัครทั้งหมด ---------------------------------
+export const getAllApplications = async (req, res, next) => {
   try {
     const applyJob = await appCollection
       .aggregate([
@@ -43,6 +30,33 @@ export const getAllApplication = async (req, res, next) => {
   }
 };
 
+// POST - สร้างใบสมัครใหม่ ---------------------------------
+export const createApplication = async (req, res, next) => {
+  try {
+    const newApplication = new ApplicationModel(req.body);
+    await appCollection.insertOne(newApplication);
+    res.status(200).json(`New application has been created successful`);
+    console.log(newApplication);
+  } catch (error) {
+    next(error);
+  }
+};
+// PATCH - เปลี่ยนสถานะใบสมัคร ---------------------------------
+export const changeApplicationStatus = async (req, res) => {
+  const statusData = {
+    applicationStatus: req.body.applicationStatus,
+    declinedDate: new Date(),
+  };
+
+  const appId = ObjectId(req.params.id);
+  await appCollection.updateOne({ _id: appId }, { $set: statusData });
+  res
+    .status(200)
+    .json(`Application id:${appId} has been changed status successful`);
+  console.log(`Application id:${appId} has been changed status  successful`);
+};
+
+// DELETE - ลบใบสมัคร ---------------------------------
 export const deleteApplication = async (req, res, next) => {
   try {
     const appId = ObjectId(req.params.id);

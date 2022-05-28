@@ -22,7 +22,6 @@ function JobsDataProvider(props) {
   const [filter, setFilter] = useState([]);
   const [seeMore, setSeeMore] = useState([]);
   const [createdby, setCreateby] = useState([]);
-
   // Conditional State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);

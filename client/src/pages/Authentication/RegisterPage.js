@@ -7,12 +7,12 @@ import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
 // Components
-import MainRegisterForm from "../../components/Page-Register/MainRegisterForm";
-import SelectRole from "../../components/Page-Register/SelectRole";
+import MainRegisterForm from "../../components/Register/MainRegisterForm";
+import SelectRole from "../../components/Register/SelectRole";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 /* import AlertNotification from "../../components/Utilities/AlertNotification";
- */ import RoleStepsBox from "../../components/Page-Register/RoleStepsBox.js";
-import RegFormButton from "../../components/Page-Register/RegFormButton";
+ */ import RoleStepsBox from "../../components/Register/RoleStepsBox.js";
+import RegFormButton from "../../components/Register/RegFormButton";
 
 import AlertDialog from "../../components/Utilities/AlertDialog";
 function RegisterPage() {
