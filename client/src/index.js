@@ -12,29 +12,28 @@ import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
 import { JobsDataProvider } from "./contexts/jobsData";
 import { VadilationProvider } from "./contexts/vadilation";
-/* import { ThemeProvider } from "@mui/material/styles";
- */
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./styles/MuiTheme";
+
 jwtInterceptor();
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      {/*       <ThemeProvider>
-       */}{" "}
-      <UserDataProvider>
-        <VadilationProvider>
-          <AuthProvider>
-            <JobsDataProvider>
-              <NavigateProvider>
-                <App />
-              </NavigateProvider>
-            </JobsDataProvider>
-          </AuthProvider>
-        </VadilationProvider>
-      </UserDataProvider>
-      {/*       </ThemeProvider>
-       */}{" "}
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <UserDataProvider>
+          <VadilationProvider>
+            <AuthProvider>
+              <JobsDataProvider>
+                <NavigateProvider>
+                  <App />
+                </NavigateProvider>
+              </JobsDataProvider>
+            </AuthProvider>
+          </VadilationProvider>
+        </UserDataProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
