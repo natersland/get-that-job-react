@@ -37,11 +37,15 @@ export const getOneJob = async (req, res) => {
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
     const keywords = req.query.keywords;
-    /* const keywordName = req.query.keywordName; */
+    const companyWord = req.query.companyWord;
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const searchJobType = req.query.jobType;
     const searchJobCategory = req.query.searchJobCategory;
+    const page = req.query.page;
+
+    const PAGE_SIZE = 12;
+    const skip = PAGE_SIZE * (page - 1);
 
     const query = {};
     if (query) {
@@ -66,11 +70,6 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const jobs = await jobsCollection
       .aggregate([
         {
-          $sort: {
-            createdJobDate: -1,
-          },
-        },
-        {
           $lookup: {
             from: "users",
             localField: "recruiterId",
@@ -80,9 +79,17 @@ export const getAllJobsWithFilter = async (req, res, next) => {
         },
         { $match: query },
       ])
+      .sort({
+        createdJobDate: -1,
+      })
+      .skip(skip)
+      .limit(12)
       .toArray();
 
-    return res.json({ data: jobs });
+    const count = await jobsCollection.countDocuments(query);
+    const totalPages = Math.ceil(count / PAGE_SIZE);
+
+    return res.json({ data: jobs, total_pages: totalPages });
   } catch (error) {
     next(error);
   }

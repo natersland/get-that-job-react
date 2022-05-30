@@ -145,7 +145,11 @@ function ApplicationToggle({
     if (status != "declined") {
       return declineBtn("decline application", "btn-active", false);
     } else {
-      return declineBtn("decline application", "btn-gray", true);
+      return declineBtn(
+        `declined on ${moment(declinedDate).format("L")}`,
+        "btn-gray",
+        true
+      );
     }
   };
 
