@@ -70,7 +70,3 @@ const ToggleWrapper = styled.div`
 const ToggleIcon = styled.img``;
 // Content Section -----------------------------------
 const ContentSection = styled.section``;
-const ContentWrapper = styled.div`
-  padding: 20px;
-  width: 85%;
-`;

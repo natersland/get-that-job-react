@@ -8,7 +8,10 @@ export default function BackDropLoading() {
   return (
     <div>
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          color: "#f48fb1",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
         open={loading}
       >
         <CircularProgress color="inherit" />

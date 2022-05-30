@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
-import FocusIcon from "../../assets/focus.svg";
+import FocusIconActive from "../../assets/focus.svg";
+import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
 import NavigationIcon from "../../assets/navigation-line.svg";
 
@@ -18,7 +19,7 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 import BackDropLoading from "../Utilities/BackDropLoading";
 import CircularIndeterminate from "../Utilities/CircularIndeterminate";
 // Hooks -------------------------
-import useFetch from "../../hooks/useFetch";
+import UserStatusCheckerBtn from "./UserStatusCheckerBtn";
 function JobCard({
   jobTitle,
   companyName,
@@ -28,12 +29,9 @@ function JobCard({
   maxSalary,
   companyDetail,
   jobId,
+  setIsDelay,
 }) {
-  // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
-  const professionalId = localStorage.getItem("id");
-  const { componentDidMount, convertSalary } = UtilitiesFunction();
-  const { setLoading } = useVadilation();
-  const navigate = useNavigate();
+  const { convertSalary } = UtilitiesFunction();
 
   const companyLogoCheck = () => {
     if (companyDetail[0]?.companyLogo[0]) {
@@ -43,64 +41,6 @@ function JobCard({
     }
   };
 
-  const followButton = () => {
-    const button = (followStatus, btnStatus) => {
-      return (
-        <FollowBtnWrapper>
-          <FollowCircle btnStatus={btnStatus}>
-            <FollowIcon src={FocusIcon}></FollowIcon>
-          </FollowCircle>
-          <FollowButton className="btn btn-white btn-md uppercase" disabled>
-            follow
-          </FollowButton>
-        </FollowBtnWrapper>
-      );
-    };
-    return button();
-  };
-
-  // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
-  const { data } = useFetch(`http://localhost:4000/users/${professionalId}`);
-  const seeMoreButton = (mode) => {
-    const applicationsData = data?.applications;
-    let status = null;
-    const result = applicationsData?.filter((applyJobId) => {
-      return applyJobId.jobId === jobId;
-    });
-    if (result?.length > 0) {
-      status = false;
-    } else {
-      status = true;
-    }
-    const button = (color, text, status) => {
-      const clicktoSeeMore = () => {
-        setLoading(true);
-        localStorage.setItem("jobId", jobId);
-        setTimeout(function () {
-          navigate(`/findjobs/${jobId}}`);
-          componentDidMount();
-          setLoading(false);
-        }, 500);
-      };
-      return (
-        <SeeMoreButton
-          className={`btn ${color} btn-md ${
-            color === "btn-white" ? "pink-border" : null
-          } uppercase`}
-          onClick={clicktoSeeMore}
-          btnStatus={status}
-          disabled={status}
-        >
-          {text}
-        </SeeMoreButton>
-      );
-    };
-    if (status) {
-      return button("btn-white", "see more", false);
-    } else {
-      return button("btn-gray", "applied", true);
-    }
-  };
   // render start here -------------------------------------------------
   return (
     <JobCardWrapper className="shadow-medium">
@@ -140,8 +80,16 @@ function JobCard({
       </JobCardContent>
       {/* Left Side: Footer ---------------------------------------------- */}
       <JobCardFooter>
-        {followButton()}
-        {seeMoreButton()}
+        <UserStatusCheckerBtn
+          mode="follow"
+          jobId={jobId}
+          setIsDelay={setIsDelay}
+        />
+        <UserStatusCheckerBtn
+          mode="seemore"
+          jobId={jobId}
+          setIsDelay={setIsDelay}
+        />
       </JobCardFooter>
     </JobCardWrapper>
   );
@@ -245,10 +193,3 @@ const FollowCircle = styled.div`
   cursor: pointer;
 `;
 const FollowIcon = styled.img``;
-const SeeMoreButton = styled.button`
-  &:hover {
-    background-color: ${(props) =>
-      props.status ? "var(--secoundary-brand-color)" : null};
-    color: ${(props) => (props.status ? "white" : null)};
-  }
-`;

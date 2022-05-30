@@ -71,7 +71,7 @@ function ApplicationToggle({
         DeclineIcon,
         "declined",
         `Declined on ${moment(declinedDate).format("L")}`
-      ); // กลับมาเอา state มาใส่ด้วย
+      );
     }
   };
   // fx เก็บคอนเทนท์ส่วน Header ของ ToggleCard Component ------------------
@@ -142,7 +142,7 @@ function ApplicationToggle({
         </DeclineBtn>
       );
     };
-    if (status != "declined") {
+    if (status !== "declined") {
       return declineBtn("decline application", "btn-active", false);
     } else {
       return declineBtn(

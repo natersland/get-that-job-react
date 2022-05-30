@@ -3,103 +3,118 @@ import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // Pictures --------------------
-import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
-import CompanyIcon from "../../assets/building-3-line.svg";
-import FocusIcon from "../../assets/focus.svg";
-import CalendarIcon from "../../assets/calendar-2-line.svg";
+import FocusIconActive from "../../assets/focus.svg";
+import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
 import NavigationIcon from "../../assets/navigation-line.svg";
-
 // Contexts --------------------
-import { useJobsData } from "../../contexts/jobsData";
 import { useVadilation } from "../../contexts/vadilation";
 // Utils --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-//Components --------------------
-import BackDropLoading from "../Utilities/BackDropLoading";
-import CircularIndeterminate from "../Utilities/CircularIndeterminate";
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
-function UserStatusCheckerBtn({
-  jobTitle,
-  companyName,
-  jobCategory,
-  jobType,
-  minSalary,
-  maxSalary,
-  companyDetail,
-  jobId,
-}) {
+function UserStatusCheckerBtn({ mode, jobId, fx }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
-  const { componentDidMount, convertSalary } = UtilitiesFunction();
+  const { componentDidMount } = UtilitiesFunction();
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
   const { data } = useFetch(`http://localhost:4000/users/${professionalId}`);
 
-  const companyLogoCheck = () => {
-    if (companyDetail[0]?.companyLogo[0]) {
-      return companyDetail[0]?.companyLogo[0].url;
-    } else {
-      return null;
-    }
-  };
-
-  const followButton = (btnStatus) => {
+  // ปุ่ม follow --------------------------------------
+  const followButton = (text, status, jobId) => {
+    const followJob = () => {};
+    const unFollowJob = () => {};
     return (
       <FollowBtnWrapper>
-        <FollowCircle btnStatus={btnStatus}>
-          <FollowIcon src={FocusIcon}></FollowIcon>
+        <FollowCircle btnStatus={status}>
+          <FollowIcon
+            src={status ? FocusIconActive : FocusIconUnActive}
+          ></FollowIcon>
         </FollowCircle>
-        <FollowButton className="btn btn-white btn-md uppercase" disabled>
-          follow
+        <FollowButton
+          className={`btn btn-white btn-md uppercase`}
+          disabled={status}
+        >
+          {text}
         </FollowButton>
       </FollowBtnWrapper>
     );
   };
+  // ปุ่ม see more กับ applynow --------------------------------------
+  const applyStatusButton = (mode, color, text, status, fx) => {
+    const clicktoSeeMore = () => {
+      setLoading(true);
+      localStorage.setItem("jobId", jobId);
+      setTimeout(function () {
+        navigate(`/findjobs/${jobId}}`);
+        componentDidMount();
+        setLoading(false);
+      }, 500);
+    };
+    return (
+      <SeeMoreButton
+        className={`btn ${color} ${mode === "applynow" ? "btn-lg" : "btn-md"} ${
+          color === "btn-white" ? "pink-border" : null
+        } uppercase`}
+        onClick={mode === "seemore" ? clicktoSeeMore : fx}
+        btnStatus={status}
+        disabled={status}
+      >
+        {mode === "applynow" && status === false ? (
+          <span>
+            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
+          </span>
+        ) : null}
+        {text}
+      </SeeMoreButton>
+    );
+  };
 
   // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
-  const seeMoreButton = (mode) => {
-    const applicationsData = data?.applications;
+  const buttonChecker = (mode, fx) => {
     let status = null;
-    const result = applicationsData?.filter((applyJobId) => {
-      return applyJobId.jobId === jobId;
-    });
+    let filterData = null;
+    let result = null;
+    // Check btn mode
+    if (mode === "seemore" || "applynow") {
+      filterData = data?.applications;
+      result = filterData?.filter((item) => {
+        return item.jobId === jobId;
+      });
+    }
+    if (mode === "follow") {
+      filterData = data?.followingJobs;
+      result = filterData?.filter((item) => {
+        return item === jobId;
+      });
+    }
     if (result?.length > 0) {
+      // สเตตัส = สเตตัสของปุ่ม เปิด/ปิด
       status = false;
     } else {
       status = true;
     }
-    const button = (color, text, status) => {
-      const clicktoSeeMore = () => {
-        setLoading(true);
-        localStorage.setItem("jobId", jobId);
-        setTimeout(function () {
-          navigate(`/findjobs/${jobId}}`);
-          componentDidMount();
-          setLoading(false);
-        }, 500);
-      };
-      return (
-        <SeeMoreButton
-          className={`btn ${color} btn-md ${
-            color === "btn-white" ? "pink-border" : null
-          } uppercase`}
-          onClick={clicktoSeeMore}
-          btnStatus={status}
-          disabled={status}
-        >
-          {text}
-        </SeeMoreButton>
-      );
-    };
-    if (status) {
-      return button("btn-white", "see more", false);
-    } else {
-      return button("btn-gray", "applied", true);
+    // render seemore button
+    if (status && mode === "seemore") {
+      return applyStatusButton(`${mode}`, "btn-white", "see more", false);
+    } else if (!status && mode === "seemore") {
+      return applyStatusButton(`${mode}`, "btn-gray", "applied", true);
+    }
+    // render applynow button
+    if (status && mode === "applynow") {
+      return applyStatusButton(`${mode}`, "btn-pink", "Apply Now", false, fx);
+    } else if (!status && mode === "applynow") {
+      return applyStatusButton(`${mode}`, "btn-gray", "applied", true, fx);
+    }
+    // render follow button
+    if (status && mode === "follow") {
+      return followButton("follow", false, fx);
+    } else if (!status && mode === "follow") {
+      return followButton("following", true, fx);
     }
   };
-  // render start here -------------------------------------------------
-  return <Wrapper></Wrapper>;
+
+  return <Wrapper>{buttonChecker(mode, fx, jobId)}</Wrapper>;
 }
 export default UserStatusCheckerBtn;
 
@@ -108,14 +123,15 @@ export default UserStatusCheckerBtn;
 const Wrapper = styled.div``;
 const FollowBtnWrapper = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 const FollowButton = styled.p`
   padding-left: 0;
   margin-left: 10px;
-  cursor: pointer;
 `;
 const FollowCircle = styled.div`
-  background-color: var(--secoundary-brand-color);
+  background-color: ${(props) =>
+    props.btnStatus ? "var(--secoundary-brand-color)" : null};
   border-radius: 50px;
   width: 40px;
   height: 40px;
@@ -126,13 +142,12 @@ const FollowCircle = styled.div`
 
   color: white;
   font-weight: 500;
-  cursor: pointer;
 `;
 const FollowIcon = styled.img``;
 const SeeMoreButton = styled.button`
   &:hover {
     background-color: ${(props) =>
-      props.status ? "var(--secoundary-brand-color)" : null};
-    color: ${(props) => (props.status ? "white" : null)};
+      !props.btnStatus ? "var(--secoundary-brand-color)" : null};
+    color: ${(props) => (!props.btnStatus ? "white" : null)};
   }
 `;
