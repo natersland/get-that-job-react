@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import React, { useCallback } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 // Pictures --------------------
 import FocusIconActive from "../../assets/focus.svg";
 import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
@@ -15,18 +16,36 @@ import useFetch from "../../hooks/useFetch";
 function UserStatusCheckerBtn({ mode, jobId, fx }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
-  const { componentDidMount } = UtilitiesFunction();
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
+  const { componentDidMount } = UtilitiesFunction();
   const { data } = useFetch(`http://localhost:4000/users/${professionalId}`);
 
   // ปุ่ม follow --------------------------------------
-  const followButton = (text, status, jobId) => {
-    const followJob = () => {};
+  const followButton = (text, status) => {
+    const handleSubmitFollowData = async (e, mode) => {
+      e.preventDefault();
+      const data = {
+        jobId,
+        mode: `${mode}`,
+      };
+      console.log(data);
+
+      await axios.patch(
+        `http://localhost:4000/users/followjob/${professionalId}`,
+        data
+      );
+    };
+    const followJob = (e) => {
+      handleSubmitFollowData(e, "follow");
+    };
     const unFollowJob = () => {};
     return (
       <FollowBtnWrapper>
-        <FollowCircle btnStatus={status}>
+        <FollowCircle
+          btnStatus={status}
+          onClick={status ? unFollowJob : followJob}
+        >
           <FollowIcon
             src={status ? FocusIconActive : FocusIconUnActive}
           ></FollowIcon>
@@ -71,7 +90,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx }) {
   };
 
   // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
-  const buttonChecker = (mode, fx) => {
+  const buttonChecker = (mode, fx, jobId) => {
     let status = null;
     let filterData = null;
     let result = null;

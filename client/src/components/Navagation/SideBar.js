@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
 // Pictures -------------------------------------
 import BrandLogo from "../../img/gtj-logo-1.png";
 import Jobposition from "../../img/briefcase-line.png";
@@ -6,7 +7,6 @@ import CreateJob from "../../img/file-add-line.png";
 import UserProfile from "../../img/user-line.png";
 import LogOut from "../../img/logout-circle-line.png";
 import BackDropLoading from "../Utilities/BackDropLoading";
-
 // Pro NavBar Pictures ----------------------------
 import MagnigyGlassIcon from "../../assets/search-line.svg";
 import DocIcon from "../../assets/article-line.svg";
