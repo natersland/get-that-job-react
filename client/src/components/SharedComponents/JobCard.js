@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
@@ -18,8 +18,8 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 //Components --------------------
 import BackDropLoading from "../Utilities/BackDropLoading";
 import CircularIndeterminate from "../Utilities/CircularIndeterminate";
-// Hooks -------------------------
 import UserStatusCheckerBtn from "./UserStatusCheckerBtn";
+
 function JobCard({
   jobTitle,
   companyName,
@@ -29,7 +29,6 @@ function JobCard({
   maxSalary,
   companyDetail,
   jobId,
-  setIsDelay,
 }) {
   const { convertSalary } = UtilitiesFunction();
 
@@ -43,7 +42,7 @@ function JobCard({
 
   // render start here -------------------------------------------------
   return (
-    <JobCardWrapper className="shadow-medium">
+    <JobCardWrapper className={`shadow-medium `}>
       <JobCardContent>
         {/* Left Side ---------------------------------------------- */}
         <ContentLeft>
@@ -78,18 +77,11 @@ function JobCard({
           </SubContentWrapper>
         </ContentRight>
       </JobCardContent>
+
       {/* Left Side: Footer ---------------------------------------------- */}
       <JobCardFooter>
-        <UserStatusCheckerBtn
-          mode="follow"
-          jobId={jobId}
-          setIsDelay={setIsDelay}
-        />
-        <UserStatusCheckerBtn
-          mode="seemore"
-          jobId={jobId}
-          setIsDelay={setIsDelay}
-        />
+        <UserStatusCheckerBtn mode="follow" jobId={jobId} />
+        <UserStatusCheckerBtn mode="seemore" jobId={jobId} />
       </JobCardFooter>
     </JobCardWrapper>
   );

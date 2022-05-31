@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 // Components
 import FindThatJobHeader from "../../components/PRO-FindThatJob/FindThatJobHeader";
@@ -12,7 +12,6 @@ import Pagination from "@mui/material/Pagination";
 import { useJobsData } from "../../contexts/jobsData";
 // Utils -----------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-import useDelay from "../../hooks/useDelay";
 // Hooks -----------------------------
 function FindJobsPage() {
   const userRole = localStorage.getItem("role");
@@ -31,7 +30,6 @@ function FindJobsPage() {
   const [totalPages, setTotalPages] = useState(0);
 
   const { componentDidMount } = UtilitiesFunction();
-  const { isDelay, setIsDelay } = useDelay();
   // Fecth data from Back-End ---------------------------------
   const search = async () => {
     setPaginationLoading(true);
@@ -81,7 +79,7 @@ function FindJobsPage() {
         {paginationLoading ? (
           <CircularIndeterminate />
         ) : (
-          <FindThatJobGrid status={isDelay}>
+          <FindThatJobGrid>
             {jobs.map((job, index) => {
               return (
                 <JobCard
