@@ -24,7 +24,7 @@ function FindJobsPage() {
   const [keywordsNumber, setKeywordsNumber] = useState("");
   const { jobs, setJobs } = useJobsData();
   // Loading ----------------------------------
-  const [paginationLoading, setPaginationLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // Pagination Start Here ----------------------------------
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -32,13 +32,13 @@ function FindJobsPage() {
   const { componentDidMount } = UtilitiesFunction();
   // Fecth data from Back-End ---------------------------------
   const search = async () => {
-    setPaginationLoading(true);
+    setIsLoading(true);
     const results = await axios.get(
       `http://localhost:4000/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
     );
     setJobs(results.data.data);
     setTotalPages(results.data.total_pages);
-    setPaginationLoading(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function FindJobsPage() {
         setsearchJobCategory={setsearchJobCategory}
         setJobType={setJobType}
         setKeywordsNumber={setKeywordsNumber}
-        setPaginationLoading={setPaginationLoading}
+        setIsLoading={setIsLoading}
         searchJobText={searchJobText}
         searchMinSalaryText={searchMinSalaryText}
         searchMaxSalaryText={searchMaxSalaryText}
@@ -76,7 +76,7 @@ function FindJobsPage() {
       <FindThatJobWrapper>
         <BackDropLoading />
         <JobsCounterNumber>{jobs?.length} jobs for you</JobsCounterNumber>
-        {paginationLoading ? (
+        {isLoading ? (
           <CircularIndeterminate />
         ) : (
           <FindThatJobGrid>

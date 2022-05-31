@@ -167,29 +167,17 @@ export const changeUserPassWord = async (req, res, next) => {
 export const followingJobUpdate = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
-    const userFollowingData = await usersCollection
-      .findOne({ _id: userId })
-      .toArray();
-
-    let userData = {};
     if (req.body.mode === "follow") {
-      let temp = [
-        ...userFollowingData.followingJobs,
-        req.body.userFollowingData,
-      ];
-      userData = temp;
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $push: { followingJobs: req.body.jobId } }
+      );
     } else if (req.body.mode === "unfollow") {
-      const unfollowJobId = req.body.userFollowingData;
-      const result = userFollowingData.filter((jobId, index) => {
-        if (unfollowJobId === jobId) {
-          jobId.splice(index, 1);
-        }
-        return result;
-      });
-      userData = { followingJobs: req.body.result };
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $pull: { followingJobs: req.body.jobId } }
+      );
     }
-
-    await usersCollection.updateOne({ _id: userId }, { $set: userData });
     res.status(200).json(`User ${userId} has been updated successful`);
     console.log(`Updated user data id:${userId} successful!`);
   } catch (error) {

@@ -19,33 +19,33 @@ function UserStatusCheckerBtn({ mode, jobId, fx }) {
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
-  const { data } = useFetch(`http://localhost:4000/users/${professionalId}`);
+  const { data, reFetch } = useFetch(
+    `http://localhost:4000/users/${professionalId}`
+  );
 
   // ปุ่ม follow --------------------------------------
   const followButton = (text, status) => {
     const handleSubmitFollowData = async (e, mode) => {
       e.preventDefault();
       const data = {
-        jobId,
+        jobId: jobId,
         mode: `${mode}`,
       };
-      console.log(data);
-
       await axios.patch(
         `http://localhost:4000/users/followjob/${professionalId}`,
         data
       );
+      reFetch();
     };
     const followJob = (e) => {
       handleSubmitFollowData(e, "follow");
     };
-    const unFollowJob = () => {};
+    const unFollowJob = (e) => {
+      handleSubmitFollowData(e, "unfollow");
+    };
     return (
-      <FollowBtnWrapper>
-        <FollowCircle
-          btnStatus={status}
-          onClick={status ? unFollowJob : followJob}
-        >
+      <FollowBtnWrapper onClick={status ? unFollowJob : followJob}>
+        <FollowCircle btnStatus={status}>
           <FollowIcon
             src={status ? FocusIconActive : FocusIconUnActive}
           ></FollowIcon>
