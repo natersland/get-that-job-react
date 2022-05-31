@@ -163,3 +163,24 @@ export const changeUserPassWord = async (req, res, next) => {
     next(error);
   }
 };
+// PATCH - อัพเดต following job ---------------------------------------
+export const followingJobUpdate = async (req, res, next) => {
+  try {
+    const userId = ObjectId(req.params.id);
+    if (req.body.mode === "follow") {
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $push: { followingJobs: req.body.jobId } }
+      );
+    } else if (req.body.mode === "unfollow") {
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $pull: { followingJobs: req.body.jobId } }
+      );
+    }
+    res.status(200).json(`User ${userId} has been updated successful`);
+    console.log(`Updated user data id:${userId} successful!`);
+  } catch (error) {
+    next(error);
+  }
+};

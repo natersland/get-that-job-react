@@ -13,6 +13,7 @@ import CompanyHeader from "../../components/SharedComponents/CompanyHeader";
 import JobDetails from "../../components/SharedComponents/JobDetails";
 // Pictures -------------------------------------
 import NavigationIcon from "../../assets/navigation-line.svg";
+import UserStatusCheckerBtn from "../../components/SharedComponents/UserStatusCheckerBtn";
 
 function SeeMorePage() {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
@@ -92,38 +93,7 @@ function SeeMorePage() {
       navigate("/applications");
     }
   };
-  // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
-  const applyNowBtn = () => {
-    const applicationsData = data?.applications;
-    let status = null;
-    const result = applicationsData?.filter((item) => {
-      return item.jobId === jobId;
-    });
-    if (result?.length > 0) {
-      status = false;
-    } else {
-      status = true;
-    }
-    const button = (color, text, status) => {
-      return (
-        <button
-          className={`btn btn-lg ${color} uppercase`}
-          onClick={checkUserProfile}
-          disabled={status}
-        >
-          <span>
-            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
-          </span>
-          {text}
-        </button>
-      );
-    };
-    if (status) {
-      return button("btn-pink", "Apply Now", false);
-    } else {
-      return button("btn-gray", "Applied", true);
-    }
-  };
+
   const contentData = [
     { title: "About The company name SA", content: job?.company?.[0].about }, // aboutCompany
     { title: "About the job position", content: job?.aboutJob }, // aboutJob
@@ -139,7 +109,13 @@ function SeeMorePage() {
           <HeaderLeft>
             <CompanyHeader />
           </HeaderLeft>
-          <HeaderRight>{applyNowBtn()}</HeaderRight>
+          <HeaderRight>
+            <UserStatusCheckerBtn
+              mode="applynow"
+              fx={checkUserProfile}
+              jobId={jobId}
+            />
+          </HeaderRight>
         </CompanyWrapper>
         {/*โซนแสดงข้อมูลงาน Start Here -----------------------------  */}
         <HeaderTitleWrapper>
@@ -159,7 +135,13 @@ function SeeMorePage() {
             </ContentBox>
           );
         })}
-        <ContentFooter>{applyNowBtn()}</ContentFooter>
+        <ContentFooter>
+          <UserStatusCheckerBtn
+            mode="applynow"
+            fx={checkUserProfile}
+            jobId={jobId}
+          />
+        </ContentFooter>
       </ContentWrapper>
     </Wrapper>
   );

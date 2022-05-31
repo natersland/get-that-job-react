@@ -55,7 +55,7 @@ function NavigateProvider(props) {
         navigate("/applications"); // Your applications
         setMenuIndex(index + 1);
       } else if (index === 2) {
-        navigate("*"); // Following
+        navigate("/following"); // Following
         setMenuIndex(index + 1);
       } else if (index === 3) {
         navigate("/profile"); // Profile

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useJobsData } from "../../contexts/jobsData";
 
 function FindThatJobHeader({
-  setPaginationLoading,
+  setIsLoading,
   setSearchJobText,
   setSearchMinSalaryText,
   setSearchMaxSalaryText,

@@ -16,13 +16,11 @@ applicationsRouter
   // สร้างใบสมัครใหม่ -> http://localhost:4000/applications/create
   .post("/create", createApplication)
   // เปลี่ยนสถานะใบสมัครงาน -> http://localhost:4000/applications/:id
-  .put("/:id", changeApplicationStatus)
+  .patch("/:id", changeApplicationStatus)
   // ดึงข้อมูลใบสมัครทั้งหมด -> http://localhost:4000/applications
   .get("/", getAllApplications)
   // ดึงข้อมูลใบสมัคร 1 ใบ -> http://localhost:4000/applications/:id
   .get("/:id")
-  // อัพเดตสถานะใบสมัคร -> http://localhost:4000/applications/:id
-  .put("/:id")
   // ลบใบสมัคร -> http://localhost:4000/applications/:id */
   .delete("/:id", deleteApplication);
 
