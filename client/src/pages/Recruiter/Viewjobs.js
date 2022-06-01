@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import UtilitiesFunction from "../../utils/utilitiesFunction";
 import styled from "@emotion/styled";
 import "../../App.css";
 import mailOpen from "../../img/mail-open-line.png";
@@ -11,39 +13,13 @@ import money from "../../img/money-dollar-circle-line.png";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import { useVadilation } from "../../contexts/vadilation";
 import close2 from "../../img/close2.png";
-import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
-import { AppBar } from "@mui/material";
 import _ from "lodash";
 import "../../App.css";
-//import arrowUp from "../../img/arrow-up-s-line.png";
-//import { JobsDataProvider } from "../../contexts/jobsData";
-
-/*
-const datas = [
-  {
-    id: "1",
-    jobTitle: "The job title",
-    openOn: "07/11/20",
-    jobsStatus: true,
-    totalCandidate: "5",
-    candidateOnTrack: "3",
-    jobType: "Full Time",
-    minSalary: "2.0k",
-    maxSalary: "2.5k",
-    jobCategory: "Manufactoring",
-    aboutTheJob:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis diam fringilla, luctus lectus dictum, volutpat lacus. Vivamus lacinia felis ut mauris lacinia elementum. Sed faucibus dapibus egestas. Etiam dolor neque, posuere at purus cursus, molestie eleifend lacus. Aenean eu diam eu enim commodo accumsan ut sit amet odio. Nam maximus varius leo, et porttitor ante sodales ut. Pellentesque euismod commodo nunc ut tincidunt. Sed fringilla nunc leo, a euismod ipsum aliquet placerat. Integer suscipit semper mi, sit amet mollis augue mollis in. Proin vestibulum accumsan elit, id pellentesque diam fermentum eget. Aliquam mattis quis quam ut faucibus. Duis finibus nulla nec enim eleifend dapibus.",
-    requirement:
-      "-Lorem ipsum dolor sit amet, consectetur adipiscing -elit Aenean aliquam turpis eget egestas porta.  -Quisque tristique nunc ut sem pretium bibendum. -Phasellus sit amet turpis laoreet, mattis elit ut, luctus ligula. -Nullam blandit arcu eget justo hendrerit finibus.",
-    optionalRequirement:
-      "- Lorem ipsum dolor sit amet, consectetur adipiscing elit - Maecenas vel metus imperdiet, malesuada dolor a, pulvinar tellus.",
-  }
-];*/
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  const [status, setStatus] = useState("option1");
+  //const [status, setStatus] = useState("option1");
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
@@ -60,7 +36,7 @@ function ViewJobs() {
       const results = await axios.get(
         `http://localhost:4000/users/${comProfileData}`
       );
-      setStatus(results.data.jobs);
+      //setStatus(results.data.jobs);
       setJob(_.reverse(results.data.jobs));
 
       console.log("GET JOB POST", results.data.jobs);
@@ -71,15 +47,6 @@ function ViewJobs() {
       job,
     };
 
-    /* setJobTitle(results.data.jobs.jobTitle);
-    setJobCategory(results.data.jobs.jobCategory);
-    setJobType(results.data.jobs.jobType);
-    setMinSalary(results.data.jobs.minSalary);
-    setMaxSalary(results.data.jobs.maxSalary);
-    setAboutJob(results.data.jobs.aboutJob);
-    setMandatoryReq(results.data.jobs.mandatoryReq);
-    setOptionalReq(results.data.jobs.optionalReq);
-    setCreatedJobDate(results.data.jobs.createdJobDate); */
   };
 
   //console.log("STATE job",job);
@@ -177,14 +144,12 @@ function ViewJobs() {
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
-    //document.getElementById('buttonID').disabled = true;
 
-    /*const closeJobStatus = (index) => {
-      job[index].jobStatus = true;
-      console.log(index);
-      console.log(job[index].jobStatus);
-    };*/
+    const { setLoading } = useVadilation();
+    const navigate = useNavigate();
+    const { componentDidMount} = UtilitiesFunction();
 
+    
     const handleCloseCLick = () => {
       if ((job.jobStatus = true)) {
         job.jobStatus = false;
@@ -199,8 +164,7 @@ function ViewJobs() {
       }
       console.log(job.jobStatus);
     };
-    //const [jobsStatus, setJobsStatus] = useState(false);
-
+   
     const click = () => {
       setClose(!close);
       setDisable(true);
@@ -209,7 +173,7 @@ function ViewJobs() {
 
     return (
       <div>
-        <Jobcard key={props._id}>
+        <Jobcard key={props.id}>
           <JobCardHeader>
             <JobCardHeader1>
               <div>
@@ -221,7 +185,7 @@ function ViewJobs() {
                     <img src={building} />
                   </Img>
                   <div>
-                    <Text1 key={props._id}>{props.jobCategory}</Text1>
+                    <Text1 key={props.id}>{props.jobCategory}</Text1>
                   </div>
                 </JobCardHeader1Left1>
                 <JobCardHeader1Left2>
@@ -229,7 +193,7 @@ function ViewJobs() {
                     <img src={calendar} />
                   </Img>
                   <div>
-                    <Text1 key={props._id}>{props.jobType}</Text1>
+                    <Text1 key={props.id}>{props.jobType}</Text1>
                   </div>
                 </JobCardHeader1Left2>
                 <JobCardHeader1Left2>
@@ -237,7 +201,7 @@ function ViewJobs() {
                     <img src={money} />
                   </Img>
                   <div>
-                    <Text1 key={props._id}>
+                    <Text1 key={props.id}>
                       {props.minSalary} {props.maxSalary}{" "}
                     </Text1>
                   </div>
@@ -250,14 +214,14 @@ function ViewJobs() {
                   <img src={mailOpen} />
                 </JobCardHeader2Left4>
                 <Text2>Open on</Text2>{" "}
-                <Text2 key={props._id}>{props.openOn}</Text2>
+                <Text2 key={props.id}>{props.openOn}</Text2>
               </JobCardHeader2Left5>
               <JobCardHeader2Left2>
                 <JobCardHeader2Left3>
                   <Img>
                     <img src={account} />
                   </Img>
-                  <Text2 key={props._id}>{props.totalCandidate}</Text2>{" "}
+                  <Text2 key={props.id}>{props.totalCandidate}</Text2>{" "}
                 </JobCardHeader2Left3>
                 <Text2>Total</Text2> <Text2>Candidates</Text2>
               </JobCardHeader2Left2>
@@ -266,7 +230,7 @@ function ViewJobs() {
                   <Img>
                     <img src={pinkperson} />
                   </Img>
-                  <Text2 key={props._id}>{props.candidateOnTrack}</Text2>{" "}
+                  <Text2 key={props.id}>{props.candidateOnTrack}</Text2>{" "}
                 </JobCardHeader2Left3>
                 <Text2p>Candidates </Text2p> <Text2p> on track</Text2p>
               </JobCardHeader2Left2>
@@ -274,7 +238,16 @@ function ViewJobs() {
 
             <JobCardHeader3>
               <JobCardHeader3Left3>
-                <button className="btn btn-md btn-white">
+                <button className="btn btn-md btn-white"
+                onClick={() => {
+                  setLoading(true);
+                  localStorage.setItem("jobId", props.id);
+                  setTimeout(function () { 
+                  navigate(`/viewJobPosting/${props.id}`);
+                  componentDidMount();
+                  setLoading(false);
+                  }, 500);}}
+                >
                   <ShowDiv>
                     <Img2>
                       <img src={search} />

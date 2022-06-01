@@ -28,6 +28,7 @@ function SeeMorePage() {
     try {
       const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
       setJob(results.data.data);
+      console.log(job)
     } catch (error) {
       console.log(error);
     }

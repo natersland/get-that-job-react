@@ -5,14 +5,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useVadilation } from "../../contexts/vadilation";
 
-//const UsersDataContext = React.createContext();
 
 function UpdatePersonalProfile() {
-  //const params = useParams();
+  
 
   const {
-    //users,
-    //setUsers,
     email,
     setEmail,
     name,
@@ -34,10 +31,9 @@ function UpdatePersonalProfile() {
     uploadFiles,
     setUploadFiles,
   } = useUserData();
-  console.log(title);
-  const profileData = localStorage.getItem("id");
-  console.log(profileData);
 
+  const profileData = localStorage.getItem("id");
+  
   const { isErrorEmail, setIsErrorEmail } = useVadilation();
 
   const getUsers = async () => {
@@ -62,18 +58,9 @@ function UpdatePersonalProfile() {
   }, []);
   //------------ Update --------
 
-  const updateProfile = async () => {
-    await axios.put(`http://localhost:4000/users/${profileData}`, {
-      email,
-      name,
-      phone,
-      companyWebsite,
-      birthDate,
-      linkedin,
-      title,
-      experience,
-      education,
-      uploadFiles,
+  const updateProfile = async (updateData) => {
+    await axios.put(`http://localhost:4000/users/${profileData}`, updateData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
   };
 
@@ -92,8 +79,8 @@ function UpdatePersonalProfile() {
       //setIsErrorEmail(false);
     }
   };
-  /* const updateData = new FormData();{
- 
+
+    const updateData = new FormData();{
     updateData.append("email", email);
     updateData.append("name", name);
     updateData.append("phone", phone);
@@ -106,7 +93,7 @@ function UpdatePersonalProfile() {
     for (let uploadFileKey in uploadFiles) {
       updateData.append("cvFile", uploadFiles[uploadFileKey]);
     }
-  }; */
+  }; 
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
@@ -210,10 +197,10 @@ function UpdatePersonalProfile() {
             <UploadFileSection>
               <Input1
                 id="uploadCV"
-                name="CV"
+                name="cvFile"
                 type="file"
-                /*                 value={uploadFiles[0]}
-                 */ onChange={handleFileChange}
+                //value={uploadFiles[0]}
+                onChange={handleFileChange}
                 accept=".pdf"
                 maxSize={5}
               />

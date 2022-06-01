@@ -227,19 +227,12 @@ const FollowCircle = styled.div`
   border-radius: 50px;
   width: 40px;
   height: 40px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   color: white;
   font-weight: 500;
   cursor: pointer;
 `;
 const FollowIcon = styled.img``;
-const SeeMoreButton = styled.button`
-  &:hover {
-    background-color: var(--secoundary-brand-color);
-    color: white;
-  }
-`;
+const SeeMoreButton = styled.button``;
