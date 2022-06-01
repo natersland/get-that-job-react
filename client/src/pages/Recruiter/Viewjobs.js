@@ -15,7 +15,7 @@ import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
 import { AppBar } from "@mui/material";
 import _ from "lodash";
-import "../../App.css";
+import useFetch from "../../hooks/useFetch";
 //import arrowUp from "../../img/arrow-up-s-line.png";
 //import { JobsDataProvider } from "../../contexts/jobsData";
 
@@ -47,14 +47,12 @@ function ViewJobs() {
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
   const { fistLogIn } = useVadilation();
-  console.log(job);
-
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-  }; //---delete----
+  //console.log(job);
 
   const comProfileData = localStorage.getItem("id");
+  const jobId = localStorage.getItem("jobId");
 
+  // get data to display ---------------
   const getJobPost = async () => {
     try {
       const results = await axios.get(
@@ -70,16 +68,12 @@ function ViewJobs() {
     return {
       job,
     };
+  };
 
-    /* setJobTitle(results.data.jobs.jobTitle);
-    setJobCategory(results.data.jobs.jobCategory);
-    setJobType(results.data.jobs.jobType);
-    setMinSalary(results.data.jobs.minSalary);
-    setMaxSalary(results.data.jobs.maxSalary);
-    setAboutJob(results.data.jobs.aboutJob);
-    setMandatoryReq(results.data.jobs.mandatoryReq);
-    setOptionalReq(results.data.jobs.optionalReq);
-    setCreatedJobDate(results.data.jobs.createdJobDate); */
+  // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
+  const updateStatusByJobId = async (jobId) => {
+    console.log(jobId, "jobId");
+    await axios.put(`http://localhost:4000/jobs/${jobId}`, {});
   };
 
   //console.log("STATE job",job);
@@ -104,9 +98,6 @@ function ViewJobs() {
               type="radio"
               id="all"
               name="filter"
-              //value="option1"
-
-              onChange={(event) => handleSelectChange(event)}
             />
 
             <label htmlFor="all">
@@ -116,29 +107,14 @@ function ViewJobs() {
           </RadioForm1>
 
           <RadioForm1>
-            <RadioBtn
-              //className=" form-check-input appearance-none rounded-full h-3 w-3 border border-pink-400 bg-white checked:bg-pink-400 checked:border-pink-400 focus:outline-none cursor-pointer transition duration-200"
-              type="radio"
-              id="trackedCandidate"
-              name="filter"
-              //checked={select === "option2"}
-              onChange={(event) => handleSelectChange(event)}
-            />
+            <RadioBtn type="radio" id="trackedCandidate" name="filter" />
             <label htmlFor="trackedCandidate">
               <HeadingText3>With candidates on track</HeadingText3>
             </label>
           </RadioForm1>
 
           <RadioForm1>
-            <RadioBtn
-              className=""
-              type="radio"
-              id="closed"
-              name="filter"
-              //value="option3"
-              //checked={select === "option3"}
-              onChange={(event) => handleSelectChange(event)}
-            />
+            <RadioBtn className="" type="radio" id="closed" name="filter" />
             <label htmlFor="closed">
               <HeadingText3>closed</HeadingText3>
             </label>
@@ -155,7 +131,7 @@ function ViewJobs() {
             id={data._id}
             jobTitle={data.jobTitle}
             jobCategory={data.jobCategory}
-            jobsStatus={data?.jobStatus}
+            jobStatus={data?.jobStatus}
             jobType={data.jobType}
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}
@@ -165,6 +141,7 @@ function ViewJobs() {
             aboutTheJob={data.aboutJob}
             requirement={data.mandatoryReq}
             optionalRequirement={data.optionalReq}
+            jobList={job}
           />
         );
       })}
@@ -172,39 +149,37 @@ function ViewJobs() {
   );
   //------------------------------2nd function -----------------------------------//
 
+  // props ค่าที่เราส่งเข้ามาดูได้จากด้านบน ตรง <Job /> มันคือ props ต่างๆที่เราเพิ่ม ถ้าต้องใช้อะไรเพิ่มก็เพิ่มเข้าไปได้เลย เวลาเรียกใช้ก็จะใช้เป็นแบบ props.something
   function Job(props) {
     const [toggle, setToggle] = useState(false);
     const [close, setClose] = useState(false);
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
+
     //document.getElementById('buttonID').disabled = true;
+    //useEffect ทำให้เวลาส่งค่าเข้ามาใน Job component จะให้มันมาเช็คจาก status ที่ส่งเข้ามา ละให้มันทำ state ต่างๆ เช่น disable ปุ่ม
+    useEffect(() => {
+      if (props.jobStatus === false) {
+        console.log(props.jobStatus, "props.jobStatus");
+        setClose(true);
+        setDisable(true);
+        setFont(true);
+      }
+    }, []);
 
-    /*const closeJobStatus = (index) => {
-      job[index].jobStatus = true;
-      console.log(index);
-      console.log(job[index].jobStatus);
-    };*/
+    // function สำหรับการกดปุ่่ม
+    const handleCloseCLick = (event) => {
+      event.preventDefault();
 
-    const handleCloseCLick = () => {
-      if ((job.jobStatus = true)) {
-        job.jobStatus = false;
+      //ตรงนี้ดักไว้เพื่อที่ถ้าปุ่มมันเป็น false แล้วมันจะได้ไม่ส่ง request ไปซ้ำซ้อน
+      if (props.jobStatus === true) {
+        updateStatusByJobId(props.id);
         setClose(!close);
         setDisable(true);
         setFont(!font);
       } else {
-        job.jobStatus = true;
-        setClose(close);
-        setDisable(false);
-        setFont(font);
+        console.log("Error init");
       }
-      console.log(job.jobStatus);
-    };
-    //const [jobsStatus, setJobsStatus] = useState(false);
-
-    const click = () => {
-      setClose(!close);
-      setDisable(true);
-      setFont(!font);
     };
 
     return (
@@ -286,33 +261,37 @@ function ViewJobs() {
 
               <JobCardHeader3Left3>
                 <JobCardHeader3Left3>
-                  <button
-                    id="buttonID"
-                    style={{
-                      borderRadius: "16px",
-                      padding: "8px 16px",
-                      height: "40px",
-                      width: "140px",
-                      backgroundColor: close ? "#E1E2E1" : "#BF5F82",
-                    }}
-                    type="button"
-                    disabled={disable}
-                    onClick={handleCloseCLick}
-                  >
-                    <CloseDiv>
-                      <Img2>
-                        <img src={close2} />
-                      </Img2>
-                      <p
-                        style={{
-                          color: close ? "lightgray" : "white",
-                        }}
-                      >
-                        {" "}
-                        {close ? "CLOSED" : "CLOSE"}
-                      </p>
-                    </CloseDiv>
-                  </button>
+                  <form
+                    id="submitCloseBtn"
+                    onSubmit={(e) => {
+                      handleCloseCLick(e);
+                    }}>
+                    <button
+                      htmlFor="submitCloseBtn"
+                      id="buttonID"
+                      style={{
+                        borderRadius: "16px",
+                        padding: "8px 16px",
+                        height: "40px",
+                        width: "140px",
+                        backgroundColor: close ? "#E1E2E1" : "#BF5F82",
+                      }}
+                      value={job.jobStatus}
+                      type="submit">
+                      <CloseDiv>
+                        <Img2>
+                          <img src={close2} />
+                        </Img2>
+                        <p
+                          style={{
+                            color: close ? "lightgray" : "white",
+                          }}>
+                          {" "}
+                          {close ? "CLOSED" : "CLOSE"}
+                        </p>
+                      </CloseDiv>
+                    </button>
+                  </form>
                 </JobCardHeader3Left3>
               </JobCardHeader3Left3>
             </JobCardHeader3>
