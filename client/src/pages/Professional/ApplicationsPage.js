@@ -48,7 +48,7 @@ function ApplicationsPage() {
     try {
       e.preventDefault();
       const data = { applicationStatus: "declined" };
-      await axios.put(
+      await axios.patch(
         `http://localhost:4000/applications/${appplicationIdforStatus}`,
         data
       );
