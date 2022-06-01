@@ -46,7 +46,6 @@ function ViewJobs() {
   const [status, setStatus] = useState("option1");
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
-  const { fistLogIn } = useVadilation();
   console.log(job);
 
   const handleSelectChange = (event) => {
@@ -89,9 +88,7 @@ function ViewJobs() {
 
   return (
     <Content>
-      {fistLogIn ? (
-        <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
-      ) : null}
+      <AlertDialog />
       <Heading>
         <HeadingText>Job Posting</HeadingText>
         <HeadingText2Title>

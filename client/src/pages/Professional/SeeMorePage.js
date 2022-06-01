@@ -8,9 +8,13 @@ import { useNav } from "../../contexts/navigate";
 import { useState, useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import { useUtils } from "../../contexts/utilsContext";
 //Components ------------------------------------
 import CompanyHeader from "../../components/SharedComponents/CompanyHeader";
 import JobDetails from "../../components/SharedComponents/JobDetails";
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Pictures -------------------------------------
 import NavigationIcon from "../../assets/navigation-line.svg";
 import UserStatusCheckerBtn from "../../components/SharedComponents/UserStatusCheckerBtn";
@@ -23,10 +27,12 @@ function SeeMorePage() {
   const navigate = useNavigate();
   const { job, setJob } = useJobsData();
   const { setMenuIndex } = useNav();
+  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
 
   // ดีงข้อมูลงานมาแสดง ----------------------------------
   const getOneJob = async () => {
     try {
+      setLoading(true);
       const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
       setJob(results.data.data);
     } catch (error) {
@@ -54,7 +60,7 @@ function SeeMorePage() {
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
-  const { data, reFetch } = useFetch(
+  const { loading, data, reFetch } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
   const checkUserProfile = async (event) => {
@@ -79,15 +85,15 @@ function SeeMorePage() {
       data?.name === "" ||
       data?.name === "-"
     ) {
-      alert(
-        "Please upload your cv file, fill your name and phone before apply a job. "
+      setAlertMessage(
+        "Please upload your cv file, fill your name and phone before apply a job."
       );
+      setIsAlert(true);
       navigate("/profile");
     } else {
       handleSubmit();
-      alert(
-        `Congratulation! You already applied ${job?.jobTitle}!\nRedirect to your applications in 5 secound...(ตอนนี้ยังไม่ได้ทำ)`
-      );
+      setAlertMessage(`Congratulation! You already applied ${job?.jobTitle}!`);
+      setIsAlert(true);
       setMenuIndex(2);
       reFetch();
       navigate("/applications");
@@ -103,46 +109,54 @@ function SeeMorePage() {
 
   return (
     <Wrapper>
-      <Header>
-        {/*โซนแสดงข้อมูลบริษัท Start Here -----------------------------  */}
-        <CompanyWrapper>
-          <HeaderLeft>
-            <CompanyHeader />
-          </HeaderLeft>
-          <HeaderRight>
-            <UserStatusCheckerBtn
-              mode="applynow"
-              fx={checkUserProfile}
-              jobId={jobId}
-            />
-          </HeaderRight>
-        </CompanyWrapper>
-        {/*โซนแสดงข้อมูลงาน Start Here -----------------------------  */}
-        <HeaderTitleWrapper>
-          <JobDetails />
-        </HeaderTitleWrapper>
-      </Header>
-      {/*โซนแสดงรายละเอียดงาน Start Here -----------------------------  */}
-      <ContentWrapper>
-        {contentData.map((items, index) => {
-          const { title, content } = items;
-          return (
-            <ContentBox key={index}>
-              <ContentHeading className="text-pinkprimary">
-                {title}
-              </ContentHeading>
-              {content}
-            </ContentBox>
-          );
-        })}
-        <ContentFooter>
-          <UserStatusCheckerBtn
-            mode="applynow"
-            fx={checkUserProfile}
-            jobId={jobId}
-          />
-        </ContentFooter>
-      </ContentWrapper>
+      <BackDropLoading />
+      <AlertDialog />
+      {loading ? (
+        <CircularIndeterminate />
+      ) : (
+        <div>
+          <Header>
+            {/*โซนแสดงข้อมูลบริษัท Start Here -----------------------------  */}
+            <CompanyWrapper>
+              <HeaderLeft>
+                <CompanyHeader />
+              </HeaderLeft>
+              <HeaderRight>
+                <UserStatusCheckerBtn
+                  mode="applynow"
+                  fx={checkUserProfile}
+                  jobId={jobId}
+                />
+              </HeaderRight>
+            </CompanyWrapper>
+            {/*โซนแสดงข้อมูลงาน Start Here -----------------------------  */}
+            <HeaderTitleWrapper>
+              <JobDetails />
+            </HeaderTitleWrapper>
+          </Header>
+          {/*โซนแสดงรายละเอียดงาน Start Here -----------------------------  */}
+          <ContentWrapper>
+            {contentData.map((items, index) => {
+              const { title, content } = items;
+              return (
+                <ContentBox key={index}>
+                  <ContentHeading className="text-pinkprimary">
+                    {title}
+                  </ContentHeading>
+                  {content}
+                </ContentBox>
+              );
+            })}
+            <ContentFooter>
+              <UserStatusCheckerBtn
+                mode="applynow"
+                fx={checkUserProfile}
+                jobId={jobId}
+              />
+            </ContentFooter>
+          </ContentWrapper>
+        </div>
+      )}
     </Wrapper>
   );
 }

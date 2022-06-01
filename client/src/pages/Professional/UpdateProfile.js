@@ -4,6 +4,8 @@ import { useUserData } from "../../contexts/usersData";
 import axios from "axios";
 import { useEffect } from "react";
 import { useVadilation } from "../../contexts/vadilation";
+// Components
+import AlertDialog from "../../components/Utilities/AlertDialog";
 
 //const UsersDataContext = React.createContext();
 
@@ -118,6 +120,8 @@ function UpdatePersonalProfile() {
 
   return (
     <MarginWrap>
+      <AlertDialog />
+
       <Texth1>Profile</Texth1>
       <Texth3>Personal Information</Texth3>
       <Form
@@ -154,7 +158,7 @@ function UpdatePersonalProfile() {
 
         <LabelText>WEBSITE</LabelText>
         <Input
-          type="url"
+          type="text"
           className="gtj-input pink-border"
           value={companyWebsite}
           onChange={(event) => setCompanyWebsite(event.target.value)}
@@ -172,7 +176,7 @@ function UpdatePersonalProfile() {
 
         <LabelText>LINKEDIN URL</LabelText>
         <Input
-          type="url"
+          type="text"
           className="gtj-input pink-border"
           value={linkedin}
           onChange={(event) => setLinkedin(event.target.value)}

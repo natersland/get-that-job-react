@@ -43,7 +43,7 @@ export default function LoginPage() {
   };
   return (
     <WrapperLogin>
-      <AlertDialog textDialog="Text" />
+      <AlertDialog />
       <BackDropLoading />
       <WrapperLoginLeft>
         <LoginZoneWrapper>

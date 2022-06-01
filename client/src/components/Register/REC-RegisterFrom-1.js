@@ -30,6 +30,10 @@ function RecRegisterForm1() {
           id="companyName"
         />{" "}
         <br />
+        {!companyName ? (
+          <span className="error-message">Company name is required.</span>
+        ) : null}
+        <br />
         <Label> EMAIL </Label>
         <br />
         <Input
@@ -43,6 +47,13 @@ function RecRegisterForm1() {
           rows={4}
           cols={30}
         />{" "}
+        <br />
+        {!email.includes("@") ? (
+          <span className="error-message">
+            {" "}
+            It should be a valid email address!
+          </span>
+        ) : null}
         <br />
         <Label> PASSWORD </Label>
         <br />
@@ -58,6 +69,12 @@ function RecRegisterForm1() {
           cols={30}
         />{" "}
         <br />
+        {password.length < 6 || password.length > 18 ? (
+          <span className="error-message">
+            Password should be 6-18 characters.
+          </span>
+        ) : null}
+        <br />
         <Label> PASSWORD CONFIRMATION </Label>
         <br />
         <Input
@@ -71,6 +88,12 @@ function RecRegisterForm1() {
           rows={4}
           cols={30}
         />
+        <br />
+        {password !== passwordConfirmed ? (
+          <span className="error-message">
+            Password comfirmation must be the same as password.
+          </span>
+        ) : null}
       </div>
     </Wrapper>
   );

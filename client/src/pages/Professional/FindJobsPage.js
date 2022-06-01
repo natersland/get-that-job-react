@@ -17,6 +17,7 @@ function FindJobsPage() {
   const userRole = localStorage.getItem("role");
   // State for filter searching ----------------------------------
   const [searchJobText, setSearchJobText] = useState("");
+
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
   const [searchJobCategory, setsearchJobCategory] = useState("");
@@ -28,6 +29,7 @@ function FindJobsPage() {
   // Pagination Start Here ----------------------------------
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [totalJobs, setTotalJobs] = useState(0);
 
   const { componentDidMount } = UtilitiesFunction();
   // Fecth data from Back-End ---------------------------------
@@ -38,6 +40,7 @@ function FindJobsPage() {
     );
     setJobs(results.data.data);
     setTotalPages(results.data.total_pages);
+    setTotalJobs(results.data.total_jobs);
     setIsLoading(false);
   };
 
@@ -55,7 +58,7 @@ function FindJobsPage() {
   // render start here ----------------------------------------
   return (
     <Wrapper>
-      <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+      <AlertDialog />
       {/*Header: filter box zone --------------------------------------- */}{" "}
       <FindThatJobHeader
         setSearchJobText={setSearchJobText}
@@ -75,7 +78,7 @@ function FindJobsPage() {
       {/*Body: job card zone --------------------------------------- */}{" "}
       <FindThatJobWrapper>
         <BackDropLoading />
-        <JobsCounterNumber>{jobs?.length} jobs for you</JobsCounterNumber>
+        <JobsCounterNumber>{totalJobs} jobs for you</JobsCounterNumber>
         {isLoading ? (
           <CircularIndeterminate />
         ) : (
@@ -101,10 +104,13 @@ function FindJobsPage() {
         <NumberOfPage>
           <Pagination
             count={totalPages}
+            showFirstButton
+            showLastButton
             color="primary"
             defaultPage={page}
             onClick={componentDidMount}
             onChange={(event, value) => setPage(value)}
+            sx={{ marginLeft: "-45px" }}
           />
         </NumberOfPage>
       </FindThatJobWrapper>

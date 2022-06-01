@@ -12,6 +12,7 @@ import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
 import { JobsDataProvider } from "./contexts/jobsData";
 import { VadilationProvider } from "./contexts/vadilation";
+import { UtilsProvider } from "./contexts/utilsContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/MuiTheme";
 
@@ -21,17 +22,19 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <UserDataProvider>
-          <VadilationProvider>
-            <AuthProvider>
-              <JobsDataProvider>
-                <NavigateProvider>
-                  <App />
-                </NavigateProvider>
-              </JobsDataProvider>
-            </AuthProvider>
-          </VadilationProvider>
-        </UserDataProvider>
+        <UtilsProvider>
+          <UserDataProvider>
+            <VadilationProvider>
+              <AuthProvider>
+                <JobsDataProvider>
+                  <NavigateProvider>
+                    <App />
+                  </NavigateProvider>
+                </JobsDataProvider>
+              </AuthProvider>
+            </VadilationProvider>
+          </UserDataProvider>
+        </UtilsProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>,

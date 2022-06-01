@@ -5,7 +5,7 @@ import jwtDecode from "jwt-decode";
 // Contexts
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
-
+import { useUtils } from "./utilsContext";
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
@@ -22,13 +22,8 @@ function AuthProvider(props) {
   );
   const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
   const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
-  const {
-    ifInputIsBlank,
-    setLoading,
-    setIsAlert,
-    setFirstLogIn,
-    setIsAccountValid,
-  } = useVadilation();
+  const { ifInputIsBlank, setIsAccountValid } = useVadilation();
+  const { setLoading, setIsAlert, setFirstLogIn, setAlertMessage } = useUtils();
 
   const removeLocalStorageData = () => {
     localStorage.removeItem("token");
@@ -63,6 +58,7 @@ function AuthProvider(props) {
     if (userDataFromToken.role === role) {
       localStorage.setItem("rightAcc", true);
       setFirstLogIn(true);
+      setAlertMessage(`Login Successful! Welcome ${role}`);
       setIsAlert(true);
       if (userDataFromToken.role === "professional") {
         navigate("/findjobs");
@@ -70,6 +66,7 @@ function AuthProvider(props) {
         navigate("/viewjobs");
       }
     } else {
+      setAlertMessage(`Wrong account type. Please try again.`);
       setIsAlert(true);
       removeLocalStorageData();
       navigate("/login");

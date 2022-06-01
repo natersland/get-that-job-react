@@ -26,6 +26,11 @@ function ProRegisterForm1() {
           onChange={(event) => setEmail(event.target.value)}
           value={email}
         />
+        {!email.includes("@") ? (
+          <span className="error-message">
+            It should be a valid email address!
+          </span>
+        ) : null}
       </Container>
       <Container>
         <Label htmlFor="password">PASSWORD</Label>
@@ -40,6 +45,12 @@ function ProRegisterForm1() {
           }}
           value={password}
         />
+
+        {password.length < 6 || password.length > 18 ? (
+          <span className="error-message">
+            Password should be 6-18 characters.
+          </span>
+        ) : null}
       </Container>
       <Container>
         <Label htmlFor="password-confiremed">PASSWORD CONFORMATION</Label>
@@ -54,6 +65,11 @@ function ProRegisterForm1() {
           }}
           value={passwordConfirmed}
         />
+        {password !== passwordConfirmed ? (
+          <span className="error-message">
+            Password comfirmation must be the same as password.
+          </span>
+        ) : null}
       </Container>
     </div>
   );
