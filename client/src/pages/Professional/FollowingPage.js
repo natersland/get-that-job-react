@@ -70,7 +70,7 @@ function FollowingPage() {
       {isLoading ? (
         <CircularIndeterminate />
       ) : (
-        <FindThatJobGrid>{jobsDataMapping}</FindThatJobGrid>
+        <FindThatJobGrid>{_.reverse(jobsDataMapping)}</FindThatJobGrid>
       )}
     </Wrapper>
   );

@@ -14,7 +14,6 @@ function ApplicationsPage() {
   const [user, setUser] = useState({});
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
-
   const professionalId = localStorage.getItem("id");
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
@@ -47,8 +46,9 @@ function ApplicationsPage() {
   const changeApplicationStatus = async (e) => {
     const appplicationIdforStatus = localStorage.getItem("applicationId");
     try {
+      e.preventDefault();
       const data = { applicationStatus: "declined" };
-      await axios.patch(
+      await axios.put(
         `http://localhost:4000/applications/${appplicationIdforStatus}`,
         data
       );
