@@ -27,6 +27,22 @@ export const getOneJob = async (req, res) => {
           as: "company",
         },
       },
+      {
+        $lookup: {
+          from: "applications",
+          localField: "_id",
+          foreignField: "jobId",
+          as: "applications",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "applications.professionalId",
+          foreignField: "_id",
+          as: "candidate"
+        },
+      },
       { $match: { _id: jobId } },
     ])
     .toArray();

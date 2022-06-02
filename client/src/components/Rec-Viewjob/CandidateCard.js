@@ -1,21 +1,41 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
+import _ from "lodash";
+import axios from "axios";
+import { useVadilation } from "../../contexts/vadilation";
+import AlertDialog from "../Utilities/AlertDialog";
 import styled from "@emotion/styled";
 import "../../App.css";
 import closedMail from "../../img/closedMail.png";
 import waiting from "../../img/waiting.png";
-import phone from "../../img/phone.png";
+import Phone1 from "../../img/phone.png";
 import IN from "../../img/linkedin-box-line.png";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import load from "../../img/download-line.png";
-function Candidate1 () {
-  const CandidateCardHeader = () => {
-    return(
-                <BeforeToggleCard>
 
+
+function CandidateCard1 ({
+  name,
+  email,
+  phone,
+  linkedin,
+  experience,
+  createdJobDate,
+  companyName
+}) {
+
+  const CandidateCardHeader = () => {
+    const userRole = localStorage.getItem("role");
+    const { fistLogIn } = useVadilation();
+
+    return( 
+                <BeforeToggleCard>
+                    {fistLogIn ? (
+                    <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+                    ) : null}
                     <CandidateLeftCard>
                         <CandidateDiv>
-                         <CandidateName>Name Lastname here</CandidateName> 
+                         <CandidateName>{name}</CandidateName> 
                         </CandidateDiv>
 
                         <MainInformation>
@@ -23,7 +43,7 @@ function Candidate1 () {
                             <INImg>
                                 <img src={IN} />
                             </INImg>
-                                <TextInfo>Linked URL</TextInfo>                         
+                                <TextInfo>{linkedin}</TextInfo>                         
                             </MainInformation1>
                         </MainInformation>
                     </CandidateLeftCard>
@@ -32,16 +52,16 @@ function Candidate1 () {
                         <CandidateCenterCard1>
                                 <Email>
                                     <Icon><img src={closedMail}/></Icon>
-                                    <EmailText>Your Personal Email here</EmailText>
+                                    <EmailText>{email}</EmailText>
                                 </Email>
                                 <Phone>
-                                    <Icon><img src={phone}/></Icon>
-                                    <PhoneText>+6612345678</PhoneText>  
+                                    <Icon><img src={Phone1}/></Icon>
+                                    <PhoneText>{phone}</PhoneText>  
                                 </Phone>                          
                         </CandidateCenterCard1>
 
                         <CandidateCenterCard2>
-                            <IconWithText icon={closedMail} text={'Sent 1 day ago'}/>
+                            <IconWithText icon={closedMail} text={createdJobDate}/>
                         </CandidateCenterCard2>
 
                         <CandidateCenterCard3>
@@ -63,19 +83,19 @@ function Candidate1 () {
         <div>
         <CandidateDetails>
               <CandidateDetails1>
-                  <Title>About the job position</Title>
+                  <Title>Professional experience</Title>
                   <CandidateDetails2>
                     <Detail>
-                      <p>about the job here</p>
+                    {experience}
                     </Detail>
                   </CandidateDetails2>
               </CandidateDetails1>
 
               <CandidateDetails1>
-                  <Title>Mandatory requirements</Title>
+                  <Title>Why are you interested in working at The {companyName} companyName</Title>
                   <CandidateDetails2>
                     <Detail>
-                      <p>Requirement here</p>
+                      REASON
                     </Detail>
                   </CandidateDetails2>
               </CandidateDetails1>
@@ -89,15 +109,15 @@ function Candidate1 () {
         </div>
       )
     }
-
-    return (
+  
+  return (
       <Wrapper2>
         <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
       </Wrapper2>
     );
-}
+    }
 
-export default Candidate1;
+export default CandidateCard1;
 
 const Wrapper2 = styled.div`
   width: 100%;
@@ -310,4 +330,41 @@ const Dowload = styled.div`
   flex-direction: row;
   justify-content: center;
   padding-bottom: 20px;
+`;
+
+const FilterDiv = styled.div`
+`;
+
+const FilterText = styled.p`
+  font-size: 10px;
+  font-weight: 400;
+  font-font-family: var(--seconary-font);
+  color: var(--primary-text- color);
+`;
+
+const RadioFormMain = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 300px;
+`;
+
+const RadioForm = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 30px;
+`;
+
+const RadioBtn = styled.input`
+  accent-color: var(--secoundary-brand-color);
+`;
+
+const Radiotext = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  font-font-family: var(--seconary-font);
+  color: var(--gray);
+  margin-left: 5px;
 `;
