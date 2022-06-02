@@ -54,7 +54,7 @@ function UpdateCompanyProfile() {
   };
 
   const handleSubmit = (event) => {
-    console.log("hi");
+    console.log("clicked submit update form");
     event.preventDefault();
     if (email === "") {
       setIsErrorEmail(true);
@@ -115,6 +115,7 @@ function UpdateCompanyProfile() {
                 id="uploadFile"
                 name="logoFile"
                 type="file"
+                enctype="multipart/form-data"
                 onChange={handleFileChange}
                 accept="image/*"
               />

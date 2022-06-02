@@ -1,4 +1,6 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
+import axios from "axios";
+import _ from "lodash";
 import styled from "@emotion/styled";
 import "../../App.css";
 import building from "../../img/building-3-line.png";
@@ -12,14 +14,49 @@ import pinkperson from "../../img/pinkperson.png";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 
-function Jobcard1 (){
-  const JobCardHeader = () => {
+function ShowJob2 () {
+  const jobId = localStorage.getItem("jobId");
+  const [job, setJob ] = useState({});
+  
+  const getJobPost = async () => {
+    try {
+      const results = await axios.get(
+        `http://localhost:4000/jobs/${jobId}`
+      );
+      console.log(results);
+
+      setJob(results.data.data);
+      console.log(results.data.data);
+
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      job
+    };
+  };
+
+  console.log(job);
+  const title = job.jobTitle;
+  const category= job.jobCategory;
+  const type = job.jobType;
+  const maxSalary = job.maxSalary;
+  const minSalary = job.minSalary;
+  const mendatoryReq = job.mendatoryReq;
+  const optionalReq = job.optionalReq;
+  const about = job.aboutJob;
+
+  useEffect(() => {
+    getJobPost ();
+  }, []);
+
+    const JobCardHeader = () => {
     return (
         
                 <BeforeToggleCard>
                     <JobLeftCard>
                         <JobCardDiv>
-                        <JobTitle>The Job Title</JobTitle>
+                        <JobTitle>{title}</JobTitle>
                         </JobCardDiv>
 
                         <MainInformation>
@@ -27,7 +64,7 @@ function Jobcard1 (){
                             <ImgInfoLeft>
                                 <img src={building} />
                             </ImgInfoLeft>                          
-                                <TextInfo>jobCategory</TextInfo>                           
+                                <TextInfo>{category}</TextInfo>                           
                             </MainInformation1>
 
                             <JobMainInformation2>
@@ -35,7 +72,7 @@ function Jobcard1 (){
                                 <img src={calendar} />
                             </ImgInfoLeft>
                             <div>
-                                <TextInfo>Job Type</TextInfo>
+                                <TextInfo>{type}</TextInfo>
                             </div>
                             </JobMainInformation2>
 
@@ -44,7 +81,7 @@ function Jobcard1 (){
                                 <img src={money} />
                             </ImgInfoLeft>
                             <div>
-                                <TextInfo> minSalary - maxSalary </TextInfo>
+                                <TextInfo> {minSalary} - {maxSalary}</TextInfo>
                             </div>
                             </JobMainInformation2>
                         </MainInformation>
@@ -53,15 +90,15 @@ function Jobcard1 (){
                     <JobCenterCard>
 
                         <JobCenterCard1>
-                            <IconWithText icon={mailOpen} text={'Open on 18/11/2022'}/>                     
+                            <IconWithText icon={mailOpen} number={'props.openOn'} text={'Open on 18/12/2022'}/>                     
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={account} text={'Total candidates'}/>      
+                            <IconWithText icon={account} number={'props.totalCandidate'} text={'Total candidates'}/>      
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={pinkperson} text={'Candidates on track'}/>
+                            <IconWithText icon={pinkperson} number={'props.candidateOnTrack'} text={'Candidates on track'}/>
                         </JobCenterCard1>
 
                     </JobCenterCard>   
@@ -89,14 +126,14 @@ function Jobcard1 (){
                 </BeforeToggleCard>
             
     )}
-    const JobcardContent = () => {
+      const JobcardContent = () => {
       return (
         <JobCardDetails>
               <JobCardDetails1>
                   <Title>About the job position</Title>
                   <JobCardDetails2>
                     <Detail>
-                      <p>about the job here</p>
+                      {about}
                     </Detail>
                   </JobCardDetails2>
               </JobCardDetails1>
@@ -105,7 +142,7 @@ function Jobcard1 (){
                   <Title>Mandatory requirements</Title>
                   <JobCardDetails2>
                     <Detail>
-                      <p>Requirement here</p>
+                    {mendatoryReq}
                     </Detail>
                   </JobCardDetails2>
               </JobCardDetails1>
@@ -114,7 +151,7 @@ function Jobcard1 (){
                   <Title>Optional Requirements</Title>
                   <JobCardDetails2>
                     <Detail>
-                      <p>Optional Requirement here</p>
+                      {optionalReq}
                     </Detail>
                   </JobCardDetails2>
               </JobCardDetails1>
@@ -127,9 +164,9 @@ function Jobcard1 (){
         <ToggleCard header={JobCardHeader()} content={JobcardContent()} />
       </Wrapper1>
     );
-}
+} 
 
-export default Jobcard1;
+export default ShowJob2;
 
 const Wrapper1 = styled.div`
   width: 100%;

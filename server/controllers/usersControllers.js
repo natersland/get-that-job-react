@@ -116,6 +116,7 @@ const multerUpload = multer({ dest: "upload/" });
 export const uploadFile = multerUpload.fields([
   { name: "logoFile", maxCount: 1 },
 ]);
+
 export const updateOneUser = async (req, res, next) => {
   try {
     const userId = ObjectId(req.params.id);
