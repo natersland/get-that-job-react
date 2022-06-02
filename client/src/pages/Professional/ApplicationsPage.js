@@ -7,6 +7,12 @@ import axios from "axios";
 // components ----------------------------------
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/PRO-Applications/ApplicationToggle";
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
+// Contexts
+import { useUtils } from "../../contexts/utilsContext";
+
 // Hooks ------------------------------------
 function ApplicationsPage() {
   const [applications, setApplication] = useState([]);
@@ -14,17 +20,20 @@ function ApplicationsPage() {
   const [user, setUser] = useState({});
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
+  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
   const professionalId = localStorage.getItem("id");
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
   const getApplications = async () => {
     try {
+      setLoading(true);
       const results = await axios.get(url);
       // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
       setApplication(_.reverse(results?.data?.applications));
       setUserJobs(results?.data?.jobDetail);
       setUser(results.data);
       setCompaniesData(results?.data?.companyDetail);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -134,29 +143,37 @@ function ApplicationsPage() {
 
   return (
     <Wrapper>
-      <HeaderSection>
-        <SectionHeadingText>Your applications</SectionHeadingText>
-        {/* RadioFilter Component Here -------------------- */}
-        <RadioFilter
-          formlabel="Filter your applications"
-          radioData={radioFilterData}
-          stateVariable={filterApllication}
-          setStateVariable={setFilterApplication}
-        />
-      </HeaderSection>
-      <p className="bg-pinkprimary text-white p-2 mt-3">
-        **เปลี่ยนให้ตอนกดสมัครงาน random สถานะใบสมัคร applied, reviewing,
-        finished, ก่อน demo อย่าลืมไปแก้ด้วย
-      </p>
-      <ApplicationSection>
-        <ApplicationFoundText>
-          {applications?.length === 0 ? "0" : `${countData.length} `}{" "}
-          {/*applications?.length*/}
-          applications found
-        </ApplicationFoundText>
-        {/* ApplicationToggle Component Here -------------------- */}
-        {applicationsData}
-      </ApplicationSection>
+      <BackDropLoading />
+      <AlertDialog />
+      {loading ? (
+        <CircularIndeterminate />
+      ) : (
+        <div>
+          <HeaderSection>
+            <SectionHeadingText>Your applications</SectionHeadingText>
+            {/* RadioFilter Component Here -------------------- */}
+            <RadioFilter
+              formlabel="Filter your applications"
+              radioData={radioFilterData}
+              stateVariable={filterApllication}
+              setStateVariable={setFilterApplication}
+            />
+          </HeaderSection>
+          <p className="bg-pinkprimary text-white p-2 mt-3">
+            **เปลี่ยนให้ตอนกดสมัครงาน random สถานะใบสมัคร applied, reviewing,
+            finished, ก่อน demo อย่าลืมไปแก้ด้วย
+          </p>
+          <ApplicationSection>
+            <ApplicationFoundText>
+              {applications?.length === 0 ? "0" : `${countData.length} `}{" "}
+              {/*applications?.length*/}
+              applications found
+            </ApplicationFoundText>
+            {/* ApplicationToggle Component Here -------------------- */}
+            {applicationsData}
+          </ApplicationSection>
+        </div>
+      )}
     </Wrapper>
   );
 }

@@ -39,7 +39,7 @@ function VadilationProvider(props) {
       setIsErrorPassword(true);
       console.log("hi");
     }
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    if (!email.match(/^\w+([\.-]?\w)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g)) {
       //  if email is not validattion
       setIsErrorEmail(true);
     } else {
@@ -69,7 +69,7 @@ function VadilationProvider(props) {
       password === passwordConfirmed &&
       password !== "" &&
       passwordConfirmed !== "" &&
-      email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
+      email.match(/^\w+([\.-]?\w)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g)
     ) {
       setStep(step + 1);
       setIsErrorEmail(false);
@@ -99,9 +99,6 @@ function VadilationProvider(props) {
   return (
     <VadilationContext.Provider
       value={{
-        // Others -----------------------------------------
-        fistLogIn,
-        setFirstLogIn,
         // This Zone is for Register form vadilate only -------------------------------------
         step,
         setStep,

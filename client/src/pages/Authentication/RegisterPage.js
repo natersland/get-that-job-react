@@ -6,6 +6,8 @@ import Woman from "../../assets/people/woman-regis.svg";
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
+import { useUtils } from "../../contexts/utilsContext";
+
 // Components
 import MainRegisterForm from "../../components/Register/MainRegisterForm";
 import SelectRole from "../../components/Register/SelectRole";
@@ -14,7 +16,6 @@ import BackDropLoading from "../../components/Utilities/BackDropLoading";
  */ import RoleStepsBox from "../../components/Register/RoleStepsBox.js";
 import RegFormButton from "../../components/Register/RegFormButton";
 
-import AlertDialog from "../../components/Utilities/AlertDialog";
 function RegisterPage() {
   const {
     // Shared state between Professional & Recruiter -----------------------------------------
@@ -47,14 +48,14 @@ function RegisterPage() {
     setStep,
     isErrorEmail,
     isErrorPassword,
-    setLoading,
-    setIsAlert,
   } = useVadilation();
+  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
   const { register, login } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
+    setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
     setIsAlert(true);
     if (role === "professional") {
       setRole("professional");
@@ -91,9 +92,9 @@ function RegisterPage() {
       formData.append("companyWebsite", companyWebsite);
       formData.append("about", about);
 
-      for (let uploadFileKey in companyLogo) {
+     for (let uploadFileKey in companyLogo) {
         formData.append("logoFile", companyLogo[uploadFileKey]);
-      }
+      } 
       setTimeout(function () {
         register(formData);
       }, 500);

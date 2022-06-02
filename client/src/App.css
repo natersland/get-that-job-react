@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap");
 :root {
   /* Brand Color */
   --primary-brand-color: #bf5f82;
@@ -10,8 +10,8 @@
   --primary-text-color: #373737;
   --secondary-text-color: #5c5c5c;
   --tertiary-text-color: #e1e2e1;
-  --primary-font: 'Noto Sans Thai',"Montserrat", sans-serif;
-  --seconary-font: 'Noto Sans Thai',"Inter", sans-serif;
+  --primary-font: "Noto Sans Thai", "Montserrat", sans-serif;
+  --seconary-font: "Noto Sans Thai", "Inter", sans-serif;
 
   /* Other Color */
   --gray: #616161;
@@ -21,11 +21,17 @@
 
 body {
   background-color: RGB(245, 245, 246);
-  font-family: var(--primary-font), ;
-  font-family: 'Noto Sans Thai', "Montserrat", sans-serif;
+  font-family: var(--primary-font);
+  font-family: "Noto Sans Thai", "Montserrat", sans-serif;
   color: var(--primary-text-color);
 }
-
+.error-message {
+  color: rgba(224, 68, 68, 0.986);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: -10px;
+  font-family: var(--seconary-font);
+}
 /* 🍓🍓🍓 CSS Structure -------------------------------- */
 /* โครงปุ่ม (ใช้สร้างรูปทรงปุ่ม) */
 .btn {
@@ -49,8 +55,6 @@ body {
   padding: 16px 24px;
   height: 56px;
 }
-
-
 
 /* ------------------------------------- */
 /* โครง Input (ใช้สร้างรูปทรงของ input) */
@@ -112,7 +116,6 @@ body {
   outline: none;
   border: 1px solid var(--primary-brand-color);
 }
-
 
 /* ⚡️⚡️⚡️ Shadows -------------------------------- */
 .shadow-medium {

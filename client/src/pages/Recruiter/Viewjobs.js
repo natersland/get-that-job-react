@@ -46,8 +46,16 @@ function ViewJobs() {
   const [status, setStatus] = useState("option1");
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
+/*
+  console.log(job);
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+  }; //---delete----
+
   const { fistLogIn } = useVadilation();
   //console.log(job);
+*/
 
   const comProfileData = localStorage.getItem("id");
   const jobId = localStorage.getItem("jobId");
@@ -83,9 +91,7 @@ function ViewJobs() {
 
   return (
     <Content>
-      {fistLogIn ? (
-        <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
-      ) : null}
+      <AlertDialog />
       <Heading>
         <HeadingText>Job Posting</HeadingText>
         <HeadingText2Title>

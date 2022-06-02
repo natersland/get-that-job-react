@@ -71,8 +71,8 @@ function UpdateCompanyProfile() {
     formData.append("about", about);
     formData.append("logoFile", companyLogo[0]);
 
-    for(let updateKey in companyLogo){
-      formData.append("logoFile",companyLogo[updateKey])
+    for (let updateKey in companyLogo) {
+      formData.append("logoFile", companyLogo[updateKey]);
     }
     updateComProfile(formData);
     alert(`Your company profile has been updated`);
@@ -89,7 +89,8 @@ function UpdateCompanyProfile() {
         id="updateCompany-form"
         onSubmit={(e) => {
           handleSubmit(e);
-        }}>
+        }}
+      >
         <CompanyLogoWrap>
           <div>
             {Object.keys(companyLogo).map((companyLogoKey) => {
@@ -158,7 +159,8 @@ function UpdateCompanyProfile() {
         <Button
           form="updateCompany-form"
           type="submit"
-          className="btn btn-lg btn-pink">
+          className="btn btn-lg btn-pink"
+        >
           UPDATE PROFILE
         </Button>
       </Form>

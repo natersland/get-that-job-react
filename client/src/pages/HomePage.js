@@ -15,12 +15,9 @@ import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
   const { registerRoute } = useNav();
-  const { setIsAlert } = useVadilation();
   return (
     <MainWrap>
-      <AlertDialog
-        textDialog={`Created accout successfully! Welcom to Get That Job!`}
-      />
+      <AlertDialog />
       <LandingWrapper className="landingPage">
         <Heading>
           The place where you get <Span>that</Span> job

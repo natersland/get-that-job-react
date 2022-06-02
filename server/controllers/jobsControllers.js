@@ -53,10 +53,15 @@ export const getAllJobsWithFilter = async (req, res, next) => {
         {
           $and: [
             {
-              jobTitle: {
-                $regex: keywords.split(" ").join("|"),
-                $options: "i",
-              },
+              $or: [
+                {
+                  jobTitle: {
+                    $regex: keywords.split(" ").join("|"),
+                    $options: "i",
+                  },
+                },
+              ],
+
               jobCategory: { $regex: searchJobCategory },
               jobType: { $regex: searchJobType },
               minSalary: { $gte: searchMinSalaryText },
@@ -86,10 +91,14 @@ export const getAllJobsWithFilter = async (req, res, next) => {
       .limit(12)
       .toArray();
 
-    const count = await jobsCollection.countDocuments(query);
-    const totalPages = Math.ceil(count / PAGE_SIZE);
+    const totalJobs = await jobsCollection.countDocuments(query);
+    const totalPages = Math.ceil(totalJobs / PAGE_SIZE);
 
-    return res.json({ data: jobs, total_pages: totalPages });
+    return res.json({
+      data: jobs,
+      total_jobs: totalJobs,
+      total_pages: totalPages,
+    });
   } catch (error) {
     next(error);
   }

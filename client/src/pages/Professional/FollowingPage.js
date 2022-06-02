@@ -4,18 +4,22 @@ import axios from "axios";
 import _ from "lodash";
 // Components
 import JobCard from "../../components/SharedComponents/JobCard";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Hooks
 import useFetch from "../../hooks/useFetch";
-import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
-
+// Contexts
+import { useUtils } from "../../contexts/utilsContext";
 function FollowingPage() {
   // Loading ----------------------------------
   const [isLoading, setIsLoading] = useState(false);
   const professionalId = localStorage.getItem("id");
   const [jobs, setJobs] = useState([]);
   const [userFollowingJobId, setUserFollowingJobId] = useState([]);
+  const { loading, setLoading } = useUtils();
+
   const jobdata = async () => {
-    setIsLoading(true);
+    setLoading(true);
     const results = await axios.get(`http://localhost:4000/jobs/data`);
     setJobs(results.data.data);
   };
@@ -25,7 +29,7 @@ function FollowingPage() {
       `http://localhost:4000/users/${professionalId}`
     );
     setUserFollowingJobId(results?.data?.followingJobs);
-    setIsLoading(false);
+    setLoading(false);
   };
   // fx แสดงข้อมูลfollowing job ของ user ทั้งหมด + ฟีลเตอร์ด้วย map ----------------------------------------------
   const jobsDataMapping = jobs?.map((job, index) => {
@@ -61,16 +65,22 @@ function FollowingPage() {
   }, []);
   return (
     <Wrapper>
-      <SectionHeadingText>Following</SectionHeadingText>
-      <FollowingFoundText>
-        You are following{" "}
-        {jobsDataMapping?.length === 0 ? "0" : `${countData.length} `} jobs
-      </FollowingFoundText>
-
-      {isLoading ? (
+      {loading ? (
         <CircularIndeterminate />
       ) : (
-        <FindThatJobGrid>{_.reverse(jobsDataMapping)}</FindThatJobGrid>
+        <div>
+          <SectionHeadingText>Following</SectionHeadingText>
+          <FollowingFoundText>
+            You are following{" "}
+            {jobsDataMapping?.length === 0 ? "0" : `${countData.length} `} jobs
+          </FollowingFoundText>
+
+          {isLoading ? (
+            <CircularIndeterminate />
+          ) : (
+            <FindThatJobGrid>{_.reverse(jobsDataMapping)}</FindThatJobGrid>
+          )}
+        </div>
       )}
     </Wrapper>
   );

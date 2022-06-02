@@ -5,11 +5,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import styled from "@emotion/styled";
-
 import { useVadilation } from "../../contexts/vadilation";
+import { useUtils } from "../../contexts/utilsContext";
 import { theme } from "../../styles/MuiTheme";
-export default function AlertDialog({ textDialog }) {
-  const { isAlert, setIsAlert, openAlert, closeAlert } = useVadilation();
+export default function AlertDialog() {
+  const { isAlert, setIsAlert, openAlert, closeAlert, alertMessage } =
+    useUtils();
   return (
     <div>
       <Dialog
@@ -37,7 +38,7 @@ export default function AlertDialog({ textDialog }) {
               fontSize: "1.05rem",
             }}
           >
-            {textDialog}
+            {alertMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions

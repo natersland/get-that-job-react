@@ -19,6 +19,7 @@ function RecRegisterForm2() {
       ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
+    console.log("fx", typeof companyLogo);
   };
 
   return (

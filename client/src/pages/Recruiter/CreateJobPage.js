@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useVadilation } from "../../contexts/vadilation";
+import { useUtils } from "../../contexts/utilsContext";
 //Components ------------------------------------
 import Alert from "@mui/material/Alert";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
@@ -18,7 +19,7 @@ function CreateJobPage() {
     UtilitiesFunction();
   // state for this page form start here -------------------------------
   const { jobCategoryList, jobTypeList } = useJobsData();
-  const { setLoading, setIsAlert } = useVadilation();
+  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
   const [jobTitle, setJobTitle] = useState(String);
   const [jobCategory, setJobCategory] = useState(String);
   const [jobType, setJobType] = useState(String);
@@ -43,7 +44,6 @@ function CreateJobPage() {
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);
-    /*     navigate("/viewjobs"); */
   };
 
   const handleSubmit = (event) => {
@@ -70,18 +70,20 @@ function CreateJobPage() {
         resetJobData();
         setIsError(false);
         setLoading(false);
+        setAlertMessage(`Your job ${jobTitle} has beed created successful!`);
         setIsAlert(true);
       }, 500);
     } else {
       setIsError(true);
       setLoading(false);
     }
+    navigate("/viewjobs");
   };
 
   useEffect(() => {}, [minSalary, maxSalary]);
   return (
     <Wrapper>
-      <AlertDialog textDialog={`Job has been created!`} />
+      <AlertDialog />
       <BackDropLoading />
       <form id="createjob-form" onSubmit={handleSubmit}>
         <HeadingText className="pt-8">Create new job posting</HeadingText>
@@ -98,6 +100,8 @@ function CreateJobPage() {
             placeholder="Software engineer"
             required
           ></InputText>
+          <br></br>
+          {!jobTitle ? <span className="error-message">*required</span> : null}
           {/* ------------ Job Category ------------ */}
           <SectionText>
             <TextLabel>{textUpperCase("Job Category")}</TextLabel>
@@ -118,6 +122,10 @@ function CreateJobPage() {
               return <option key={index}>{item}</option>;
             })}
           </SelectListData>
+          <br></br>
+          {!jobCategory ? (
+            <span className="error-message">*required</span>
+          ) : null}
           {/* ------------ Job Type ------------ */}
           <TextLabel>{textUpperCase("Type")}</TextLabel>
           <SelectListData
@@ -137,6 +145,8 @@ function CreateJobPage() {
               return <option key={index}>{item}</option>;
             })}
           </SelectListData>
+          <br></br>
+          {!jobType ? <span className="error-message">*required</span> : null}
           {/* ------------ Salary Range ------------ */}
           <TextLabel>{textUpperCase("Salary Range")}</TextLabel>
           <SalaryWrapper>
@@ -170,6 +180,11 @@ function CreateJobPage() {
               required
             ></InputSalary>
           </SalaryWrapper>
+          {!minSalary || !maxSalary ? (
+            <span className="error-message">
+              *Min salary and max Salary is required.
+            </span>
+          ) : null}
           {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
           {isError ? (
             <Alert className="mt-4 mb-2 w-8/12" severity="error">
