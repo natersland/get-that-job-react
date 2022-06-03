@@ -13,7 +13,15 @@ export const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
-
+export const checkEmail = async (req, res) => {
+  const email = req.body.email;
+  const emailExists = await User.findOne({ email: email }).exec();
+  if (emailExists) {
+    return res.status(409).send({
+      message: "Email exists",
+    });
+  }
+};
 // POST - register ----------------------------------------------------------------
 export const register = async (req, res, next) => {
   try {
@@ -56,12 +64,6 @@ export const register = async (req, res, next) => {
     // hashing password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    /* const exists = await collection("users").findOne({ email: req.body.email });
-
-    if (exists === null) {
-      return res.status(404).send({ message: "email Not found" });
-    }
- */
 
     await db.collection("users").insertOne(user);
     console.log(user);
