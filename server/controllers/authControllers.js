@@ -13,7 +13,7 @@ export const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
-export const checkEmail = async (req, res) => {
+/* export const checkEmail = async (req, res) => {
   const email = req.body.email;
   const emailExists = await User.findOne({ email: email }).exec();
   if (emailExists) {
@@ -21,7 +21,7 @@ export const checkEmail = async (req, res) => {
       message: "Email exists",
     });
   }
-};
+}; */
 // POST - register ----------------------------------------------------------------
 export const register = async (req, res, next) => {
   try {
