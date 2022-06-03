@@ -30,11 +30,10 @@ function FindJobsPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalJobs, setTotalJobs] = useState(0);
-  const [totalCompany, setTotalCompany] = useState(0);
-  const [sum, setSum] = useState(0);
 
   const { componentDidMount } = UtilitiesFunction();
   // Fecth data from Back-End ---------------------------------
+
   const search = async () => {
     setIsLoading(true);
     const results = await axios.get(
@@ -42,9 +41,8 @@ function FindJobsPage() {
     );
     setJobs(results.data.data);
     setTotalPages(results.data.total_pages);
-    setSum(results.data.sum);
+
     setTotalJobs(results.data.total_jobs);
-    /* setTotalCompany(results.data.total_Company); */
 
     setIsLoading(false);
   };
@@ -53,7 +51,6 @@ function FindJobsPage() {
     search();
   }, [
     searchJobText,
-
     searchMinSalaryText,
     searchMaxSalaryText,
     searchJobCategory,
@@ -84,7 +81,9 @@ function FindJobsPage() {
       {/*Body: job card zone --------------------------------------- */}{" "}
       <FindThatJobWrapper>
         <BackDropLoading />
-        <JobsCounterNumber>{sum} jobs for you</JobsCounterNumber>
+        <JobsCounterNumber>
+          {searchJobText == "" ? totalJobs : jobs.length} jobs for you
+        </JobsCounterNumber>
         {isLoading ? (
           <CircularIndeterminate />
         ) : (
@@ -116,7 +115,7 @@ function FindJobsPage() {
             defaultPage={page}
             onClick={componentDidMount}
             onChange={(event, value) => setPage(value)}
-            sx={{ marginLeft: "19px" }}
+            sx={{ marginLeft: "-45px" }}
           />
         </NumberOfPage>
       </FindThatJobWrapper>

@@ -122,20 +122,16 @@ export const uploadFile = multerUpload.fields([
 ]);
 export const updateOneUser = async (req, res, next) => {
   try {
-    const userRole = req.body.role;
+    /* const userRole = req.body.role; */
 
     console.log(req.files);
     const userId = ObjectId(req.params.id);
     const updateUserData = {
       ...req.body,
     };
-    if (String(userRole) === "professional") {
-      const cvFileUrl = await cloudinaryUploadCV(req.files);
-      updateUserData["cvFiles"] = cvFileUrl;
-    } else if (String(userRole) === "recruiter") {
-      const logoFileUrl = await cloudinaryUploadLogo(req.files);
-      updateUserData["companyLogo"] = logoFileUrl;
-    }
+
+    const logoFileUrl = await cloudinaryUpdateLogo(req.files);
+    updateUserData["companyLogo"] = logoFileUrl;
 
     await usersCollection.updateOne({ _id: userId }, { $set: updateUserData });
     res.status(200).json(`User ${userId} has been updated successful`);

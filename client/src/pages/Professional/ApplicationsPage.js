@@ -184,8 +184,16 @@ const Wrapper = styled.div`
   /*   width: 65%;
   margin: 0 auto; */
   width: 94vw;
-  padding-left: 325px;
+
   padding-bottom: 50px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    padding: 25px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    padding-left: 325px;
+  }
 `;
 const HeaderSection = styled.section``;
 const SectionHeadingText = styled.h1`

@@ -28,7 +28,7 @@ async function init() {
 
   // initialize server and setting -----------------
   const app = express();
-  const port = 4000;
+  const port = 4000 || 8000;
   await client.connect();
 
   // middleware -----------------

@@ -162,9 +162,24 @@ function SeeMorePage() {
 }
 
 const Wrapper = styled.div`
-  width: 75%;
-  padding: 25px 0;
-  margin-left: 350px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 90%;
+    padding: 25px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    padding: 80px;
+  }
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 250px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 250px;
+    width: 80%;
+  }
 `;
 const Header = styled.section`
   display: flex;
@@ -175,27 +190,55 @@ const CompanyWrapper = styled.div`
 `;
 
 const HeaderLeft = styled.div`
-  width: 80%;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 70%;
+  }
 `;
 const HeaderRight = styled.div`
   width: 20%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 30%;
+  }
 `;
 const HeaderTitleWrapper = styled.div`
-  padding: 45px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    padding: 25px;
+  }
 `;
 const ContentWrapper = styled.section``;
 const ContentBox = styled.div`
   width: 80%;
   margin: 10px 0;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const ContentHeading = styled.h3`
   font-size: 1.5rem;
 `;
-const Content = styled.p``;
+const Content = styled.p`
+  font-size: 1rem;
+`;
 
 const ContentFooter = styled.div`
   display: flex;

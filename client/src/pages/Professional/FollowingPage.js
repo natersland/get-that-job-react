@@ -88,14 +88,22 @@ function FollowingPage() {
 export default FollowingPage;
 const Wrapper = styled.section`
   width: 75vw;
-  padding-left: 325px;
   margin-bottom: 100px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    padding-left: 325px;
+  }
 `;
+
 const SectionHeadingText = styled.h1`
   font-size: 2.125rem;
   padding-top: 1.5rem;
   padding-top: 20px 0;
 `;
+
 const FollowingFoundText = styled.h3`
   font-size: 1.25rem;
   font-weight: 500;

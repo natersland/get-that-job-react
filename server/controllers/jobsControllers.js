@@ -15,11 +15,6 @@ export const getOneJob = async (req, res) => {
   const job = await jobsCollection
     .aggregate([
       {
-        $sort: {
-          createdJobDate: -1,
-        },
-      },
-      {
         $lookup: {
           from: "users",
           localField: "recruiterId",
@@ -27,8 +22,27 @@ export const getOneJob = async (req, res) => {
           as: "company",
         },
       },
+      {
+        $lookup: {
+          from: "applications",
+          localField: "_id",
+          foreignField: "jobId",
+          as: "applications",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "applications.professionalId",
+          foreignField: "_id",
+          as: "candidate",
+        },
+      },
       { $match: { _id: jobId } },
     ])
+    .sort({
+      createdJobDate: -1,
+    })
     .toArray();
   return res.json({ data: job[0] });
 };
@@ -88,16 +102,12 @@ export const getAllJobsWithFilter = async (req, res, next) => {
       .toArray();
 
     const totalJobs = await jobsCollection.countDocuments(query);
-    const totalCompany = await usersCollection.countDocuments(query);
-    const sum = totalCompany + totalJobs;
     const totalPages = Math.ceil(totalJobs / PAGE_SIZE);
-    console.log(totalCompany);
 
     return res.json({
       data: jobs,
       total_jobs: totalJobs,
-      total_Company: totalCompany,
-      sum: sum,
+
       total_pages: totalPages,
     });
   } catch (error) {
