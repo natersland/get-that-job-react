@@ -69,10 +69,9 @@ function UpdateCompanyProfile() {
     formData.append("companyName", companyName);
     formData.append("companyWebsite", companyWebsite);
     formData.append("about", about);
-    formData.append("logoFile", companyLogo[0]);
 
     for (let updateKey in companyLogo) {
-      formData.append("logoFile", companyLogo[updateKey]);
+      formData.append("companyLogo", companyLogo[updateKey]);
     }
     updateComProfile(formData);
     alert(`Your company profile has been updated`);

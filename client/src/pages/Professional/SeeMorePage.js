@@ -143,8 +143,8 @@ function SeeMorePage() {
                   <ContentHeading className="text-pinkprimary">
                     {title}
                   </ContentHeading>
-                  {content}
-                </ContentBox>
+                  <Content>{content}</Content>
+                </ContentBox> //
               );
             })}
             <ContentFooter>
@@ -195,6 +195,7 @@ const ContentBox = styled.div`
 const ContentHeading = styled.h3`
   font-size: 1.5rem;
 `;
+const Content = styled.p``;
 
 const ContentFooter = styled.div`
   display: flex;

@@ -48,4 +48,28 @@ const cloudinaryUploadLogo = async (files) => {
   }
 };
 
-export { cloudinaryUploadCV, cloudinaryUploadLogo };
+const cloudinaryUpdateLogo = async (files) => {
+  const logoUrl = [];
+  if (files.companyLogo !== undefined) {
+    for (let file of files.companyLogo) {
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: "register/logoFile",
+        type: "private",
+      });
+      logoUrl.push({
+        url: result.secure_url,
+        publicId: result.public_id,
+      });
+      await fs.unlink(file.path);
+    }
+    return logoUrl;
+  } else {
+    logoUrl.push({
+      url: "https://res.cloudinary.com/gtjadmin/image/upload/v1652809230/register/logoFile/placeholder-company_j67t9a.jpg",
+      publicId: null,
+    });
+    return logoUrl;
+  }
+};
+
+export { cloudinaryUploadCV, cloudinaryUploadLogo, cloudinaryUpdateLogo };

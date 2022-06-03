@@ -30,6 +30,8 @@ function FindJobsPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalJobs, setTotalJobs] = useState(0);
+  const [totalCompany, setTotalCompany] = useState(0);
+  const [sum, setSum] = useState(0);
 
   const { componentDidMount } = UtilitiesFunction();
   // Fecth data from Back-End ---------------------------------
@@ -40,7 +42,10 @@ function FindJobsPage() {
     );
     setJobs(results.data.data);
     setTotalPages(results.data.total_pages);
+    setSum(results.data.sum);
     setTotalJobs(results.data.total_jobs);
+    /* setTotalCompany(results.data.total_Company); */
+
     setIsLoading(false);
   };
 
@@ -48,6 +53,7 @@ function FindJobsPage() {
     search();
   }, [
     searchJobText,
+
     searchMinSalaryText,
     searchMaxSalaryText,
     searchJobCategory,
@@ -78,7 +84,7 @@ function FindJobsPage() {
       {/*Body: job card zone --------------------------------------- */}{" "}
       <FindThatJobWrapper>
         <BackDropLoading />
-        <JobsCounterNumber>{totalJobs} jobs for you</JobsCounterNumber>
+        <JobsCounterNumber>{sum} jobs for you</JobsCounterNumber>
         {isLoading ? (
           <CircularIndeterminate />
         ) : (

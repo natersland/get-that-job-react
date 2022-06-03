@@ -69,6 +69,9 @@ const Wrap = styled.div`
 `;
 const NavLinkWrapper = styled.div`
   display: flex;
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
 `;
 
 export default Navbar;

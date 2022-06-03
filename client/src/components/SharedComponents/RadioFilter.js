@@ -6,6 +6,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Button } from "@mui/material";
+// Hooks -----------------------------------
+import useToggle from "../../hooks/useToggle";
+
 // component for professional & recruiter
 // วิธีใช้: จะมี propsให้ 4 อัน เลื่อนไปดูคำอธิบายบรรทัดที่ 75 ได้เลย
 
@@ -80,6 +83,8 @@ export default function RadioFilter({
   stateVariable, // state ที่ใช้เก็บค่า value ของ radio ตอน user เลือก
   setStateVariable, // state ที่ใช้ set ค่า value ของ radio ตอน user เลือก
 }) {
+  const { setIsOpen } = useToggle();
+
   return (
     <FormControl>
       <FormLabel id="redio-filter">{formlabel}</FormLabel>
@@ -101,6 +106,9 @@ export default function RadioFilter({
               control={<BpRadio />}
               label={label}
               onChange={(e) => setStateVariable(e.target.value)}
+              onClick={() => {
+                setIsOpen(false);
+              }}
             />
           );
         })}

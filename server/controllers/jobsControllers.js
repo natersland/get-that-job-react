@@ -37,7 +37,6 @@ export const getOneJob = async (req, res) => {
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
     const keywords = req.query.keywords;
-    const companyWord = req.query.companyWord;
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const searchJobType = req.query.jobType;
@@ -47,30 +46,27 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const PAGE_SIZE = 12;
     const skip = PAGE_SIZE * (page - 1);
 
-    const query = {};
-    if (query) {
-      query.$or = [
+    const query = {
+      $or: [
         {
-          $and: [
-            {
-              $or: [
-                {
-                  jobTitle: {
-                    $regex: keywords.split(" ").join("|"),
-                    $options: "i",
-                  },
-                },
-              ],
-
-              jobCategory: { $regex: searchJobCategory },
-              jobType: { $regex: searchJobType },
-              minSalary: { $gte: searchMinSalaryText },
-              maxSalary: { $gte: searchMaxSalaryText },
-            },
-          ],
+          "company.companyName": {
+            $regex: keywords.split(" ").join("|"),
+            $options: "i",
+          },
         },
-      ];
-    }
+        {
+          jobTitle: {
+            $regex: keywords.split(" ").join("|"),
+            $options: "i",
+          },
+        },
+      ],
+
+      jobCategory: { $regex: searchJobCategory },
+      jobType: { $regex: searchJobType },
+      minSalary: { $gte: searchMinSalaryText },
+      maxSalary: { $gte: searchMaxSalaryText },
+    };
 
     const jobs = await jobsCollection
       .aggregate([
@@ -92,18 +88,22 @@ export const getAllJobsWithFilter = async (req, res, next) => {
       .toArray();
 
     const totalJobs = await jobsCollection.countDocuments(query);
+    const totalCompany = await usersCollection.countDocuments();
+    const sum = totalCompany + totalJobs;
     const totalPages = Math.ceil(totalJobs / PAGE_SIZE);
+    console.log(totalCompany);
 
     return res.json({
       data: jobs,
       total_jobs: totalJobs,
+      total_Company: totalCompany,
+      sum: sum,
       total_pages: totalPages,
     });
   } catch (error) {
     next(error);
   }
 };
-
 // ดึงข้อมูลงานทั้งหมด (ไม่มีฟีลเตอร์) --------------------------------------------------
 export const getAllJobs = async (req, res, next) => {
   try {

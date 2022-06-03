@@ -9,7 +9,7 @@ function useToggle(initialValue = false) {
     setIsOpen(!isOpen);
   };
 
-  return { isOpen, toggle };
+  return { isOpen, toggle, setIsOpen };
 }
 
 export default useToggle;
