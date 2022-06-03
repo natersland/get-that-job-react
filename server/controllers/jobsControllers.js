@@ -88,7 +88,7 @@ export const getAllJobsWithFilter = async (req, res, next) => {
       .toArray();
 
     const totalJobs = await jobsCollection.countDocuments(query);
-    const totalCompany = await usersCollection.countDocuments();
+    const totalCompany = await usersCollection.countDocuments(query);
     const sum = totalCompany + totalJobs;
     const totalPages = Math.ceil(totalJobs / PAGE_SIZE);
     console.log(totalCompany);

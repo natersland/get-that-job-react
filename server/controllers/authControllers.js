@@ -13,10 +13,12 @@ export const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
+
 // POST - register ----------------------------------------------------------------
 export const register = async (req, res, next) => {
   try {
     const userRole = req.body.role;
+
     function checkUserRole(role) {
       if (String(role) === "professional") {
         // ถ้า professional ไม่ใส่อะไรมาในช่อง ที่ไม่ได้ required ตอนสมัคร ให้เซ็ทค่า default เป็น "-"
@@ -54,6 +56,12 @@ export const register = async (req, res, next) => {
     // hashing password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
+    /* const exists = await collection("users").findOne({ email: req.body.email });
+
+    if (exists === null) {
+      return res.status(404).send({ message: "email Not found" });
+    }
+ */
 
     await db.collection("users").insertOne(user);
     console.log(user);
