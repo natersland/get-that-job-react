@@ -142,6 +142,9 @@ const FilterInputWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
 `;
 
 const InputBoxLabel = styled.p`
@@ -161,13 +164,25 @@ const InputWrapperSection = styled.div`
 `;
 const DropDownList = styled.select`
   color: var(--light-gray);
+  height: 36px;
 `;
 
 const SearchBox = styled.input`
-  width: 420px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 332px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 500px;
+  }
 `;
 
-const SalaryBox = styled.div``;
+const SalaryBox = styled.div`
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
+`;
 
 const SubSalaryBox = styled.div`
   display: flex;
