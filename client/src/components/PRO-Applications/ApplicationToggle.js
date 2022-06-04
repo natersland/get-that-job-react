@@ -16,6 +16,8 @@ import CrossIcon from "../../assets/icons/cross-icon.svg";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import Tooltip from "@mui/material/Tooltip";
+import { useMediaQuery } from "react-responsive";
+
 // Utils -----------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 

@@ -3,33 +3,41 @@ import axios from "axios";
 import styled from "@emotion/styled";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import { useUtils } from "../../contexts/utilsContext";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
+
 function UpdateCompanyProfile() {
   const [companyLogo, setCompanyLogo] = useState({});
+  const [showCompanyLogo, setShowCompanyLogo] = useState({});
   const [email, setEmail] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [about, setAbout] = useState("");
 
-  const { setAlertMessage, setIsAlert } = useUtils();
-
+  const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     setCompanyLogo({
-      ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
+    setShowCompanyLogo(null);
   };
 
   const comProfileData = localStorage.getItem("id");
-
   const getComUsers = async () => {
+    setLoading(true);
+
     const results = await axios.get(
       `http://localhost:4000/users/${comProfileData}`
     );
+    setShowCompanyLogo(results?.data?.companyLogo[0]?.url);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
     setCompanyWebsite(results.data.companyWebsite);
     setAbout(results.data.about);
+    setTimeout(function () {
+      setLoading(false);
+    }, 500);
   };
 
   useEffect(() => {
@@ -37,10 +45,11 @@ function UpdateCompanyProfile() {
   }, []);
 
   const updateComProfile = async (formData) => {
+    setLoading(true);
     await axios.put(`http://localhost:4000/users/${comProfileData}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    console.log(companyLogo);
+    setLoading(false);
   };
 
   const handleSubmit = (event) => {
@@ -57,15 +66,19 @@ function UpdateCompanyProfile() {
         formData.append("companyLogo", companyLogo[updateKey]);
       }
       updateComProfile(formData);
-      alert(`Your company profile has been updated`);
+      setAlertMessage(`Your company profile has been updated!`);
+      setIsAlert(true);
     } else if (companyName === "") {
       setAlertMessage(`Company name is required.`);
       setIsAlert(true);
     }
   };
 
-  return (
+  return loading ? (
+    <CircularIndeterminate />
+  ) : (
     <MarginWrap className="wrapper">
+      <BackDropLoading />
       <AlertDialog />
       <div>
         <H1>Profile</H1>
@@ -79,19 +92,25 @@ function UpdateCompanyProfile() {
       >
         <CompanyLogoWrap>
           <div>
-            {Object.keys(companyLogo).map((companyLogoKey) => {
-              const file = companyLogo[companyLogoKey];
+            {showCompanyLogo ? (
+              <LogoWrapper>
+                <LogoImg src={showCompanyLogo} />
+              </LogoWrapper>
+            ) : (
+              Object.keys(companyLogo).map((companyLogoKey) => {
+                const file = companyLogo[companyLogoKey];
 
-              return (
-                <Logo key={companyLogo}>
-                  <img
-                    width="100px"
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                  />
-                </Logo>
-              );
-            })}
+                return (
+                  <Logo key={companyLogo}>
+                    <img
+                      width="74.67px"
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                    />
+                  </Logo>
+                );
+              })
+            )}
           </div>
 
           <InputFileWrap>
@@ -194,7 +213,19 @@ const MarginWrap = styled.div`
 const Logo = styled.div`
   margin-right: 10px;
 `;
-
+const LogoWrapper = styled.div`
+  width: 74.67px;
+  height: 74.67px;
+  display: flex;
+  margin-right: 10px;
+  align-items: center;
+  overflow: hidden;
+`;
+const LogoImg = styled.img`
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+`;
 const Button = styled.button`
   display: inline-block;
   width: 200px;
@@ -251,6 +282,7 @@ const UploadFileSection = styled.div`
   color: var(--primary-text-color);
   letter-spacing: 1.25px;
 `;
+
 const UploadButton = styled.label`
   margin-right: 15px;
   width: 134px;
@@ -319,7 +351,7 @@ const LabelText = styled.label`
   color: var(--primary-text-color);
   font-family: var(--seconary-font);
   letter-spacing: 1.5px;
-  padding-top: 5px;
+  padding-top: 15px;
   padding-bottom: 5px;
 `;
 

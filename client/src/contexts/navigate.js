@@ -12,7 +12,7 @@ function NavigateProvider(props) {
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { setRole, resetUserData } = useUserData();
-  const { setIsErrorEmail, setIsErrorPassword } = useVadilation();
+  const { setIsErrorEmail, setIsErrorPassword, setStep } = useVadilation();
   // State ------------------------------------
   const [menuIndex, setMenuIndex] = useState(1);
 
@@ -20,6 +20,7 @@ function NavigateProvider(props) {
   const homePageRoute = () => {
     navigate("/");
     resetUserData();
+    setStep(0);
     setIsErrorEmail(false);
     setIsErrorPassword(false);
     setMenuIndex(null);

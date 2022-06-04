@@ -76,8 +76,8 @@ function ProRegisterForm1() {
 }
 
 const Input = styled.input`
-  width: 360px;
-  height: 36px;
+  width: 380px;
+  height: 39px;
   border-radius: 8px;
   border: 1px solid var(--secoundary-brand-color);
   margin-bottom: 16px;
