@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
-import "../../App.css";
-import { useUserData } from "../../contexts/usersData";
-import { useVadilation } from "../../contexts/vadilation";
-
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import { useUtils } from "../../contexts/utilsContext";
 function UpdateCompanyProfile() {
-  const {
-    companyLogo,
-    setCompanyLogo,
-    email,
-    setEmail,
-    companyName,
-    setCompanyName,
-    companyWebsite,
-    setCompanyWebsite,
-    about,
-    setAbout,
-  } = useUserData();
+  const [companyLogo, setCompanyLogo] = useState({});
+  const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
+  const [about, setAbout] = useState("");
+
+  const { setAlertMessage, setIsAlert } = useUtils();
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
@@ -27,10 +20,7 @@ function UpdateCompanyProfile() {
     });
   };
 
-  const { isErrorEmail, setIsErrorEmail } = useVadilation();
-
   const comProfileData = localStorage.getItem("id");
-  //console.log(comProfileData);
 
   const getComUsers = async () => {
     const results = await axios.get(
@@ -54,32 +44,29 @@ function UpdateCompanyProfile() {
   };
 
   const handleSubmit = (event) => {
-    console.log("hi");
+    console.log(companyName);
     event.preventDefault();
-    if (email === "") {
-      setIsErrorEmail(true);
-      alert("email can not be blank");
-    }
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-      //  if email is not validattion
-      setIsErrorEmail(true);
-    }
     const formData = new FormData();
-    formData.append("email", email);
-    formData.append("companyName", companyName);
-    formData.append("companyWebsite", companyWebsite);
-    formData.append("about", about);
+    if (companyName) {
+      formData.append("email", email);
+      formData.append("companyName", companyName);
+      formData.append("companyWebsite", companyWebsite);
+      formData.append("about", about);
 
-    for (let updateKey in companyLogo) {
-      formData.append("companyLogo", companyLogo[updateKey]);
+      for (let updateKey in companyLogo) {
+        formData.append("companyLogo", companyLogo[updateKey]);
+      }
+      updateComProfile(formData);
+      alert(`Your company profile has been updated`);
+    } else if (companyName === "") {
+      setAlertMessage(`Company name is required.`);
+      setIsAlert(true);
     }
-    updateComProfile(formData);
-    alert(`Your company profile has been updated`);
-    //setIsErrorEmail(false);
   };
 
   return (
     <MarginWrap className="wrapper">
+      <AlertDialog />
       <div>
         <H1>Profile</H1>
       </div>
@@ -125,7 +112,8 @@ function UpdateCompanyProfile() {
         <LabelText htmlFor="email">COMPANY EMAIL</LabelText>
         <Input
           type="email"
-          className="gtj-input pink-border"
+          className="gtj-input pink-border  bg-gray text-supergray"
+          disabled
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
@@ -138,6 +126,11 @@ function UpdateCompanyProfile() {
           value={companyName}
           onChange={(event) => setCompanyName(event.target.value)}
         />
+        {!companyName ? (
+          <span className="error-message mt-1 mb-1">
+            Company name is required.
+          </span>
+        ) : null}
 
         <LabelText>COMPANY WEBSITE</LabelText>
         <Input
@@ -158,7 +151,7 @@ function UpdateCompanyProfile() {
         <Button
           form="updateCompany-form"
           type="submit"
-          className="btn btn-lg btn-pink"
+          className="btn btn-md btn-pink"
         >
           UPDATE PROFILE
         </Button>
@@ -178,14 +171,34 @@ const MarginWrap = styled.div`
   margin: auto;
   margin-bottom: 100px;
   padding: 2rem 0;
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+    margin-left: 45px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 50px;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 320px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 320px;
+  }
 `;
 const Logo = styled.div`
   margin-right: 10px;
 `;
 
 const Button = styled.button`
+  display: inline-block;
+  width: 200px;
   margin-top: 24px;
-  width: 195px;
   text-align: center;
   letter-spacing: 1.35px;
 `;
@@ -196,11 +209,34 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 400px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
 `;
 const Textarea = styled.textarea`
-  width: 950px;
   height: 200px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
 `;
 
 const Label2 = styled.label`

@@ -87,14 +87,41 @@ function FollowingPage() {
 }
 export default FollowingPage;
 const Wrapper = styled.section`
-  width: 75vw;
+  padding-top: 32px;
+
   margin-bottom: 100px;
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
+    margin: 35px;
+    width: 80%;
   }
+
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 35px;
+    margin-top: 35px;
+    width: 80%;
+  }
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-top: 0;
+    margin-left: 300px;
+    width: 65%;
+  }
+
   /* Extra large devices (large laptops and desktops, 1200px and up) */
   @media only screen and (min-width: 1200px) {
-    padding-left: 325px;
+    margin-left: 325px;
+    width: 80%;
+  }
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    margin-left: 325px;
+    width: 70%;
+  }
+  /* Extra (desktops, 1920 and up) */
+  @media only screen and (min-width: 1920px) {
+    width: 50%;
   }
 `;
 
@@ -113,11 +140,24 @@ const FollowingFoundText = styled.h3`
 const FindThatJobGrid = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 30px 0;
   width: 100%;
   padding-left: 10px;
-
-  /*   display: ${(props) => (props.status ? "none" : null)};
- */
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-gap: 20px 0;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+  }
+  /* Extra (desktops, 1920 and up) */
+  @media only screen and (min-width: 1400px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  /* Extra (desktops, 1920 and up) */
+  @media only screen and (min-width: 1400px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;

@@ -133,9 +133,10 @@ function UpdatePersonalProfile() {
         <LabelText htmlFor="email">EMAIL</LabelText>
         <Input
           type="email"
-          className="gtj-input pink-border"
+          className="gtj-input pink-border bg-gray text-supergray"
           id="email"
           value={email}
+          disabled
           onChange={(event) => setEmail(event.target.value)}
         />
 
@@ -155,6 +156,11 @@ function UpdatePersonalProfile() {
           onChange={(event) => setPhone(event.target.value)}
         />
         <LabelUnder>+[country code][number]</LabelUnder>
+        {!phone ? (
+          <span className="error-message mt-1 mb-1">
+            Please input your phone number before you apply any job.
+          </span>
+        ) : null}
 
         <LabelText>WEBSITE</LabelText>
         <Input
@@ -223,6 +229,11 @@ function UpdatePersonalProfile() {
               />
             </UploadFileSection>
             <Limitation>Only PDF Max size 5MB</Limitation>
+            {!uploadFiles ? (
+              <span className="error-message mt-1">
+                Please upload your Cv File before you apply any job.
+              </span>
+            ) : null}
           </InputFileWrap>
         </CompanyLogoWrap>
 
@@ -263,14 +274,33 @@ const Texth4 = styled.p`
   margin-top: 35px;
 `;
 const MarginWrap = styled.div`
-  width: 65%;
-  margin: auto;
   margin-bottom: 100px;
+  padding-top: 32px;
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+    margin-left: 45px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 100px;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 320px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 320px;
+  }
 `;
 
 const Button = styled.button`
+  display: inline-block;
+  width: 150px;
   margin-top: 24px;
-  width: 195px;
   text-align: center;
   letter-spacing: 1.35px;
 `;
@@ -281,11 +311,34 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 400px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
 `;
 const Textarea = styled.textarea`
-  width: 950px;
   height: 200px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
 `;
 
 const Label2 = styled.label`
@@ -313,10 +366,11 @@ const UploadFileSection = styled.div`
 `;
 
 const Input1 = styled.input`
-  width: 360px;
   height: 36px;
   border-radius: 8px;
   color: #8e8e8e;
+  /*   width: 360px;
+ */
 `;
 
 const P = styled.p`

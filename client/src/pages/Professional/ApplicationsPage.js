@@ -102,7 +102,7 @@ function ApplicationsPage() {
           key={index}
           companyLogo={companyDetail?.companyLogo[0].url}
           jobTitle={jobDetail?.jobTitle}
-          jobCategory={jobDetail?.jobCategory} // jobId
+          jobCategory={jobDetail?.jobCategory}
           JobType={jobDetail?.jobType}
           jobMinSalary={jobDetail?.minSalary}
           jobMaxSalary={jobDetail?.maxSalary}
@@ -122,10 +122,10 @@ function ApplicationsPage() {
         />
       );
     };
-    // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
+    // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
     if (filterApllication === "all") {
       return data();
-      // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
+      // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
     } else if (filterApllication === applicationData?.applicationStatus) {
       return data();
     }
@@ -181,10 +181,7 @@ function ApplicationsPage() {
 export default ApplicationsPage;
 
 const Wrapper = styled.div`
-  /*   width: 65%;
-  margin: 0 auto; */
   width: 94vw;
-
   padding-bottom: 50px;
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
@@ -198,8 +195,7 @@ const Wrapper = styled.div`
 const HeaderSection = styled.section``;
 const SectionHeadingText = styled.h1`
   font-size: 2.125rem;
-  padding-top: 1.5rem;
-  padding-top: 20px 0;
+  padding-top: 32px;
 `;
 const ApplicationSection = styled.section``;
 const ApplicationFoundText = styled.h3`

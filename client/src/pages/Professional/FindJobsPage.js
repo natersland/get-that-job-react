@@ -82,7 +82,7 @@ function FindJobsPage() {
       <FindThatJobWrapper>
         <BackDropLoading />
         <JobsCounterNumber>
-          {searchJobText == "" ? totalJobs : jobs.length} jobs for you
+          {searchJobText === "" ? totalJobs : jobs.length} jobs for you
         </JobsCounterNumber>
         {isLoading ? (
           <CircularIndeterminate />
@@ -148,7 +148,7 @@ const Wrapper = styled.section`
     padding: 10px;
     margin-left: 300px;
   }
-  /* Extra (desktops, 1920 and up) */
+  /* Extra (desktops, 1400 and up) */
   @media only screen and (min-width: 1400px) {
     margin-left: 300px;
   }

@@ -56,8 +56,6 @@ export const register = async (req, res, next) => {
       user["cvFiles"] = cvFileUrl;
     } else if (String(userRole) === "recruiter") {
       // if recruiter: Upload Files ----------------------------------------
-      console.log("hi", req.files);
-
       const logoFileUrl = await cloudinaryUploadLogo(req.files);
       user["companyLogo"] = logoFileUrl;
     }

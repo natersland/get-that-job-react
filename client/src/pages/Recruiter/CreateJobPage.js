@@ -182,7 +182,7 @@ function CreateJobPage() {
           </SalaryWrapper>
           {!minSalary || !maxSalary ? (
             <span className="error-message">
-              *Min salary and max Salary is required.
+              *Min salary and max salary is required.
             </span>
           ) : null}
           {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
@@ -246,9 +246,25 @@ function CreateJobPage() {
 }
 
 const Wrapper = styled.div`
-  width: 65%;
-  margin: auto;
   margin-bottom: 100px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+    margin-left: 25px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 50px;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 320px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 320px;
+  }
 `;
 const HeadingText = styled.h1`
   font-size: 2.125rem;
@@ -267,10 +283,17 @@ const SectionText = styled.h2`
 const TextLabel = styled.p`
   font-size: 0.8rem;
   letter-spacing: 1.5px;
-  margin-top: 1rem;
+  margin-top: 10px;
 `;
 const InputText = styled.input`
-  width: 300px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
 `;
 
 const SelectListData = styled.select`
@@ -296,8 +319,24 @@ const DashLine = styled.div`
 `;
 
 const TextAreaInput = styled.textarea`
-  width: 760px;
-  letter-spacing: 0.25px;
+  height: 200px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
 `;
 
 export default CreateJobPage;
