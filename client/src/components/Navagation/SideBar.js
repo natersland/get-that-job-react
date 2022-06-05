@@ -129,6 +129,18 @@ const SidebarWrapper = styled.div`
   height: 100vh;
   background-color: var(--tertiary-text-color);
   position: fixed;
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    visibility: hidden;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    visibility: visible;
+  }
 `;
 const LogoWrapper = styled.div`
   padding: 2rem 0;

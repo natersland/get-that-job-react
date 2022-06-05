@@ -5,6 +5,7 @@ const UtilsContext = React.createContext();
 function UtilsProvider(props) {
   // Others -----------------------------------------
   const [fistLogIn, setFirstLogIn] = useState(false);
+  const [language, setLanguage] = useState("en");
   // Backdrop Loading... Zone ---------------------------
   const [loading, setLoading] = React.useState(false);
   // Alert Dialog Zone -----------------------------------
@@ -32,6 +33,8 @@ function UtilsProvider(props) {
         // Others -----------------------------------------
         fistLogIn,
         setFirstLogIn,
+        language,
+        setLanguage,
         // Backdrop Loading... Zone ---------------------------
         loading,
         setLoading,

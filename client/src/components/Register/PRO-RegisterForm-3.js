@@ -103,9 +103,8 @@ function ProRegisterForm3() {
 
 const Input = styled.input`
   width: 600px;
-  height: 36px;
+  height: 39px;
   border-radius: 8px;
-  font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
   margin-bottom: 15px;
   padding-left: 10px;
@@ -117,12 +116,11 @@ const InputLimit = styled.textarea`
   width: 600px;
   height: 65px;
   border-radius: 8px;
-  font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
   margin-bottom: 2px;
   padding-left: 10px;
   padding-right: 10px;
-  color: var(--tertiary-text-color);
+  color: #8e8e8e;
 `;
 
 const Container = styled.div`

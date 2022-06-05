@@ -91,7 +91,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx }) {
     );
   };
 
-  // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
+  // fx ปุ่มเปลี่ยนสถานะได้ -------------------------------
   const buttonChecker = (mode, fx, jobId) => {
     let status = null;
     let filterData = null;

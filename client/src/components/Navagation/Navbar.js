@@ -40,7 +40,7 @@ const Navbar = () => {
                 navBarLinkChecker(index);
               }}
             >
-              <Img src={btn.icon} /> {btn.btn_text}
+              <IconImage src={btn.icon} /> {btn.btn_text}
             </button>
           );
         })}
@@ -49,14 +49,6 @@ const Navbar = () => {
   );
 };
 
-const Img = styled.img`
-  line-height: 2.7;
-  padding-top: 3px;
-`;
-
-const BrandLogo = styled.img`
-  cursor: pointer;
-`;
 const Wrap = styled.div`
   width: 100vw;
   display: flex;
@@ -67,8 +59,19 @@ const Wrap = styled.div`
   position: fixed;
   z-index: 9;
 `;
+const BrandLogo = styled.img`
+  cursor: pointer;
+`;
+const IconImage = styled.img`
+  line-height: 2.7;
+  padding-top: 3px;
+`;
+
 const NavLinkWrapper = styled.div`
   display: flex;
+  @media only screen and (max-width: 600px) {
+    visibility: hidden;
+  }
 `;
 
 export default Navbar;

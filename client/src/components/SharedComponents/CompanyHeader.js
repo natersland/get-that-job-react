@@ -52,11 +52,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-left: 1rem;
   margin-bottom: 10px;
+  margin-top: -50px;
 `;
 
 const BackBtn = styled.button`
   display: flex;
-
   align-items: center;
   letter-spacing: 1.25px;
   line-height: 24px;
@@ -68,13 +68,20 @@ const CompanyWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    margin-top: 20px;
+  }
 `;
 
 const LeftWrapper = styled.div`
   margin-right: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    justify-content: start;
+  }
 `;
 const LogoWrapper = styled.div`
   width: 74.67px;
@@ -92,7 +99,7 @@ const RightWrapper = styled.div`
   width: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+
   overflow: hidden;
 `;
 const JobTitleText = styled.h1`

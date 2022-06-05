@@ -29,6 +29,7 @@ const UtilitiesFunction = () => {
       return `${newSalary.toFixed(1)}k`;
     }
   };
+
   // ---------------------------------------------------------------------
 
   return {

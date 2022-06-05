@@ -15,11 +15,17 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
+  const userLanguage = localStorage.getItem("language");
+
   const { filterComma, textUpperCase, addCommas, removeCommas } =
     UtilitiesFunction();
+  const settingUserLanguage = () => {
+    setLanguage(userLanguage);
+  };
   // state for this page form start here -------------------------------
   const { jobCategoryList, jobTypeList } = useJobsData();
-  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { setLoading, setIsAlert, setAlertMessage, language, setLanguage } =
+    useUtils();
   const [jobTitle, setJobTitle] = useState(String);
   const [jobCategory, setJobCategory] = useState(String);
   const [jobType, setJobType] = useState(String);
@@ -44,6 +50,7 @@ function CreateJobPage() {
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
     await axios.post("http://localhost:4000/jobs/create", data);
+    window.location.reload(false);
   };
 
   const handleSubmit = (event) => {
@@ -53,6 +60,14 @@ function CreateJobPage() {
     // เงินเดือนที่ ส่งเข้ามาเก็บใน state มันจะมี comma ติดมาด้วย ต้องกรองออกก่อนเอามาเช็คเงื่อนไข
     // ถ้าเงินเดือน maxSalary มากกว่า minSalary ให้ user สร้างงานได้เลย ถ้าไม่ ให้ขึ้นแจ้งให้ user ไปกรอกใหม่
     if (filterComma(maxSalary) > filterComma(minSalary)) {
+      setAlertMessage(
+        ` ${
+          language === "en" && language === undefined
+            ? `Your job "${jobTitle}" has beed created successful!`
+            : `งานตำแหน่ง "${jobTitle}" ถูกสร้างเรียบร้อย!`
+        }`
+      );
+      setIsAlert(true);
       const data = {
         recruiterId,
         jobTitle,
@@ -70,27 +85,40 @@ function CreateJobPage() {
         resetJobData();
         setIsError(false);
         setLoading(false);
-        setAlertMessage(`Your job ${jobTitle} has beed created successful!`);
-        setIsAlert(true);
-      }, 500);
+      }, 2000);
+      navigate("/viewjobs");
     } else {
       setIsError(true);
       setLoading(false);
     }
-    navigate("/viewjobs");
   };
 
-  useEffect(() => {}, [minSalary, maxSalary]);
+  useEffect(() => {
+    settingUserLanguage();
+    console.log("hi", language);
+  }, [minSalary, maxSalary, language]);
   return (
     <Wrapper>
       <AlertDialog />
       <BackDropLoading />
       <form id="createjob-form" onSubmit={handleSubmit}>
-        <HeadingText className="pt-8">Create new job posting</HeadingText>
+        <HeadingText className="pt-8">
+          {language === "en" || language === undefined
+            ? "Create new job posting"
+            : "สร้างงานใหม่"}
+        </HeadingText>
         <SectionWrapper>
-          <SectionText>Main information</SectionText>
+          <SectionText>
+            {language === "en" || language === undefined
+              ? "Main information"
+              : "ข้อมูลหลัก"}
+          </SectionText>
           {/* ------------ Job Title ------------ */}
-          <TextLabel>{textUpperCase("Job title")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined
+              ? "Job Title"
+              : "ชื่อตำแหน่ง"}
+          </TextLabel>
           <InputText
             id="job-title"
             name="jobTitle"
@@ -101,10 +129,22 @@ function CreateJobPage() {
             required
           ></InputText>
           <br></br>
-          {!jobTitle ? <span className="error-message">*required</span> : null}
+          {!jobTitle ? (
+            <span className="error-message">
+              {" "}
+              {language === "en" || language === undefined
+                ? "*required"
+                : "*กรุณาชื่อตำแหน่ง"}
+            </span>
+          ) : null}
           {/* ------------ Job Category ------------ */}
           <SectionText>
-            <TextLabel>{textUpperCase("Job Category")}</TextLabel>
+            <TextLabel className="uppercase">
+              {" "}
+              {language === "en" || language === undefined
+                ? "Job Category"
+                : "หมวดหมู่"}
+            </TextLabel>
           </SectionText>
           <SelectListData
             id="job-category"
@@ -116,7 +156,9 @@ function CreateJobPage() {
             required
           >
             <option value="" disabled selected>
-              Select or create a category
+              {language === "en" || language === undefined
+                ? "Select category"
+                : "เลือกหมวดหมู่"}
             </option>
             {jobCategoryList.map((item, index) => {
               return <option key={index}>{item}</option>;
@@ -124,10 +166,16 @@ function CreateJobPage() {
           </SelectListData>
           <br></br>
           {!jobCategory ? (
-            <span className="error-message">*required</span>
+            <span className="error-message">
+              {language === "en" || language === undefined
+                ? "*required"
+                : "*กรุณาเลือกหมวดหมู่"}
+            </span>
           ) : null}
           {/* ------------ Job Type ------------ */}
-          <TextLabel>{textUpperCase("Type")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined ? "Type" : "ประเภท"}
+          </TextLabel>
           <SelectListData
             id="job-type"
             name="job-type"
@@ -139,16 +187,28 @@ function CreateJobPage() {
           >
             {" "}
             <option value="" disabled selected>
-              Select a type
+              {language === "en" || language === undefined
+                ? "Select a type"
+                : "เลือกประเภท"}
             </option>
             {jobTypeList.map((item, index) => {
               return <option key={index}>{item}</option>;
             })}
           </SelectListData>
           <br></br>
-          {!jobType ? <span className="error-message">*required</span> : null}
+          {!jobType ? (
+            <span className="error-message">
+              {language === "en" || language === undefined
+                ? "*required"
+                : "*กรุณาเลือกประเภท"}
+            </span>
+          ) : null}
           {/* ------------ Salary Range ------------ */}
-          <TextLabel>{textUpperCase("Salary Range")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined
+              ? "Salary Range"
+              : "เงินเดือน"}
+          </TextLabel>
           <SalaryWrapper>
             <InputSalary
               id="min-salary"
@@ -182,13 +242,17 @@ function CreateJobPage() {
           </SalaryWrapper>
           {!minSalary || !maxSalary ? (
             <span className="error-message">
-              *Min salary and max Salary is required.
+              {language === "en" || language === undefined
+                ? "*Min salary and max salary is required."
+                : "*กรุณาใส่เงินเดือน"}
             </span>
           ) : null}
           {/*แจ้งเตือนเมื่อ user ใส่ เงินเดือน max salary < min salary */}
           {isError ? (
             <Alert className="mt-4 mb-2 w-8/12" severity="error">
-              Your max salary is greater more than min salary. Please try again.
+              {language === "en" || language === undefined
+                ? "Your max salary is greater more than min salary. Please try again."
+                : "จำนวนเงินเดือนสูงสุดน้อยกว่าจำนวนเงินเดือนต่ำสุด กรุณาใส่ใหม่อีกครั้ง"}
             </Alert>
           ) : null}
           {/*--------------------------------------------------- */}
@@ -196,49 +260,80 @@ function CreateJobPage() {
 
         {/* ----------------------------------------------------------- */}
         <SectionWrapper>
-          <SectionText>Addtional information</SectionText>
+          <SectionText>
+            {language === "en" || language === undefined
+              ? "Addtional information"
+              : "ข้อมูลเพิ่มเติม"}
+          </SectionText>
           {/* ------------ About the job position ------------ */}
-          <TextLabel>{textUpperCase("About the job position")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined
+              ? "About the job position"
+              : "ข้อมูลเกี่ยวกับตำแหน่งงานนี้"}
+          </TextLabel>
           <TextAreaInput
             id="about-job"
             name="about-job"
             onChange={(e) => setAboutJob(e.target.value)}
             value={aboutJob}
             className="pink-border gtj-input"
-            placeholder="Describe the main functions and characteristics of your job position"
+            placeholder={
+              language === "en" || language === undefined
+                ? "Describe the main functions and characteristics of your job position"
+                : "อธิบายเกี่ยวกับหน้าที่หลัก และ รายละเอียดเกี่ยวกับตำแหน่งงานของคุณ"
+            }
             rows={7}
           ></TextAreaInput>
           {/* ------------ Mandatory Requirements ------------ */}
-          <TextLabel>{textUpperCase("Mandatory Requirements")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined
+              ? "Mandatory Requirements"
+              : "ข้อบังคับ"}
+          </TextLabel>
           <TextAreaInput
             id="mandatory-req"
             name="mandatory-req"
             onChange={(e) => setMandatoryReq(e.target.value)}
             value={mandatoryReq}
             className="pink-border gtj-input"
-            placeholder="List each mandatory requirement in a new line"
+            placeholder={
+              language === "en" || language === undefined
+                ? "List each mandatory requirement in a new line"
+                : "รายละเอียดเกี่ยวกับข้อบังคับ"
+            }
             rows={7}
           ></TextAreaInput>
           {/* ------------ Optional Requirements ------------ */}
-          <TextLabel>{textUpperCase("Optional Requirements")}</TextLabel>
+          <TextLabel className="uppercase">
+            {language === "en" || language === undefined
+              ? "Optional Requirements"
+              : "รายละเอียดอื่นๆ"}
+          </TextLabel>
           <TextAreaInput
             id="optional-req"
             name="optional-req"
             onChange={(e) => setOptionalReq(e.target.value)}
             value={optionalReq}
             className="pink-border gtj-input"
-            placeholder="List each mandatory requirement in a new line"
+            placeholder={
+              language === "en" || language === undefined
+                ? "List each optional requirement in a new line"
+                : "รายละเอียดอื่นๆ"
+            }
             rows={3}
           ></TextAreaInput>
         </SectionWrapper>
         <SectionWrapper>
-          <button
+          <Button
             className="btn btn-md btn-pink"
             type="submit"
             form="createjob-form"
+            lang={language}
           >
-            Post this job
-          </button>
+            {language === "en" || language === undefined
+              ? "Post this job"
+              : "สร้างงานใหม่"}
+          </Button>
         </SectionWrapper>
       </form>
     </Wrapper>
@@ -246,9 +341,25 @@ function CreateJobPage() {
 }
 
 const Wrapper = styled.div`
-  width: 65%;
-  margin: auto;
   margin-bottom: 100px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+    margin-left: 25px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 50px;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 320px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 320px;
+  }
 `;
 const HeadingText = styled.h1`
   font-size: 2.125rem;
@@ -267,10 +378,17 @@ const SectionText = styled.h2`
 const TextLabel = styled.p`
   font-size: 0.8rem;
   letter-spacing: 1.5px;
-  margin-top: 1rem;
+  margin-top: 10px;
 `;
 const InputText = styled.input`
-  width: 300px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
 `;
 
 const SelectListData = styled.select`
@@ -296,8 +414,28 @@ const DashLine = styled.div`
 `;
 
 const TextAreaInput = styled.textarea`
-  width: 760px;
-  letter-spacing: 0.25px;
+  height: 200px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
+`;
+const Button = styled.button`
+  font-size: ${(props) =>
+    props.lang === "en" || props.lang !== "th" ? "0.95rem" : "0.95rem"};
 `;
 
 export default CreateJobPage;

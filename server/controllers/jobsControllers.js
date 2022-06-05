@@ -15,11 +15,6 @@ export const getOneJob = async (req, res) => {
   const job = await jobsCollection
     .aggregate([
       {
-        $sort: {
-          createdJobDate: -1,
-        },
-      },
-      {
         $lookup: {
           from: "users",
           localField: "recruiterId",
@@ -40,11 +35,30 @@ export const getOneJob = async (req, res) => {
           from: "users",
           localField: "applications.professionalId",
           foreignField: "_id",
+          as: "candidate",
+        },
+      },
+      {
+        $lookup: {
+          from: "applications",
+          localField: "_id",
+          foreignField: "jobId",
+          as: "applications",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "applications.professionalId",
+          foreignField: "_id",
           as: "candidate"
         },
       },
       { $match: { _id: jobId } },
     ])
+    .sort({
+      createdJobDate: -1,
+    })
     .toArray();
   return res.json({ data: job[0] });
 };
@@ -53,7 +67,6 @@ export const getOneJob = async (req, res) => {
 export const getAllJobsWithFilter = async (req, res, next) => {
   try {
     const keywords = req.query.keywords;
-    const companyWord = req.query.companyWord;
     const searchMinSalaryText = Number(req.query.searchMinSalaryText);
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const searchJobType = req.query.jobType;
@@ -63,30 +76,27 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const PAGE_SIZE = 12;
     const skip = PAGE_SIZE * (page - 1);
 
-    const query = {};
-    if (query) {
-      query.$or = [
+    const query = {
+      $or: [
         {
-          $and: [
-            {
-              $or: [
-                {
-                  jobTitle: {
-                    $regex: keywords.split(" ").join("|"),
-                    $options: "i",
-                  },
-                },
-              ],
-
-              jobCategory: { $regex: searchJobCategory },
-              jobType: { $regex: searchJobType },
-              minSalary: { $gte: searchMinSalaryText },
-              maxSalary: { $gte: searchMaxSalaryText },
-            },
-          ],
+          "company.companyName": {
+            $regex: keywords.split(" ").join("|"),
+            $options: "i",
+          },
         },
-      ];
-    }
+        {
+          jobTitle: {
+            $regex: keywords.split(" ").join("|"),
+            $options: "i",
+          },
+        },
+      ],
+
+      jobCategory: { $regex: searchJobCategory },
+      jobType: { $regex: searchJobType },
+      minSalary: { $gte: searchMinSalaryText },
+      maxSalary: { $gte: searchMaxSalaryText },
+    };
 
     const jobs = await jobsCollection
       .aggregate([
@@ -113,13 +123,13 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     return res.json({
       data: jobs,
       total_jobs: totalJobs,
+
       total_pages: totalPages,
     });
   } catch (error) {
     next(error);
   }
 };
-
 // ดึงข้อมูลงานทั้งหมด (ไม่มีฟีลเตอร์) --------------------------------------------------
 export const getAllJobs = async (req, res, next) => {
   try {

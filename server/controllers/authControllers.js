@@ -13,10 +13,20 @@ export const uploadFile = multerUpload.fields([
   { name: "cvFile", maxCount: 1 },
   { name: "logoFile", maxCount: 1 },
 ]);
+/* export const checkEmail = async (req, res) => {
+  const email = req.body.email;
+  const emailExists = await User.findOne({ email: email }).exec();
+  if (emailExists) {
+    return res.status(409).send({
+      message: "Email exists",
+    });
+  }
+}; */
 // POST - register ----------------------------------------------------------------
 export const register = async (req, res, next) => {
   try {
     const userRole = req.body.role;
+
     function checkUserRole(role) {
       if (String(role) === "professional") {
         // ถ้า professional ไม่ใส่อะไรมาในช่อง ที่ไม่ได้ required ตอนสมัคร ให้เซ็ทค่า default เป็น "-"
@@ -46,15 +56,18 @@ export const register = async (req, res, next) => {
       user["cvFiles"] = cvFileUrl;
     } else if (String(userRole) === "recruiter") {
       // if recruiter: Upload Files ----------------------------------------
-      console.log("hi", req.files);
-
       const logoFileUrl = await cloudinaryUploadLogo(req.files);
       user["companyLogo"] = logoFileUrl;
     }
     // hashing password
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-
+    /*  const emailExists = await User.findOne({ email: email }).exec();
+    if (emailExists) {
+      return res.status(409).send({
+        message: "Email exists",
+      });
+    } */
     await db.collection("users").insertOne(user);
     console.log(user);
     res.status(200).json(`User has been created successfully`);
@@ -75,7 +88,7 @@ export const login = async (req, res, next) => {
     });
 
     if (!user) {
-      return next(createError(400, "User not found"));
+      next(createError(400, "User not found"));
     }
 
     const isValidPassword = await bcrypt.compare(
@@ -84,11 +97,17 @@ export const login = async (req, res, next) => {
     );
 
     if (!isValidPassword) {
-      return next(createError(400, "Password is not valid"));
+      next(createError(400, "Password is not valid"));
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.name, role: user.role },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        language: user.language,
+        name: user.name || user.companyName,
+      },
       process.env.SECRET_KEY,
       {
         expiresIn: "24h",
@@ -98,6 +117,7 @@ export const login = async (req, res, next) => {
     res.status(200).json({
       message: `Login Successful! Welcome ${user.email}`,
       user_id: user._id,
+
       token,
     });
   } catch (error) {

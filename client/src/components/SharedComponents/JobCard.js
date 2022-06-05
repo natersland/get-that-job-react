@@ -98,6 +98,9 @@ const JobCardWrapper = styled.div`
   width: 320px;
   padding: 16px;
   background-color: var(--white);
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
 `;
 const JobCardContent = styled.div`
   display: flex;

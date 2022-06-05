@@ -1,21 +1,31 @@
-import React from "react";
+import { React, useState } from "react";
 import styled from "@emotion/styled";
 import { useUserData } from "../../contexts/usersData";
 import axios from "axios";
 import { useEffect } from "react";
-import { useVadilation } from "../../contexts/vadilation";
-
+import ReactPhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+// Images -------------------------------------
+import FileIcon from "../../assets/icons/file.png";
+// Contexts -------------------------------------
+import { useUtils } from "../../contexts/utilsContext";
+// Components -------------------------------------
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import BackDropLoading from "../../components/Utilities/BackDropLoading";
+//const UsersDataContext = React.createContext();
 
 function UpdatePersonalProfile() {
-  
-
+  //const params = useParams();
+  const [phone, setPhone] = useState();
+  const [showCvFile, setShowCvFile] = useState();
   const {
+    //users,
+    //setUsers,
     email,
     setEmail,
     name,
     setName,
-    phone,
-    setPhone,
     companyWebsite,
     setCompanyWebsite,
     birthDate,
@@ -31,16 +41,15 @@ function UpdatePersonalProfile() {
     uploadFiles,
     setUploadFiles,
   } = useUserData();
+  const userId = localStorage.getItem("id");
+  const userRole = localStorage.getItem("role");
+  const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
 
-  const profileData = localStorage.getItem("id");
-  
-  const { isErrorEmail, setIsErrorEmail } = useVadilation();
-
+  // Get professional user data ----------------------------------
   const getUsers = async () => {
-    const getResults = await axios.get(
-      `http://localhost:4000/users/${profileData}`
-    );
-    console.log(getResults.data);
+    setLoading(true);
+    const getResults = await axios.get(`http://localhost:4000/users/${userId}`);
+    setShowCvFile(getResults?.data.cvFiles[0]?.url);
     setEmail(getResults.data.email);
     setName(getResults.data.name);
     setPhone(getResults.data.phone);
@@ -51,36 +60,74 @@ function UpdatePersonalProfile() {
     setExperience(getResults.data.experience);
     setEducation(getResults.data.education);
     setUploadFiles(getResults.data.uploadFiles);
+    setLoading(false);
   };
 
   useEffect(() => {
     getUsers();
   }, []);
-  //------------ Update --------
 
-  const updateProfile = async (updateData) => {
-    await axios.put(`http://localhost:4000/users/${profileData}`, updateData, {
+  // fx update professional data ----------------------------------
+  const updateProfile = async (formData) => {
+    setLoading(true);
+    await axios.put(`http://localhost:4000/users/${userId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
+    getUsers();
+    setLoading(false);
+    setAlertMessage(`Your professional profile has been updated!`);
+  };
+  /* // fx update professional data ----------------------------------
+  const updateProfile = async () => {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 500);
+    await axios.put(`http://localhost:4000/users/${userId}`, {
+      email,
+      name,
+      phone,
+      companyWebsite,
+      birthDate,
+      linkedin,
+      title,
+      experience,
+      education,
+      uploadFiles,
+      userRole,
+    });
+  }; */
+  // fx submit form ----------------------------------
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    if (name) {
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("companyWebsite", companyWebsite);
+      formData.append("birthDate", birthDate);
+      formData.append("linkedin", linkedin);
+      formData.append("experience", experience);
+      formData.append("title", title);
+      formData.append("experience", experience);
+      formData.append("education", education);
+      formData.append("userRole", userRole);
+      if (uploadFiles) {
+        for (let updateKey in uploadFiles) {
+          formData.append("cvFiles", uploadFiles[updateKey]);
+        }
+      }
+      updateProfile(formData);
+      setAlertMessage(`Your company profile has been updated!`);
+      setIsAlert(true);
+    } else if (name === "" || name === "-") {
+      setAlertMessage(`Name is required.`);
+      setIsAlert(true);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (email === "") {
-      setIsErrorEmail(true);
-      alert("email can not be blank");
-    }
-    if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-      //  if email is not validattion
-      setIsErrorEmail(true);
-    } else {
-      updateProfile();
-      alert(`Your profile has been updated`);
-      //setIsErrorEmail(false);
-    }
-  };
-
-    const updateData = new FormData();{
+  /* const updateData = new FormData();{
+ 
     updateData.append("email", email);
     updateData.append("name", name);
     updateData.append("phone", phone);
@@ -93,18 +140,21 @@ function UpdatePersonalProfile() {
     for (let uploadFileKey in uploadFiles) {
       updateData.append("cvFile", uploadFiles[uploadFileKey]);
     }
-  }; 
+  }; */
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     setUploadFiles({
-      ...uploadFiles,
       [uniqueId]: event.target.files[0],
     });
   };
-
-  return (
+  return loading ? (
+    <CircularIndeterminate />
+  ) : (
     <MarginWrap>
+      <BackDropLoading />
+      <AlertDialog />
+
       <Texth1>Profile</Texth1>
       <Texth3>Personal Information</Texth3>
       <Form
@@ -116,9 +166,10 @@ function UpdatePersonalProfile() {
         <LabelText htmlFor="email">EMAIL</LabelText>
         <Input
           type="email"
-          className="gtj-input pink-border"
+          className="gtj-input pink-border bg-gray text-supergray"
           id="email"
           value={email}
+          disabled
           onChange={(event) => setEmail(event.target.value)}
         />
 
@@ -129,19 +180,37 @@ function UpdatePersonalProfile() {
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
-
+        {!name || name.length < 1 || name === "-" ? (
+          <span className="error-message mt-1 mb-1">
+            Please input your name number before you apply any job.
+          </span>
+        ) : null}
         <LabelText>PHONE</LabelText>
-        <Input
+        <ReactPhoneInput
+          country="th"
+          value={phone}
+          onChange={setPhone}
+          autoFormat={true}
+          disableDropdown={true}
+          placeholder={"+xx xxx xxx xxxx"}
+        />
+        {/*         <Input
           type="number"
           className="gtj-input pink-border"
           value={phone}
           onChange={(event) => setPhone(event.target.value)}
         />
+ */}
         <LabelUnder>+[country code][number]</LabelUnder>
+        {!phone || phone.length < 4 ? (
+          <span className="error-message mt-1 mb-1">
+            Please input your phone number before you apply any job.
+          </span>
+        ) : null}
 
         <LabelText>WEBSITE</LabelText>
         <Input
-          type="url"
+          type="text"
           className="gtj-input pink-border"
           value={companyWebsite}
           onChange={(event) => setCompanyWebsite(event.target.value)}
@@ -159,7 +228,7 @@ function UpdatePersonalProfile() {
 
         <LabelText>LINKEDIN URL</LabelText>
         <Input
-          type="url"
+          type="text"
           className="gtj-input pink-border"
           value={linkedin}
           onChange={(event) => setLinkedin(event.target.value)}
@@ -191,28 +260,55 @@ function UpdatePersonalProfile() {
           onChange={(event) => setEducation(event.target.value)}
         />
 
-        <CompanyLogoWrap>
+        <CVFilesWrapper className="shadow-md">
+          <CVIconWrapper>
+            <a href={showCvFile} target="_blank">
+              <CVIcon
+                src={FileIcon}
+                width="100px"
+                className="mt-5 mb-5 "
+                alt="cv-icon"
+              />
+            </a>
+          </CVIconWrapper>
           <InputFileWrap>
+            <CVHeading>Professional CV File</CVHeading>
+            <DownloadCVButton
+              className={`btn ${
+                showCvFile === null || !showCvFile ? "btn-gray" : "btn-active"
+              } btn-md`}
+              href={showCvFile}
+              target="_blank"
+            >
+              {showCvFile === null || !showCvFile
+                ? "No CV File Uploaded"
+                : "Download your CV File"}
+            </DownloadCVButton>
             <Label2>UPLOAD/UPDATE YOUR CV</Label2>
             <UploadFileSection>
               <Input1
                 id="uploadCV"
-                name="cvFile"
+                name="CV"
                 type="file"
-                //value={uploadFiles[0]}
-                onChange={handleFileChange}
+                /*                 value={uploadFiles[0]}
+                 */ onChange={handleFileChange}
                 accept=".pdf"
                 maxSize={5}
               />
             </UploadFileSection>
             <Limitation>Only PDF Max size 5MB</Limitation>
+            {!showCvFile || showCvFile === null ? (
+              <span className="error-message mt-1">
+                Please upload your Cv File before you apply any job.
+              </span>
+            ) : null}
           </InputFileWrap>
-        </CompanyLogoWrap>
+        </CVFilesWrapper>
 
         <Button
           form="update-Professional-form"
           type="submit"
-          className="btn btn-md btn-pink"
+          className="btn btn-md btn-pink "
         >
           SAVE CHANGE
         </Button>
@@ -246,14 +342,33 @@ const Texth4 = styled.p`
   margin-top: 35px;
 `;
 const MarginWrap = styled.div`
-  width: 65%;
-  margin: auto;
   margin-bottom: 100px;
+  padding-top: 32px;
+
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 80%;
+    margin-left: 45px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    margin-left: 100px;
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 992px) {
+    margin-left: 320px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    margin-left: 320px;
+  }
 `;
 
 const Button = styled.button`
+  display: inline-block;
+  width: 150px;
   margin-top: 24px;
-  width: 195px;
   text-align: center;
   letter-spacing: 1.35px;
 `;
@@ -264,11 +379,34 @@ const Form = styled.form`
 `;
 
 const Input = styled.input`
-  width: 400px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
 `;
 const Textarea = styled.textarea`
-  width: 950px;
   height: 200px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
 `;
 
 const Label2 = styled.label`
@@ -295,11 +433,66 @@ const UploadFileSection = styled.div`
   letter-spacing: 1.25px;
 `;
 
+const CVFilesWrapper = styled.div`
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 10px;
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+    flex-direction: column;
+    padding: 30px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 550px;
+  }
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    width: 744px;
+  }
+
+  /* Extra (desktops, 1400  and up) */
+  @media only screen and (min-width: 1400px) {
+    width: 744px;
+  }
+`;
+const CVIconWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  margin-right: 20px;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+`;
+const CVIcon = styled.img`
+  filter: saturate(75%);
+`;
+const CVHeading = styled.h2`
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: var(--gray);
+`;
+const DownloadCVButton = styled.a`
+  width: 220px;
+  justify-content: center;
+`;
+
 const Input1 = styled.input`
-  width: 360px;
   height: 36px;
   border-radius: 8px;
   color: #8e8e8e;
+  /*   width: 360px;
+ */
 `;
 
 const P = styled.p`
@@ -318,9 +511,7 @@ const Limitation = styled.p`
   margin-top: 0px;
   color: #8e8e8e;
 `;
-const CompanyLogoWrap = styled.div`
-  display: flex;
-`;
+
 const InputFileWrap = styled.div`
   display: flex;
   flex-direction: column;
