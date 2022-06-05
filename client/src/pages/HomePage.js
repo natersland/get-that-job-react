@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 // Images ----------------------------------------
 import people from "../assets/people/group-people.svg";
 import magnifyingGlass from "../assets/items/magni.svg";
@@ -9,16 +10,21 @@ import Reactline from "../img/reactjs-line.png";
 // Contexts ----------------------------------------
 import { useNav } from "../contexts/navigate";
 import { useVadilation } from "../contexts/vadilation";
+import { useNavigate } from "react-router-dom";
+
 // Data
 import teamData from "../data/teamData";
 import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
   const { registerRoute } = useNav();
+  const navigate = useNavigate();
+
   return (
     <MainWrap>
       <AlertDialog />
-      <LandingWrapper className="landingPage">
+
+      <LandingWrapper className="landingPage ">
         <Heading>
           The place where <br></br>you get <Span>that</Span> job
         </Heading>
@@ -39,25 +45,26 @@ const HomePage = () => {
         <LoginText
           className=""
           onClick={() => {
-            registerRoute();
+            navigate("/login");
           }}
         >
           I already have an account.
         </LoginText>
 
         <ImgPeopleWrapper className="mb-12 mt-4">
-          <img src={people} width="1400px" />
+          <img src={people} width="1400px" alt="group-of-people" />
         </ImgPeopleWrapper>
       </LandingWrapper>
 
-      <Section2 className="findYourNext mt-20">
-        <WrapperS2 className="left-section">
+      <Section2 className="findYourNext">
+        <WrapperS2 className="left-section ">
           <TextWrap>
             <IntroHeader>Find your next job</IntroHeader>
             <p>
               Our Machine learning algorithm is so good that it's even illegal
               in some countries. Join us to use our barelly legal algorithm that
-              is actually a group of interns that work on our basement.<br></br>
+              is actually a group of interns that work on our basement.
+              <br></br>
               <p className="mt-8">
                 We have a job for you, no matter your background or previous
                 experience. Is sending random memes through chat your only
@@ -68,7 +75,6 @@ const HomePage = () => {
             </p>
           </TextWrap>
         </WrapperS2>
-
         <ImgWrapper className="right-section">
           <ImgWrap>
             <img src={magnifyingGlass} width="300px" alt="magnifyingGlass" />
@@ -111,10 +117,11 @@ const HomePage = () => {
 };
 
 // Main Zone --------------------------------
+
 const MainWrap = styled.main`
   width: 100%;
   font-family: var(--primary-font);
-  padding-top: 4rem;
+  padding-top: 2rem;
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     padding: 0px 20px;
@@ -190,6 +197,7 @@ const LoginText = styled.p`
   font-size: 0.85rem;
   margin-top: -28px;
   margin-bottom: 25px;
+  cursor: pointer;
 `;
 const ImgPeopleWrapper = styled.div``;
 // Content Zone --------------------------------
@@ -211,7 +219,7 @@ const Section2 = styled.section`
   /* Large devices (laptops/desktops, 1024 and up) */
   @media only screen and (min-width: 1024px) {
     flex-direction: row;
-    margin-top: 150px;
+    margin-top: 50px;
   }
 `;
 const IntroHeader = styled.h1`

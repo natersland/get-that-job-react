@@ -41,18 +41,14 @@ function UpdatePersonalProfile() {
     uploadFiles,
     setUploadFiles,
   } = useUserData();
-  console.log(title);
-  const profileData = localStorage.getItem("id");
-  console.log(profileData);
-
+  const userId = localStorage.getItem("id");
+  const userRole = localStorage.getItem("role");
   const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
 
+  // Get professional user data ----------------------------------
   const getUsers = async () => {
     setLoading(true);
-    const getResults = await axios.get(
-      `http://localhost:4000/users/${profileData}`
-    );
-    console.log(getResults.data);
+    const getResults = await axios.get(`http://localhost:4000/users/${userId}`);
     setShowCvFile(getResults?.data.cvFiles[0]?.url);
     setEmail(getResults.data.email);
     setName(getResults.data.name);
@@ -71,15 +67,23 @@ function UpdatePersonalProfile() {
     getUsers();
   }, []);
 
-  //------------ Update --------
-
+  // fx update professional data ----------------------------------
+  const updateProfile = async (formData) => {
+    setLoading(true);
+    await axios.put(`http://localhost:4000/users/${userId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    getUsers();
+    setLoading(false);
+    setAlertMessage(`Your professional profile has been updated!`);
+  };
+  /* // fx update professional data ----------------------------------
   const updateProfile = async () => {
     setLoading(true);
     setTimeout(function () {
       setLoading(false);
     }, 500);
-    setAlertMessage(`ไฟล์ยังอัพไม่ไปจ้า (ถ้าได้จะขึ้นอีกแบบ)`);
-    await axios.put(`http://localhost:4000/users/${profileData}`, {
+    await axios.put(`http://localhost:4000/users/${userId}`, {
       email,
       name,
       phone,
@@ -90,15 +94,38 @@ function UpdatePersonalProfile() {
       experience,
       education,
       uploadFiles,
+      userRole,
     });
-    setAlertMessage(`Your professional profile has been updated!`);
+  }; */
+  // fx submit form ----------------------------------
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    if (name) {
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("companyWebsite", companyWebsite);
+      formData.append("birthDate", birthDate);
+      formData.append("linkedin", linkedin);
+      formData.append("experience", experience);
+      formData.append("title", title);
+      formData.append("experience", experience);
+      formData.append("education", education);
+      formData.append("userRole", userRole);
+      if (uploadFiles) {
+        for (let updateKey in uploadFiles) {
+          formData.append("cvFiles", uploadFiles[updateKey]);
+        }
+      }
+      updateProfile(formData);
+      setAlertMessage(`Your company profile has been updated!`);
+      setIsAlert(true);
+    } else if (name === "" || name === "-") {
+      setAlertMessage(`Name is required.`);
+      setIsAlert(true);
+    }
   };
 
-  const handleSubmit = (e) => {
-    updateProfile();
-
-    setIsAlert(true);
-  };
   /* const updateData = new FormData();{
  
     updateData.append("email", email);
@@ -118,11 +145,9 @@ function UpdatePersonalProfile() {
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
     setUploadFiles({
-      ...uploadFiles,
       [uniqueId]: event.target.files[0],
     });
   };
-
   return loading ? (
     <CircularIndeterminate />
   ) : (
@@ -167,7 +192,7 @@ function UpdatePersonalProfile() {
           onChange={setPhone}
           autoFormat={true}
           disableDropdown={true}
-          placeholder={"+66 xxx xxx xxxx"}
+          placeholder={"+xx xxx xxx xxxx"}
         />
         {/*         <Input
           type="number"

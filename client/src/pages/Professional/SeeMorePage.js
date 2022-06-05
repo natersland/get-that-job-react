@@ -80,6 +80,7 @@ function SeeMorePage() {
     };
     if (
       data?.cvFiles?.[0] === undefined ||
+      data?.cvFiles?.[0]?.url === null ||
       data?.phone === "" ||
       data?.phone === "-" ||
       data?.name === "" ||

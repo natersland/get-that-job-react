@@ -9,7 +9,7 @@ import building from "../../img/building-3-line.png";
 import calendar from "../../img/calendar-2-line.png";
 import money from "../../img/money-dollar-circle-line.png";
 import AlertDialog from "../../components/Utilities/AlertDialog";
-import { useVadilation } from "../../contexts/vadilation";
+import { useUtils } from "../../contexts/utilsContext";
 import close2 from "../../img/close2.png";
 import closeWhite from "../../img/closeWhite.png";
 import pinkperson from "../../img/pinkperson.png";
@@ -46,7 +46,8 @@ function ViewJobs() {
   const [status, setStatus] = useState("option1");
   const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
-/*
+  const { isAlert } = useUtils();
+  /*
   console.log(job);
 
   const handleSelectChange = (event) => {
@@ -271,7 +272,8 @@ function ViewJobs() {
                     id="submitCloseBtn"
                     onSubmit={(e) => {
                       handleCloseCLick(e);
-                    }}>
+                    }}
+                  >
                     <button
                       htmlFor="submitCloseBtn"
                       id="buttonID"
@@ -283,7 +285,8 @@ function ViewJobs() {
                         backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                       }}
                       value={job.jobStatus}
-                      type="submit">
+                      type="submit"
+                    >
                       <CloseDiv>
                         <Img2>
                           <img src={close2} />
@@ -291,7 +294,8 @@ function ViewJobs() {
                         <p
                           style={{
                             color: close ? "lightgray" : "white",
-                          }}>
+                          }}
+                        >
                           {" "}
                           {close ? "CLOSED" : "CLOSE"}
                         </p>

@@ -15,7 +15,7 @@ function AuthProvider(props) {
     user: null,
   });
   const navigate = useNavigate();
-  const { resetUserData, role, setRole } = useUserData();
+  const { resetUserData, role, setRole, email, password } = useUserData();
   const isAuthenticated = Boolean(localStorage.getItem("token"));
   const isProfessional = Boolean(
     localStorage.getItem("role") === "professional"
@@ -30,49 +30,66 @@ function AuthProvider(props) {
     localStorage.removeItem("role");
     localStorage.removeItem("id");
     localStorage.removeItem("rightAcc");
-  };
-
-  // register  ---------------------------------------------------------
-  const register = async (data) => {
-    await axios.post("http://localhost:4000/auth/register", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    navigate("/");
-    setLoading(false);
+    localStorage.removeItem("language");
+    localStorage.removeItem("name");
   };
 
   // login  ---------------------------------------------------------
   const login = async (data) => {
     ifInputIsBlank();
-    const result = await axios.post("http://localhost:4000/auth/login", data);
-    const token = result.data.token;
-    const userDataFromToken = jwtDecode(token);
-    if (!userDataFromToken) {
-      setIsAccountValid(true);
-    }
-    localStorage.setItem("token", token);
-    localStorage.setItem("role", userDataFromToken.role);
-    localStorage.setItem("id", userDataFromToken.id);
-    setState({ ...state, user: userDataFromToken });
+    try {
+      const result = await axios.post("http://localhost:4000/auth/login", data);
+      const token = result.data.token;
+      const userDataFromToken = jwtDecode(token);
 
-    if (userDataFromToken.role === role) {
-      localStorage.setItem("rightAcc", true);
-      setFirstLogIn(true);
-      setAlertMessage(`Login Successful! Welcome ${role}`);
-      setIsAlert(true);
-      if (userDataFromToken.role === "professional") {
-        navigate("/findjobs");
-      } else if (userDataFromToken.role === "recruiter") {
-        navigate("/viewjobs");
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", userDataFromToken.role);
+      localStorage.setItem("id", userDataFromToken.id);
+      localStorage.setItem("language", userDataFromToken.language);
+      localStorage.setItem("name", userDataFromToken.name);
+      setState({ ...state, user: userDataFromToken });
+
+      if (userDataFromToken.role === role) {
+        localStorage.setItem("rightAcc", true);
+        const userName = userDataFromToken.name;
+        setAlertMessage(
+          `Login Successful. Welcome ${
+            userName !== "" && userName !== "-" ? userName : role
+          }!`
+        );
+        setIsAlert(true);
+        if (userDataFromToken.role === "professional") {
+          navigate("/findjobs");
+        } else if (userDataFromToken.role === "recruiter") {
+          navigate("/viewjobs");
+        }
+      } else {
+        setAlertMessage(`Wrong account type. Please try again.`);
+        setIsAlert(true);
+        removeLocalStorageData();
+        navigate("/login");
       }
-    } else {
-      setAlertMessage(`Wrong account type. Please try again.`);
+      resetUserData();
+      setRole("professional");
+    } catch (error) {
+      console.log(error);
+      setAlertMessage(`Wrong password or account, please try again.`);
       setIsAlert(true);
-      removeLocalStorageData();
-      navigate("/login");
     }
-    resetUserData();
-    setRole("professional");
+  };
+  // register  ---------------------------------------------------------
+  const register = async (data) => {
+    await axios.post("http://localhost:4000/auth/register", data, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    setTimeout(function () {
+      login({
+        email,
+        password,
+      });
+      setLoading(false);
+      navigate("/");
+    }, 250);
   };
 
   // logout ---------------------------------------------------------

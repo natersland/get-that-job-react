@@ -24,6 +24,7 @@ body {
   font-family: var(--primary-font);
   font-family: "Noto Sans Thai", "Montserrat", sans-serif;
   color: var(--primary-text-color);
+  
 }
 .error-message {
   color: rgba(224, 68, 68, 0.986);
@@ -32,6 +33,7 @@ body {
   margin-top: -10px;
   font-family: var(--seconary-font);
 }
+
 
 /* 🍓🍓🍓 CSS Structure -------------------------------- */
 /* โครงปุ่ม (ใช้สร้างรูปทรงปุ่ม) */

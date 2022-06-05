@@ -52,6 +52,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin-left: 1rem;
   margin-bottom: 10px;
+  margin-top: -50px;
 `;
 
 const BackBtn = styled.button`

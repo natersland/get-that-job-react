@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
+
 // Images
 import Woman from "../../assets/people/woman-regis.svg";
 //Contexts
@@ -7,14 +8,14 @@ import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
 import { useUtils } from "../../contexts/utilsContext";
-
 // Components
 import MainRegisterForm from "../../components/Register/MainRegisterForm";
 import SelectRole from "../../components/Register/SelectRole";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-/* import AlertNotification from "../../components/Utilities/AlertNotification";
- */ import RoleStepsBox from "../../components/Register/RoleStepsBox.js";
+import AlertDialog from "../../components/Utilities/AlertDialog";
+import RoleStepsBox from "../../components/Register/RoleStepsBox.js";
 import RegFormButton from "../../components/Register/RegFormButton";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 
 function RegisterPage() {
   const {
@@ -49,14 +50,14 @@ function RegisterPage() {
     isErrorEmail,
     isErrorPassword,
   } = useVadilation();
-  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
-  const { register, login } = useAuth();
+  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { register } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
-    setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
-    setIsAlert(true);
+    /*     setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
+    setIsAlert(true); */
     if (role === "professional") {
       setRole("professional");
       const formData = new FormData();
@@ -92,24 +93,23 @@ function RegisterPage() {
       formData.append("companyWebsite", companyWebsite);
       formData.append("about", about);
 
-     for (let uploadFileKey in companyLogo) {
+      for (let uploadFileKey in companyLogo) {
         formData.append("logoFile", companyLogo[uploadFileKey]);
-      } 
+      }
       setTimeout(function () {
         register(formData);
       }, 500);
     }
-    login({
-      email,
-      password,
-    });
     resetUserData();
     setStep(0);
     setRole("professional");
   };
 
-  return (
+  return loading ? (
+    <CircularIndeterminate />
+  ) : (
     <Wrapper>
+      <AlertDialog />
       <BackDropLoading />
       <LeftBox>
         <form
@@ -144,6 +144,7 @@ function RegisterPage() {
                 </Alert>
               ) : null}
               {/* Step display เก่าของครีม ที่มีการเช็ค role เพิ่มเข้ามา: ไว้ใช้เช็คว่าตอนนี้อยู่หน้าไหน ให้ใช้ form ของหน้านั้นๆ ------------------------ */}
+
               <MainRegisterForm userRole={role} />
               {/* ปุ่ม next, previous, finish: ที่มีการเช็ค role เข้ามาเพิ่ม ------------------------ */}
               <RegFormButton />

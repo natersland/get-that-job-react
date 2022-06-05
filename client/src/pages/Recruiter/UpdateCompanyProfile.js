@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
-import AlertDialog from "../../components/Utilities/AlertDialog";
+// Contexts ---------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
+// Components ---------------------------------------
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
+import AlertDialog from "../../components/Utilities/AlertDialog";
 
 function UpdateCompanyProfile() {
   const [companyLogo, setCompanyLogo] = useState({});
@@ -13,47 +15,57 @@ function UpdateCompanyProfile() {
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [about, setAbout] = useState("");
+  const userId = localStorage.getItem("id");
+  const userRole = localStorage.getItem("role");
 
-  const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
-  const handleFileChange = (event) => {
-    const uniqueId = Date.now();
-    setCompanyLogo({
-      [uniqueId]: event.target.files[0],
-    });
-    setShowCompanyLogo(null);
-  };
-
-  const comProfileData = localStorage.getItem("id");
+  const {
+    setAlertMessage,
+    setIsAlert,
+    setLoading,
+    loading,
+    language,
+    setLanguage,
+  } = useUtils();
+  // Get company user data ----------------------------------
   const getComUsers = async () => {
     setLoading(true);
-
-    const results = await axios.get(
-      `http://localhost:4000/users/${comProfileData}`
-    );
+    const results = await axios.get(`http://localhost:4000/users/${userId}`);
     setShowCompanyLogo(results?.data?.companyLogo[0]?.url);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
     setCompanyWebsite(results.data.companyWebsite);
     setAbout(results.data.about);
+    setLanguage(results.data.language);
     setTimeout(function () {
       setLoading(false);
     }, 500);
+    localStorage.setItem("language", results.data.language);
   };
 
   useEffect(() => {
     getComUsers();
   }, []);
 
-  const updateComProfile = async (formData) => {
-    setLoading(true);
-    await axios.put(`http://localhost:4000/users/${comProfileData}`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+  // Upload file ----------------------------------
+  const handleFileChange = (event) => {
+    const uniqueId = Date.now();
+    setCompanyLogo({
+      [uniqueId]: event.target.files[0],
     });
-    setLoading(false);
+    setShowCompanyLogo(false);
   };
 
+  // fx update company data ----------------------------------
+  const updateComProfile = async (formData) => {
+    setLoading(true);
+    await axios.put(`http://localhost:4000/users/${userId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    getComUsers();
+    setLoading(false);
+  };
+  // fx submit form ----------------------------------
   const handleSubmit = (event) => {
-    console.log(companyName);
     event.preventDefault();
     const formData = new FormData();
     if (companyName) {
@@ -61,9 +73,14 @@ function UpdateCompanyProfile() {
       formData.append("companyName", companyName);
       formData.append("companyWebsite", companyWebsite);
       formData.append("about", about);
+      formData.append("language", language);
+      formData.append("showCompanyLogo", showCompanyLogo);
+      formData.append("userRole", userRole);
 
-      for (let updateKey in companyLogo) {
-        formData.append("companyLogo", companyLogo[updateKey]);
+      if (companyLogo) {
+        for (let updateKey in companyLogo) {
+          formData.append("companyLogo", companyLogo[updateKey]);
+        }
       }
       updateComProfile(formData);
       setAlertMessage(`Your company profile has been updated!`);
@@ -81,7 +98,9 @@ function UpdateCompanyProfile() {
       <BackDropLoading />
       <AlertDialog />
       <div>
-        <H1>Profile</H1>
+        <H1>
+          {language === "en" || language === undefined ? "Profile" : "โปรไฟล์"}
+        </H1>
       </div>
 
       <Form
@@ -104,6 +123,7 @@ function UpdateCompanyProfile() {
                   <Logo key={companyLogo}>
                     <img
                       width="74.67px"
+                      height="74.67px"
                       src={URL.createObjectURL(file)}
                       alt={file.name}
                     />
@@ -114,7 +134,11 @@ function UpdateCompanyProfile() {
           </div>
 
           <InputFileWrap>
-            <Label2>COMPANY LOGO</Label2>
+            <Label2 lang={language}>
+              {language === "en" || language === undefined
+                ? "COMPANY LOGO"
+                : "โลโก้บริษัท"}
+            </Label2>
             <UploadFileSection>
               <Input1
                 id="uploadFile"
@@ -128,7 +152,11 @@ function UpdateCompanyProfile() {
           </InputFileWrap>
         </CompanyLogoWrap>
 
-        <LabelText htmlFor="email">COMPANY EMAIL</LabelText>
+        <LabelText htmlFor="email" lang={language}>
+          {language === "en" || language === undefined
+            ? "COMPANY EMAIL"
+            : "อีเมลล์บริษัท"}
+        </LabelText>
         <Input
           type="email"
           className="gtj-input pink-border  bg-gray text-supergray"
@@ -138,7 +166,11 @@ function UpdateCompanyProfile() {
           onChange={(event) => setEmail(event.target.value)}
         />
 
-        <LabelText>COMPANY NAME</LabelText>
+        <LabelText lang={language}>
+          {language === "en" || language === undefined
+            ? "COMPANY NAME"
+            : "ชื่อบริษัท"}
+        </LabelText>
         <Input
           type="text"
           className="gtj-input pink-border"
@@ -151,15 +183,39 @@ function UpdateCompanyProfile() {
           </span>
         ) : null}
 
-        <LabelText>COMPANY WEBSITE</LabelText>
+        <LabelText lang={language}>
+          {" "}
+          {language === "en" || language === undefined
+            ? "COMPANY WEBSITE"
+            : "เว็บไซต์บริษัท"}{" "}
+        </LabelText>
         <Input
           type="url"
           className="gtj-input pink-border"
           value={companyWebsite}
           onChange={(event) => setCompanyWebsite(event.target.value)}
         />
-
-        <LabelText>ABOUT THE COMPANY</LabelText>
+        <LabelText className="uppercase" lang={language}>
+          {language === "en" || language === undefined ? "Language" : "ภาษา"}
+        </LabelText>
+        <DropDownList
+          className="gtj-input pink-border"
+          id="jobType"
+          name="jobType"
+          onChange={(e) => setLanguage(e.target.value)}
+        >
+          <option value="en" selected={language === "en" ? true : false}>
+            English (Default)
+          </option>
+          <option value="th" selected={language === "th" ? true : false}>
+            ภาษาไทย (Beta)
+          </option>
+        </DropDownList>
+        <LabelText lang={language}>
+          {language === "en" || language === undefined
+            ? "ABOUT THE COMPANY"
+            : "เกี่ยวกับบริษัท"}
+        </LabelText>
         <Textarea
           className="gtj-input pink-border"
           cols="40"
@@ -171,8 +227,11 @@ function UpdateCompanyProfile() {
           form="updateCompany-form"
           type="submit"
           className="btn btn-md btn-pink"
+          lang={language}
         >
-          UPDATE PROFILE
+          {language === "en" || language === undefined
+            ? "UPDATE PROFILE"
+            : "อัพเดตโปรไฟล์"}
         </Button>
       </Form>
     </MarginWrap>
@@ -227,6 +286,9 @@ const LogoImg = styled.img`
   height: 100%;
 `;
 const Button = styled.button`
+  font-size: ${(props) =>
+    props.lang === "en" || props.lang !== "th" ? "0.95rem" : "0.95rem"};
+
   display: inline-block;
   width: 200px;
   margin-top: 24px;
@@ -273,7 +335,8 @@ const Textarea = styled.textarea`
 const Label2 = styled.label`
   font-family: var(--seconary-font);
   font-weight: 400;
-  font-size: 10px;
+  font-size: ${(props) =>
+    props.lang === "en" || props.lang !== "th" ? "10px" : "0.85rem"};
   color: #616161;
   margin: 0px;
 `;
@@ -309,7 +372,17 @@ const Input1 = styled.input`
   padding-right: 10px;
   color: #8e8e8e;
 `;
-
+const DropDownList = styled.select`
+  color: var(--light-gray);
+  /* Extra small devices (phones, 600px and down) */
+  @media only screen and (max-width: 600px) {
+    width: 300px;
+  }
+  /* Medium devices (landscape tablets, 768px and up) */
+  @media only screen and (min-width: 768px) {
+    width: 380px;
+  }
+`;
 const FileName = styled.p`
   font-family: var(--secondary-font);
   font-weight: 400;
@@ -347,7 +420,8 @@ const InputFileWrap = styled.div`
 `;
 
 const LabelText = styled.label`
-  font-size: 10px;
+  font-size: ${(props) =>
+    props.lang === "en" || props.lang !== "th" ? "10px" : "0.85rem"};
   color: var(--primary-text-color);
   font-family: var(--seconary-font);
   letter-spacing: 1.5px;

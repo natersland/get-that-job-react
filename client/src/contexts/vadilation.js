@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 // Contexts
 import { useUserData } from "./usersData";
-
+import { useUtils } from "./utilsContext";
 const VadilationContext = React.createContext();
 
 function VadilationProvider(props) {
   const { password, email, passwordConfirmed } = useUserData();
+  const { isAlert, setIsAlert, setAlertMessage } = useUtils();
   // Others -----------------------------------------
   const [fistLogIn, setFirstLogIn] = useState(false);
   // This Zone is for Register form vadilate only -------------------------------------
@@ -69,7 +70,9 @@ function VadilationProvider(props) {
       password === passwordConfirmed &&
       password !== "" &&
       passwordConfirmed !== "" &&
-      email.match(/^\w+([\.-]?\w)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g)
+      email.match(/^\w+([\.-]?\w)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g) &&
+      password.length >= 6 &&
+      password.length <= 18
     ) {
       setStep(step + 1);
       setIsErrorEmail(false);
@@ -86,7 +89,6 @@ function VadilationProvider(props) {
   };
 
   // Alert Dialog Zone -----------------------------------
-  const [isAlert, setIsAlert] = React.useState(false);
 
   const openAlert = () => {
     isAlert(true);
