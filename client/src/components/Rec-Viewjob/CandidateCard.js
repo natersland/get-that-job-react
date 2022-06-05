@@ -21,7 +21,7 @@ function CandidateCard1 ({
   linkedin,
   experience,
   createdJobDate,
-  companyName
+  CV
 }) {
 
   const CandidateCardHeader = () => {
@@ -90,20 +90,11 @@ function CandidateCard1 ({
                     </Detail>
                   </CandidateDetails2>
               </CandidateDetails1>
-
-              <CandidateDetails1>
-                  <Title>Why are you interested in working at The {companyName} companyName</Title>
-                  <CandidateDetails2>
-                    <Detail>
-                      REASON
-                    </Detail>
-                  </CandidateDetails2>
-              </CandidateDetails1>
         </CandidateDetails>
 
         <Dowload>
             <MarkTextButton>
-            <Icon><img src={load}/></Icon><MarkText>DOWLOAD CV</MarkText>
+            <Icon><img src={load}/></Icon><MarkText>DOWLOAD CV {CV}</MarkText>
             </MarkTextButton>
         </Dowload> 
         </div>

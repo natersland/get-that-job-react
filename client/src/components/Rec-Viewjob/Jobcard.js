@@ -13,10 +13,14 @@ import account from "../../img/account-circle-line.png";
 import pinkperson from "../../img/pinkperson.png";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
+import UtilitiesFunction from "../../utils/utilitiesFunction";
+import moment from "moment";
 
 function ShowJob2 () {
   const jobId = localStorage.getItem("jobId");
   const [job, setJob ] = useState({});
+  const [jobDetails, setJobDetails] = useState([]);
+
   
   const getJobPost = async () => {
     try {
@@ -26,15 +30,23 @@ function ShowJob2 () {
       console.log(results);
 
       setJob(results.data.data);
+      setJobDetails(_.reverse(results?.data.data.applications));
       console.log(results.data.data);
 
     } catch (error) {
       console.log(error);
     }
     return {
-      job
+      job,
+      jobDetails
     };
   };
+
+  const countData = jobDetails.filter((items) => {
+    return items !== undefined;
+  });
+
+
 
   console.log(job);
   const title = job.jobTitle;
@@ -45,6 +57,9 @@ function ShowJob2 () {
   const mendatoryReq = job.mendatoryReq;
   const optionalReq = job.optionalReq;
   const about = job.aboutJob;
+
+  const { convertSalary } = UtilitiesFunction();
+
 
   useEffect(() => {
     getJobPost ();
@@ -81,7 +96,7 @@ function ShowJob2 () {
                                 <img src={money} />
                             </ImgInfoLeft>
                             <div>
-                                <TextInfo> {minSalary} - {maxSalary}</TextInfo>
+                                <TextInfo> {convertSalary(minSalary)} - {convertSalary(maxSalary)}</TextInfo>
                             </div>
                             </JobMainInformation2>
                         </MainInformation>
@@ -90,11 +105,11 @@ function ShowJob2 () {
                     <JobCenterCard>
 
                         <JobCenterCard1>
-                            <IconWithText icon={mailOpen} number={'props.openOn'} text={'Open on 18/12/2022'}/>                     
+                            <IconWithText icon={mailOpen}  text={moment(job?.createdJobDate).startOf().fromNow()}/>                     
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={account} number={'props.totalCandidate'} text={'Total candidates'}/>      
+                            <IconWithText icon={account} text={jobDetails?.length === 0 ? "0" : `${countData.length}`}/>                          
                         </JobCenterCard1>
 
                         <JobCenterCard1>
