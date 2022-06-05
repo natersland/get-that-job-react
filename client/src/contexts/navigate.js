@@ -34,6 +34,7 @@ function NavigateProvider(props) {
       navigate("/register");
     } else if (index === 1) {
       navigate("/login");
+      setMenuIndex(1);
     }
   };
   // Homepage -----------------------------------

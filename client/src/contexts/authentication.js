@@ -6,6 +6,7 @@ import jwtDecode from "jwt-decode";
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
 import { useUtils } from "./utilsContext";
+import { useNav } from "./navigate";
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {

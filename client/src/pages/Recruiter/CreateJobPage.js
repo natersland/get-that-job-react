@@ -19,8 +19,7 @@ function CreateJobPage() {
 
   const { filterComma, textUpperCase, addCommas, removeCommas } =
     UtilitiesFunction();
-  const setUserLanguage = () => {
-    console.log(userLanguage);
+  const settingUserLanguage = () => {
     setLanguage(userLanguage);
   };
   // state for this page form start here -------------------------------
@@ -63,7 +62,7 @@ function CreateJobPage() {
     if (filterComma(maxSalary) > filterComma(minSalary)) {
       setAlertMessage(
         ` ${
-          language === "en" || language === undefined
+          language === "en" && language === undefined
             ? `Your job "${jobTitle}" has beed created successful!`
             : `งานตำแหน่ง "${jobTitle}" ถูกสร้างเรียบร้อย!`
         }`
@@ -95,7 +94,8 @@ function CreateJobPage() {
   };
 
   useEffect(() => {
-    setUserLanguage();
+    settingUserLanguage();
+    console.log("hi", language);
   }, [minSalary, maxSalary, language]);
   return (
     <Wrapper>

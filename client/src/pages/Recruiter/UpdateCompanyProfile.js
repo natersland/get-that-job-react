@@ -39,7 +39,6 @@ function UpdateCompanyProfile() {
     setTimeout(function () {
       setLoading(false);
     }, 500);
-    localStorage.setItem("language", results.data.language);
   };
 
   useEffect(() => {
@@ -76,6 +75,7 @@ function UpdateCompanyProfile() {
       formData.append("language", language);
       formData.append("showCompanyLogo", showCompanyLogo);
       formData.append("userRole", userRole);
+      localStorage.setItem("language", language);
 
       if (companyLogo) {
         for (let updateKey in companyLogo) {
@@ -204,7 +204,14 @@ function UpdateCompanyProfile() {
           name="jobType"
           onChange={(e) => setLanguage(e.target.value)}
         >
-          <option value="en" selected={language === "en" ? true : false}>
+          <option
+            value="en"
+            selected={
+              language === "en" || !language || language === undefined
+                ? true
+                : false
+            }
+          >
             English (Default)
           </option>
           <option value="th" selected={language === "th" ? true : false}>

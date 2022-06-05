@@ -92,6 +92,7 @@ function RegisterPage() {
       formData.append("role", role);
       formData.append("companyWebsite", companyWebsite);
       formData.append("about", about);
+      formData.append("language", "en");
 
       for (let uploadFileKey in companyLogo) {
         formData.append("logoFile", companyLogo[uploadFileKey]);
