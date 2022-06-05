@@ -58,6 +58,11 @@ const ProfessionalSchema = new mongoose.Schema(
       type: [{}],
       default: null,
     },
+    language: {
+      type: String,
+      required: true,
+      default: "en",
+    },
     memberSince: {
       type: Date,
       required: true,
