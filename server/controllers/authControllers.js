@@ -88,7 +88,7 @@ export const login = async (req, res, next) => {
     });
 
     if (!user) {
-      return next(createError(400, "User not found"));
+      next(createError(400, "User not found"));
     }
 
     const isValidPassword = await bcrypt.compare(
@@ -97,11 +97,17 @@ export const login = async (req, res, next) => {
     );
 
     if (!isValidPassword) {
-      return next(createError(400, "Password is not valid"));
+      next(createError(400, "Password is not valid"));
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, name: user.name, role: user.role },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        language: user.language,
+        name: user.name || user.companyName,
+      },
       process.env.SECRET_KEY,
       {
         expiresIn: "24h",
@@ -111,6 +117,7 @@ export const login = async (req, res, next) => {
     res.status(200).json({
       message: `Login Successful! Welcome ${user.email}`,
       user_id: user._id,
+
       token,
     });
   } catch (error) {

@@ -2,11 +2,7 @@ import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
 import bcrypt from "bcrypt";
 import multer from "multer";
-import {
-  cloudinaryUploadLogo,
-  cloudinaryUpdateLogo,
-  cloudinaryUploadCV,
-} from "../utils/upload.js";
+import { cloudinaryUpdateLogo, cloudinaryUpdateCV } from "../utils/upload.js";
 // Schema Medels ---------------------
 import RecruiterModel from "../models/RecruiterModel.js";
 import ProfessionalModel from "../models/ProfessionalModel.js";
@@ -119,19 +115,32 @@ export const getAllUserData = async (req, res, next) => {
 const multerUpload = multer({ dest: "upload/" });
 export const uploadFile = multerUpload.fields([
   { name: "companyLogo", maxCount: 1 },
+  { name: "cvFiles", maxCount: 1 },
 ]);
 export const updateOneUser = async (req, res, next) => {
   try {
-    /* const userRole = req.body.role; */
-
+    const userRole = req.body.userRole;
+    console.log(userRole);
     console.log(req.files);
     const userId = ObjectId(req.params.id);
     const updateUserData = {
       ...req.body,
+      language: req.body.language,
     };
-
-    const logoFileUrl = await cloudinaryUpdateLogo(req.files);
-    updateUserData["companyLogo"] = logoFileUrl;
+    try {
+      if (userRole === "professional") {
+        const cvFileUrl = await cloudinaryUpdateCV(req.files);
+        updateUserData["cvFiles"] = cvFileUrl;
+      } else if (userRole === "recruiter") {
+        const logoFileUrl = await cloudinaryUpdateLogo(req.files);
+        updateUserData["companyLogo"] = logoFileUrl;
+      }
+    } catch (error) {
+      await usersCollection.updateOne(
+        { _id: userId },
+        { $set: updateUserData }
+      );
+    }
 
     await usersCollection.updateOne({ _id: userId }, { $set: updateUserData });
     res.status(200).json(`User ${userId} has been updated successful`);

@@ -48,6 +48,23 @@ const cloudinaryUploadLogo = async (files) => {
   }
 };
 
+const cloudinaryUpdateCV = async (files) => {
+  const fileUrl = [];
+
+  for (let file of files.cvFiles) {
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: "register/cvFile",
+      type: "private",
+    });
+    fileUrl.push({
+      url: result.secure_url,
+      publicId: result.public_id,
+    });
+    await fs.unlink(file.path);
+  }
+  return fileUrl;
+};
+
 const cloudinaryUpdateLogo = async (files) => {
   const logoUrl = [];
 
@@ -65,4 +82,9 @@ const cloudinaryUpdateLogo = async (files) => {
   return logoUrl;
 };
 
-export { cloudinaryUploadCV, cloudinaryUploadLogo, cloudinaryUpdateLogo };
+export {
+  cloudinaryUploadCV,
+  cloudinaryUploadLogo,
+  cloudinaryUpdateLogo,
+  cloudinaryUpdateCV,
+};

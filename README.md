@@ -61,6 +61,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
 <li> Recruiter-Page: Create New Job (Front-End) </li>
 <li> Make all pages responsive </li>
 <li> Other utilities and shared components </li>
+<li> Vadilations </li>
 <li> Performance Optimization </li>
 <br>
 <h3> 2. 🦀Arisara Vichitpataya (Cream)
