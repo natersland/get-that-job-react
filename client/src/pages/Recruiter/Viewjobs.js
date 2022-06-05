@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import IconWithText from "../../components/SharedComponents/IconWithText";
+import moment from "moment";
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
@@ -25,6 +26,7 @@ function ViewJobs() {
   const userRole = localStorage.getItem("role");
   const [filterApllication, setFilterApplication] = useState("all");
 
+
   const radioFilterData = [
     { value: "all", label: "All" },
     { value: "with candidate on track", label: "with candidate on track" },
@@ -32,6 +34,7 @@ function ViewJobs() {
 
   ];
 
+  const { convertSalary } = UtilitiesFunction();
 /*
   console.log(job);
 
@@ -57,10 +60,10 @@ function ViewJobs() {
       const results = await axios.get(
         `http://localhost:4000/users/${comProfileData}`
       );
-      setStatus(results.data.jobs);
+      //setStatus(results.data.jobs);
       setJob(_.reverse(results.data.jobs));
 
-      //console.log("GET JOB POST", results.data.jobs);
+      console.log("GET JOB POST", results.data.jobs);
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +81,7 @@ function ViewJobs() {
   useEffect(() => {
     getJobPost();
   }, []);
-
+ 
   return (
     <Content>
 
@@ -107,9 +110,9 @@ function ViewJobs() {
             jobType={data.jobType}
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}
-            openOn={data.openOn}
-            totalCandidate={data.totalCandidate}
-            candidateOnTrack={data.candidateOnTrack}
+            openOn={moment(data.createdJobDate).startOf().fromNow()}
+            //totalCandidate={data.totalCandidate}
+            //candidateOnTrack= {candidateOnTrack}
             aboutTheJob={data.aboutJob}
             requirement={data.mandatoryReq}
             optionalRequirement={data.optionalReq}
@@ -119,6 +122,8 @@ function ViewJobs() {
       })}
     </Content>
   );
+
+
   //------------------------------2nd function -----------------------------------//
   function Job(props) {
     const [toggle, setToggle] = useState(false);
@@ -126,7 +131,49 @@ function ViewJobs() {
     const [font, setFont] = useState(false);
     const [disable, setDisable] = useState(false);
 
- 
+    const { convertSalary } = UtilitiesFunction();
+
+    //----------------------------------------------------------------------------------------------------------------//
+
+  const [jobDetails, setJobDetails] = useState([]);
+  const [userCandidate, setUserCandidates] = useState();
+
+  const recruiterId = localStorage.getItem("id");  
+
+  const url = `http://localhost:4000/users/${recruiterId}`;
+
+  const getApplications = async () => {
+    try {
+      const results = await axios.get(url);
+      setJobDetails(_.reverse(results?.data.jobs));  // เก็บข้อมูลจำนวนงานที่มี jobId
+      setUserCandidates(results?.data.candidate);  // เก็บข้อมูล candidate ที่มี jobId
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      jobDetails,
+    };
+  };
+
+    console.log(jobDetails)
+    console.log(userCandidate);
+
+    /*const candidateData = userCandidate?.map((Data,index) => {
+    let candidateDetail = _.find(jobDetails, {_id: Data?.jobId });  // หา candidate ที่มี jobId
+    console.log(candidateDetail);  
+    });
+    console.log(candidateData) // [undefined,undefined]
+
+  const countData = userCandidate?.map((items) => {
+    return items !== undefined;
+  });*/
+
+  useEffect(() => {
+    getApplications();
+  }, []); 
+
+//----------------------------------------------------------------------------------------------------------------//
+
     useEffect(() => {
       if (props.jobStatus === false) {
         //console.log(props.jobStatus, "props.jobStatus");
@@ -183,7 +230,7 @@ function ViewJobs() {
                         </Img>
                         <div>
                           <Text1 key={props.id}>
-                            {props.minSalary} {props.maxSalary}{" "}
+                          {convertSalary(props.minSalary)} - {convertSalary(props.maxSalary)}{" "}
                           </Text1>
                         </div>
                       </JobCardHeaderLeft2>
@@ -193,11 +240,11 @@ function ViewJobs() {
             <JobCenterCard>
 
                         <JobCenterCard1>
-                            <IconWithText icon={mailOpen} number={'props.openOn'} text={'Open on 18/12/2022'}/>                     
-                        </JobCenterCard1>
-
+                            <IconWithText icon={mailOpen} text={props.openOn}/>                     
+                        </JobCenterCard1>                     
                         <JobCenterCard1>
-                            <IconWithText icon={account} number={'props.totalCandidate'} text={'Total candidates'}/>      
+                            <IconWithText icon={account} //text={jobDetails?.length === 0 ? "0" : `${countData.length}`}                      
+                            />      
                         </JobCenterCard1>
 
                         <JobCenterCard1>

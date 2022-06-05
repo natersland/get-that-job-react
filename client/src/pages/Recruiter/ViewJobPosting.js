@@ -14,6 +14,7 @@ import { useEffect } from "react";
 
 function ViewJobPosting () {
   const [jobDetails, setJobDetails] = useState([]);
+  //const [jobs,setJob] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function ViewJobPosting () {
       // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
       setJobDetails(_.reverse(results?.data.data.applications));
       setUserCandidates(results?.data.data.candidate);
+      //setJob(results?.data.jobs)
     } catch (error) {
       console.log(error);
     }
@@ -36,6 +38,7 @@ function ViewJobPosting () {
 
   console.log(jobDetails);
   console.log(userCandidate);
+  //console.log(jobs);
  
   const radioFilterData = [
     { value: "all", label: "All" },
@@ -47,7 +50,8 @@ function ViewJobPosting () {
   const candidateData = jobDetails?.map((jobDetailData, index) => {
 
         let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
-    
+        //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
+
     console.log(candidateDetail);
     const data = () => {
       return (
@@ -59,7 +63,7 @@ function ViewJobPosting () {
           linkedin={candidateDetail?.linkedin}
           experience={candidateDetail?.experience}
           createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
-          companyName={candidateDetail?.companyName}
+          //CV ={candidateCv.cvFiles}
         />
       );
     };
@@ -73,6 +77,7 @@ function ViewJobPosting () {
     return data();
   });
   
+  console.log(candidateData);
   const countData = candidateData.filter((items) => {
     return items !== undefined;
   });

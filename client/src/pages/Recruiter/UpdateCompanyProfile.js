@@ -29,12 +29,12 @@ function UpdateCompanyProfile() {
 
   const { isErrorEmail, setIsErrorEmail } = useVadilation();
 
-  const comProfileData = localStorage.getItem("id");
+  const userId = localStorage.getItem("id");
   //console.log(comProfileData);
 
   const getComUsers = async () => {
     const results = await axios.get(
-      `http://localhost:4000/users/${comProfileData}`
+      `http://localhost:4000/users/${userId}`
     );
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
@@ -47,7 +47,7 @@ function UpdateCompanyProfile() {
   }, []);
 
   const updateComProfile = async (formData) => {
-    await axios.put(`http://localhost:4000/users/${comProfileData}`, formData, {
+    await axios.put(`http://localhost:4000/users/${userId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     console.log(companyLogo);
@@ -69,8 +69,8 @@ function UpdateCompanyProfile() {
     formData.append("companyName", companyName);
     formData.append("companyWebsite", companyWebsite);
     formData.append("about", about);
-    formData.append("logoFile", companyLogo[0]);
-
+    formData.append("logoFile", companyLogo);
+ 
     for (let updateKey in companyLogo) {
       formData.append("logoFile", companyLogo[updateKey]);
     }
