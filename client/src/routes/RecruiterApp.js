@@ -19,7 +19,7 @@ function RecruiterApp() {
         <Route path="/viewjobs" element={<ViewJobs />} />
         <Route path="/createjob" element={<CreateJobPage />} />
         <Route path="/profile" element={<UpdateCompanyProfile />} />
-        <Route path="/viewJobPosting" element={<ViewJobPosting />} />
+        <Route path="/viewJobPosting/:id" element={<ViewJobPosting />} />
         {/* Just for test Route Start Here ------------------------------------ */}
       </Routes>
     </div>

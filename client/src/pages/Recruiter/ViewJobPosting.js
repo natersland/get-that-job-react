@@ -1,13 +1,91 @@
-import React from "react";
+import React, { useState } from "react";
+import _ from "lodash";
 import styled from "@emotion/styled";
 import "../../App.css";
 import leftSign from "../../img/arrow-left-s-line.png";
-import Jobcard1 from "../../components/Rec-Viewjob/Jobcard";
-import Candidate1 from "../../components/Rec-Viewjob/CandidateCard";
+import ShowJob2 from "../../components/Rec-Viewjob/Jobcard";
+import CandidateCard1 from "../../components/Rec-Viewjob/CandidateCard";
 import { useNavigate } from "react-router-dom";
+import RadioFilter from "../../components/SharedComponents/RadioFilter";
+import moment from "moment";
+import axios from "axios";
+import { useEffect } from "react";
+
 
 function ViewJobPosting () {
+  const [jobDetails, setJobDetails] = useState([]);
+  //const [jobs,setJob] = useState([]);
+  const [filterApllication, setFilterApplication] = useState("all");
+  const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
+
+  const recruiterId = localStorage.getItem("jobId");  
+  const url = `http://localhost:4000/jobs/${recruiterId}`;
+  const getApplications = async () => {
+    try {
+      const results = await axios.get(url);
+      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
+      setJobDetails(_.reverse(results?.data.data.applications));
+      setUserCandidates(results?.data.data.candidate);
+      //setJob(results?.data.jobs)
+    } catch (error) {
+      console.log(error);
+    }
+    return {
+      jobDetails,
+    };
+  };
+
+  console.log(jobDetails);
+  console.log(userCandidate);
+  //console.log(jobs);
+ 
+  const radioFilterData = [
+    { value: "all", label: "All" },
+    { value: "waiting", label: "Waiting" },
+    { value: "In progress", label: "In progress" },
+    { value: "finished", label: "Finished" },
+  ];
+
+  const candidateData = jobDetails?.map((jobDetailData, index) => {
+
+        let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
+        //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
+
+    console.log(candidateDetail);
+    const data = () => {
+      return (
+        <CandidateCard1
+          key={index}
+          name={candidateDetail?.name}
+          email={candidateDetail?.email}
+          phone={candidateDetail?.phone}
+          linkedin={candidateDetail?.linkedin}
+          experience={candidateDetail?.experience}
+          createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
+          //CV ={candidateCv.cvFiles}
+        />
+      );
+    };
+      // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
+   if (filterApllication === "all") {
+      return data();
+       // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
+   } else if (filterApllication === candidateDetail?.applicationStatus) {
+     return data();
+    }
+    return data();
+  });
+  
+  console.log(candidateData);
+  const countData = candidateData.filter((items) => {
+    return items !== undefined;
+  });
+  useEffect(() => {
+    getApplications();
+  }, []);
+
+
     return (
     <Main>
         {/*-------------------------------------------------------*Header*------------------------------------------*/}
@@ -24,78 +102,27 @@ function ViewJobPosting () {
 
         {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
           
-       {<Jobcard1/>}
+       {<ShowJob2/>}
         
 
         {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
-            <FilterDiv>
-                <FilterText>FILTER YOUR CANDIDATES</FilterText>
-            </FilterDiv>
-
-        {/*-------------------------------------------------------*Radio Form*------------------------------------------*/}
-
-            <RadioFormMain>
-                <RadioForm>
-                    <RadioBtn
-                    className="checked:bg-white"
-                    type="radio"
-                    id="all"
-                    name="filter"
-                    //onChange={(event) => handleSelectChange(event)}
-                    />
-                    <label htmlFor="all">
-                    {" "}
-                    <Radiotext>All</Radiotext>
-                    </label>
-                </RadioForm>
-
-                <RadioForm>
-                    <RadioBtn
-                    type="radio"
-                    id="trackedCandidate"
-                    name="filter"
-                    //onChange={(event) => handleSelectChange(event)}
-                    />
-                    <label htmlFor="trackedCandidate">
-                    <Radiotext>Waiting</Radiotext>
-                    </label>
-                </RadioForm>
-
-                <RadioForm>
-                    <RadioBtn
-                    className=""
-                    type="radio"
-                    id="closed"
-                    name="filter"                 
-                    //onChange={(event) => handleSelectChange(event)}
-                    />
-                    <label htmlFor="closed">
-                    <Radiotext>In progress</Radiotext>
-                    </label>
-                </RadioForm>
-
-                <RadioForm>
-                    <RadioBtn
-                    className=""
-                    type="radio"
-                    id="closed"
-                    name="filter"                 
-                    //onChange={(event) => handleSelectChange(event)}
-                    />
-                    <label htmlFor="closed">
-                    <Radiotext>Finished</Radiotext>
-                    </label>
-                </RadioForm>
-        </RadioFormMain>
+            
+          <RadioFilter
+          formlabel="Filter your applications"
+          radioData={radioFilterData}
+          stateVariable={filterApllication}
+          setStateVariable={setFilterApplication}
+          />
 
         {/*-------------------------------------------------------*Found Posting*------------------------------------------*/}
         
         <Found>
-        <FoundText> 5 Candidates found</FoundText>
+        <FoundText> {jobDetails?.length === 0 ? "0" : `${countData.length} `}{" "}Candidates found</FoundText>
         </Found>
         
         {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
-        {<Candidate1/>}
+        
+        {candidateData}
     </Main>
     )
 };
@@ -196,10 +223,3 @@ const FoundText = styled.p`
   color: var(--primary-text-color);
   font-weight: 500;
 `;
-
-
-
-
-
-
-

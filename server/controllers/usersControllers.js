@@ -61,8 +61,15 @@ export const getOneUserData = async (req, res, next) => {
             as: "companyDetail",
           },
         },
-
-        /*  {
+        {
+          $lookup: {
+            from: "applications",
+            localField: "jobs._id",
+            foreignField: "jobId",
+            as: "candidate"
+          },
+        },                            
+        /*{
           $lookup: {
             from: "jobs",
             localField: "_id",
@@ -70,6 +77,7 @@ export const getOneUserData = async (req, res, next) => {
             as: "jobs",
           },
         },
+        
         { $unwind: "jobs" },
         {
           $lookup: {
@@ -117,6 +125,7 @@ export const uploadFile = multerUpload.fields([
   { name: "companyLogo", maxCount: 1 },
   { name: "cvFiles", maxCount: 1 },
 ]);
+
 export const updateOneUser = async (req, res, next) => {
   try {
     const userRole = req.body.userRole;
