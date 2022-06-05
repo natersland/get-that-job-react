@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
-import Animate from "react-smooth";
 // Picture ------------------------------------
 import maleStandingWithSmile from "../../assets/people/man-login.svg";
 // components ------------------------------------
@@ -11,9 +10,7 @@ import { useUserData } from "../../contexts/usersData";
 import { useAuth } from "../../contexts/authentication";
 import { useVadilation } from "../../contexts/vadilation";
 import { useNav } from "../../contexts/navigate";
-import BackDropLoading from "../../components/Utilities/BackDropLoading";
-// Utils
-import UtilitiesFunction from "../../utils/utilitiesFunction";
+
 export default function LoginPage() {
   const {
     role,
@@ -24,11 +21,9 @@ export default function LoginPage() {
     setEmail,
     resetUserData,
   } = useUserData();
-  const { isErrorPassword, isErrorEmail, isValidAccount, setLoading } =
-    useVadilation();
+  const { isErrorPassword, isErrorEmail, isValidAccount } = useVadilation();
   const { login } = useAuth();
   const { setMenuIndex } = useNav();
-  const { animationSteps } = UtilitiesFunction();
   // Controller Fx ------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -44,8 +39,7 @@ export default function LoginPage() {
     }, 100);
   };
   return (
-    /*     <Animate steps={animationSteps}>
-     */ <WrapperLogin>
+    <WrapperLogin>
       <AlertDialog />
       <WrapperLoginLeft>
         <LoginZoneWrapper>
@@ -118,8 +112,6 @@ export default function LoginPage() {
         <img src={maleStandingWithSmile} alt="Male is Standing With Smile" />
       </WrapperLoginRight>
     </WrapperLogin>
-    /*     </Animate>
-     */
   );
 }
 

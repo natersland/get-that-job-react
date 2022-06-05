@@ -1,20 +1,19 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-// Components
+// Components ------------------------------------------------------
 import FindThatJobHeader from "../../components/PRO-FindThatJob/FindThatJobHeader";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 import JobCard from "../../components/SharedComponents/JobCard";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import Pagination from "@mui/material/Pagination";
-// Contexts ----------------------
+// Contexts ------------------------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
-// Utils -----------------------------
+// Utils ------------------------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-// Hooks -----------------------------
+
 function FindJobsPage() {
-  const userRole = localStorage.getItem("role");
   // State for filter searching ----------------------------------
   const [searchJobText, setSearchJobText] = useState("");
 

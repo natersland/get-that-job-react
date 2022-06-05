@@ -12,8 +12,7 @@ import {
 } from "../controllers/usersControllers.js";
 
 const usersRouter = Router();
-/* usersRouter.use(protect);
- */
+usersRouter.use(protect);
 
 usersRouter
   // ดึงข้อมูล User 1 คน -> // http://localhost:4000/users/:id

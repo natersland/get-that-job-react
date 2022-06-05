@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import React, { useEffect } from "react";
 import moment from "moment";
+import { useMediaQuery } from "react-responsive";
 // Pictures -----------------------------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import IndustryIcon from "../../assets/building-3-line.svg";
@@ -16,8 +17,6 @@ import CrossIcon from "../../assets/icons/cross-icon.svg";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import Tooltip from "@mui/material/Tooltip";
-import { useMediaQuery } from "react-responsive";
-
 // Utils -----------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 
@@ -138,7 +137,9 @@ function ApplicationToggle({
           }}
         >
           <span className="mr-2">
-            {status === "declined" ? null : <img src={CrossIcon} />}
+            {status === "declined" ? null : (
+              <img src={CrossIcon} alt="cross-icon" />
+            )}
           </span>
           {text}
         </DeclineBtn>

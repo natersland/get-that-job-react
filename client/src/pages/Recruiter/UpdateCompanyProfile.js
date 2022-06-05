@@ -353,25 +353,6 @@ const UploadFileSection = styled.div`
   letter-spacing: 1.25px;
 `;
 
-const UploadButton = styled.label`
-  margin-right: 15px;
-  width: 134px;
-  height: 35px;
-  border-radius: 8px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-const ChooseFile = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
 const Input1 = styled.input`
   width: 360px;
   height: 36px;
@@ -389,23 +370,6 @@ const DropDownList = styled.select`
   @media only screen and (min-width: 768px) {
     width: 380px;
   }
-`;
-const FileName = styled.p`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  color: #616161;
-  font-size: 14px;
-`;
-
-const InputLimit = styled.textarea`
-  width: 600px;
-  height: 65px;
-  border-radius: 8px;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--secoundary-brand-color);
-  padding-left: 10px;
-  padding-right: 10px;
-  color: var(--tertiary-text-color);
 `;
 
 const Limitation = styled.p`

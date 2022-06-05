@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
 import { useUtils } from "./utilsContext";
-import { useNav } from "./navigate";
+
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
@@ -17,15 +17,18 @@ function AuthProvider(props) {
   });
   const navigate = useNavigate();
   const { resetUserData, role, setRole, email, password } = useUserData();
+  const { ifInputIsBlank } = useVadilation();
+  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
+
+  // isAutthenticated Checker ------------------------------------
   const isAuthenticated = Boolean(localStorage.getItem("token"));
   const isProfessional = Boolean(
     localStorage.getItem("role") === "professional"
   );
   const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
   const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
-  const { ifInputIsBlank, setIsAccountValid } = useVadilation();
-  const { setLoading, setIsAlert, setFirstLogIn, setAlertMessage } = useUtils();
 
+  // fx remove data in local storage  ------------------------------------
   const removeLocalStorageData = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");

@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
-// Components
+// Components ------------------------------------------
 import JobCard from "../../components/SharedComponents/JobCard";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-// Hooks
-import useFetch from "../../hooks/useFetch";
-// Contexts
+// Contexts ------------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
+
 function FollowingPage() {
   // Loading ----------------------------------
   const [isLoading, setIsLoading] = useState(false);
@@ -63,8 +62,10 @@ function FollowingPage() {
     jobdata();
     getUserData();
   }, []);
+
   return (
     <Wrapper>
+      <BackDropLoading />
       {loading ? (
         <CircularIndeterminate />
       ) : (

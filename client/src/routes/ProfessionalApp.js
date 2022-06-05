@@ -5,8 +5,8 @@ import FindJobsPage from "../pages/Professional/FindJobsPage";
 import SeeMorePage from "../pages/Professional/SeeMorePage";
 import UpdatePersonalProfile from "../pages/Professional/UpdateProfile";
 import ApplicationsPage from "../pages/Professional/ApplicationsPage";
-// Components
-import Sidebar from "../components/Navagation/SideBar";
+// Components --------------------------------------------
+import Sidebar from "../components/Navigation/SideBar";
 import FollowingPage from "../pages/Professional/FollowingPage";
 
 function ProfessionalApp() {

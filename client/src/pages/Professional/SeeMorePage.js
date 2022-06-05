@@ -16,7 +16,6 @@ import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Pictures -------------------------------------
-import NavigationIcon from "../../assets/navigation-line.svg";
 import UserStatusCheckerBtn from "../../components/SharedComponents/UserStatusCheckerBtn";
 
 function SeeMorePage() {

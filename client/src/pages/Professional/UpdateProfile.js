@@ -13,34 +13,20 @@ import { useUtils } from "../../contexts/utilsContext";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-//const UsersDataContext = React.createContext();
 
 function UpdatePersonalProfile() {
-  //const params = useParams();
   const [phone, setPhone] = useState();
   const [showCvFile, setShowCvFile] = useState();
-  const {
-    //users,
-    //setUsers,
-    email,
-    setEmail,
-    name,
-    setName,
-    companyWebsite,
-    setCompanyWebsite,
-    birthDate,
-    setBirthDate,
-    linkedin,
-    setLinkedin,
-    title,
-    setTitle,
-    experience,
-    setExperience,
-    education,
-    setEducation,
-    uploadFiles,
-    setUploadFiles,
-  } = useUserData();
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [title, setTitle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
+  const [uploadFiles, setUploadFiles] = useState({});
+
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
@@ -77,26 +63,7 @@ function UpdatePersonalProfile() {
     setLoading(false);
     setAlertMessage(`Your professional profile has been updated!`);
   };
-  /* // fx update professional data ----------------------------------
-  const updateProfile = async () => {
-    setLoading(true);
-    setTimeout(function () {
-      setLoading(false);
-    }, 500);
-    await axios.put(`http://localhost:4000/users/${userId}`, {
-      email,
-      name,
-      phone,
-      companyWebsite,
-      birthDate,
-      linkedin,
-      title,
-      experience,
-      education,
-      uploadFiles,
-      userRole,
-    });
-  }; */
+
   // fx submit form ----------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -125,22 +92,6 @@ function UpdatePersonalProfile() {
       setIsAlert(true);
     }
   };
-
-  /* const updateData = new FormData();{
- 
-    updateData.append("email", email);
-    updateData.append("name", name);
-    updateData.append("phone", phone);
-    updateData.append("birthDate", birthDate);
-    updateData.append("linkedin", linkedin);
-    updateData.append("title", title);
-    updateData.append("experience", experience);
-    updateData.append("education", education);
-
-    for (let uploadFileKey in uploadFiles) {
-      updateData.append("cvFile", uploadFiles[uploadFileKey]);
-    }
-  }; */
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
@@ -194,13 +145,6 @@ function UpdatePersonalProfile() {
           disableDropdown={true}
           placeholder={"+xx xxx xxx xxxx"}
         />
-        {/*         <Input
-          type="number"
-          className="gtj-input pink-border"
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
-        />
- */}
         <LabelUnder>+[country code][number]</LabelUnder>
         {!phone || phone.length < 4 ? (
           <span className="error-message mt-1 mb-1">
@@ -208,19 +152,9 @@ function UpdatePersonalProfile() {
           </span>
         ) : null}
 
-        <LabelText>WEBSITE</LabelText>
-        <Input
-          type="text"
-          className="gtj-input pink-border"
-          value={companyWebsite}
-          onChange={(event) => setCompanyWebsite(event.target.value)}
-        />
-
         <LabelText>BIRTHDAY</LabelText>
         <Input
           type="date"
-          /* data-date-inline-picker="true"  */
-          //data-date="" data-date-format="DD MMMM YYYY"
           className="gtj-input pink-border"
           value={birthDate}
           onChange={(event) => setBirthDate(event.target.value)}
@@ -262,11 +196,11 @@ function UpdatePersonalProfile() {
 
         <CVFilesWrapper className="shadow-md">
           <CVIconWrapper>
-            <a href={showCvFile} target="_blank">
+            <a href={showCvFile} target="_blank" rel="noreferrer">
               <CVIcon
                 src={FileIcon}
                 width="100px"
-                className="mt-5 mb-5 "
+                className="mt-5 mb-5"
                 alt="cv-icon"
               />
             </a>
@@ -290,8 +224,7 @@ function UpdatePersonalProfile() {
                 id="uploadCV"
                 name="CV"
                 type="file"
-                /*                 value={uploadFiles[0]}
-                 */ onChange={handleFileChange}
+                onChange={handleFileChange}
                 accept=".pdf"
                 maxSize={5}
               />

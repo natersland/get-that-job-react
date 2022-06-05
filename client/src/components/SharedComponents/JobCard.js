@@ -1,23 +1,12 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 // Pictures --------------------
 import DollarLineIcon from "../../assets/money-dollar-circle-line.svg";
 import CompanyIcon from "../../assets/building-3-line.svg";
-import FocusIconActive from "../../assets/focus.svg";
-import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
 import CalendarIcon from "../../assets/calendar-2-line.svg";
-import NavigationIcon from "../../assets/navigation-line.svg";
-
-// Contexts --------------------
-import { useJobsData } from "../../contexts/jobsData";
-import { useVadilation } from "../../contexts/vadilation";
 // Utils --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 //Components --------------------
-import BackDropLoading from "../Utilities/BackDropLoading";
-import CircularIndeterminate from "../Utilities/CircularIndeterminate";
 import UserStatusCheckerBtn from "./UserStatusCheckerBtn";
 
 function JobCard({
@@ -165,26 +154,3 @@ const JobCardFooter = styled.div`
   justify-content: space-around;
   margin-top: 10px;
 `;
-const FollowBtnWrapper = styled.div`
-  display: flex;
-`;
-const FollowButton = styled.p`
-  padding-left: 0;
-  margin-left: 10px;
-  cursor: pointer;
-`;
-const FollowCircle = styled.div`
-  background-color: var(--secoundary-brand-color);
-  border-radius: 50px;
-  width: 40px;
-  height: 40px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-`;
-const FollowIcon = styled.img``;

@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import _ from "lodash";
 import styled from "@emotion/styled";
@@ -16,29 +16,25 @@ import ToggleCard from "../SharedComponents/ToggleCard";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 import moment from "moment";
 
-function ShowJob2 () {
+function ShowJob2() {
   const jobId = localStorage.getItem("jobId");
-  const [job, setJob ] = useState({});
+  const [job, setJob] = useState({});
   const [jobDetails, setJobDetails] = useState([]);
 
-  
   const getJobPost = async () => {
     try {
-      const results = await axios.get(
-        `http://localhost:4000/jobs/${jobId}`
-      );
+      const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
       console.log(results);
 
       setJob(results.data.data);
       setJobDetails(_.reverse(results?.data.data.applications));
       console.log(results.data.data);
-
     } catch (error) {
       console.log(error);
     }
     return {
       job,
-      jobDetails
+      jobDetails,
     };
   };
 
@@ -46,11 +42,9 @@ function ShowJob2 () {
     return items !== undefined;
   });
 
-
-
   console.log(job);
   const title = job.jobTitle;
-  const category= job.jobCategory;
+  const category = job.jobCategory;
   const type = job.jobType;
   const maxSalary = job.maxSalary;
   const minSalary = job.minSalary;
@@ -60,126 +54,128 @@ function ShowJob2 () {
 
   const { convertSalary } = UtilitiesFunction();
 
-
   useEffect(() => {
-    getJobPost ();
+    getJobPost();
   }, []);
 
-    const JobCardHeader = () => {
+  const JobCardHeader = () => {
     return (
-        
-                <BeforeToggleCard>
-                    <JobLeftCard>
-                        <JobCardDiv>
-                        <JobTitle>{title}</JobTitle>
-                        </JobCardDiv>
+      <BeforeToggleCard>
+        <JobLeftCard>
+          <JobCardDiv>
+            <JobTitle>{title}</JobTitle>
+          </JobCardDiv>
 
-                        <MainInformation>
-                            <MainInformation1>
-                            <ImgInfoLeft>
-                                <img src={building} />
-                            </ImgInfoLeft>                          
-                                <TextInfo>{category}</TextInfo>                           
-                            </MainInformation1>
+          <MainInformation>
+            <MainInformation1>
+              <ImgInfoLeft>
+                <img src={building} />
+              </ImgInfoLeft>
+              <TextInfo>{category}</TextInfo>
+            </MainInformation1>
 
-                            <JobMainInformation2>
-                            <ImgInfoLeft>
-                                <img src={calendar} />
-                            </ImgInfoLeft>
-                            <div>
-                                <TextInfo>{type}</TextInfo>
-                            </div>
-                            </JobMainInformation2>
+            <JobMainInformation2>
+              <ImgInfoLeft>
+                <img src={calendar} />
+              </ImgInfoLeft>
+              <div>
+                <TextInfo>{type}</TextInfo>
+              </div>
+            </JobMainInformation2>
 
-                            <JobMainInformation2>
-                            <ImgInfoLeft>
-                                <img src={money} />
-                            </ImgInfoLeft>
-                            <div>
-                                <TextInfo> {convertSalary(minSalary)} - {convertSalary(maxSalary)}</TextInfo>
-                            </div>
-                            </JobMainInformation2>
-                        </MainInformation>
-                    </JobLeftCard>
+            <JobMainInformation2>
+              <ImgInfoLeft>
+                <img src={money} />
+              </ImgInfoLeft>
+              <div>
+                <TextInfo>
+                  {" "}
+                  {convertSalary(minSalary)} - {convertSalary(maxSalary)}
+                </TextInfo>
+              </div>
+            </JobMainInformation2>
+          </MainInformation>
+        </JobLeftCard>
 
-                    <JobCenterCard>
+        <JobCenterCard>
+          <JobCenterCard1>
+            <IconWithText
+              icon={mailOpen}
+              text={moment(job?.createdJobDate).startOf().fromNow()}
+            />
+          </JobCenterCard1>
 
-                        <JobCenterCard1>
-                            <IconWithText icon={mailOpen}  text={moment(job?.createdJobDate).startOf().fromNow()}/>                     
-                        </JobCenterCard1>
+          <JobCenterCard1>
+            <IconWithText
+              icon={account}
+              text={jobDetails?.length === 0 ? "0" : `${countData.length}`}
+            />
+          </JobCenterCard1>
 
-                        <JobCenterCard1>
-                            <IconWithText icon={account} text={jobDetails?.length === 0 ? "0" : `${countData.length}`}/>                          
-                        </JobCenterCard1>
+          <JobCenterCard1>
+            <IconWithText
+              icon={pinkperson}
+              number={"props.candidateOnTrack"}
+              text={"Candidates on track"}
+            />
+          </JobCenterCard1>
+        </JobCenterCard>
 
-                        <JobCenterCard1>
-                            <IconWithText icon={pinkperson} number={'props.candidateOnTrack'} text={'Candidates on track'}/>
-                        </JobCenterCard1>
+        <JobRightCard>
+          <button className="btn btn-md btn-white">
+            <ShowDiv>
+              <ButtonImg>
+                <img src={search} />
+              </ButtonImg>
+              <ShowText>SHOW</ShowText>
+            </ShowDiv>
+          </button>
 
-                    </JobCenterCard>   
-
-                    <JobRightCard>
-                        
-                        <button className="btn btn-md btn-white">
-                            <ShowDiv>
-                                <ButtonImg>
-                                <img src={search} />
-                                </ButtonImg>
-                                <ShowText>SHOW</ShowText>
-                            </ShowDiv>
-                        </button>
-
-                        <button className="btn btn-md btn-pink">
-                            <CloseDiv>
-                                <ButtonImg>
-                                <img src={close2} />
-                                </ButtonImg>
-                                <CloseText>CLOSE</CloseText>
-                            </CloseDiv>
-                        </button>
-                    </JobRightCard>
-                </BeforeToggleCard>
-            
-    )}
-      const JobcardContent = () => {
-      return (
-        <JobCardDetails>
-              <JobCardDetails1>
-                  <Title>About the job position</Title>
-                  <JobCardDetails2>
-                    <Detail>
-                      {about}
-                    </Detail>
-                  </JobCardDetails2>
-              </JobCardDetails1>
-
-              <JobCardDetails1>
-                  <Title>Mandatory requirements</Title>
-                  <JobCardDetails2>
-                    <Detail>
-                    {mendatoryReq}
-                    </Detail>
-                  </JobCardDetails2>
-              </JobCardDetails1>
-
-              <JobCardDetails1>
-                  <Title>Optional Requirements</Title>
-                  <JobCardDetails2>
-                    <Detail>
-                      {optionalReq}
-                    </Detail>
-                  </JobCardDetails2>
-              </JobCardDetails1>
-        </JobCardDetails>
-      )
-    }
-
-    return (
-      <Wrapper1>
-        <ToggleCard header={JobCardHeader()} content={JobcardContent()} />
-      </Wrapper1>
+          <button className="btn btn-md btn-pink">
+            <CloseDiv>
+              <ButtonImg>
+                <img src={close2} />
+              </ButtonImg>
+              <CloseText>CLOSE</CloseText>
+            </CloseDiv>
+          </button>
+        </JobRightCard>
+      </BeforeToggleCard>
     );
-} 
+  };
+  const JobcardContent = () => {
+    return (
+      <JobCardDetails>
+        <JobCardDetails1>
+          <Title>About the job position</Title>
+          <JobCardDetails2>
+            <Detail>{about}</Detail>
+          </JobCardDetails2>
+        </JobCardDetails1>
+
+        <JobCardDetails1>
+          <Title>Mandatory requirements</Title>
+          <JobCardDetails2>
+            <Detail>{mendatoryReq}</Detail>
+          </JobCardDetails2>
+        </JobCardDetails1>
+
+        <JobCardDetails1>
+          <Title>Optional Requirements</Title>
+          <JobCardDetails2>
+            <Detail>{optionalReq}</Detail>
+          </JobCardDetails2>
+        </JobCardDetails1>
+      </JobCardDetails>
+    );
+  };
+
+  return (
+    <Wrapper1>
+      <ToggleCard header={JobCardHeader()} content={JobcardContent()} />
+    </Wrapper1>
+  );
+}
 
 export default ShowJob2;
 
@@ -222,7 +218,7 @@ const IconLabel = styled.p`
   font-weight: 400;
   margin-left: 5px;
   line-height: 16px;
-  text-align:center;
+  text-align: center;
 `;
 
 const ImgInfoLeft = styled.div`
@@ -230,7 +226,6 @@ const ImgInfoLeft = styled.div`
   height: 15.5px;
   margin-right: 5px;
 `;
-
 
 const TextInfo = styled.p`
   font-size: 12px;
@@ -240,8 +235,8 @@ const TextInfo = styled.p`
 `;
 
 const ToggleButton = styled.button`
-    margin-right: 10px;
-    margin-top: 40px;
+  margin-right: 10px;
+  margin-top: 40px;
 `;
 
 const JobCardDiv = styled.div`
@@ -260,11 +255,11 @@ const JobTitle = styled.p`
 `;
 
 const JobLeftCard = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 350px;
-    margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 350px;
+  margin-bottom: 5px;
 `;
 const JobMainInformation2 = styled.div`
   display: flex;
@@ -273,14 +268,14 @@ const JobMainInformation2 = styled.div`
   justify-content: space-around;
   margin-left: 8px;
 `;
-const JobCenterCard = styled.div` 
-    width: 280px;
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
+const JobCenterCard = styled.div`
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
 `;
 
-const JobCenterCard1 = styled.div` 
+const JobCenterCard1 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
@@ -288,7 +283,7 @@ const JobCenterCard1 = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const JobRightCard = styled.div` 
+const JobRightCard = styled.div`
   width: 250px;
   display: flex;
   flex-direction: row;

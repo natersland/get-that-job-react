@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import ReactPhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-// Contexts
+// Contexts -------------------------------------------
 import { useUserData } from "../../contexts/usersData";
 
 function ProRegisterForm2() {
@@ -45,19 +45,6 @@ function ProRegisterForm2() {
           disableDropdown={true}
           placeholder={"+66 xxx xxx xxxx"}
         />
-        {/*         <Input
-          id="phone"
-          name="phone"
-          type="tel"
-          className="gtj-input pink-border"
-          placeholder="0XXXXXXXXX"
-          maxlength="10"
-          pattern="[0-9]{10}"
-          onChange={(event) => {
-            setPhone(event.target.value);
-          }}
-          value={phone}
-        /> */}
       </Container>
       <Container>
         <Label htmlFor="birthDate">BIRTHDATE</Label>
@@ -124,7 +111,6 @@ const Label = styled.label`
   font-size: 400;
   font-size: 10px;
   line-height: 12.1px;
-  letter: 1.5px;
   letter-spacing: 1.5px;
   margin-top: 4px;
   color: var(--primary-text-color);

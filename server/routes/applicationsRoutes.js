@@ -9,8 +9,7 @@ import {
 import protect from "../middlewares/protect.js";
 // Controller  -----------------------------
 const applicationsRouter = Router();
-/* jobRouter.use(protect);
- */
+applicationsRouter.use(protect);
 
 applicationsRouter
   // สร้างใบสมัครใหม่ -> http://localhost:4000/applications/create

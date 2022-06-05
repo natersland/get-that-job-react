@@ -3,11 +3,8 @@ import { db } from "../utils/db.js";
 import mongoose from "mongoose";
 // Schema Models ---------------------
 import JobModel from "../models/JobModel.js";
-import RecruiterModel from "../models/RecruiterModel.js";
 // Database ---------------------------
-const appCollection = db.collection("applications");
 const jobsCollection = db.collection("jobs");
-const usersCollection = db.collection("users");
 
 // ดึงข้อมูลงาน 1 งาน --------------------------------------------------
 export const getOneJob = async (req, res) => {
@@ -51,7 +48,7 @@ export const getOneJob = async (req, res) => {
           from: "users",
           localField: "applications.professionalId",
           foreignField: "_id",
-          as: "candidate"
+          as: "candidate",
         },
       },
       { $match: { _id: jobId } },

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-
-// Contexts
+// Contexts -------------------------------------------
 import { useUserData } from "../../contexts/usersData";
 
 function RecRegisterForm2() {
@@ -19,7 +18,6 @@ function RecRegisterForm2() {
       ...companyLogo,
       [uniqueId]: event.target.files[0],
     });
-    console.log("fx", typeof companyLogo);
   };
 
   return (
@@ -91,7 +89,6 @@ const Label = styled.label`
   font-size: 400;
   font-size: 10px;
   line-height: 12.1px;
-  letter: 1.5px;
   letter-spacing: 1.5px;
   margin-top: 4px;
   color: var(--primary-text-color);

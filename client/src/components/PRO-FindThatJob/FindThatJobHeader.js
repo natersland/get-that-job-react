@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
-import axios from "axios";
-import { useEffect, useState } from "react";
-// Contexts --------------------
+// Contexts ---------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 
 function FindThatJobHeader({
-  setIsLoading,
   setSearchJobText,
   setSearchMinSalaryText,
   setSearchMaxSalaryText,
@@ -14,10 +11,6 @@ function FindThatJobHeader({
   searchJobText,
   searchMinSalaryText,
   searchMaxSalaryText,
-  searchJobCategory,
-  keywordsNumber,
-  setKeywordsNumber,
-  jobType,
 }) {
   const { jobTypeList, jobCategoryList } = useJobsData();
 
@@ -114,14 +107,6 @@ function FindThatJobHeader({
           </SalaryBox>
         </InputWrapperSection>
       </FilterInputWrapper>
-      {/* ---------------------------------------------------------- */}
-      {/* {`Search Input Text: ${searchJobText}`}
-      <br></br>
-      {`Job Data: ${jobs.length}`}
-      <br></br>
-      {`typeof minSalary input: ${typeof searchMinSalaryText}`}
-      <br></br>
-      {`typeof maxSalary input: ${typeof searchMaxSalaryText}`} */}
     </Wrapper>
   );
 }

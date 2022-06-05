@@ -2,12 +2,8 @@ import { ObjectId } from "mongodb";
 import { db } from "../utils/db.js";
 // Schema Medels ---------------------
 import ApplicationModel from "../models/ApplicationModel.js";
-import RecruiterModel from "../models/RecruiterModel.js";
-import ProfessionalModel from "../models/ProfessionalModel.js";
 // Database ---------------------------
 const appCollection = db.collection("applications");
-const jobsCollection = db.collection("jobs");
-const usersCollection = db.collection("users");
 
 // GET - ดึงข้อมูลใบสมัครทั้งหมด ---------------------------------
 export const getAllApplications = async (req, res, next) => {

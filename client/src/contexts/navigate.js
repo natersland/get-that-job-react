@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//Contexts --------------------------------
 import { useAuth } from "./authentication";
-
-//Contexts
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
 

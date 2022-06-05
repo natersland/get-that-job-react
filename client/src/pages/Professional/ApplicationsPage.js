@@ -10,7 +10,7 @@ import ApplicationToggle from "../../components/PRO-Applications/ApplicationTogg
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-// Contexts
+// Contexts ---------------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
 
 // Hooks ------------------------------------
@@ -20,7 +20,7 @@ function ApplicationsPage() {
   const [user, setUser] = useState({});
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
-  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { loading, setLoading } = useUtils();
   const professionalId = localStorage.getItem("id");
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
@@ -41,6 +41,7 @@ function ApplicationsPage() {
       applications,
     };
   };
+
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
   const reFetch = async () => {
     try {

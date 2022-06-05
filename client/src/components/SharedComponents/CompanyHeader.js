@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
+// Contexts -------------------------------------------
 import { useNavigate } from "react-router-dom";
 import { useJobsData } from "../../contexts/jobsData";
+// Images -------------------------------------------
 import FocusIcon from "../../assets/focus.svg";
 import BackArrow from "../../assets/items/backArrow.svg";
 
@@ -9,6 +11,7 @@ function CompanyHeader() {
   // component ตรงข้อมูลบริษัทในหน้า FindThatJob -> See More เอาไปใช้ได้กับหน้า ดูงานของบริษัทนี้ทั้งหมด (ไม่มีใน scope งาน)
   const { job } = useJobsData();
   const navigate = useNavigate();
+
   return (
     <Wrapper>
       <BackBtn
@@ -18,7 +21,7 @@ function CompanyHeader() {
           localStorage.removeItem("jobId");
         }}
       >
-        <img src={BackArrow} className="mr-3" />
+        <img src={BackArrow} className="mr-3" alt="back-arrow-icon" />
         back
       </BackBtn>
       <CompanyWrapper>

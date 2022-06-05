@@ -8,7 +8,6 @@ import styled from "@emotion/styled";
 function AboutUs() {
   return (
     <div>
-      {" "}
       <Copyright>© 2022 - Get That Job</Copyright>
       <p>
         Build with <Heart>❤</Heart> by:
@@ -18,7 +17,7 @@ function AboutUs() {
           const { name, github_url } = items;
           return (
             <ListDetail key={index}>
-              <a href={github_url} target="_blank">
+              <a href={github_url} target="_blank" rel="noreferrer">
                 <MiniIcon src={GitHubLogo} alt="Git Hub" />
               </a>
               <p>{name}</p>

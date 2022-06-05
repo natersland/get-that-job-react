@@ -50,7 +50,6 @@ const cloudinaryUploadLogo = async (files) => {
 
 const cloudinaryUpdateCV = async (files) => {
   const fileUrl = [];
-
   for (let file of files.cvFiles) {
     const result = await cloudinary.uploader.upload(file.path, {
       folder: "register/cvFile",

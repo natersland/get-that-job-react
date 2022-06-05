@@ -5,9 +5,12 @@ import CompanyIcon from "../../assets/building-3-line2.svg";
 import CalendarIcon from "../../assets/calendar-2-line2.svg";
 import MoneyIcon from "../../assets/money-dollar-circle-line2.svg";
 import ClockIcon from "../../assets/time-line.svg";
+// Contexts --------------------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
+// Utils --------------------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-function JobDetails({ jobId }) {
+
+function JobDetails() {
   // component for professional only
   // component ตรงข้อมูลบริษัทในหน้า FindThatJob -> See More เอาไปใช้ได้กับหน้าสร้างใบสมัคร (ตัดออกจาก scope งานแล้ว)
   const { addCommas } = UtilitiesFunction();
