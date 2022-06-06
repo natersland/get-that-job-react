@@ -33,11 +33,6 @@ function ViewJobs() {
     { value: "close", label: "closed" },
   ];
 
-  /*const handleSelectChange = (event) => {
-    const value = event.target.value;
-  }; //---delete----
-*/
-
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
@@ -48,20 +43,18 @@ function ViewJobs() {
   // get data to display ---------------
   const getJobPost = async () => {
     try {
+      /* */
       const results = await axios.get(
-        `http://localhost:4000/users/${comProfileData}`
+        `http://localhost:4000/users/${comProfileData} `
       );
       //setStatus(results.data.jobs);
       setJob(results?.data?.jobs);
       setCandidatesData(results?.data?.candidate);
+      console.log("GET JOB POST", results);
     } catch (error) {
       console.log(error);
     }
-    return {
-      job,
-    };
   };
-  console.log("GET JOB POST", job);
 
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
@@ -70,25 +63,31 @@ function ViewJobs() {
 
   const jobData = job?.map((data) => {
     let candidateDetails = _.find(candidatesData, {
-      _id: data?._id,
+      jobId: data?._id,
     });
-    console.log("hi", candidateDetails);
+    /* 
+    var array = [{ x: 1 }, { x: 2 }, { x: 3 }, { x: 1 }];
+
+    _.pullAllBy(candidatesData, [{ x: 1 }, { x: 3 }], "x");
+    console.log(array);
+    // => [{ 'x': 2 }]
+    console.log("hi", candidateDetails); */
     return (
       <Job
-        id={data._id}
-        jobTitle={data.jobTitle}
-        jobCategory={data.jobCategory}
+        id={data?._id}
+        jobTitle={data?.jobTitle}
+        jobCategory={data?.jobCategory}
         jobStatus={data?.jobStatus}
-        jobType={data.jobType}
-        minSalary={data.minSalary}
-        maxSalary={data.maxSalary}
-        openOn={moment(data.createdJobDate).startOf().fromNow()}
+        jobType={data?.jobType}
+        minSalary={data?.minSalary}
+        maxSalary={data?.maxSalary}
+        openOn={moment(data?.createdJobDate).startOf().fromNow()}
         totalCandidate={candidateDetails?.length}
         /* candidateOnTrack={candidateOnTrack}  */
-        aboutTheJob={data.aboutJob}
-        requirement={data.mandatoryReq}
-        optionalRequirement={data.optionalReq}
-        closedStatus={data.jobStatus}
+        aboutTheJob={data?.aboutJob}
+        requirement={data?.mandatoryReq}
+        optionalRequirement={data?.optionalReq}
+        closedStatus={data?.jobStatus}
         //jobList={job}
       />
     );

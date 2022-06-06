@@ -77,7 +77,14 @@ export const getOneUserData = async (req, res, next) => {
             as: "candidate",
           },
         },
-        /*    {
+        /*   {
+          $unwind: {
+            path: "$jobs",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+
+        {
           $lookup: {
             from: "users",
             localField: "candidate.professionalId",
@@ -85,7 +92,7 @@ export const getOneUserData = async (req, res, next) => {
             as: "jobs.list",
           },
         }, */
-
+        ////////////////////////////////////////
         /*{
           $lookup: {
             from: "jobs",

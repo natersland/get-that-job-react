@@ -40,9 +40,7 @@ function FindJobsPage() {
     );
     setJobs(results.data.data);
     setTotalPages(results.data.total_pages);
-
     setTotalJobs(results.data.total_jobs);
-
     setIsLoading(false);
   };
 
