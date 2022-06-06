@@ -12,7 +12,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
 - A recruiter could be able to create job postings and manage jobs status.
 - A professional could be able to view job postings and, apply jobs, and check jobs status.
 - A professional could be able filter and following jobs.
-- Hava validation system for checking an emails, password, and more
+- Have validation system for checking an emails, password, and more
 - Friendly for many device. Included mobiles, tablets, laptops, and desktops!
 - Support Thai and English langauge.
 
