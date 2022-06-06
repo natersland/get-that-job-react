@@ -22,8 +22,10 @@ function CandidateCard1 ({
   experience,
   createdJobDate,
   CV
-}) {
-
+})
+{
+  console.log(CV)
+  
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
@@ -93,9 +95,20 @@ function CandidateCard1 ({
         </CandidateDetails>
 
         <Dowload>
-            <MarkTextButton>
-            <Icon><img src={load}/></Icon><MarkText>DOWLOAD CV {CV}</MarkText>
-            </MarkTextButton>
+            <DowloadButton
+              className={`btn ${
+                CV === null || !CV ? "btn-gray" : "btn-active"
+              }`}
+              href={CV}
+              target="_blank"
+            >
+            <Icon><img src={load}/></Icon>
+            <MarkText>
+              {CV === null || !CV
+                ? "No CV File"
+                : "Download CV"}
+             </MarkText>
+            </DowloadButton>
         </Dowload> 
         </div>
       )
@@ -273,6 +286,18 @@ const MarkText = styled.p`
   margin-left: 5px;
 `;
 const MarkTextButton = styled.button`
+  width: 150px;
+  height: 35px;
+  font-weight: 500px;
+  color: var(--gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  border:1px solid pink;
+`;
+
+const DowloadButton = styled.a`
   width: 150px;
   height: 35px;
   font-weight: 500px;
