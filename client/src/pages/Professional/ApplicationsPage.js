@@ -97,6 +97,7 @@ function ApplicationsPage() {
     // ถ้าไม่หาข้อมูลจะ map ออกมามั่วมาก เพราะ jobDetail ไม่ได้เรียงตาม index ของ application ที่ user ส่งใบสมัครมา
     let jobDetail = _.find(userJobs, { _id: applicationData?.jobId });
     let companyDetail = _.find(companiesData, { _id: jobDetail?.recruiterId });
+    console.log("hi", jobDetail);
     const data = () => {
       return (
         <ApplicationToggle

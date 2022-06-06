@@ -68,6 +68,7 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const searchJobType = req.query.jobType;
     const searchJobCategory = req.query.searchJobCategory;
+
     const page = req.query.page;
 
     const PAGE_SIZE = 12;
@@ -88,12 +89,14 @@ export const getAllJobsWithFilter = async (req, res, next) => {
           },
         },
       ],
-
       jobCategory: { $regex: searchJobCategory },
       jobType: { $regex: searchJobType },
       minSalary: { $gte: searchMinSalaryText },
-      maxSalary: { $gte: searchMaxSalaryText },
     };
+
+    if (searchMaxSalaryText) {
+      query.maxSalary = { $lte: searchMaxSalaryText };
+    }
 
     const jobs = await jobsCollection
       .aggregate([

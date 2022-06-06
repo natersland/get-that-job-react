@@ -11,9 +11,19 @@ function FindThatJobHeader({
   searchJobText,
   searchMinSalaryText,
   searchMaxSalaryText,
+  jobType,
+  searchJobCategory,
 }) {
   const { jobTypeList, jobCategoryList } = useJobsData();
 
+  const resetData = () => {
+    setSearchJobText("");
+    setSearchMinSalaryText("");
+    setSearchMaxSalaryText("");
+    setsearchJobCategory("");
+    setJobType("");
+    searchJobCategory("");
+  };
   return (
     <Wrapper className="pt-8">
       {/* ------------- Header Section  ------------- */}
@@ -41,9 +51,10 @@ function FindThatJobHeader({
           <DropDownList
             className="gtj-input pink-border"
             onChange={(e) => setsearchJobCategory(e.target.value)}
+            value={searchJobCategory}
           >
-            <option value="" disabled selected>
-              Select a category
+            <option value="" selected>
+              All
             </option>
             {jobCategoryList.map((items, index) => {
               return (
@@ -62,9 +73,10 @@ function FindThatJobHeader({
             id="jobType"
             name="jobType"
             onChange={(e) => setJobType(e.target.value)}
+            value={jobType}
           >
-            <option value="" disabled selected>
-              Select a type
+            <option value="" selected>
+              All
             </option>
             {jobTypeList.map((items, index) => {
               return (
@@ -107,6 +119,9 @@ function FindThatJobHeader({
           </SalaryBox>
         </InputWrapperSection>
       </FilterInputWrapper>
+      <button className="btn btn-pink btn-md mt-3" onClick={resetData}>
+        Clear
+      </button>
     </Wrapper>
   );
 }

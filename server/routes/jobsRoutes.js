@@ -10,7 +10,7 @@ import {
   updateJob,
 } from "../controllers/jobsControllers.js";
 const jobRouter = Router();
-jobRouter.use(protect);
+/* jobRouter.use(protect); */
 
 jobRouter
   // ดึงข้อมูล JOBS ทั้งหมด (แบบมีฟีลเตอร์ + lookup) -> http://localhost:4000/jobs
