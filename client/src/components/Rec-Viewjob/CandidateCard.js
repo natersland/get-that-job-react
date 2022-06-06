@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import axios from "axios";
 import { useVadilation } from "../../contexts/vadilation";
@@ -12,101 +12,141 @@ import IN from "../../img/linkedin-box-line.png";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import load from "../../img/download-line.png";
+import RecruiterReviewStatusBtn from "../SharedComponents/jobsStatusCheckerBtn";
+import { useUtils } from "../../contexts/utilsContext";
+import useFetch from "../../hooks/useFetch";
 
-
-function CandidateCard1 ({
+function CandidateCard1({
   name,
   email,
   phone,
   linkedin,
   experience,
   createdJobDate,
-  CV
+  CV,
 }) {
-
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
+    const professionalId = localStorage.getItem("id");
+    const jobId = localStorage.getItem("jobId");
+    const { setLoading, setIsAlert, setAlertMessage } = useUtils();
 
-    return( 
-                <BeforeToggleCard>
-                    {fistLogIn ? (
-                    <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
-                    ) : null}
-                    <CandidateLeftCard>
-                        <CandidateDiv>
-                         <CandidateName>{name}</CandidateName> 
-                        </CandidateDiv>
+    // update status start viewing candidate
+    const updateApplication = async (appId) => {
+      console.log(appId, "appId");
+      await axios.patch(
+        `http://localhost:4000/applications/${professionalId}`,
+        {}
+      );
+    };
+    const { loading, data, reFetch } = useFetch(
+      `http://localhost:4000/users/${professionalId}`
+    );
+    const checkUserProfile = async (event) => {
+      const handleSubmit = () => {
+        const applicationStatus = ["applied", "reviewing", "finished"];
 
-                        <MainInformation>
-                            <MainInformation1>
-                            <INImg>
-                                <img src={IN} />
-                            </INImg>
-                                <TextInfo>{linkedin}</TextInfo>                         
-                            </MainInformation1>
-                        </MainInformation>
-                    </CandidateLeftCard>
+        event.preventDefault();
+        const data = {
+          professionalId,
+          jobId,
+          appliedDate: Date.now(),
+        };
+        updateApplication(); // has to be update data
+      };
 
-                    <CandidateCenterCard>
-                        <CandidateCenterCard1>
-                                <Email>
-                                    <Icon><img src={closedMail}/></Icon>
-                                    <EmailText>{email}</EmailText>
-                                </Email>
-                                <Phone>
-                                    <Icon><img src={Phone1}/></Icon>
-                                    <PhoneText>{phone}</PhoneText>  
-                                </Phone>                          
-                        </CandidateCenterCard1>
+      handleSubmit(data);
+      //setAlertMessage(`Congratulation! You already applied ${job?.jobTitle}!`);
+    };
 
-                        <CandidateCenterCard2>
-                            <IconWithText icon={closedMail} text={createdJobDate}/>
-                        </CandidateCenterCard2>
+    return (
+      <BeforeToggleCard>
+        {fistLogIn ? (
+          <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+        ) : null}
+        <CandidateLeftCard>
+          <CandidateDiv>
+            <CandidateName>{name}</CandidateName>
+          </CandidateDiv>
 
-                        <CandidateCenterCard3>
-                            <IconWithText icon={waiting} text={'Waiting for review'}/>
-                        </CandidateCenterCard3>
+          <MainInformation>
+            <MainInformation1>
+              <INImg>
+                <img src={IN} />
+              </INImg>
+              <TextInfo>{linkedin}</TextInfo>
+            </MainInformation1>
+          </MainInformation>
+        </CandidateLeftCard>
 
-                    </CandidateCenterCard>   
+        <CandidateCenterCard>
+          <CandidateCenterCard1>
+            <Email>
+              <Icon>
+                <img src={closedMail} />
+              </Icon>
+              <EmailText>{email}</EmailText>
+            </Email>
+            <Phone>
+              <Icon>
+                <img src={Phone1} />
+              </Icon>
+              <PhoneText>{phone}</PhoneText>
+            </Phone>
+          </CandidateCenterCard1>
 
-                    <CandidateRightCard>
-                            <MarkTextButton>
-                                <MarkText>MARK AS STARTED</MarkText>
-                            </MarkTextButton>
-                    </CandidateRightCard> 
-                </BeforeToggleCard>
-    )}
+          <CandidateCenterCard2>
+            <IconWithText icon={closedMail} text={createdJobDate} />
+          </CandidateCenterCard2>
 
-    const CandidateContent = () => {
-      return (
-        <div>
+          <CandidateCenterCard3>
+            <IconWithText icon={waiting} text={"Waiting for review"} />
+          </CandidateCenterCard3>
+        </CandidateCenterCard>
+
+        <CandidateRightCard>
+          <RecruiterReviewStatusBtn
+            mode="markAsStart"
+            fx={checkUserProfile}
+            jobId={jobId}>
+            <MarkText>MARK AS STARTED</MarkText>
+          </RecruiterReviewStatusBtn>
+        </CandidateRightCard>
+      </BeforeToggleCard>
+    );
+  };
+
+  const CandidateContent = () => {
+    return (
+      <div>
         <CandidateDetails>
-              <CandidateDetails1>
-                  <Title>Professional experience</Title>
-                  <CandidateDetails2>
-                    <Detail>
-                    {experience}
-                    </Detail>
-                  </CandidateDetails2>
-              </CandidateDetails1>
+          <CandidateDetails1>
+            <Title>Professional experience</Title>
+            <CandidateDetails2>
+              <Detail>{experience}</Detail>
+            </CandidateDetails2>
+          </CandidateDetails1>
         </CandidateDetails>
 
         <Dowload>
-            <MarkTextButton>
-            <Icon><img src={load}/></Icon><MarkText>DOWLOAD CV {CV}</MarkText>
-            </MarkTextButton>
-        </Dowload> 
-        </div>
-      )
-    }
-  
-  return (
-      <Wrapper2>
-        <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
-      </Wrapper2>
+          <MarkTextButton>
+            <Icon>
+              <img src={load} />
+            </Icon>
+            <MarkText>DOWLOAD CV {CV}</MarkText>
+          </MarkTextButton>
+        </Dowload>
+      </div>
     );
-    }
+  };
+
+  return (
+    <Wrapper2>
+      <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
+    </Wrapper2>
+  );
+}
 
 export default CandidateCard1;
 
@@ -148,7 +188,7 @@ const IconLabel = styled.p`
   font-weight: 400;
   margin-left: 5px;
   line-height: 16px;
-  text-align:center;
+  text-align: center;
 `;
 
 const TextInfo = styled.p`
@@ -159,8 +199,8 @@ const TextInfo = styled.p`
 `;
 
 const ToggleButton = styled.button`
-    margin-right: 10px;
-    margin-top: 40px;
+  margin-right: 10px;
+  margin-top: 40px;
 `;
 
 const CandidateDiv = styled.div`
@@ -176,7 +216,6 @@ const CandidateName = styled.p`
   font-family: var(--primary-font);
   color: var(--primary-text-color);
   font-weight: 500;
-  
 `;
 
 const CandidateLeftCard = styled.div`
@@ -193,13 +232,13 @@ const INImg = styled.div`
   margin-right: 5px;
 `;
 
-const CandidateCenterCard = styled.div` 
+const CandidateCenterCard = styled.div`
   width: 415px;
   display: flex;
   flex-direction: row;
 `;
 
-const CandidateCenterCard1 = styled.div` 
+const CandidateCenterCard1 = styled.div`
   width: 180px;
   height: 55px;
   margin-left: 10px;
@@ -208,7 +247,7 @@ const CandidateCenterCard1 = styled.div`
   padding-top: 5px;
 `;
 
-const CandidateCenterCard2 = styled.div` 
+const CandidateCenterCard2 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
@@ -218,7 +257,7 @@ const CandidateCenterCard2 = styled.div`
   padding-top: 5px;
 `;
 
-const CandidateCenterCard3 = styled.div` 
+const CandidateCenterCard3 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
@@ -228,15 +267,14 @@ const CandidateCenterCard3 = styled.div`
   padding-top: 5px;
 `;
 
-
-const CandidateRightCard = styled.div` 
+const CandidateRightCard = styled.div`
   width: 150px;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const Email = styled.div` 
+const Email = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -244,7 +282,7 @@ const Email = styled.div`
   margin-top: 5px;
 `;
 
-const Phone = styled.div` 
+const Phone = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -281,7 +319,7 @@ const MarkTextButton = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 14px;
-  border:1px solid pink;
+  border: 1px solid pink;
 `;
 
 //----------------------------------------After toggle---------------------------------------------------------//
@@ -315,7 +353,7 @@ const Detail = styled.div`
   width: 760px;
 `;
 
-const Dowload = styled.div` 
+const Dowload = styled.div`
   width: 944px;
   display: flex;
   flex-direction: row;
@@ -323,8 +361,7 @@ const Dowload = styled.div`
   padding-bottom: 20px;
 `;
 
-const FilterDiv = styled.div`
-`;
+const FilterDiv = styled.div``;
 
 const FilterText = styled.p`
   font-size: 10px;
