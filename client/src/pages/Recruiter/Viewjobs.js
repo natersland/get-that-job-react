@@ -19,13 +19,17 @@ import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import IconWithText from "../../components/SharedComponents/IconWithText";
 import moment from "moment";
 
-//------------------------------1st function -----------------------------------//
+//--------------------------------------------------1st function ---------------------------------------------------------//
 function ViewJobs() {
   const [status, setStatus] = useState("option1");
-  const [job, setJob] = useState([]);
   const userRole = localStorage.getItem("role");
-  const [filterApllication, setFilterApplication] = useState("all");
+  const jobId = localStorage.getItem("jobId");
+  const { setLoading } = useVadilation();
+  const navigate = useNavigate();
+  const { componentDidMount} = UtilitiesFunction();
+  const comProfileData = localStorage.getItem("id");
 
+  const [filterApllication, setFilterApplication] = useState("all");
   const radioFilterData = [
     { value: "all", label: "All" },
     { value: "with candidate on track", label: "with candidate on track" },
@@ -33,25 +37,24 @@ function ViewJobs() {
 
   ];
 
+  const [job, setJob] = useState([]);
+  const [candidate, setCandidate] = useState([]);
   console.log(job);
 
-  /*const handleSelectChange = (event) => {
-    const value = event.target.value;
-  }; //---delete----
+    /*const candidateData = candidate?.map((data,index) => {
+    let candidateDetail = _.find(job, {_id: data?.jobId });
+    console.log(candidateDetail)
+    return( <div></div>
+    )
+  })
 
-  const { fistLogIn } = useVadilation();
-  //console.log(job);*/
+  const countData = candidateData.filter((items) => {
+    return items !== undefined;
+  });*/
 
+  //console.log(candidateData);
 
-  const { setLoading } = useVadilation();
-  const navigate = useNavigate();
-  const { componentDidMount} = UtilitiesFunction();
-
-
-  const comProfileData = localStorage.getItem("id");
-  const jobId = localStorage.getItem("jobId");
-
-  // get data to display ---------------
+  //------------------------------------------------- get data to display -------------------------------------------
   const getJobPost = async () => {
     try {
       const results = await axios.get(
@@ -59,26 +62,30 @@ function ViewJobs() {
       );
       //setStatus(results.data.jobs);
       setJob(_.reverse(results.data.jobs));
+      setCandidate(results.data.candidate)
 
-      console.log("GET JOB POST", results.data.jobs);
+      console.log("candidate", results.data.candidate);
     } catch (error) {
       console.log(error);
     }
     return {
       job,
+      candidate
     };
-  };
-
-  // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
-  const updateStatusByJobId = async (jobId) => {
-    console.log(jobId, "jobId");
-    await axios.put(`http://localhost:4000/jobs/${jobId}`, {});
   };
 
   useEffect(() => {
     getJobPost();
   }, []);
- 
+
+  //--------------------------- function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา ------------------------------------------------
+  const updateStatusByJobId = async (jobId) => {
+    console.log(jobId, "jobId");
+    await axios.put(`http://localhost:4000/jobs/${jobId}`, {});
+  };
+
+  //--------------------------------------------------------------------------------------------------------------------------
+
   return (
     <Content>
 
@@ -97,7 +104,10 @@ function ViewJobs() {
       <Heading2>
         <Heading2Text> {job?.length} Jobs posting found</Heading2Text>
       </Heading2>
+      
       {job?.map((data) => {
+        //let candidateDetail = _.find(candidate, {jobId: job._id })
+        //console.log(candidateDetail);
         return (
           <Job
             id={data._id}
@@ -108,13 +118,12 @@ function ViewJobs() {
             minSalary={data.minSalary}
             maxSalary={data.maxSalary}
             openOn={moment(data.createdJobDate).startOf().fromNow()}
-            //totalCandidate={data.totalCandidate}
+            //totalCandidate={candidateDetail?.length}
             //candidateOnTrack= {candidateOnTrack}
             aboutTheJob={data.aboutJob}
             requirement={data.mandatoryReq}
             optionalRequirement={data.optionalReq}
             closedStatus={data.jobStatus}
-            //jobList={job}
           />
         );
       })}
@@ -122,7 +131,7 @@ function ViewJobs() {
   );
 
 
-  //------------------------------2nd function -----------------------------------//
+  //-----------------------------------------------------------2nd function -----------------------------------------------//
   function Job(props) {
     const [toggle, setToggle] = useState(false);
     const [close, setClose] = useState(false);
@@ -131,48 +140,6 @@ function ViewJobs() {
 
     const { convertSalary } = UtilitiesFunction();
   
-
-    //----------------------------------------------------------------------------------------------------------------//
-
-  const [jobDetails, setJobDetails] = useState([]);
-  const [userCandidate, setUserCandidates] = useState();
-
-  const recruiterId = localStorage.getItem("id");  
-
-  const url = `http://localhost:4000/users/${recruiterId}`;
-
-  const getApplications = async () => {
-    try {
-      const results = await axios.get(url);
-      setJobDetails(_.reverse(results?.data.jobs));  // เก็บข้อมูลจำนวนงานที่มี jobId
-      setUserCandidates(results?.data.candidate);  // เก็บข้อมูล candidate ที่มี jobId
-    } catch (error) {
-      console.log(error);
-    }
-    return {
-      jobDetails,
-    };
-  };
-
-    console.log(jobDetails)
-    console.log(userCandidate);
-
-    /*const candidateData = userCandidate?.map((Data,index) => {
-    let candidateDetail = _.find(jobDetails, {_id: Data?.jobId });  // หา candidate ที่มี jobId
-    console.log(candidateDetail);  
-    });
-    console.log(candidateData) // [undefined,undefined]
-
-  const countData = userCandidate?.map((items) => {
-    return items !== undefined;
-  });*/
-
-  useEffect(() => {
-    getApplications();
-  }, []); 
-
-//----------------------------------------------------------------------------------------------------------------//
-
     useEffect(() => {
       if (props.jobStatus === false) {
         //console.log(props.jobStatus, "props.jobStatus");
@@ -242,7 +209,7 @@ function ViewJobs() {
                             <IconWithText icon={mailOpen} text={props.openOn}/>                     
                         </JobCenterCard1>                     
                         <JobCenterCard1>
-                            <IconWithText icon={account} text={'2 candidates'}                      
+                            <IconWithText icon={account} text={props.totalCandidate}                      
                             />      
                         </JobCenterCard1>
 

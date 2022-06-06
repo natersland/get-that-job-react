@@ -14,7 +14,6 @@ import { useEffect } from "react";
 
 function ViewJobPosting () {
   const [jobDetails, setJobDetails] = useState([]);
-  //const [jobs,setJob] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ function ViewJobPosting () {
       // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
       setJobDetails(_.reverse(results?.data.data.applications));
       setUserCandidates(results?.data.data.candidate);
-      //setJob(results?.data.jobs)
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +61,7 @@ function ViewJobPosting () {
           linkedin={candidateDetail?.linkedin}
           experience={candidateDetail?.experience}
           createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
-          //CV ={candidateCv.cvFiles}
+          CV = {candidateDetail?.cvFiles[0]?.url}
         />
       );
     };
