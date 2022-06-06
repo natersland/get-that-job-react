@@ -64,6 +64,8 @@ function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
     } else {
       status = false;
     }
+
+    console.log(result, mode, "buttonChecker");
     // render seemore button
     if (status && mode === "markAsStart") {
       return StartReviewButton(
@@ -73,7 +75,7 @@ function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
         null,
         fx
       );
-    } else if (status && mode === "markAsFinish") {
+    } else if (status && mode === "markAsStart") {
       return StartReviewButton(
         `${mode}`,
         "btn-white",
@@ -81,7 +83,7 @@ function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
         true,
         fx
       );
-    } else if (!status && mode === "finished") {
+    } else if (!status && mode === "markAsStart") {
       return StartReviewButton(`${mode}`, "btn-gray", "FINISHED", false, fx);
     }
   };

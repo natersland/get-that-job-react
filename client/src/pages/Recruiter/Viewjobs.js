@@ -69,7 +69,7 @@ function ViewJobs() {
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
     console.log(jobId, "jobId");
-    await axios.put(`http://localhost:4000/jobs-status/${jobId}`, {});
+    await axios.put(`http://localhost:4000/jobs/status/${jobId}`, {});
   };
 
   useEffect(() => {
