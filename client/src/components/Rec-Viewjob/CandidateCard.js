@@ -23,6 +23,7 @@ function CandidateCard1({
   applicationStatus,
   CV,
 }) {
+
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
@@ -127,6 +128,65 @@ function CandidateCard1({
   const CandidateContent = () => {
     return (
       <div>
+
+                <BeforeToggleCard>
+                    {fistLogIn ? (
+                    <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+                    ) : null}
+                    <CandidateLeftCard>
+                        <CandidateDiv>
+                         <CandidateName>{name}</CandidateName> 
+                        </CandidateDiv>
+
+                        <MainInformation>
+                            <MainInformation1>
+                            <INImg>
+                                <img src={IN} />
+                            </INImg>
+                                <TextInfo>{linkedin}</TextInfo>                         
+                            </MainInformation1>
+                        </MainInformation>
+                    </CandidateLeftCard>
+
+                    <CandidateCenterCard>
+                        <CandidateCenterCard1>
+                                <Email>
+                                    <Icon><img src={closedMail}/></Icon>
+                                    <EmailText>{email}</EmailText>
+                                </Email>
+                                <Phone>
+                                    <Icon><img src={Phone1}/></Icon>
+                                    <PhoneText>{phone}</PhoneText>  
+                                </Phone>                          
+                        </CandidateCenterCard1>
+
+                        <CandidateCenterCard2>
+                            <IconWithText icon={closedMail}/>
+                            <Text3>
+                            Sent on 
+                            <br/>
+                            {createdJobDate}
+                            </Text3>
+                        </CandidateCenterCard2>
+
+                        <CandidateCenterCard3>
+                            <IconWithText icon={waiting} text={'Waiting for review'}/>
+                        </CandidateCenterCard3>
+
+                    </CandidateCenterCard>   
+
+                    <CandidateRightCard>
+                            <MarkTextButton>
+                                <MarkText>MARK AS STARTED</MarkText>
+                            </MarkTextButton>
+                    </CandidateRightCard> 
+                </BeforeToggleCard>
+    )}
+
+    const CandidateContent = () => {
+      return (
+        <div>
+
         <CandidateDetails>
           <CandidateDetails1>
             <Title>Professional experience</Title>
@@ -137,19 +197,31 @@ function CandidateCard1({
         </CandidateDetails>
 
         <Dowload>
-          <DowloadButton
-            className={`btn ${CV === null || !CV ? "btn-gray" : "btn-active"}`}
-            href={CV}
-            target="_blank">
-            <Icon>
-              <img src={load} />
-            </Icon>
+
+            <DowloadButton
+              className={`btn ${
+                CV === null || !CV ? "btn-gray" : "btn-active"
+              }`}
+              href={CV}
+              target="_blank"
+            >
+            <Icon><img src={load}/></Icon>
             <MarkText>
-              {CV === null || !CV ? "No CV File" : "Download CV"}
-            </MarkText>
-          </DowloadButton>
-        </Dowload>
-      </div>
+              {CV === null || !CV
+                ? "No CV File"
+                : "Download CV"}
+             </MarkText>
+            </DowloadButton>
+        </Dowload> 
+        </div>
+      )
+    }
+  
+  return (
+      <Wrapper2>
+        <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
+      </Wrapper2>
+
     );
   };
 
@@ -346,6 +418,18 @@ const DowloadButton = styled.a`
   border: 1px solid pink;
 `;
 
+const DowloadButton = styled.a`
+  width: 150px;
+  height: 35px;
+  font-weight: 500px;
+  color: var(--gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  border:1px solid pink;
+`;
+
 //----------------------------------------After toggle---------------------------------------------------------//
 
 const CandidateDetails = styled.div`
@@ -427,7 +511,8 @@ const Text3 = styled.p`
   color: #616161;
   font-weight: 400;
   margin-left: 8px;
-  text-align: center;
+  text-align:center;
   letter-spacing: 0.4px;
   line-height: 16px;
 `;
+

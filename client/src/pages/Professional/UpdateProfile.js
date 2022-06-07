@@ -77,26 +77,7 @@ function UpdatePersonalProfile() {
     setLoading(false);
     setAlertMessage(`Your professional profile has been updated!`);
   };
-  /* // fx update professional data ----------------------------------
-  const updateProfile = async () => {
-    setLoading(true);
-    setTimeout(function () {
-      setLoading(false);
-    }, 500);
-    await axios.put(`http://localhost:4000/users/${userId}`, {
-      email,
-      name,
-      phone,
-      companyWebsite,
-      birthDate,
-      linkedin,
-      title,
-      experience,
-      education,
-      uploadFiles,
-      userRole,
-    });
-  }; */
+
   // fx submit form ----------------------------------
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -125,22 +106,6 @@ function UpdatePersonalProfile() {
       setIsAlert(true);
     }
   };
-
-  /* const updateData = new FormData();{
- 
-    updateData.append("email", email);
-    updateData.append("name", name);
-    updateData.append("phone", phone);
-    updateData.append("birthDate", birthDate);
-    updateData.append("linkedin", linkedin);
-    updateData.append("title", title);
-    updateData.append("experience", experience);
-    updateData.append("education", education);
-
-    for (let uploadFileKey in uploadFiles) {
-      updateData.append("cvFile", uploadFiles[uploadFileKey]);
-    }
-  }; */
 
   const handleFileChange = (event) => {
     const uniqueId = Date.now();
@@ -219,8 +184,6 @@ function UpdatePersonalProfile() {
         <LabelText>BIRTHDAY</LabelText>
         <Input
           type="date"
-          /* data-date-inline-picker="true"  */
-          //data-date="" data-date-format="DD MMMM YYYY"
           className="gtj-input pink-border"
           value={birthDate}
           onChange={(event) => setBirthDate(event.target.value)}

@@ -13,7 +13,6 @@ import { useEffect } from "react";
 
 function ViewJobPosting() {
   const [jobDetails, setJobDetails] = useState([]);
-  //const [jobs,setJob] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ function ViewJobPosting() {
       // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
       setJobDetails(_.reverse(results?.data.data.applications));
       setUserCandidates(results?.data.data.candidate);
-      //setJob(results?.data.jobs)
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +50,12 @@ function ViewJobPosting() {
     });
     //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
 
-    //console.log(candidateDetail);
+
+        let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
+        
+
+    console.log(candidateDetail);
+
     const data = () => {
       return (
         <CandidateCard1
@@ -62,11 +65,12 @@ function ViewJobPosting() {
           phone={candidateDetail?.phone}
           linkedin={candidateDetail?.linkedin}
           experience={candidateDetail?.experience}
-          createdJobDate={moment(jobDetailData?.appliedDate)
-            .startOf()
-            .fromNow()}
           applicationStatus={jobDetailData?.applicationStatus}
           //CV ={candidateCv.cvFiles}
+
+          createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
+          CV = {candidateDetail?.cvFiles[0]?.url}
+
         />
       );
     };
@@ -78,7 +82,6 @@ function ViewJobPosting() {
     } else if (filterApllication === candidateDetail?.applicationStatus) {
       return data();
     }
-    return data();
   });
 
   //console.log(candidateData);
