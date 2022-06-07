@@ -115,15 +115,28 @@ function ShowJob2 () {
                     <JobCenterCard>
 
                         <JobCenterCard1>
-                            <IconWithText icon={mailOpen}  text={moment(job?.createdJobDate).startOf().fromNow()}/>                     
+                            <IconWithText icon={mailOpen}/>
+                            <Text3>
+                            Open on 
+                            <br/>
+                            {moment(job?.createdJobDate).startOf().fromNow()}
+                            </Text3>                     
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={account} text={jobDetails?.length === 0 ? "0" : `${countData.length}`}/>                          
+                            <IconWithText icon={account} />
+                            <Text3>
+                            {jobDetails?.length === 0 ? "0" : `${countData.length}`} {" "}                        
+                            Total candidates                            
+                            </Text3>                           
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={pinkperson} text={jobDetails?.length === 0 ? "0" : `${countCandidate.length}`}/>
+                            <IconWithText icon={pinkperson}/>
+                            <Text2>
+                            {jobDetails?.length === 0 ? "0" : `${countCandidate.length}`} {" "}                        
+                            Candidates on track                            
+                            </Text2>  
                         </JobCenterCard1>
 
                     </JobCenterCard>   
@@ -209,7 +222,7 @@ function ShowJob2 () {
 export default ShowJob2;
 
 const Wrapper1 = styled.div`
-  width: 100%;
+  width: 980px;
   border-radius: 8px;
   margin-top: 20px;
 `;
@@ -217,8 +230,9 @@ const Wrapper1 = styled.div`
 const BeforeToggleCard = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-left: 15px;
+  width: 980px;
 `;
 
 const MainInformation = styled.div`
@@ -233,22 +247,6 @@ const MainInformation1 = styled.div`
   justify-content: flex-start;
   width: 115px;
 `;
-const Icon = styled.div`
-  width: 13px;
-  height: 13px;
-  margin-bottom: 3px;
-  display: flex;
-  justify-content: center;
-`;
-const IconLabel = styled.p`
-  font-size: 12px;
-  font-family: var(--seconary-font);
-  color: var(--gray);
-  font-weight: 400;
-  margin-left: 5px;
-  line-height: 16px;
-  text-align:center;
-`;
 
 const ImgInfoLeft = styled.div`
   width: 15.5px;
@@ -262,11 +260,6 @@ const TextInfo = styled.p`
   font-family: var(--primary-font);
   color: var(--light-gray);
   font-weight: 400;
-`;
-
-const ToggleButton = styled.button`
-    margin-right: 10px;
-    margin-top: 40px;
 `;
 
 const JobCardDiv = styled.div`
@@ -306,9 +299,8 @@ const JobCenterCard = styled.div`
 `;
 
 const JobCenterCard1 = styled.div` 
-  width: 85px;
+  width: 95px;
   height: 55px;
-  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -394,4 +386,28 @@ const Detail = styled.div`
   display: flex;
   flex-direction: row;
   width: 760px;
+`;
+
+//------------------------------------------text----------------------------------------//
+
+const Text2 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #F48FB1;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align:center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+`;
+
+const Text3 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #616161;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align:center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
 `;

@@ -24,8 +24,7 @@ function CandidateCard1 ({
   CV
 })
 {
-  console.log(CV)
-  
+
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
@@ -63,7 +62,12 @@ function CandidateCard1 ({
                         </CandidateCenterCard1>
 
                         <CandidateCenterCard2>
-                            <IconWithText icon={closedMail} text={createdJobDate}/>
+                            <IconWithText icon={closedMail}/>
+                            <Text3>
+                            Sent on 
+                            <br/>
+                            {createdJobDate}
+                            </Text3>
                         </CandidateCenterCard2>
 
                         <CandidateCenterCard3>
@@ -124,7 +128,7 @@ function CandidateCard1 ({
 export default CandidateCard1;
 
 const Wrapper2 = styled.div`
-  width: 100%;
+  width: 980px;
   border-radius: 8px;
 `;
 //----------------------------------------Before toggle---------------------------------------------------------//
@@ -383,4 +387,15 @@ const Radiotext = styled.p`
   font-font-family: var(--seconary-font);
   color: var(--gray);
   margin-left: 5px;
+`;
+//-----------------------------------------------------------------text---------------------------------------------//
+const Text3 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #616161;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align:center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
 `;

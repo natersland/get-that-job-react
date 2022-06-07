@@ -48,7 +48,7 @@ function ViewJobPosting () {
   const candidateData = jobDetails?.map((jobDetailData, index) => {
 
         let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
-        //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
+        
 
     console.log(candidateDetail);
     const data = () => {
