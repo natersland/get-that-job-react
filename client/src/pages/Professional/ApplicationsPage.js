@@ -34,20 +34,25 @@ function ApplicationsPage() {
   );
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
-  const getApplications = async () => {
-    try {
-      checkUserPage();
-      setLoading(true);
-      const results = await axios.get(url);
-      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
-      setApplication(_.reverse(results?.data?.applications));
-      setUserJobs(results?.data?.jobDetail);
-      setUser(results.data);
-      setCompaniesData(results?.data?.companyDetail);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+  const fetchData = async () => {
+    setLoading(true);
+    function getApplications() {
+      return axios.get(url);
     }
+    function getButtonStatus() {
+      return axios.get(url);
+    }
+    await Promise.all([getApplications(), getButtonStatus()]).then(function (
+      results
+    ) {
+      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
+      setApplication(_.reverse(results[0]?.data?.applications));
+      setUserJobs(results[0]?.data?.jobDetail);
+      setUser(results[0].data);
+      setCompaniesData(results[0]?.data?.companyDetail);
+
+      setLoading(false);
+    });
   };
 
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
@@ -145,7 +150,7 @@ function ApplicationsPage() {
     return items !== undefined;
   });
   useEffect(() => {
-    getApplications();
+    fetchData();
     changeApplicationStatus();
     reFetch();
   }, []);
