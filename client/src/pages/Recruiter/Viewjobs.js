@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
@@ -21,17 +21,17 @@ import moment from "moment";
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  const [status, setStatus] = useState("option1");
+  
   const [job, setJob] = useState([]);
-  const [candidatesData, setCandidatesData] = useState([]);
-  const userRole = localStorage.getItem("role");
+  const [candidate, setCandidate] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
 
   const radioFilterData = [
     { value: "all", label: "All" },
-    { value: "with candidate on track", label: "with candidate on track" },
-    { value: "close", label: "closed" },
+    { value: "true", label: "with candidate on track" },
+    { value: "false", label: "closed" },
   ];
+
 
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
@@ -43,62 +43,33 @@ function ViewJobs() {
   // get data to display ---------------
   const getJobPost = async () => {
     try {
-      /* */
       const results = await axios.get(
-        `http://localhost:4000/users/${comProfileData} `
+        `http://localhost:4000/users/${comProfileData}`
       );
       //setStatus(results.data.jobs);
-      setJob(results?.data?.jobs);
-      setCandidatesData(results?.data?.candidate);
-      console.log("GET JOB POST", results);
+      setJob(_.reverse(results.data.jobs));
+      setCandidate(results.data.candidate)
     } catch (error) {
       console.log(error);
     }
+    return {
+      job,
+      candidate
+    };
   };
 
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
-    await axios.put(`http://localhost:4000/jobs/${jobId}`, {});
+    console.log(jobId, "jobId");
+    await axios.put(`http://localhost:4000/jobs/status/${jobId}`, {});
   };
 
-  const jobData = job?.map((data) => {
-    let candidateDetails = _.find(candidatesData, {
-      jobId: data?._id,
-    });
-    /* 
-    var array = [{ x: 1 }, { x: 2 }, { x: 3 }, { x: 1 }];
-
-    _.pullAllBy(candidatesData, [{ x: 1 }, { x: 3 }], "x");
-    console.log(array);
-    // => [{ 'x': 2 }]
-    console.log("hi", candidateDetails); */
-    return (
-      <Job
-        id={data?._id}
-        jobTitle={data?.jobTitle}
-        jobCategory={data?.jobCategory}
-        jobStatus={data?.jobStatus}
-        jobType={data?.jobType}
-        minSalary={data?.minSalary}
-        maxSalary={data?.maxSalary}
-        openOn={moment(data?.createdJobDate).startOf().fromNow()}
-        totalCandidate={candidateDetails?.length}
-        /* candidateOnTrack={candidateOnTrack}  */
-        aboutTheJob={data?.aboutJob}
-        requirement={data?.mandatoryReq}
-        optionalRequirement={data?.optionalReq}
-        closedStatus={data?.jobStatus}
-        //jobList={job}
-      />
-    );
-  });
   useEffect(() => {
     getJobPost();
   }, []);
 
   return (
     <Content>
-      <AlertDialog />
       <Heading1>
         <HeadingText>Job Posting</HeadingText>
         <RadioForm>
@@ -110,14 +81,53 @@ function ViewJobs() {
           />
         </RadioForm>
       </Heading1>
-
+              
       <Heading2>
         <Heading2Text> {job?.length} Jobs posting found</Heading2Text>
       </Heading2>
-      {}
-      {jobData}
+
+      {job?.map((data) => {
+
+            
+            const countData = candidate.filter((items) => {
+              return items.jobId === data._id;
+            });           
+
+            console.log(countData);
+            const countTrack = countData.filter((items) => {
+              return items.applicationStatus !== "finished";
+            });
+
+            //console.log(countTrack);
+            const app = () =>{
+              return (
+                <Job
+                  id={data._id}
+                  jobTitle={data.jobTitle}
+                  jobCategory={data.jobCategory}
+                  jobType={data.jobType}
+                  minSalary={data.minSalary}
+                  maxSalary={data.maxSalary}
+                  openOn={moment(data.createdJobDate).startOf().fromNow()}
+                  totalCandidate={countData.length}
+                  candidateOnTrack={countTrack.length}
+                  aboutTheJob={data.aboutJob}
+                  requirement={data.mandatoryReq}
+                  optionalRequirement={data.optionalReq}
+                />
+              ); 
+              }
+            
+            if (filterApllication === "all") {
+              return app();
+            } else if (filterApllication === data?.jobStatus.toString()) { // หาตัวแปรที่ return ค่า job status
+              return app();       
+            }
+          })}   
+
+
     </Content>
-  );
+
 
   //------------------------------2nd function -----------------------------------//
   function Job(props) {
@@ -127,6 +137,15 @@ function ViewJobs() {
     const [disable, setDisable] = useState(false);
 
     const { convertSalary } = UtilitiesFunction();
+    
+    useEffect(() => {
+      if (props.jobStatus === false) {
+        console.log(props.jobStatus, "props.jobStatus");
+        setClose(true);
+        setDisable(true);
+        setFont(true);
+      }
+    }, []);
 
     //----------------------------------------------------------------------------------------------------------------//
 
@@ -150,9 +169,14 @@ function ViewJobs() {
       };
     };
 
+    /* console.log(jobDetails)
+    console.log(userCandidate); */
+
     /*const candidateData = userCandidate?.map((Data,index) => {
     let candidateDetail = _.find(jobDetails, {_id: Data?.jobId });  // หา candidate ที่มี jobId
-
+    console.log(candidateDetail);  
+    });
+    console.log(candidateData) // [undefined,undefined]
   const countData = userCandidate?.map((items) => {
     return items !== undefined;
   });*/
@@ -163,13 +187,6 @@ function ViewJobs() {
 
     //----------------------------------------------------------------------------------------------------------------//
 
-    useEffect(() => {
-      if (props.jobStatus === false) {
-        setClose(true);
-        setDisable(true);
-        setFont(true);
-      }
-    }, []);
 
     // function สำหรับการกดปุ่่ม
     const handleCloseCLick = (event) => {
@@ -229,22 +246,28 @@ function ViewJobs() {
 
             <JobCenterCard>
               <JobCenterCard1>
-                <IconWithText icon={mailOpen} text={props.openOn} />
+                <IconWithText icon={mailOpen}/>
+                <Text3 key={props.id}>
+                Open on 
+                <br/>
+                {props.openOn}
+                </Text3>
               </JobCenterCard1>
               <JobCenterCard1>
-                <IconWithText
-                  icon={account}
-                  /* text={`${props.totalCandidate} candidates`} */
-                  text={`${props.totalCandidate} candidates`}
-                />
+                <IconWithText icon={account}/>
+                <Text3 key={props.id}>
+                {props.totalCandidate} {" "} Total Candidates
+                </Text3>
               </JobCenterCard1>
+             
 
               <JobCenterCard1>
                 <IconWithText
-                  icon={pinkperson}
-                  number={"props.candidateOnTrack"}
-                  text={"Candidates on track"}
+                  icon={pinkperson}                
                 />
+                <Text2 key={props.id}>
+                {props.candidateOnTrack} {" "} Candidates on track
+                </Text2>
               </JobCenterCard1>
             </JobCenterCard>
 
@@ -253,11 +276,14 @@ function ViewJobs() {
                 <button
                   className="btn btn-md btn-white"
                   onClick={() => {
+                    setLoading(true);
                     localStorage.setItem("jobId", props.id);
-                    navigate(`/viewJobPosting/${props.id}`);
-                    componentDidMount();
-                  }}
-                >
+                    setTimeout(function () {
+                      navigate(`/viewJobPosting/${props.id}`);
+                      componentDidMount();
+                      setLoading(false);
+                    }, 500);
+                  }}>
                   <ShowDiv>
                     <Img2>
                       <img src={search} />
@@ -272,8 +298,7 @@ function ViewJobs() {
                   id="submitCloseBtn"
                   onSubmit={(e) => {
                     handleCloseCLick(e);
-                  }}
-                >
+                  }}>
                   <button
                     htmlFor="submitCloseBtn"
                     id="buttonID"
@@ -285,8 +310,7 @@ function ViewJobs() {
                       backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                     }}
                     value={job.jobStatus}
-                    type="submit"
-                  >
+                    type="submit">
                     <CloseDiv>
                       <Img2>
                         <img src={close2} />
@@ -294,8 +318,7 @@ function ViewJobs() {
                       <p
                         style={{
                           color: close ? "lightgray" : "white",
-                        }}
-                      >
+                        }}>
                         {" "}
                         {close ? "CLOSED" : "CLOSE"}
                       </p>
@@ -523,13 +546,13 @@ const JobCenterCard = styled.div`
 `;
 
 const JobCenterCard1 = styled.div`
-  width: 85px;
+  width: 95px;
   height: 55px;
   margin-left: 10px;
+  padding-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
 `;
 
 //------------------------------------Text-----------------------------------------------//
@@ -548,6 +571,28 @@ const Text1 = styled.p`
   color: var(--light-gray);
   font-weight: 400;
   margin-left: 8px;
+`;
+
+const Text2 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #F48FB1;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align:center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
+`;
+
+const Text3 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #616161;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align:center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
 `;
 
 const Show = styled.p`

@@ -200,3 +200,21 @@ export const updateJob = async (req, res, next) => {
     next(error);
   }
 };
+
+//อัพเดต status by jobId
+export const updateJobStatus = async (req, res, next) => {
+  try {
+    const jobId = ObjectId(req.params.id);
+
+    await jobsCollection.updateOne(
+      { _id: jobId },
+      { $set: { jobStatus: false } }
+    );
+    res.status(200).json(`Job ${jobId} has been updated successful`);
+    console.log(`Updated job data id:${jobId} successful!`);
+  } catch (error) {
+    next(error);
+  }
+
+};
+
