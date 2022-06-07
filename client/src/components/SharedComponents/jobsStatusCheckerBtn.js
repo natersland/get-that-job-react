@@ -14,7 +14,7 @@ import { useUtils } from "../../contexts/utilsContext";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
-function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
+function RecruiterReviewStatusBtn({ status, jobId, fx }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
   const navigate = useNavigate();
@@ -26,32 +26,27 @@ function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
   );
 
   // ปุ่ม markAsStarted กับ markAsFinished and finished  --------------------------------------
-  const StartReviewButton = (mode, color, text, status, fx) => {
+  const StartReviewButton = (status, color, text, fx) => {
     return (
       <MarkTextButton
         className={`btn ${color} ${
-          mode === "markAsStart" ? "btn-lg" : "btn-md"
+          status === "applied" ? "btn-lg" : "btn-md"
         } ${color === "btn-white" ? "pink-border" : null} uppercase`}
-        onClick={mode === "markAsStart" ? fx : null}
+        onClick={status === "applied" ? fx : null}
         btnStatus={status}
         disabled={status}>
-        {mode === "markAsStart" && status === true ? (
-          <span>
-            <img className="mr-2" src={NavigationIcon} alt="Navigation Icon" />
-          </span>
-        ) : null}
-        {text}
+        {status === "applied" ? <MarkText> {text} </MarkText> : null}
       </MarkTextButton>
     );
   };
 
   // fx ปุ่มเปลี่ยนสถานะได้ ถ้าสมัครงานเข้ามา -------------------------------
-  const buttonChecker = (mode, fx, jobId) => {
+  const buttonChecker = (fx, jobId) => {
     let status = null;
     let filterData = null;
     let result = null;
     // Check btn mode ถ้า status or mode = these 3 status
-    if (mode === "markAsStart" || "markAsFinish" || "finished") {
+    if (status === "applied" || "reviewing" || "finished") {
       filterData = data?.applications;
       result = filterData?.filter((item) => {
         return item.jobId === jobId;
@@ -65,30 +60,30 @@ function RecruiterReviewStatusBtn({ mode, jobId, fx }) {
       status = false;
     }
 
-    console.log(result, mode, "buttonChecker");
+    console.log(professionalId, status, data, result, "buttonChecker");
     // render seemore button
-    if (status && mode === "markAsStart") {
+    if (status === "applied") {
       return StartReviewButton(
-        `${mode}`,
+        `${status}`,
         "btn-white",
         "MARK AS STARTED",
         null,
         fx
       );
-    } else if (status && mode === "markAsStart") {
+    } else if (status === "reviewing") {
       return StartReviewButton(
-        `${mode}`,
+        `${status}`,
         "btn-white",
         "MARK AS FINISHED",
         true,
         fx
       );
-    } else if (!status && mode === "markAsStart") {
-      return StartReviewButton(`${mode}`, "btn-gray", "FINISHED", false, fx);
+    } else if (!status === "finished") {
+      return StartReviewButton(`${status}`, "btn-gray", "FINISHED", false, fx);
     }
   };
 
-  return <Wrapper>{buttonChecker(mode, fx, jobId)}</Wrapper>;
+  return <Wrapper>{buttonChecker(status, fx, jobId)}</Wrapper>;
 }
 export default RecruiterReviewStatusBtn;
 
@@ -106,4 +101,11 @@ const MarkTextButton = styled.button`
   align-items: center;
   border-radius: 14px;
   border: 1px solid pink;
+`;
+const MarkText = styled.p`
+  font-size: 14px;
+  font-family: var(--seconary-font);
+  color: var(--light-gray);
+  font-weight: 400;
+  margin-left: 5px;
 `;

@@ -11,15 +11,14 @@ import moment from "moment";
 import axios from "axios";
 import { useEffect } from "react";
 
-
-function ViewJobPosting () {
+function ViewJobPosting() {
   const [jobDetails, setJobDetails] = useState([]);
   //const [jobs,setJob] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
 
-  const recruiterId = localStorage.getItem("jobId");  
+  const recruiterId = localStorage.getItem("jobId");
   const url = `http://localhost:4000/jobs/${recruiterId}`;
   const getApplications = async () => {
     try {
@@ -36,10 +35,10 @@ function ViewJobPosting () {
     };
   };
 
-  console.log(jobDetails);
-  console.log(userCandidate);
+  //console.log(jobDetails);
+  //console.log(userCandidate);
   //console.log(jobs);
- 
+
   const radioFilterData = [
     { value: "all", label: "All" },
     { value: "waiting", label: "Waiting" },
@@ -48,11 +47,12 @@ function ViewJobPosting () {
   ];
 
   const candidateData = jobDetails?.map((jobDetailData, index) => {
+    let candidateDetail = _.find(userCandidate, {
+      _id: jobDetailData?.professionalId,
+    });
+    //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
 
-        let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
-        //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
-
-    console.log(candidateDetail);
+    //console.log(candidateDetail);
     const data = () => {
       return (
         <CandidateCard1
@@ -62,22 +62,26 @@ function ViewJobPosting () {
           phone={candidateDetail?.phone}
           linkedin={candidateDetail?.linkedin}
           experience={candidateDetail?.experience}
-          createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
+          createdJobDate={moment(jobDetailData?.appliedDate)
+            .startOf()
+            .fromNow()}
+          applicationStatus={jobDetailData?.applicationStatus}
           //CV ={candidateCv.cvFiles}
         />
       );
     };
-      // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
-   if (filterApllication === "all") {
+
+    // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
+    if (filterApllication === "all") {
       return data();
-       // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
-   } else if (filterApllication === candidateDetail?.applicationStatus) {
-     return data();
+      // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
+    } else if (filterApllication === candidateDetail?.applicationStatus) {
+      return data();
     }
     return data();
   });
-  
-  console.log(candidateData);
+
+  //console.log(candidateData);
   const countData = candidateData.filter((items) => {
     return items !== undefined;
   });
@@ -85,49 +89,52 @@ function ViewJobPosting () {
     getApplications();
   }, []);
 
-
-    return (
+  return (
     <Main>
-        {/*-------------------------------------------------------*Header*------------------------------------------*/}
-            <Back
-            onClick={() => {
-              navigate("/viewjobs");
-              localStorage.removeItem("userId");
-            }}
-            >
-                <IconBack><img src={leftSign} /></IconBack> 
-                <BackText> Back </BackText>
-            </Back>
-            <HeadingText>Show Job Posting</HeadingText>
+      {/*-------------------------------------------------------*Header*------------------------------------------*/}
+      <Back
+        onClick={() => {
+          navigate("/viewjobs");
+          localStorage.removeItem("userId");
+        }}>
+        <IconBack>
+          <img src={leftSign} />
+        </IconBack>
+        <BackText> Back </BackText>
+      </Back>
+      <HeadingText>Show Job Posting</HeadingText>
 
-        {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
-          
-       {<ShowJob2/>}
-        
+      {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
 
-        {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
-            
-          <RadioFilter
-          formlabel="Filter your applications"
-          radioData={radioFilterData}
-          stateVariable={filterApllication}
-          setStateVariable={setFilterApplication}
-          />
+      {<ShowJob2 />}
 
-        {/*-------------------------------------------------------*Found Posting*------------------------------------------*/}
-        
-        <Found>
-        <FoundText> {jobDetails?.length === 0 ? "0" : `${countData.length} `}{" "}Candidates found</FoundText>
-        </Found>
-        
-        {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
-        
-        {candidateData}
+      {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
+
+      <RadioFilter
+        formlabel="Filter your applications"
+        radioData={radioFilterData}
+        stateVariable={filterApllication}
+        setStateVariable={setFilterApplication}
+      />
+
+      {/*-------------------------------------------------------*Found Posting*------------------------------------------*/}
+
+      <Found>
+        <FoundText>
+          {" "}
+          {jobDetails?.length === 0 ? "0" : `${countData.length} `} Candidates
+          found
+        </FoundText>
+      </Found>
+
+      {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
+
+      {candidateData}
     </Main>
-    )
-};
+  );
+}
 
-export default ViewJobPosting
+export default ViewJobPosting;
 
 const HeadingText = styled.p`
   font-size: 34px;
@@ -172,8 +179,7 @@ const IconBack = styled.div`
 
 //---------------------------------------------Filter Part-----------------------------------------------------//
 
-const FilterDiv = styled.div`
-`;
+const FilterDiv = styled.div``;
 
 const FilterText = styled.p`
   font-size: 10px;

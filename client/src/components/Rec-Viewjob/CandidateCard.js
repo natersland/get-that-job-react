@@ -12,9 +12,6 @@ import IN from "../../img/linkedin-box-line.png";
 import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import load from "../../img/download-line.png";
-import RecruiterReviewStatusBtn from "../SharedComponents/jobsStatusCheckerBtn";
-import { useUtils } from "../../contexts/utilsContext";
-import useFetch from "../../hooks/useFetch";
 
 function CandidateCard1({
   name,
@@ -23,42 +20,12 @@ function CandidateCard1({
   linkedin,
   experience,
   createdJobDate,
+  applicationStatus,
   CV,
 }) {
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
-    const professionalId = localStorage.getItem("id");
-    const jobId = localStorage.getItem("jobId");
-    const { setLoading, setIsAlert, setAlertMessage } = useUtils();
-
-    // update status start viewing candidate
-    const updateApplication = async (appId) => {
-      console.log(appId, "appId");
-      await axios.patch(
-        `http://localhost:4000/applications/${professionalId}`,
-        {}
-      );
-    };
-    const { loading, data, reFetch } = useFetch(
-      `http://localhost:4000/users/${professionalId}`
-    );
-    const checkUserProfile = async (event) => {
-      const handleSubmit = () => {
-        const applicationStatus = ["applied", "reviewing", "finished"];
-
-        event.preventDefault();
-        const data = {
-          professionalId,
-          jobId,
-          appliedDate: Date.now(),
-        };
-        updateApplication(); // has to be update data
-      };
-
-      handleSubmit(data);
-      //setAlertMessage(`Congratulation! You already applied ${job?.jobTitle}!`);
-    };
 
     return (
       <BeforeToggleCard>
@@ -97,21 +64,23 @@ function CandidateCard1({
           </CandidateCenterCard1>
 
           <CandidateCenterCard2>
-            <IconWithText icon={closedMail} text={createdJobDate} />
+            <IconWithText icon={closedMail} />
+            <Text3>
+              Sent on
+              <br />
+              {createdJobDate}
+            </Text3>
           </CandidateCenterCard2>
 
           <CandidateCenterCard3>
-            <IconWithText icon={waiting} text={"Waiting for review"} />
+            <IconWithText icon={waiting} text={applicationStatus} />
           </CandidateCenterCard3>
         </CandidateCenterCard>
 
         <CandidateRightCard>
-          <RecruiterReviewStatusBtn
-            mode="markAsStart"
-            fx={checkUserProfile}
-            jobId={jobId}>
+          <MarkTextButton>
             <MarkText>MARK AS STARTED</MarkText>
-          </RecruiterReviewStatusBtn>
+          </MarkTextButton>
         </CandidateRightCard>
       </BeforeToggleCard>
     );
@@ -130,12 +99,17 @@ function CandidateCard1({
         </CandidateDetails>
 
         <Dowload>
-          <MarkTextButton>
+          <DowloadButton
+            className={`btn ${CV === null || !CV ? "btn-gray" : "btn-active"}`}
+            href={CV}
+            target="_blank">
             <Icon>
               <img src={load} />
             </Icon>
-            <MarkText>DOWLOAD CV {CV}</MarkText>
-          </MarkTextButton>
+            <MarkText>
+              {CV === null || !CV ? "No CV File" : "Download CV"}
+            </MarkText>
+          </DowloadButton>
         </Dowload>
       </div>
     );
@@ -151,7 +125,7 @@ function CandidateCard1({
 export default CandidateCard1;
 
 const Wrapper2 = styled.div`
-  width: 100%;
+  width: 980px;
   border-radius: 8px;
 `;
 //----------------------------------------Before toggle---------------------------------------------------------//
@@ -322,6 +296,18 @@ const MarkTextButton = styled.button`
   border: 1px solid pink;
 `;
 
+const DowloadButton = styled.a`
+  width: 150px;
+  height: 35px;
+  font-weight: 500px;
+  color: var(--gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  border: 1px solid pink;
+`;
+
 //----------------------------------------After toggle---------------------------------------------------------//
 
 const CandidateDetails = styled.div`
@@ -395,4 +381,15 @@ const Radiotext = styled.p`
   font-font-family: var(--seconary-font);
   color: var(--gray);
   margin-left: 5px;
+`;
+//-----------------------------------------------------------------text---------------------------------------------//
+const Text3 = styled.p`
+  font-size: 12px;
+  font-family: var(--seconary-font);
+  color: #616161;
+  font-weight: 400;
+  margin-left: 8px;
+  text-align: center;
+  letter-spacing: 0.4px;
+  line-height: 16px;
 `;
