@@ -1,7 +1,7 @@
-// Contexts
+// Contexts -------------------------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
-// components
+// components -------------------------------------------
 import ProRegisterForm1 from "./PRO-RegisterForm-1";
 import ProRegisterForm2 from "./PRO-RegisterForm-2";
 import ProRegisterForm3 from "./PRO-RegisterForm-3";

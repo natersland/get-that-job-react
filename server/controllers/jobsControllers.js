@@ -3,11 +3,8 @@ import { db } from "../utils/db.js";
 import mongoose from "mongoose";
 // Schema Models ---------------------
 import JobModel from "../models/JobModel.js";
-import RecruiterModel from "../models/RecruiterModel.js";
 // Database ---------------------------
-const appCollection = db.collection("applications");
 const jobsCollection = db.collection("jobs");
-const usersCollection = db.collection("users");
 
 // ดึงข้อมูลงาน 1 งาน --------------------------------------------------
 export const getOneJob = async (req, res) => {
@@ -71,6 +68,7 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     const searchMaxSalaryText = Number(req.query.searchMaxSalaryText);
     const searchJobType = req.query.jobType;
     const searchJobCategory = req.query.searchJobCategory;
+
     const page = req.query.page;
 
     const PAGE_SIZE = 12;
@@ -91,12 +89,14 @@ export const getAllJobsWithFilter = async (req, res, next) => {
           },
         },
       ],
-
       jobCategory: { $regex: searchJobCategory },
       jobType: { $regex: searchJobType },
       minSalary: { $gte: searchMinSalaryText },
-      maxSalary: { $gte: searchMaxSalaryText },
     };
+
+    if (searchMaxSalaryText) {
+      query.maxSalary = { $lte: searchMaxSalaryText };
+    }
 
     const jobs = await jobsCollection
       .aggregate([
@@ -123,7 +123,6 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     return res.json({
       data: jobs,
       total_jobs: totalJobs,
-
       total_pages: totalPages,
     });
   } catch (error) {

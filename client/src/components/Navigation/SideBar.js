@@ -14,7 +14,6 @@ import FocusIcon from "../../assets/focus-3-line.svg";
 import ProfileIcon from "../../assets/user-line.svg";
 // Context -------------------------------------
 import { useNav } from "../../contexts/navigate";
-import { useVadilation } from "../../contexts/vadilation";
 // Components
 import AboutUs from "./AboutUs";
 

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useCallback } from "react";
-import { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 // Pictures --------------------
@@ -8,22 +7,16 @@ import FocusIconActive from "../../assets/focus.svg";
 import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
 import NavigationIcon from "../../assets/navigation-line.svg";
 // Contexts --------------------
-import { useVadilation } from "../../contexts/vadilation";
 import { useUtils } from "../../contexts/utilsContext";
 // Utils --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-// Hooks -------------------------
-import useFetch from "../../hooks/useFetch";
-function UserStatusCheckerBtn({ mode, jobId, fx }) {
+
+function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
   const { setLoading } = useUtils();
-
-  const { data, reFetch } = useFetch(
-    `http://localhost:4000/users/${professionalId}`
-  );
 
   // ปุ่ม follow --------------------------------------
   const followButton = (text, status) => {

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 const UsersDataContext = React.createContext();
 
 function UserDataProvider(props) {
@@ -47,34 +46,6 @@ function UserDataProvider(props) {
     setCompanyLogo("");
     // ---------------
   };
-  // Get users data from server fx  ----------------------------------------
-  const userId = localStorage.getItem("id");
-  const getAllUsers = async () => {
-    try {
-      const results = await axios.get(`http://localhost:4000/users?`);
-      console.log(results);
-      setUsers(results.data.data);
-      /*       setIsLoading(false); */
-    } catch (error) {
-      console.log(error);
-    }
-    return {
-      users,
-    };
-  };
-  const getOneUser = async () => {
-    try {
-      const results = await axios.get(`http://localhost:4000/users?/${userId}`);
-      console.log(results);
-      setUsers(results.data.data);
-      /*       setIsLoading(false); */
-    } catch (error) {
-      console.log(error);
-    }
-    return {
-      users,
-    };
-  };
 
   return (
     <UsersDataContext.Provider
@@ -118,11 +89,10 @@ function UserDataProvider(props) {
         // State for Connecting to Users Database -----------------------------
         users,
         setUsers,
-        getAllUsers,
-        getOneUser,
         // Fx for reset data in state ---------------------------------------
         resetUserData,
-      }}>
+      }}
+    >
       {props.children}
     </UsersDataContext.Provider>
   );

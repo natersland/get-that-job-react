@@ -5,6 +5,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import ReactPhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // Images -------------------------------------
 import FileIcon from "../../assets/icons/file.png";
 // Contexts -------------------------------------
@@ -13,41 +15,31 @@ import { useUtils } from "../../contexts/utilsContext";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-//const UsersDataContext = React.createContext();
 
 function UpdatePersonalProfile() {
-  //const params = useParams();
   const [phone, setPhone] = useState();
   const [showCvFile, setShowCvFile] = useState();
-  const {
-    //users,
-    //setUsers,
-    email,
-    setEmail,
-    name,
-    setName,
-    companyWebsite,
-    setCompanyWebsite,
-    birthDate,
-    setBirthDate,
-    linkedin,
-    setLinkedin,
-    title,
-    setTitle,
-    experience,
-    setExperience,
-    education,
-    setEducation,
-    uploadFiles,
-    setUploadFiles,
-  } = useUserData();
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [companyWebsite, setCompanyWebsite] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [title, setTitle] = useState("");
+  const [experience, setExperience] = useState("");
+  const [education, setEducation] = useState("");
+  const [uploadFiles, setUploadFiles] = useState({});
+
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
   const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
 
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(location.pathname, "/profile", 4);
   // Get professional user data ----------------------------------
   const getUsers = async () => {
     setLoading(true);
+    checkUserPage();
     const getResults = await axios.get(`http://localhost:4000/users/${userId}`);
     setShowCvFile(getResults?.data.cvFiles[0]?.url);
     setEmail(getResults.data.email);
@@ -159,27 +151,12 @@ function UpdatePersonalProfile() {
           disableDropdown={true}
           placeholder={"+xx xxx xxx xxxx"}
         />
-        {/*         <Input
-          type="number"
-          className="gtj-input pink-border"
-          value={phone}
-          onChange={(event) => setPhone(event.target.value)}
-        />
- */}
         <LabelUnder>+[country code][number]</LabelUnder>
         {!phone || phone.length < 4 ? (
           <span className="error-message mt-1 mb-1">
             Please input your phone number before you apply any job.
           </span>
         ) : null}
-
-        <LabelText>WEBSITE</LabelText>
-        <Input
-          type="text"
-          className="gtj-input pink-border"
-          value={companyWebsite}
-          onChange={(event) => setCompanyWebsite(event.target.value)}
-        />
 
         <LabelText>BIRTHDAY</LabelText>
         <Input
@@ -225,11 +202,11 @@ function UpdatePersonalProfile() {
 
         <CVFilesWrapper className="shadow-md">
           <CVIconWrapper>
-            <a href={showCvFile} target="_blank">
+            <a href={showCvFile} target="_blank" rel="noreferrer">
               <CVIcon
                 src={FileIcon}
                 width="100px"
-                className="mt-5 mb-5 "
+                className="mt-5 mb-5"
                 alt="cv-icon"
               />
             </a>
@@ -253,8 +230,7 @@ function UpdatePersonalProfile() {
                 id="uploadCV"
                 name="CV"
                 type="file"
-                /*                 value={uploadFiles[0]}
-                 */ onChange={handleFileChange}
+                onChange={handleFileChange}
                 accept=".pdf"
                 maxSize={5}
               />

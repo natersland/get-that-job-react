@@ -1,23 +1,18 @@
 import styled from "@emotion/styled";
-
 // Images ----------------------------------------
 import people from "../assets/people/group-people.svg";
 import magnifyingGlass from "../assets/items/magni.svg";
 import github from "../img/github-fill.png";
 import linkin from "../img/linkedin-box-line.png";
-import daimond from "../img/ruby-fill.png";
-import Reactline from "../img/reactjs-line.png";
 // Contexts ----------------------------------------
 import { useNav } from "../contexts/navigate";
-import { useVadilation } from "../contexts/vadilation";
 import { useNavigate } from "react-router-dom";
-
-// Data
+// Data ----------------------------------------
 import teamData from "../data/teamData";
 import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
-  const { registerRoute } = useNav();
+  const { registerRoute, setMenuIndex } = useNav();
   const navigate = useNavigate();
 
   return (
@@ -46,6 +41,7 @@ const HomePage = () => {
           className=""
           onClick={() => {
             navigate("/login");
+            setMenuIndex(1);
           }}
         >
           I already have an account.
@@ -91,11 +87,11 @@ const HomePage = () => {
                 <AvartarImg src={avartar} alt={name} />
                 <Name>{name}</Name>
                 <Icon>
-                  <a href={github_url} target="_blank">
+                  <a href={github_url} target="_blank" rel="noreferrer">
                     {" "}
                     <img src={github} alt="Github" className="mr-2" />
                   </a>
-                  <a href={linkin_link} target="_blank">
+                  <a href={linkin_link} target="_blank" rel="noreferrer">
                     {" "}
                     <img src={linkin} alt="Linkedin" />
                   </a>

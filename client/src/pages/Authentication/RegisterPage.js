@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
 import Alert from "@mui/material/Alert";
-
-// Images
+// Images ---------------------------------------------
 import Woman from "../../assets/people/woman-regis.svg";
-//Contexts
+//Contexts ---------------------------------------------
 import { useAuth } from "../../contexts/authentication";
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
 import { useUtils } from "../../contexts/utilsContext";
-// Components
+// Components ---------------------------------------------
 import MainRegisterForm from "../../components/Register/MainRegisterForm";
 import SelectRole from "../../components/Register/SelectRole";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
@@ -45,17 +44,17 @@ function RegisterPage() {
   } = useUserData();
   const {
     // This Zone is for Register form vadilate only -------------------------------------
-    step,
     setStep,
     isErrorEmail,
     isErrorPassword,
   } = useVadilation();
-  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { loading, setLoading } = useUtils();
   const { register } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
+    // Welcome text after create account
     /*     setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
     setIsAlert(true); */
     if (role === "professional") {
@@ -122,8 +121,6 @@ function RegisterPage() {
             <Progressbar>
               <Title>Good choice!</Title>
               <Caption className="mb-4">Create a new account as...</Caption>
-              {/*               <h1>{`Current Role is: ${role}`}</h1>
-              <h1>{`Current Step is: ${step}`}</h1> */}
               <SelectRole />
               {/* เช็ค role: แล้วให้ใช้  step box ของ role นั้นๆ ------------------------ */}
               {role === "professional" ? (
@@ -145,7 +142,6 @@ function RegisterPage() {
                 </Alert>
               ) : null}
               {/* Step display เก่าของครีม ที่มีการเช็ค role เพิ่มเข้ามา: ไว้ใช้เช็คว่าตอนนี้อยู่หน้าไหน ให้ใช้ form ของหน้านั้นๆ ------------------------ */}
-
               <MainRegisterForm userRole={role} />
               {/* ปุ่ม next, previous, finish: ที่มีการเช็ค role เข้ามาเพิ่ม ------------------------ */}
               <RegFormButton />

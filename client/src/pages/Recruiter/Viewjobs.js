@@ -177,7 +177,6 @@ function ViewJobs() {
     console.log(candidateDetail);  
     });
     console.log(candidateData) // [undefined,undefined]
-
   const countData = userCandidate?.map((items) => {
     return items !== undefined;
   });*/

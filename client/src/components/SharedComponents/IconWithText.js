@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 function IconWithText({ icon, text, status }) {
   // component for professional & recruiter

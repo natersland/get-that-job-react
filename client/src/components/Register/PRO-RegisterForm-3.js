@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-
-// Contexts
+// Contexts ---------------------------------------
 import { useUserData } from "../../contexts/usersData";
 
 function ProRegisterForm3() {

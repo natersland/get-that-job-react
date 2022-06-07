@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // Contexts ---------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
 // Components ---------------------------------------
@@ -18,6 +20,9 @@ function UpdateCompanyProfile() {
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
 
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(location.pathname, "/profile", 3);
   const {
     setAlertMessage,
     setIsAlert,
@@ -42,6 +47,7 @@ function UpdateCompanyProfile() {
   };
 
   useEffect(() => {
+    checkUserPage();
     getComUsers();
   }, []);
 
@@ -83,7 +89,13 @@ function UpdateCompanyProfile() {
         }
       }
       updateComProfile(formData);
-      setAlertMessage(`Your company profile has been updated!`);
+      setAlertMessage(
+        `${
+          language === "en" || language === undefined
+            ? "Your company profile has been updated!"
+            : "อัพเดตโปรไฟล์ของคุณเรียบร้อยแล้ว!"
+        }`
+      );
       setIsAlert(true);
     } else if (companyName === "") {
       setAlertMessage(`Company name is required.`);
@@ -353,25 +365,6 @@ const UploadFileSection = styled.div`
   letter-spacing: 1.25px;
 `;
 
-const UploadButton = styled.label`
-  margin-right: 15px;
-  width: 134px;
-  height: 35px;
-  border-radius: 8px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  font-weight: 400;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-const ChooseFile = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-`;
 const Input1 = styled.input`
   width: 360px;
   height: 36px;
@@ -389,23 +382,6 @@ const DropDownList = styled.select`
   @media only screen and (min-width: 768px) {
     width: 380px;
   }
-`;
-const FileName = styled.p`
-  font-family: var(--secondary-font);
-  font-weight: 400;
-  color: #616161;
-  font-size: 14px;
-`;
-
-const InputLimit = styled.textarea`
-  width: 600px;
-  height: 65px;
-  border-radius: 8px;
-  font-family: var(--secondary-font);
-  border: 1px solid var(--secoundary-brand-color);
-  padding-left: 10px;
-  padding-right: 10px;
-  color: var(--tertiary-text-color);
 `;
 
 const Limitation = styled.p`

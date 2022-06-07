@@ -175,27 +175,28 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-/* Phone Input */
+/* Phone Inpput -------------------------------------*/
 .form-control {
   background-color: white !important;
   color: var(--secondary-text-color) !important;
   height: 39px !important;
   border-radius: 8px !important;
   border: 1px solid var(--secoundary-brand-color) !important;
-    /* Extra small devices (phones, 600px and down) */
-
 }
-
 .flag-dropdown {
   border: 1px solid var(--secoundary-brand-color) !important;
 }
-
+/* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .form-control { width: 300px !important;}
  
 }
-
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
   .form-control { width: 380px !important;}
+}
+
+/* MUI */
+.css-gvdu6e-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  color: white !important;
 }

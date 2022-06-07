@@ -6,13 +6,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import jwtInterceptor from "./utils/jwtInterceptor";
-// Context ---------------------------------------------
+// Contexts ---------------------------------------------
 import { AuthProvider } from "./contexts/authentication";
 import { NavigateProvider } from "./contexts/navigate";
 import { UserDataProvider } from "./contexts/usersData";
 import { JobsDataProvider } from "./contexts/jobsData";
 import { VadilationProvider } from "./contexts/vadilation";
 import { UtilsProvider } from "./contexts/utilsContext";
+// MUI Theme ---------------------------------------------
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/MuiTheme";
 

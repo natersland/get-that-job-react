@@ -4,13 +4,15 @@ import { useEffect } from "react";
 import moment from "moment";
 import _ from "lodash";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // components ----------------------------------
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/PRO-Applications/ApplicationToggle";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
-// Contexts
+// Contexts ---------------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
 
 // Hooks ------------------------------------
@@ -20,27 +22,39 @@ function ApplicationsPage() {
   const [user, setUser] = useState({});
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
-  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { loading, setLoading } = useUtils();
   const professionalId = localStorage.getItem("id");
+
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(
+    location.pathname,
+    "/applications",
+    2
+  );
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
-  const getApplications = async () => {
-    try {
-      setLoading(true);
-      const results = await axios.get(url);
-      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
-      setApplication(_.reverse(results?.data?.applications));
-      setUserJobs(results?.data?.jobDetail);
-      setUser(results.data);
-      setCompaniesData(results?.data?.companyDetail);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+  const fetchData = async () => {
+    setLoading(true);
+    function getApplications() {
+      return axios.get(url);
     }
-    return {
-      applications,
-    };
+    function getButtonStatus() {
+      return axios.get(url);
+    }
+    await Promise.all([getApplications(), getButtonStatus()]).then(function (
+      results
+    ) {
+      // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
+      setApplication(_.reverse(results[0]?.data?.applications));
+      setUserJobs(results[0]?.data?.jobDetail);
+      setUser(results[0].data);
+      setCompaniesData(results[0]?.data?.companyDetail);
+
+      setLoading(false);
+    });
   };
+
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
   const reFetch = async () => {
     try {
@@ -136,7 +150,7 @@ function ApplicationsPage() {
     return items !== undefined;
   });
   useEffect(() => {
-    getApplications();
+    fetchData();
     changeApplicationStatus();
     reFetch();
   }, []);

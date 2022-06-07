@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";
 import { useVadilation } from "../../contexts/vadilation";
