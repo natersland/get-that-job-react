@@ -123,7 +123,6 @@ export const getAllJobsWithFilter = async (req, res, next) => {
     return res.json({
       data: jobs,
       total_jobs: totalJobs,
-
       total_pages: totalPages,
     });
   } catch (error) {

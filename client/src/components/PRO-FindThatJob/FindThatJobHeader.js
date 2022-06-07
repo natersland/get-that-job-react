@@ -31,37 +31,45 @@ function FindThatJobHeader({
         <HeadingText>Find that job</HeadingText>
         {/* ------------- Search Box Zone  ------------- */}
         <InputWrapper>
-          <div className="flex items-center justify-items-center">
-            <div>
-              <InputBoxLabel>SEARCH BY JOB TITLE OR COMPANY NAME</InputBoxLabel>
-              <SearchBox
-                className="gtj-input pink-border search-icon"
-                id="searchjobword"
-                name="searchjobword"
-                type="text"
-                onChange={(e) => setSearchJobText(e.target.value)}
-                value={searchJobText}
-                placeholder="manufacturing, sales, swim"
-              ></SearchBox>
+          <form action="/jobs" method="get">
+            <div className="flex items-center justify-items-center">
+              <div>
+                <InputBoxLabel>
+                  SEARCH BY JOB TITLE OR COMPANY NAME
+                </InputBoxLabel>
+                <SearchBox
+                  className="gtj-input pink-border search-icon"
+                  id="searchJobText"
+                  name="searchjobword"
+                  type="text"
+                  onChange={(e) => setSearchJobText(e.target.value)}
+                  value={searchJobText}
+                  placeholder="manufacturing, sales, swim"
+                ></SearchBox>
+              </div>
+              {/*   <div>
+                <span className="inline">
+                  <SearchButton
+                    className="btn btn-md btn-active mt-5 ml-3"
+                    type="submit"
+                  >
+                    Search
+                  </SearchButton>
+                </span>
+              </div> */}
+              <div>
+                <span className="inline">
+                  <button
+                    type="button"
+                    className="btn btn-pink btn-md mt-5 ml-3"
+                    onClick={resetData}
+                  >
+                    Clear
+                  </button>
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="inline">
-                <SearchButton className="btn btn-md btn-active mt-5 ml-3">
-                  Search
-                </SearchButton>
-              </span>
-            </div>
-            <div>
-              <span className="inline">
-                <button
-                  className="btn btn-pink btn-md mt-5 ml-3"
-                  onClick={resetData}
-                >
-                  Clear
-                </button>
-              </span>
-            </div>
-          </div>
+          </form>
         </InputWrapper>
       </HeaderSection>
 
@@ -200,6 +208,7 @@ const SearchBox = styled.input`
 `;
 const SearchButton = styled.button`
   display: inline;
+  background-color: var(--primary-brand-color);
 `;
 
 const SalaryBox = styled.div`

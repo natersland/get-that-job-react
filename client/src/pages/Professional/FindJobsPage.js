@@ -21,6 +21,8 @@ import { color } from "@mui/system";
 
 function FindJobsPage() {
   // State for filter searching ----------------------------------
+  /*   const { search } = window.location;
+  const query = new URLSearchParams(search).get("s"); */
   const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
@@ -60,6 +62,7 @@ function FindJobsPage() {
       setLoading(false);
     });
   };
+
   const { data, reFetch } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
@@ -77,9 +80,7 @@ function FindJobsPage() {
   ]);
 
   // render start here ----------------------------------------
-  return loading ? (
-    <CircularIndeterminate />
-  ) : (
+  return (
     <Wrapper>
       <AlertDialog />
       {/*Header: filter box zone --------------------------------------- */}{" "}
@@ -151,28 +152,28 @@ const Wrapper = styled.section`
 
   @media only screen and (max-width: 600px) {
     margin: 30px;
-    width: 80vw;
+    width: 80%;
   }
   /* Medium devices (landscape tablets, 768px and up) */
   @media only screen and (min-width: 768px) {
     margin: 30px;
-    width: 90vw;
+    width: 90%;
   }
   /* Large devices (laptops/desktops, 992px and up) */
   @media only screen and (min-width: 992px) {
     margin-top: 0;
     margin-left: 300px;
-    width: 70vw;
+    width: 70%;
   }
   /* Extra (desktops, 1400 and up) */
   @media only screen and (min-width: 1200px) {
-    width: 60vw;
+    width: 60%;
     padding: 10px;
     margin-left: 300px;
   }
   /* Extra (desktops, 1400 and up) */
   @media only screen and (min-width: 1400px) {
-    margin-left: 300vw;
+    margin-left: 300px;
   }
   /* Extra (desktops, 1920 and up) */
   @media only screen and (min-width: 1920px) {
