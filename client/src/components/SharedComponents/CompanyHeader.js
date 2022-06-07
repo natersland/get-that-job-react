@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 // Contexts -------------------------------------------
 import { useNavigate } from "react-router-dom";
 import { useJobsData } from "../../contexts/jobsData";
+import { useNav } from "../../contexts/navigate";
 // Images -------------------------------------------
 import FocusIcon from "../../assets/focus.svg";
 import BackArrow from "../../assets/items/backArrow.svg";
@@ -11,13 +12,17 @@ function CompanyHeader() {
   // component ตรงข้อมูลบริษัทในหน้า FindThatJob -> See More เอาไปใช้ได้กับหน้า ดูงานของบริษัทนี้ทั้งหมด (ไม่มีใน scope งาน)
   const { job } = useJobsData();
   const navigate = useNavigate();
+  const { menuIndex } = useNav();
 
   return (
     <Wrapper>
       <BackBtn
         className="btn"
         onClick={() => {
-          navigate("/findjobs");
+          {
+            menuIndex === 1 ? navigate("/findjobs") : navigate("/following");
+          }
+
           localStorage.removeItem("jobId");
         }}
       >

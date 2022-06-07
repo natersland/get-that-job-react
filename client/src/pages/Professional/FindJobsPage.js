@@ -17,6 +17,7 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 import { useUtils } from "../../contexts/utilsContext";
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
+import { color } from "@mui/system";
 
 function FindJobsPage() {
   // State for filter searching ----------------------------------
@@ -136,7 +137,7 @@ function FindJobsPage() {
             defaultPage={page}
             onClick={componentDidMount}
             onChange={(event, value) => setPage(value)}
-            sx={{ marginLeft: "-45px" }}
+            sx={{ marginLeft: "-45px", color: "#ffffff !important" }}
           />
         </NumberOfPage>
       </FindThatJobWrapper>

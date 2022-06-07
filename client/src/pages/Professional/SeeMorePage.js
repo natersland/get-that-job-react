@@ -2,6 +2,9 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useNav } from "../../contexts/navigate";
@@ -17,6 +20,7 @@ import CircularIndeterminate from "../../components/Utilities/CircularIndetermin
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Pictures -------------------------------------
 import UserStatusCheckerBtn from "../../components/SharedComponents/UserStatusCheckerBtn";
+import { height } from "@mui/system";
 
 function SeeMorePage() {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
@@ -122,7 +126,13 @@ function SeeMorePage() {
       <BackDropLoading />
       <AlertDialog />
       {loading ? (
-        <CircularIndeterminate />
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <LinearProgress />
+        </Box>
       ) : (
         <div>
           <Header>
