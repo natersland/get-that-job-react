@@ -26,7 +26,36 @@ function CandidateCard1({
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
+    let initialTextStatus = "MARK AS STARTED";
+    const [textBtn, setTextBtn] = useState(initialTextStatus);
 
+    const updateApplication = async (appId) => {
+      console.log(appId, "appId");
+      await axios.put(`http://localhost:4000/applications/${appId}`, {});
+    };
+
+    const checkUserProfile = async (event) => {
+      const handleSubmit = () => {
+        let applicationStatus = ["applied", "reviewing", "finished"];
+        event.preventDefault();
+        console.log("you clicked to changed status");
+
+        if (applicationStatus === "applied") {
+          applicationStatus = "reviewing";
+          updateApplication();
+          setTextBtn("MARK AS FINISHED");
+          console.log("change to mark as finished");
+        } else if (applicationStatus === "reviewing") {
+          applicationStatus = "finished";
+          updateApplication();
+          console.log("change to finished");
+        }
+      };
+
+      handleSubmit();
+    };
+
+    console.log(applicationStatus, "applicationStatus");
     return (
       <BeforeToggleCard>
         {fistLogIn ? (
@@ -78,9 +107,18 @@ function CandidateCard1({
         </CandidateCenterCard>
 
         <CandidateRightCard>
-          <MarkTextButton>
-            <MarkText>MARK AS STARTED</MarkText>
-          </MarkTextButton>
+          <form
+            id="submitChangeStatusBtn"
+            onSubmit={(e) => {
+              checkUserProfile(e);
+            }}>
+            <MarkTextButton
+              htmlFor="submitChangeStatusBtn"
+              value={applicationStatus}
+              type="submit">
+              <MarkText>{textBtn}</MarkText>
+            </MarkTextButton>
+          </form>
         </CandidateRightCard>
       </BeforeToggleCard>
     );
