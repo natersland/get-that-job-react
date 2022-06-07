@@ -19,42 +19,29 @@ import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import IconWithText from "../../components/SharedComponents/IconWithText";
 import moment from "moment";
 
-//--------------------------------------------------1st function ---------------------------------------------------------//
+//------------------------------1st function -----------------------------------//
 function ViewJobs() {
   const [status, setStatus] = useState("option1");
-  const userRole = localStorage.getItem("role");
-  const jobId = localStorage.getItem("jobId");
-  const { setLoading } = useVadilation();
-  const navigate = useNavigate();
-  const { componentDidMount} = UtilitiesFunction();
-  const comProfileData = localStorage.getItem("id");
-
-  const [filterApllication, setFilterApplication] = useState("all");
-  const radioFilterData = [
-    { value: "all", label: "All" },
-    { value: "with candidate on track", label: "with candidate on track" },
-    { value: "close", label: "closed" },
-
-  ];
-
   const [job, setJob] = useState([]);
   const [candidate, setCandidate] = useState([]);
-  console.log(job);
+  const userRole = localStorage.getItem("role");
+  const [filterApllication, setFilterApplication] = useState("all");
 
-    /*const candidateData = candidate?.map((data,index) => {
-    let candidateDetail = _.find(job, {_id: data?.jobId });
-    console.log(candidateDetail)
-    return( <div></div>
-    )
-  })
+  const radioFilterData = [
+    { value: "all", label: "All" },
+    { value: true, label: "with candidate on track" },
+    { value: false, label: "closed" },
+  ];
 
-  const countData = candidateData.filter((items) => {
-    return items !== undefined;
-  });*/
 
-  //console.log(candidateData);
+  const { setLoading } = useVadilation();
+  const navigate = useNavigate();
+  const { componentDidMount } = UtilitiesFunction();
 
-  //------------------------------------------------- get data to display -------------------------------------------
+  const comProfileData = localStorage.getItem("id");
+  const jobId = localStorage.getItem("jobId");
+
+  // get data to display ---------------
   const getJobPost = async () => {
     try {
       const results = await axios.get(
@@ -64,7 +51,6 @@ function ViewJobs() {
       setJob(_.reverse(results.data.jobs));
       setCandidate(results.data.candidate)
 
-      console.log("candidate", results.data.candidate);
     } catch (error) {
       console.log(error);
     }
@@ -74,29 +60,26 @@ function ViewJobs() {
     };
   };
 
+  // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
+  const updateStatusByJobId = async (jobId) => {
+    console.log(jobId, "jobId");
+    await axios.put(`http://localhost:4000/jobs/status/${jobId}`, {});
+  };
+
   useEffect(() => {
     getJobPost();
   }, []);
 
-  //--------------------------- function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา ------------------------------------------------
-  const updateStatusByJobId = async (jobId) => {
-    console.log(jobId, "jobId");
-    await axios.put(`http://localhost:4000/jobs/${jobId}`, {});
-  };
-
-  //--------------------------------------------------------------------------------------------------------------------------
-
   return (
     <Content>
-
       <Heading1>
         <HeadingText>Job Posting</HeadingText>
         <RadioForm>
-        <RadioFilter
-          formlabel="Filter your job posting"
-          radioData={radioFilterData}
-          stateVariable={filterApllication}
-          setStateVariable={setFilterApplication}
+          <RadioFilter
+            formlabel="Filter your job posting"
+            radioData={radioFilterData}
+            stateVariable={filterApllication}
+            setStateVariable={setFilterApplication}
           />
         </RadioForm>
       </Heading1>
@@ -104,34 +87,50 @@ function ViewJobs() {
       <Heading2>
         <Heading2Text> {job?.length} Jobs posting found</Heading2Text>
       </Heading2>
-      
       {job?.map((data) => {
-        //let candidateDetail = _.find(candidate, {jobId: job._id })
-        //console.log(candidateDetail);
-        return (
-          <Job
-            id={data._id}
-            jobTitle={data.jobTitle}
-            jobCategory={data.jobCategory}
-            jobStatus={data?.jobStatus}
-            jobType={data.jobType}
-            minSalary={data.minSalary}
-            maxSalary={data.maxSalary}
-            openOn={moment(data.createdJobDate).startOf().fromNow()}
-            //totalCandidate={candidateDetail?.length}
-            //candidateOnTrack= {candidateOnTrack}
-            aboutTheJob={data.aboutJob}
-            requirement={data.mandatoryReq}
-            optionalRequirement={data.optionalReq}
-            closedStatus={data.jobStatus}
-          />
-        );
-      })}
+                       
+            let countCandidate = _.find(candidate,{jobId : data._id});
+            
+            console.log(candidate);
+            console.log(countCandidate);
+            
+            /*const countData = countCandidate.filter((items) => {
+              return items !== undefined;
+            }); */         
+            //console.log(countData);
+    
+            const app = () =>{
+              return (
+                <Job
+                  id={data._id}
+                  jobTitle={data.jobTitle}
+                  jobCategory={data.jobCategory}
+                  jobType={data.jobType}
+                  minSalary={data.minSalary}
+                  maxSalary={data.maxSalary}
+                  openOn={moment(data.createdJobDate).startOf().fromNow()}
+                  //totalCandidate={countCandidate?.length}
+                  //candidateOnTrack= {candidateOnTrack}
+                  aboutTheJob={data.aboutJob}
+                  requirement={data.mandatoryReq}
+                  optionalRequirement={data.optionalReq}
+                />
+              ); 
+              }
+              console.log(data?.jobTitle)
+              console.log(data?.jobStatus)    
+              //console.log(job[0].jobStatus)
+
+            if (filterApllication === "all") {
+              return app();
+            } else if (filterApllication === data?.jobStatus) { // หาตัวแปรที่ return ค่า job status
+              return app();
+            } 
+          })}    
     </Content>
   );
 
-
-  //-----------------------------------------------------------2nd function -----------------------------------------------//
+  //------------------------------2nd function -----------------------------------//
   function Job(props) {
     const [toggle, setToggle] = useState(false);
     const [close, setClose] = useState(false);
@@ -139,21 +138,21 @@ function ViewJobs() {
     const [disable, setDisable] = useState(false);
 
     const { convertSalary } = UtilitiesFunction();
-  
+
     useEffect(() => {
       if (props.jobStatus === false) {
-        //console.log(props.jobStatus, "props.jobStatus");
+        console.log(props.jobStatus, "props.jobStatus");
         setClose(true);
         setDisable(true);
         setFont(true);
       }
     }, []);
 
+    
     // function สำหรับการกดปุ่่ม
     const handleCloseCLick = (event) => {
       event.preventDefault();
 
-   
       if (props.jobStatus === true) {
         updateStatusByJobId(props.id);
         setClose(!close);
@@ -168,69 +167,74 @@ function ViewJobs() {
       <div>
         <Jobcard key={props.id}>
           <JobCardMain>
-
             <JobCardMainLeft>
-                <div> <JobTitle key={props.id}>{props.jobTitle}</JobTitle></div>
-                <JobCardHeaderLeft>
-                      <JobCardHeaderLeft1>
-                        <Img>
-                          <img src={building} />
-                        </Img>
-                        <div>
-                          <Text1 key={props.id}>{props.jobCategory}</Text1>
-                        </div>
-                      </JobCardHeaderLeft1>
+              <div>
+                {" "}
+                <JobTitle key={props.id}>{props.jobTitle}</JobTitle>
+              </div>
+              <JobCardHeaderLeft>
+                <JobCardHeaderLeft1>
+                  <Img>
+                    <img src={building} />
+                  </Img>
+                  <div>
+                    <Text1 key={props.id}>{props.jobCategory}</Text1>
+                  </div>
+                </JobCardHeaderLeft1>
 
-                      <JobCardHeaderLeft2>
-                        <Img>
-                          <img src={calendar} />
-                        </Img>
-                        <div>
-                          <Text1 key={props.id}>{props.jobType}</Text1>
-                        </div>
-                      </JobCardHeaderLeft2>
+                <JobCardHeaderLeft2>
+                  <Img>
+                    <img src={calendar} />
+                  </Img>
+                  <div>
+                    <Text1 key={props.id}>{props.jobType}</Text1>
+                  </div>
+                </JobCardHeaderLeft2>
 
-                      <JobCardHeaderLeft2>
-                        <Img>
-                          <img src={money} />
-                        </Img>
-                        <div>
-                          <Text1 key={props.id}>
-                          {convertSalary(props.minSalary)} - {convertSalary(props.maxSalary)}{" "}
-                          </Text1>
-                        </div>
-                      </JobCardHeaderLeft2>
-                </JobCardHeaderLeft>
+                <JobCardHeaderLeft2>
+                  <Img>
+                    <img src={money} />
+                  </Img>
+                  <div>
+                    <Text1 key={props.id}>
+                      {convertSalary(props.minSalary)} -{" "}
+                      {convertSalary(props.maxSalary)}{" "}
+                    </Text1>
+                  </div>
+                </JobCardHeaderLeft2>
+              </JobCardHeaderLeft>
             </JobCardMainLeft>
-            
+
             <JobCenterCard>
+              <JobCenterCard1>
+                <IconWithText icon={mailOpen} text={props.openOn} />
+              </JobCenterCard1>
+              <JobCenterCard1>
+                <IconWithText icon={account} />
+              </JobCenterCard1>
 
-                        <JobCenterCard1>
-                            <IconWithText icon={mailOpen} text={props.openOn}/>                     
-                        </JobCenterCard1>                     
-                        <JobCenterCard1>
-                            <IconWithText icon={account} text={props.totalCandidate}                      
-                            />      
-                        </JobCenterCard1>
-
-                        <JobCenterCard1>
-                            <IconWithText icon={pinkperson} number={'props.candidateOnTrack'} text={'Candidates on track'}/>
-                        </JobCenterCard1>
-
-            </JobCenterCard>   
+              <JobCenterCard1>
+                <IconWithText
+                  icon={pinkperson}
+                  number={"props.candidateOnTrack"}
+                  text={"Candidates on track"}
+                />
+              </JobCenterCard1>
+            </JobCenterCard>
 
             <JobCardMainRight>
               <JobCardRight1>
-                <button className="btn btn-md btn-white"
-                onClick={() => {
-                  setLoading(true);
-                  localStorage.setItem("jobId", props.id);
-                  setTimeout(function () { 
-                  navigate(`/viewJobPosting/${props.id}`);
-                  componentDidMount();
-                  setLoading(false);
-                  }, 500);}}
-                >
+                <button
+                  className="btn btn-md btn-white"
+                  onClick={() => {
+                    setLoading(true);
+                    localStorage.setItem("jobId", props.id);
+                    setTimeout(function () {
+                      navigate(`/viewJobPosting/${props.id}`);
+                      componentDidMount();
+                      setLoading(false);
+                    }, 500);
+                  }}>
                   <ShowDiv>
                     <Img2>
                       <img src={search} />
@@ -241,38 +245,38 @@ function ViewJobs() {
               </JobCardRight1>
 
               <JobCardRight2>
-                  <form
-                    id="submitCloseBtn"
-                    onSubmit={(e) => {
-                      handleCloseCLick(e);
-                    }}>
-                    <button
-                      htmlFor="submitCloseBtn"
-                      id="buttonID"
-                      style={{
-                        borderRadius: "16px",
-                        padding: "8px 16px",
-                        height: "40px",
-                        width: "140px",
-                        backgroundColor: close ? "#E1E2E1" : "#BF5F82",
-                      }}
-                      value={job.jobStatus}
-                      type="submit">
-                      <CloseDiv>
-                        <Img2>
-                          <img src={close2} />
-                        </Img2>
-                        <p
-                          style={{
-                            color: close ? "lightgray" : "white",
-                          }}>
-                          {" "}
-                          {close ? "CLOSED" : "CLOSE"}
-                        </p>
-                      </CloseDiv>
-                    </button>
-                  </form>
-                </JobCardRight2>
+                <form
+                  id="submitCloseBtn"
+                  onSubmit={(e) => {
+                    handleCloseCLick(e);
+                  }}>
+                  <button
+                    htmlFor="submitCloseBtn"
+                    id="buttonID"
+                    style={{
+                      borderRadius: "16px",
+                      padding: "8px 16px",
+                      height: "40px",
+                      width: "140px",
+                      backgroundColor: close ? "#E1E2E1" : "#BF5F82",
+                    }}
+                    value={job.jobStatus}
+                    type="submit">
+                    <CloseDiv>
+                      <Img2>
+                        <img src={close2} />
+                      </Img2>
+                      <p
+                        style={{
+                          color: close ? "lightgray" : "white",
+                        }}>
+                        {" "}
+                        {close ? "CLOSED" : "CLOSE"}
+                      </p>
+                    </CloseDiv>
+                  </button>
+                </form>
+              </JobCardRight2>
             </JobCardMainRight>
           </JobCardMain>
 
@@ -485,22 +489,21 @@ const Detail = styled.div`
   width: 760px;
 `;
 
-const JobCenterCard = styled.div` 
-    width: 350px;
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
+const JobCenterCard = styled.div`
+  width: 350px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
 `;
 
-const JobCenterCard1 = styled.div` 
+const JobCenterCard1 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border:1px solid red;
-  
+  border: 1px solid red;
 `;
 
 //------------------------------------Text-----------------------------------------------//

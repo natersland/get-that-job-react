@@ -51,7 +51,7 @@ export const getOneJob = async (req, res) => {
           from: "users",
           localField: "applications.professionalId",
           foreignField: "_id",
-          as: "candidate"
+          as: "candidate",
         },
       },
       { $match: { _id: jobId } },
@@ -195,6 +195,22 @@ export const updateJob = async (req, res, next) => {
       ...req.body,
     };
     await jobsCollection.updateOne({ _id: jobId }, { $set: updateJobData });
+    res.status(200).json(`Job ${jobId} has been updated successful`);
+    console.log(`Updated job data id:${jobId} successful!`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+//อัพเดต status by jobId
+export const updateJobStatus = async (req, res, next) => {
+  try {
+    const jobId = ObjectId(req.params.id);
+
+    await jobsCollection.updateOne(
+      { _id: jobId },
+      { $set: { jobStatus: false } }
+    );
     res.status(200).json(`Job ${jobId} has been updated successful`);
     console.log(`Updated job data id:${jobId} successful!`);
   } catch (error) {

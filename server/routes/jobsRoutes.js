@@ -8,6 +8,7 @@ import {
   getAllJobsWithFilter,
   getOneJob,
   updateJob,
+  updateJobStatus,
 } from "../controllers/jobsControllers.js";
 const jobRouter = Router();
 
@@ -24,6 +25,8 @@ jobRouter
   // สร้างงานใหม่  -> http://localhost:4000/jobs/create
   .post("/create", createJob)
   // อัพเดตงาน 1 งาน-> http://localhost:4000/jobs/:id
-  .put("/:id", updateJob);
+  .put("/:id", updateJob)
+  //อัพเดต status by jobId -> http://localhost:4000/jobs/status/:id
+  .put("/status/:id", updateJobStatus);
 
 export default jobRouter;
