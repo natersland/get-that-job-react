@@ -1,4 +1,4 @@
-import React , { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import axios from "axios";
 import { useVadilation } from "../../contexts/vadilation";
@@ -13,23 +13,122 @@ import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import load from "../../img/download-line.png";
 
-
-function CandidateCard1 ({
+function CandidateCard1({
   name,
   email,
   phone,
   linkedin,
   experience,
   createdJobDate,
-  CV
-})
-{
+  applicationStatus,
+  CV,
+}) {
 
   const CandidateCardHeader = () => {
     const userRole = localStorage.getItem("role");
     const { fistLogIn } = useVadilation();
+    let initialTextStatus = "MARK AS STARTED";
+    const [textBtn, setTextBtn] = useState(initialTextStatus);
 
-    return( 
+    const updateApplication = async (appId) => {
+      console.log(appId, "appId");
+      await axios.put(`http://localhost:4000/applications/${appId}`, {});
+    };
+
+    const checkUserProfile = async (event) => {
+      const handleSubmit = () => {
+        let applicationStatus = ["applied", "reviewing", "finished"];
+        event.preventDefault();
+        console.log("you clicked to changed status");
+
+        if (applicationStatus === "applied") {
+          applicationStatus = "reviewing";
+          updateApplication();
+          setTextBtn("MARK AS FINISHED");
+          console.log("change to mark as finished");
+        } else if (applicationStatus === "reviewing") {
+          applicationStatus = "finished";
+          updateApplication();
+          console.log("change to finished");
+        }
+      };
+
+      handleSubmit();
+    };
+
+    console.log(applicationStatus, "applicationStatus");
+    return (
+      <BeforeToggleCard>
+        {fistLogIn ? (
+          <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
+        ) : null}
+        <CandidateLeftCard>
+          <CandidateDiv>
+            <CandidateName>{name}</CandidateName>
+          </CandidateDiv>
+
+          <MainInformation>
+            <MainInformation1>
+              <INImg>
+                <img src={IN} />
+              </INImg>
+              <TextInfo>{linkedin}</TextInfo>
+            </MainInformation1>
+          </MainInformation>
+        </CandidateLeftCard>
+
+        <CandidateCenterCard>
+          <CandidateCenterCard1>
+            <Email>
+              <Icon>
+                <img src={closedMail} />
+              </Icon>
+              <EmailText>{email}</EmailText>
+            </Email>
+            <Phone>
+              <Icon>
+                <img src={Phone1} />
+              </Icon>
+              <PhoneText>{phone}</PhoneText>
+            </Phone>
+          </CandidateCenterCard1>
+
+          <CandidateCenterCard2>
+            <IconWithText icon={closedMail} />
+            <Text3>
+              Sent on
+              <br />
+              {createdJobDate}
+            </Text3>
+          </CandidateCenterCard2>
+
+          <CandidateCenterCard3>
+            <IconWithText icon={waiting} text={applicationStatus} />
+          </CandidateCenterCard3>
+        </CandidateCenterCard>
+
+        <CandidateRightCard>
+          <form
+            id="submitChangeStatusBtn"
+            onSubmit={(e) => {
+              checkUserProfile(e);
+            }}>
+            <MarkTextButton
+              htmlFor="submitChangeStatusBtn"
+              value={applicationStatus}
+              type="submit">
+              <MarkText>{textBtn}</MarkText>
+            </MarkTextButton>
+          </form>
+        </CandidateRightCard>
+      </BeforeToggleCard>
+    );
+  };
+
+  const CandidateContent = () => {
+    return (
+      <div>
+
                 <BeforeToggleCard>
                     {fistLogIn ? (
                     <AlertDialog textDialog={`Login successful! Welcome ${userRole}`} />
@@ -87,18 +186,18 @@ function CandidateCard1 ({
     const CandidateContent = () => {
       return (
         <div>
+
         <CandidateDetails>
-              <CandidateDetails1>
-                  <Title>Professional experience</Title>
-                  <CandidateDetails2>
-                    <Detail>
-                    {experience}
-                    </Detail>
-                  </CandidateDetails2>
-              </CandidateDetails1>
+          <CandidateDetails1>
+            <Title>Professional experience</Title>
+            <CandidateDetails2>
+              <Detail>{experience}</Detail>
+            </CandidateDetails2>
+          </CandidateDetails1>
         </CandidateDetails>
 
         <Dowload>
+
             <DowloadButton
               className={`btn ${
                 CV === null || !CV ? "btn-gray" : "btn-active"
@@ -122,8 +221,16 @@ function CandidateCard1 ({
       <Wrapper2>
         <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
       </Wrapper2>
+
     );
-    }
+  };
+
+  return (
+    <Wrapper2>
+      <ToggleCard header={CandidateCardHeader()} content={CandidateContent()} />
+    </Wrapper2>
+  );
+}
 
 export default CandidateCard1;
 
@@ -165,7 +272,7 @@ const IconLabel = styled.p`
   font-weight: 400;
   margin-left: 5px;
   line-height: 16px;
-  text-align:center;
+  text-align: center;
 `;
 
 const TextInfo = styled.p`
@@ -176,8 +283,8 @@ const TextInfo = styled.p`
 `;
 
 const ToggleButton = styled.button`
-    margin-right: 10px;
-    margin-top: 40px;
+  margin-right: 10px;
+  margin-top: 40px;
 `;
 
 const CandidateDiv = styled.div`
@@ -193,7 +300,6 @@ const CandidateName = styled.p`
   font-family: var(--primary-font);
   color: var(--primary-text-color);
   font-weight: 500;
-  
 `;
 
 const CandidateLeftCard = styled.div`
@@ -210,13 +316,13 @@ const INImg = styled.div`
   margin-right: 5px;
 `;
 
-const CandidateCenterCard = styled.div` 
+const CandidateCenterCard = styled.div`
   width: 415px;
   display: flex;
   flex-direction: row;
 `;
 
-const CandidateCenterCard1 = styled.div` 
+const CandidateCenterCard1 = styled.div`
   width: 180px;
   height: 55px;
   margin-left: 10px;
@@ -225,7 +331,7 @@ const CandidateCenterCard1 = styled.div`
   padding-top: 5px;
 `;
 
-const CandidateCenterCard2 = styled.div` 
+const CandidateCenterCard2 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
@@ -235,7 +341,7 @@ const CandidateCenterCard2 = styled.div`
   padding-top: 5px;
 `;
 
-const CandidateCenterCard3 = styled.div` 
+const CandidateCenterCard3 = styled.div`
   width: 85px;
   height: 55px;
   margin-left: 10px;
@@ -245,15 +351,14 @@ const CandidateCenterCard3 = styled.div`
   padding-top: 5px;
 `;
 
-
-const CandidateRightCard = styled.div` 
+const CandidateRightCard = styled.div`
   width: 150px;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const Email = styled.div` 
+const Email = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -261,7 +366,7 @@ const Email = styled.div`
   margin-top: 5px;
 `;
 
-const Phone = styled.div` 
+const Phone = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -298,7 +403,19 @@ const MarkTextButton = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 14px;
-  border:1px solid pink;
+  border: 1px solid pink;
+`;
+
+const DowloadButton = styled.a`
+  width: 150px;
+  height: 35px;
+  font-weight: 500px;
+  color: var(--gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  border: 1px solid pink;
 `;
 
 const DowloadButton = styled.a`
@@ -344,7 +461,7 @@ const Detail = styled.div`
   width: 760px;
 `;
 
-const Dowload = styled.div` 
+const Dowload = styled.div`
   width: 944px;
   display: flex;
   flex-direction: row;
@@ -352,8 +469,7 @@ const Dowload = styled.div`
   padding-bottom: 20px;
 `;
 
-const FilterDiv = styled.div`
-`;
+const FilterDiv = styled.div``;
 
 const FilterText = styled.p`
   font-size: 10px;
@@ -399,3 +515,4 @@ const Text3 = styled.p`
   letter-spacing: 0.4px;
   line-height: 16px;
 `;
+

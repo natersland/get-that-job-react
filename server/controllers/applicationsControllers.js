@@ -55,6 +55,16 @@ export const changeApplicationStatus = async (req, res) => {
     .json(`Application id:${appId} has been changed status successful`);
   console.log(`Application id:${appId} has been changed status  successful`);
 };
+///=========== Update Application status
+
+export const updateAppStatus = async (req, res, next) => {
+  const appId = ObjectId(req.params.id);
+  await appCollection.updateOne({ _id: appId }, { $set: applicationStatus });
+  res
+    .status(200)
+    .json(`Application id:${appId} has been changed status successful`);
+  console.log(`Application id:${appId} had changed status  successful`);
+};
 
 // DELETE - ลบใบสมัคร ---------------------------------
 export const deleteApplication = async (req, res, next) => {
