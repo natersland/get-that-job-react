@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // Contexts ---------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
 // Components ---------------------------------------
@@ -18,6 +20,9 @@ function UpdateCompanyProfile() {
   const userId = localStorage.getItem("id");
   const userRole = localStorage.getItem("role");
 
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(location.pathname, "/profile", 3);
   const {
     setAlertMessage,
     setIsAlert,
@@ -42,6 +47,7 @@ function UpdateCompanyProfile() {
   };
 
   useEffect(() => {
+    checkUserPage();
     getComUsers();
   }, []);
 
@@ -83,7 +89,13 @@ function UpdateCompanyProfile() {
         }
       }
       updateComProfile(formData);
-      setAlertMessage(`Your company profile has been updated!`);
+      setAlertMessage(
+        `${
+          language === "en" || language === undefined
+            ? "Your company profile has been updated!"
+            : "อัพเดตโปรไฟล์ของคุณเรียบร้อยแล้ว!"
+        }`
+      );
       setIsAlert(true);
     } else if (companyName === "") {
       setAlertMessage(`Company name is required.`);

@@ -31,18 +31,40 @@ function FindThatJobHeader({
         <HeadingText>Find that job</HeadingText>
         {/* ------------- Search Box Zone  ------------- */}
         <InputWrapper>
-          <InputBoxLabel>SEARCH BY JOB TITLE OR COMPANY NAME</InputBoxLabel>
-          <SearchBox
-            className="gtj-input pink-border search-icon"
-            id="searchjobword"
-            name="searchjobword"
-            type="text"
-            onChange={(e) => setSearchJobText(e.target.value)}
-            value={searchJobText}
-            placeholder="manufacturing, sales, swim"
-          ></SearchBox>
+          <div className="flex items-center justify-items-center">
+            <div>
+              <InputBoxLabel>SEARCH BY JOB TITLE OR COMPANY NAME</InputBoxLabel>
+              <SearchBox
+                className="gtj-input pink-border search-icon"
+                id="searchjobword"
+                name="searchjobword"
+                type="text"
+                onChange={(e) => setSearchJobText(e.target.value)}
+                value={searchJobText}
+                placeholder="manufacturing, sales, swim"
+              ></SearchBox>
+            </div>
+            <div>
+              <span className="inline">
+                <SearchButton className="btn btn-md btn-active mt-5 ml-3">
+                  Search
+                </SearchButton>
+              </span>
+            </div>
+            <div>
+              <span className="inline">
+                <button
+                  className="btn btn-pink btn-md mt-5 ml-3"
+                  onClick={resetData}
+                >
+                  Clear
+                </button>
+              </span>
+            </div>
+          </div>
         </InputWrapper>
       </HeaderSection>
+
       {/* ------------- Category, Type, Salary Range Zone ------------- */}
       <FilterInputWrapper>
         {/* ------------- Box 1: Category ------------- */}
@@ -119,15 +141,14 @@ function FindThatJobHeader({
           </SalaryBox>
         </InputWrapperSection>
       </FilterInputWrapper>
-      <button className="btn btn-pink btn-md mt-3" onClick={resetData}>
-        Clear
-      </button>
     </Wrapper>
   );
 }
 export default FindThatJobHeader;
 const Wrapper = styled.section``;
-const HeaderSection = styled.div``;
+const HeaderSection = styled.div`
+  width: 100%;
+`;
 const HeadingText = styled.h1`
   padding-bottom: 10px;
   font-size: 2.1rem;
@@ -164,7 +185,7 @@ const InputWrapperSection = styled.div`
 `;
 const DropDownList = styled.select`
   color: var(--light-gray);
-  height: 36px;
+  height: 38px;
 `;
 
 const SearchBox = styled.input`
@@ -176,6 +197,9 @@ const SearchBox = styled.input`
   @media only screen and (min-width: 768px) {
     width: 500px;
   }
+`;
+const SearchButton = styled.button`
+  display: inline;
 `;
 
 const SalaryBox = styled.div`

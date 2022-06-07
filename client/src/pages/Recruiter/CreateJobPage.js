@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useUtils } from "../../contexts/utilsContext";
@@ -16,6 +18,13 @@ function CreateJobPage() {
   const [isError, setIsError] = useState(false);
   const userLanguage = localStorage.getItem("language");
 
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(
+    location.pathname,
+    "/createjob",
+    2
+  );
   const { filterComma, addCommas, removeCommas } = UtilitiesFunction();
   const settingUserLanguage = () => {
     setLanguage(userLanguage);
@@ -92,6 +101,7 @@ function CreateJobPage() {
   };
 
   useEffect(() => {
+    checkUserPage();
     settingUserLanguage();
   }, [minSalary, maxSalary, language]);
   return (

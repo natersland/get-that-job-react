@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import _ from "lodash";
+import { useNavigate } from "react-router-dom";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useNav } from "../../contexts/navigate";
 // Hooks --------------------------------------
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useFetch from "../../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
 import { useUtils } from "../../contexts/utilsContext";
 //Components ------------------------------------
 import CompanyHeader from "../../components/SharedComponents/CompanyHeader";
@@ -26,31 +26,41 @@ function SeeMorePage() {
   const navigate = useNavigate();
   const { job, setJob } = useJobsData();
   const { setMenuIndex } = useNav();
-  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
 
   // ดีงข้อมูลงานมาแสดง ----------------------------------
-  const getOneJob = async () => {
-    try {
-      setLoading(true);
-      const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
-      setJob(results.data.data);
-    } catch (error) {
-      console.log(error);
+  const fetchData = async () => {
+    setLoading(true);
+    function getOneJob() {
+      return axios.get(`http://localhost:4000/jobs/${jobId}`);
     }
-    return {
-      job,
-    };
+    function getButtonStatus() {
+      return axios.get(`http://localhost:4000/users/${professionalId}`);
+    }
+    try {
+      await Promise.all([getOneJob(), getButtonStatus()]).then(function (
+        results
+      ) {
+        setJob(results[0].data.data);
+      });
+    } catch (error) {
+      process.stdin.resume();
+      process.stdin.setEncoding("utf8");
+
+      process.stdin.on("data", function (data) {
+        if (data === "exit\n") process.exit();
+      });
+      console.log(error);
+      navigate("*");
+    } finally {
+      setTimeout(function () {
+        setLoading(false);
+      }, 500);
+    }
   };
 
   useEffect(() => {
-    getOneJob();
-    let timeOut;
-    if (job) {
-      timeOut = setTimeout(job, 1000);
-    }
-    return () => {
-      clearTimeout(timeOut);
-    };
+    fetchData();
   }, []);
 
   // fx สร้างใบสมัครงาน ----------------------------------
@@ -59,7 +69,7 @@ function SeeMorePage() {
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
-  const { loading, data, reFetch } = useFetch(
+  const { data, reFetch } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
   const checkUserProfile = async (event) => {
@@ -126,6 +136,8 @@ function SeeMorePage() {
                   mode="applynow"
                   fx={checkUserProfile}
                   jobId={jobId}
+                  data={data}
+                  reFetch={reFetch}
                 />
               </HeaderRight>
             </CompanyWrapper>
@@ -152,6 +164,8 @@ function SeeMorePage() {
                 mode="applynow"
                 fx={checkUserProfile}
                 jobId={jobId}
+                data={data}
+                reFetch={reFetch}
               />
             </ContentFooter>
           </ContentWrapper>

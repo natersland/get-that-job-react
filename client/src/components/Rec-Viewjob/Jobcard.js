@@ -24,11 +24,8 @@ function ShowJob2() {
   const getJobPost = async () => {
     try {
       const results = await axios.get(`http://localhost:4000/jobs/${jobId}`);
-      console.log(results);
-
       setJob(results.data.data);
       setJobDetails(_.reverse(results?.data.data.applications));
-      console.log(results.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +39,6 @@ function ShowJob2() {
     return items !== undefined;
   });
 
-  console.log(job);
   const title = job.jobTitle;
   const category = job.jobCategory;
   const type = job.jobType;

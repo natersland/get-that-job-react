@@ -9,8 +9,8 @@ import {
 import protect from "../middlewares/protect.js";
 // Controller  -----------------------------
 const applicationsRouter = Router();
-applicationsRouter.use(protect);
-
+/* applicationsRouter.use(protect);
+ */
 applicationsRouter
   // สร้างใบสมัครใหม่ -> http://localhost:4000/applications/create
   .post("/create", createApplication)

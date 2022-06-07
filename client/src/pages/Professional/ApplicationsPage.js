@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import moment from "moment";
 import _ from "lodash";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // components ----------------------------------
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/PRO-Applications/ApplicationToggle";
@@ -22,10 +24,19 @@ function ApplicationsPage() {
   const [companiesData, setCompaniesData] = useState({});
   const { loading, setLoading } = useUtils();
   const professionalId = localStorage.getItem("id");
+
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(
+    location.pathname,
+    "/applications",
+    2
+  );
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
   const url = `http://localhost:4000/users/${professionalId}`;
   const getApplications = async () => {
     try {
+      checkUserPage();
       setLoading(true);
       const results = await axios.get(url);
       // reverse data เพื่อให้แสดงใบสมัครล่าสุดจากใหม่ -> เก่า
@@ -37,9 +48,6 @@ function ApplicationsPage() {
     } catch (error) {
       console.log(error);
     }
-    return {
-      applications,
-    };
   };
 
   // reFecth ข้อมูลใหม่ เพื่ออัพเดตข้อมูลหลังจากลบใบสมัครไปแล้ว
@@ -97,7 +105,6 @@ function ApplicationsPage() {
     // ถ้าไม่หาข้อมูลจะ map ออกมามั่วมาก เพราะ jobDetail ไม่ได้เรียงตาม index ของ application ที่ user ส่งใบสมัครมา
     let jobDetail = _.find(userJobs, { _id: applicationData?.jobId });
     let companyDetail = _.find(companiesData, { _id: jobDetail?.recruiterId });
-    console.log("hi", jobDetail);
     const data = () => {
       return (
         <ApplicationToggle

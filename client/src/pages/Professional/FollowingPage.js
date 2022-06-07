@@ -2,34 +2,50 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import _ from "lodash";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // Components ------------------------------------------
 import JobCard from "../../components/SharedComponents/JobCard";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 // Contexts ------------------------------------------
 import { useUtils } from "../../contexts/utilsContext";
-
+// Hooks -------------------------
+import useFetch from "../../hooks/useFetch";
 function FollowingPage() {
   // Loading ----------------------------------
   const [isLoading, setIsLoading] = useState(false);
   const professionalId = localStorage.getItem("id");
   const [jobs, setJobs] = useState([]);
   const [userFollowingJobId, setUserFollowingJobId] = useState([]);
-  const { loading, setLoading } = useUtils();
+  const { loading } = useUtils();
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(
+    location.pathname,
+    "/following",
+    3
+  );
 
-  const jobdata = async () => {
-    setLoading(true);
-    const results = await axios.get(`http://localhost:4000/jobs/data`);
-    setJobs(results.data.data);
+  const fecthData = async () => {
+    checkUserPage();
+    setIsLoading(true);
+    function getJobData() {
+      return axios.get(`http://localhost:4000/jobs/data`);
+    }
+    function getUserData() {
+      return axios.get(`http://localhost:4000/users/${professionalId}`);
+    }
+    await Promise.all([getJobData(), getUserData()]).then(function (results) {
+      setJobs(results[0].data.data);
+      setUserFollowingJobId(results[1]?.data?.followingJobs);
+    });
+    setIsLoading(false);
   };
+  const { data, reFetch } = useFetch(
+    `http://localhost:4000/users/${professionalId}`
+  );
 
-  const getUserData = async () => {
-    const results = await axios.get(
-      `http://localhost:4000/users/${professionalId}`
-    );
-    setUserFollowingJobId(results?.data?.followingJobs);
-    setLoading(false);
-  };
   // fx แสดงข้อมูลfollowing job ของ user ทั้งหมด + ฟีลเตอร์ด้วย map ----------------------------------------------
   const jobsDataMapping = jobs?.map((job, index) => {
     const jobData = () => {
@@ -44,6 +60,8 @@ function FollowingPage() {
           maxSalary={job?.maxSalary}
           companyDetail={job?.company}
           jobId={job?._id}
+          data={data}
+          reFetch={reFetch}
         />
       );
     };
@@ -59,8 +77,7 @@ function FollowingPage() {
     return items !== undefined;
   });
   useEffect(() => {
-    jobdata();
-    getUserData();
+    fecthData();
   }, []);
 
   return (

@@ -133,11 +133,10 @@ const InputLimit = styled.textarea`
   width: 600px;
   height: 65px;
   border-radius: 8px;
-  font-family: var(--secondary-font);
   border: 1px solid var(--secoundary-brand-color);
   padding-left: 10px;
   padding-right: 10px;
-  color: var(--tertiary-text-color);
+  color: #8e8e8e;
 `;
 
 export default RecRegisterForm2;

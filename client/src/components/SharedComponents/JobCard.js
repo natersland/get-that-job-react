@@ -18,6 +18,8 @@ function JobCard({
   maxSalary,
   companyDetail,
   jobId,
+  data,
+  reFetch,
 }) {
   const { convertSalary } = UtilitiesFunction();
 
@@ -69,8 +71,18 @@ function JobCard({
 
       {/* Left Side: Footer ---------------------------------------------- */}
       <JobCardFooter>
-        <UserStatusCheckerBtn mode="follow" jobId={jobId} />
-        <UserStatusCheckerBtn mode="seemore" jobId={jobId} />
+        <UserStatusCheckerBtn
+          mode="follow"
+          jobId={jobId}
+          data={data}
+          reFetch={reFetch}
+        />
+        <UserStatusCheckerBtn
+          mode="seemore"
+          jobId={jobId}
+          data={data}
+          reFetch={reFetch}
+        />
       </JobCardFooter>
     </JobCardWrapper>
   );

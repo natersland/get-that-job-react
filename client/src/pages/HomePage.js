@@ -12,7 +12,7 @@ import teamData from "../data/teamData";
 import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
-  const { registerRoute } = useNav();
+  const { registerRoute, setMenuIndex } = useNav();
   const navigate = useNavigate();
 
   return (
@@ -41,6 +41,7 @@ const HomePage = () => {
           className=""
           onClick={() => {
             navigate("/login");
+            setMenuIndex(1);
           }}
         >
           I already have an account.

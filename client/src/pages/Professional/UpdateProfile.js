@@ -5,6 +5,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import ReactPhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
 // Images -------------------------------------
 import FileIcon from "../../assets/icons/file.png";
 // Contexts -------------------------------------
@@ -31,9 +33,13 @@ function UpdatePersonalProfile() {
   const userRole = localStorage.getItem("role");
   const { setAlertMessage, setIsAlert, setLoading, loading } = useUtils();
 
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(location.pathname, "/profile", 4);
   // Get professional user data ----------------------------------
   const getUsers = async () => {
     setLoading(true);
+    checkUserPage();
     const getResults = await axios.get(`http://localhost:4000/users/${userId}`);
     setShowCvFile(getResults?.data.cvFiles[0]?.url);
     setEmail(getResults.data.email);
