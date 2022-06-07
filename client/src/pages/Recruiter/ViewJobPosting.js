@@ -65,14 +65,12 @@ function ViewJobPosting () {
         />
       );
     };
-      // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
+
    if (filterApllication === "all") {
       return data();
-       // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
-   } else if (filterApllication === candidateDetail?.applicationStatus) {
+   } else if (filterApllication === jobDetailData?.applicationStatus) {
      return data();
     }
-    return data();
   });
   
   console.log(candidateData);

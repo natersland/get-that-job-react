@@ -20,8 +20,8 @@ function ShowJob2 () {
   const jobId = localStorage.getItem("jobId");
   const [job, setJob ] = useState({});
   const [jobDetails, setJobDetails] = useState([]);
+  const [closed,setClosed] = useState([]);
 
-  
   const getJobPost = async () => {
     try {
       const results = await axios.get(
@@ -31,6 +31,7 @@ function ShowJob2 () {
 
       setJob(results.data.data);
       setJobDetails(_.reverse(results?.data.data.applications));
+      setClosed(results.data.data.jobStatus)
       console.log(results.data.data);
 
     } catch (error) {
@@ -46,9 +47,17 @@ function ShowJob2 () {
     return items !== undefined;
   });
 
+  const countCandidate = jobDetails.filter((items) => {
+    return items.applicationStatus !== "finished";
+  });
 
-
+  
+  console.log(countCandidate);
   console.log(job);
+  console.log(jobDetails);
+  console.log(closed);
+  
+
   const title = job.jobTitle;
   const category= job.jobCategory;
   const type = job.jobType;
@@ -57,6 +66,7 @@ function ShowJob2 () {
   const mendatoryReq = job.mendatoryReq;
   const optionalReq = job.optionalReq;
   const about = job.aboutJob;
+
 
   const { convertSalary } = UtilitiesFunction();
 
@@ -113,7 +123,7 @@ function ShowJob2 () {
                         </JobCenterCard1>
 
                         <JobCenterCard1>
-                            <IconWithText icon={pinkperson} number={'props.candidateOnTrack'} text={'Candidates on track'}/>
+                            <IconWithText icon={pinkperson} text={jobDetails?.length === 0 ? "0" : `${countCandidate.length}`}/>
                         </JobCenterCard1>
 
                     </JobCenterCard>   
@@ -129,14 +139,29 @@ function ShowJob2 () {
                             </ShowDiv>
                         </button>
 
-                        <button className="btn btn-md btn-pink">
-                            <CloseDiv>
-                                <ButtonImg>
-                                <img src={close2} />
-                                </ButtonImg>
-                                <CloseText>CLOSE</CloseText>
-                            </CloseDiv>
-                        </button>
+                        <button
+                      htmlFor="submitCloseBtn"
+                      id="buttonID"
+                      style={{
+                      borderRadius: "16px",
+                      padding: "8px 16px",
+                      height: "40px",
+                      width: "140px",
+                      backgroundColor: closed ? "#BF5F82" : "#E1E2E1",
+                        }}
+                        value={closed}
+                        type="submit">
+                        <CloseDiv>                         
+                            <img src={close2} />                         
+                            <p
+                            style={{
+                              color: closed ? "white" : "#8E8E8E",
+                            }}>
+                        {" "}
+                        {closed ? "CLOSE" : "CLOSED"}
+                      </p>
+                    </CloseDiv>
+                  </button>
                     </JobRightCard>
                 </BeforeToggleCard>
             
@@ -206,7 +231,7 @@ const MainInformation1 = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 105px;
+  width: 115px;
 `;
 const Icon = styled.div`
   width: 13px;
@@ -307,7 +332,7 @@ const CloseDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 80px;
+  width: 95px;
   align-items: center;
 `;
 
