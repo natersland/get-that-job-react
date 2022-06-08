@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "@emotion/styled";
 import "../../App.css";
@@ -49,6 +49,7 @@ function ViewJobs() {
       //setStatus(results.data.jobs);
       setJob(_.reverse(results.data.jobs));
       setCandidate(results.data.candidate)
+
     } catch (error) {
       console.log(error);
     }
@@ -87,7 +88,6 @@ function ViewJobs() {
       </Heading2>
 
       {job?.map((data) => {
-
             
             const countData = candidate.filter((items) => {
               return items.jobId === data._id;
@@ -125,9 +125,8 @@ function ViewJobs() {
             }
           })}   
 
-
     </Content>
-
+  );
 
   //------------------------------2nd function -----------------------------------//
   function Job(props) {
@@ -137,7 +136,7 @@ function ViewJobs() {
     const [disable, setDisable] = useState(false);
 
     const { convertSalary } = UtilitiesFunction();
-    
+
     useEffect(() => {
       if (props.jobStatus === false) {
         console.log(props.jobStatus, "props.jobStatus");
@@ -147,48 +146,7 @@ function ViewJobs() {
       }
     }, []);
 
-    //----------------------------------------------------------------------------------------------------------------//
-
-    const [jobDetails, setJobDetails] = useState([]);
-    const [userCandidate, setUserCandidates] = useState();
-
-    const recruiterId = localStorage.getItem("id");
-
-    const url = `http://localhost:4000/users/${recruiterId}`;
-
-    const getApplications = async () => {
-      try {
-        const results = await axios.get(url);
-        setJobDetails(_.reverse(results?.data.jobs)); // เก็บข้อมูลจำนวนงานที่มี jobId
-        setUserCandidates(results?.data.candidate); // เก็บข้อมูล candidate ที่มี jobId
-      } catch (error) {
-        console.log(error);
-      }
-      return {
-        jobDetails,
-      };
-    };
-
-    /* console.log(jobDetails)
-    console.log(userCandidate); */
-
-    /*const candidateData = userCandidate?.map((Data,index) => {
-    let candidateDetail = _.find(jobDetails, {_id: Data?.jobId });  // หา candidate ที่มี jobId
-    console.log(candidateDetail);  
-    });
-    console.log(candidateData) // [undefined,undefined]
-
-  const countData = userCandidate?.map((items) => {
-    return items !== undefined;
-  });*/
-
-    useEffect(() => {
-      getApplications();
-    }, []);
-
-    //----------------------------------------------------------------------------------------------------------------//
-
-
+    
     // function สำหรับการกดปุ่่ม
     const handleCloseCLick = (event) => {
       event.preventDefault();

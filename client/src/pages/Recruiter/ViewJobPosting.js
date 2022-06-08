@@ -11,13 +11,14 @@ import moment from "moment";
 import axios from "axios";
 import { useEffect } from "react";
 
-function ViewJobPosting() {
+
+function ViewJobPosting () {
   const [jobDetails, setJobDetails] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
 
-  const recruiterId = localStorage.getItem("jobId");
+  const recruiterId = localStorage.getItem("jobId");  
   const url = `http://localhost:4000/jobs/${recruiterId}`;
   const getApplications = async () => {
     try {
@@ -33,10 +34,10 @@ function ViewJobPosting() {
     };
   };
 
-  //console.log(jobDetails);
-  //console.log(userCandidate);
+  console.log(jobDetails);
+  console.log(userCandidate);
   //console.log(jobs);
-
+ 
   const radioFilterData = [
     { value: "all", label: "All" },
     { value: "waiting", label: "Waiting" },
@@ -45,17 +46,11 @@ function ViewJobPosting() {
   ];
 
   const candidateData = jobDetails?.map((jobDetailData, index) => {
-    let candidateDetail = _.find(userCandidate, {
-      _id: jobDetailData?.professionalId,
-    });
-    //let candidateCv = _.find(userCandidate,{jobId: jobs._id})
-
 
         let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
         
 
     console.log(candidateDetail);
-
     const data = () => {
       return (
         <CandidateCard1
@@ -65,26 +60,20 @@ function ViewJobPosting() {
           phone={candidateDetail?.phone}
           linkedin={candidateDetail?.linkedin}
           experience={candidateDetail?.experience}
-          applicationStatus={jobDetailData?.applicationStatus}
-          //CV ={candidateCv.cvFiles}
-
           createdJobDate={moment(jobDetailData?.appliedDate).startOf().fromNow()}
           CV = {candidateDetail?.cvFiles[0]?.url}
-
         />
       );
     };
 
-    // ถ้าสิ่งที่ user เลือก ตรงกันกับ สถานะใบสมัคร ให้แสดงแค่ข้อมูลก้อนนั้นออกมา
-    if (filterApllication === "all") {
+   if (filterApllication === "all") {
       return data();
-      // ถ้า user เลือก all ให้แสดงข้อมูลทั้งหมดออกมาเลย
-    } else if (filterApllication === candidateDetail?.applicationStatus) {
-      return data();
+   } else if (filterApllication === jobDetailData?.applicationStatus) {
+     return data();
     }
   });
-
-  //console.log(candidateData);
+  
+  console.log(candidateData);
   const countData = candidateData.filter((items) => {
     return items !== undefined;
   });
@@ -92,52 +81,49 @@ function ViewJobPosting() {
     getApplications();
   }, []);
 
-  return (
+
+    return (
     <Main>
-      {/*-------------------------------------------------------*Header*------------------------------------------*/}
-      <Back
-        onClick={() => {
-          navigate("/viewjobs");
-          localStorage.removeItem("userId");
-        }}>
-        <IconBack>
-          <img src={leftSign} />
-        </IconBack>
-        <BackText> Back </BackText>
-      </Back>
-      <HeadingText>Show Job Posting</HeadingText>
+        {/*-------------------------------------------------------*Header*------------------------------------------*/}
+            <Back
+            onClick={() => {
+              navigate("/viewjobs");
+              localStorage.removeItem("userId");
+            }}
+            >
+                <IconBack><img src={leftSign} /></IconBack> 
+                <BackText> Back </BackText>
+            </Back>
+            <HeadingText>Show Job Posting</HeadingText>
 
-      {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
+        {/*-------------------------------------------------------*Job Card*------------------------------------------*/}
+          
+       {<ShowJob2/>}
+        
 
-      {<ShowJob2 />}
+        {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
+            
+          <RadioFilter
+          formlabel="Filter your applications"
+          radioData={radioFilterData}
+          stateVariable={filterApllication}
+          setStateVariable={setFilterApplication}
+          />
 
-      {/*-------------------------------------------------------*Filter part*------------------------------------------*/}
-
-      <RadioFilter
-        formlabel="Filter your applications"
-        radioData={radioFilterData}
-        stateVariable={filterApllication}
-        setStateVariable={setFilterApplication}
-      />
-
-      {/*-------------------------------------------------------*Found Posting*------------------------------------------*/}
-
-      <Found>
-        <FoundText>
-          {" "}
-          {jobDetails?.length === 0 ? "0" : `${countData.length} `} Candidates
-          found
-        </FoundText>
-      </Found>
-
-      {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
-
-      {candidateData}
+        {/*-------------------------------------------------------*Found Posting*------------------------------------------*/}
+        
+        <Found>
+        <FoundText> {jobDetails?.length === 0 ? "0" : `${countData.length} `}{" "}Candidates found</FoundText>
+        </Found>
+        
+        {/*-------------------------------------------------------*Candidate Card*------------------------------------------*/}
+        
+        {candidateData}
     </Main>
-  );
-}
+    )
+};
 
-export default ViewJobPosting;
+export default ViewJobPosting
 
 const HeadingText = styled.p`
   font-size: 34px;
@@ -182,22 +168,6 @@ const IconBack = styled.div`
 
 //---------------------------------------------Filter Part-----------------------------------------------------//
 
-const FilterDiv = styled.div``;
-
-const FilterText = styled.p`
-  font-size: 10px;
-  font-weight: 400;
-  font-font-family: var(--seconary-font);
-  color: var(--primary-text- color);
-`;
-
-const RadioFormMain = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  width: 300px;
-`;
 
 const RadioForm = styled.div`
   display: flex;
@@ -206,17 +176,6 @@ const RadioForm = styled.div`
   height: 30px;
 `;
 
-const RadioBtn = styled.input`
-  accent-color: var(--secoundary-brand-color);
-`;
-
-const Radiotext = styled.p`
-  font-size: 14px;
-  font-weight: 400;
-  font-font-family: var(--seconary-font);
-  color: var(--gray);
-  margin-left: 5px;
-`;
 //---------------------------------------------Found Part -----------------------------------------------------//
 const Found = styled.div`
   display: flex;
