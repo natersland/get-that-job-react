@@ -21,7 +21,6 @@ import moment from "moment";
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
-  
   const [job, setJob] = useState([]);
   const [candidate, setCandidate] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
@@ -31,7 +30,6 @@ function ViewJobs() {
     { value: "true", label: "with candidate on track" },
     { value: "false", label: "closed" },
   ];
-
 
   const { setLoading } = useVadilation();
   const navigate = useNavigate();
@@ -48,14 +46,13 @@ function ViewJobs() {
       );
       //setStatus(results.data.jobs);
       setJob(_.reverse(results.data.jobs));
-      setCandidate(results.data.candidate)
-
+      setCandidate(results.data.candidate);
     } catch (error) {
       console.log(error);
     }
     return {
       job,
-      candidate
+      candidate,
     };
   };
 
@@ -82,49 +79,51 @@ function ViewJobs() {
           />
         </RadioForm>
       </Heading1>
-              
+
       <Heading2>
         <Heading2Text> {job?.length} Jobs posting found</Heading2Text>
       </Heading2>
 
       {job?.map((data) => {
-            
-            const countData = candidate.filter((items) => {
-              return items.jobId === data._id;
-            });           
+        const countData = candidate.filter((items) => {
+          return items.jobId === data._id;
+        });
 
-            console.log(countData);
-            const countTrack = countData.filter((items) => {
-              return items.applicationStatus !== "finished";
-            });
+        //console.log(countData);
+        const countTrack = countData.filter((items) => {
+          return items.applicationStatus !== "finished";
+        });
 
-            //console.log(countTrack);
-            const app = () =>{
-              return (
-                <Job
-                  id={data._id}
-                  jobTitle={data.jobTitle}
-                  jobCategory={data.jobCategory}
-                  jobType={data.jobType}
-                  minSalary={data.minSalary}
-                  maxSalary={data.maxSalary}
-                  openOn={moment(data.createdJobDate).startOf().fromNow()}
-                  totalCandidate={countData.length}
-                  candidateOnTrack={countTrack.length}
-                  aboutTheJob={data.aboutJob}
-                  requirement={data.mandatoryReq}
-                  optionalRequirement={data.optionalReq}
-                />
-              ); 
-              }
-            
-            if (filterApllication === "all") {
-              return app();
-            } else if (filterApllication === data?.jobStatus.toString()) { // หาตัวแปรที่ return ค่า job status
-              return app();       
-            }
-          })}   
+        //console.log(countTrack);
+        const app = () => {
+          return (
+            <Job
+              id={data._id}
+              jobTitle={data.jobTitle}
+              jobCategory={data.jobCategory}
+              jobType={data.jobType}
+              minSalary={data.minSalary}
+              maxSalary={data.maxSalary}
+              openOn={moment(data.createdJobDate).startOf().fromNow()}
+              totalCandidate={countData.length}
+              candidateOnTrack={countTrack.length}
+              aboutTheJob={data.aboutJob}
+              requirement={data.mandatoryReq}
+              optionalRequirement={data.optionalReq}
+              closedStatus={data.jobStatus}
+              jobStatus={data?.jobStatus}
+              jobList={job}
+            />
+          );
+        };
 
+        if (filterApllication === "all") {
+          return app();
+        } else if (filterApllication === data?.jobStatus.toString()) {
+          // หาตัวแปรที่ return ค่า job status
+          return app();
+        }
+      })}
     </Content>
   );
 
@@ -204,27 +203,24 @@ function ViewJobs() {
 
             <JobCenterCard>
               <JobCenterCard1>
-                <IconWithText icon={mailOpen}/>
+                <IconWithText icon={mailOpen} />
                 <Text3 key={props.id}>
-                Open on 
-                <br/>
-                {props.openOn}
+                  Open on
+                  <br />
+                  {props.openOn}
                 </Text3>
               </JobCenterCard1>
               <JobCenterCard1>
-                <IconWithText icon={account}/>
+                <IconWithText icon={account} />
                 <Text3 key={props.id}>
-                {props.totalCandidate} {" "} Total Candidates
+                  {props.totalCandidate} Total Candidates
                 </Text3>
               </JobCenterCard1>
-             
 
               <JobCenterCard1>
-                <IconWithText
-                  icon={pinkperson}                
-                />
+                <IconWithText icon={pinkperson} />
                 <Text2 key={props.id}>
-                {props.candidateOnTrack} {" "} Candidates on track
+                  {props.candidateOnTrack} Candidates on track
                 </Text2>
               </JobCenterCard1>
             </JobCenterCard>
@@ -534,10 +530,10 @@ const Text1 = styled.p`
 const Text2 = styled.p`
   font-size: 12px;
   font-family: var(--seconary-font);
-  color: #F48FB1;
+  color: #f48fb1;
   font-weight: 400;
   margin-left: 8px;
-  text-align:center;
+  text-align: center;
   letter-spacing: 0.4px;
   line-height: 16px;
 `;
@@ -548,7 +544,7 @@ const Text3 = styled.p`
   color: #616161;
   font-weight: 400;
   margin-left: 8px;
-  text-align:center;
+  text-align: center;
   letter-spacing: 0.4px;
   line-height: 16px;
 `;
