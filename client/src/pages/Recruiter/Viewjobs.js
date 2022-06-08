@@ -71,6 +71,7 @@ function ViewJobs() {
 
   return (
     <Content>
+      <AlertDialog/>
       <Heading1>
         <HeadingText>Job Posting</HeadingText>
         <RadioForm>
@@ -234,12 +235,10 @@ function ViewJobs() {
                 <button
                   className="btn btn-md btn-white"
                   onClick={() => {
-                    setLoading(true);
                     localStorage.setItem("jobId", props.id);
                     setTimeout(function () {
                       navigate(`/viewJobPosting/${props.id}`);
                       componentDidMount();
-                      setLoading(false);
                     }, 500);
                   }}>
                   <ShowDiv>

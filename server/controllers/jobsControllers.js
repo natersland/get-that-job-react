@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // Schema Models ---------------------
 import JobModel from "../models/JobModel.js";
 // Database ---------------------------
-const jobsCollection = db.collection("jobs");
+const jobsCollection = db.collection("jobs2");
 
 // ดึงข้อมูลงาน 1 งาน --------------------------------------------------
 export const getOneJob = async (req, res) => {

@@ -30,7 +30,7 @@ export const getOneUserData = async (req, res, next) => {
       .aggregate([
         {
           $lookup: {
-            from: "jobs",
+            from: "jobs2",
             localField: "_id",
             foreignField: "recruiterId",
             as: "jobs",
@@ -47,7 +47,7 @@ export const getOneUserData = async (req, res, next) => {
 
         {
           $lookup: {
-            from: "jobs",
+            from: "jobs2",
             localField: "applications.jobId",
             foreignField: "_id",
             as: "jobDetail",
