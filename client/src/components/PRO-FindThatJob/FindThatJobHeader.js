@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
-import axios from "axios";
-import { useEffect, useState } from "react";
-// Contexts --------------------
+// Contexts ---------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 
 function FindThatJobHeader({
-  setIsLoading,
   setSearchJobText,
   setSearchMinSalaryText,
   setSearchMaxSalaryText,
@@ -14,13 +11,19 @@ function FindThatJobHeader({
   searchJobText,
   searchMinSalaryText,
   searchMaxSalaryText,
-  searchJobCategory,
-  keywordsNumber,
-  setKeywordsNumber,
   jobType,
+  searchJobCategory,
 }) {
   const { jobTypeList, jobCategoryList } = useJobsData();
 
+  const resetData = () => {
+    setSearchJobText("");
+    setSearchMinSalaryText("");
+    setSearchMaxSalaryText("");
+    setsearchJobCategory("");
+    setJobType("");
+    searchJobCategory("");
+  };
   return (
     <Wrapper className="pt-8">
       {/* ------------- Header Section  ------------- */}
@@ -28,18 +31,48 @@ function FindThatJobHeader({
         <HeadingText>Find that job</HeadingText>
         {/* ------------- Search Box Zone  ------------- */}
         <InputWrapper>
-          <InputBoxLabel>SEARCH BY JOB TITLE OR COMPANY NAME</InputBoxLabel>
-          <SearchBox
-            className="gtj-input pink-border search-icon"
-            id="searchjobword"
-            name="searchjobword"
-            type="text"
-            onChange={(e) => setSearchJobText(e.target.value)}
-            value={searchJobText}
-            placeholder="manufacturing, sales, swim"
-          ></SearchBox>
+          <form action="/jobs" method="get">
+            <div className="flex items-center justify-items-center">
+              <div>
+                <InputBoxLabel>
+                  SEARCH BY JOB TITLE OR COMPANY NAME
+                </InputBoxLabel>
+                <SearchBox
+                  className="gtj-input pink-border search-icon"
+                  id="searchJobText"
+                  name="searchjobword"
+                  type="text"
+                  onChange={(e) => setSearchJobText(e.target.value)}
+                  value={searchJobText}
+                  placeholder="manufacturing, sales, swim"
+                ></SearchBox>
+              </div>
+              {/*   <div>
+                <span className="inline">
+                  <SearchButton
+                    className="btn btn-md btn-active mt-5 ml-3"
+                    type="submit"
+                  >
+                    Search
+                  </SearchButton>
+                </span>
+              </div> */}
+              <div>
+                <span className="inline">
+                  <button
+                    type="button"
+                    className="btn btn-pink btn-md mt-5 ml-3"
+                    onClick={resetData}
+                  >
+                    Clear
+                  </button>
+                </span>
+              </div>
+            </div>
+          </form>
         </InputWrapper>
       </HeaderSection>
+
       {/* ------------- Category, Type, Salary Range Zone ------------- */}
       <FilterInputWrapper>
         {/* ------------- Box 1: Category ------------- */}
@@ -48,9 +81,10 @@ function FindThatJobHeader({
           <DropDownList
             className="gtj-input pink-border"
             onChange={(e) => setsearchJobCategory(e.target.value)}
+            value={searchJobCategory}
           >
-            <option value="" disabled selected>
-              Select a category
+            <option value="" selected>
+              All
             </option>
             {jobCategoryList.map((items, index) => {
               return (
@@ -69,9 +103,10 @@ function FindThatJobHeader({
             id="jobType"
             name="jobType"
             onChange={(e) => setJobType(e.target.value)}
+            value={jobType}
           >
-            <option value="" disabled selected>
-              Select a type
+            <option value="" selected>
+              All
             </option>
             {jobTypeList.map((items, index) => {
               return (
@@ -114,20 +149,14 @@ function FindThatJobHeader({
           </SalaryBox>
         </InputWrapperSection>
       </FilterInputWrapper>
-      {/* ---------------------------------------------------------- */}
-      {/* {`Search Input Text: ${searchJobText}`}
-      <br></br>
-      {`Job Data: ${jobs.length}`}
-      <br></br>
-      {`typeof minSalary input: ${typeof searchMinSalaryText}`}
-      <br></br>
-      {`typeof maxSalary input: ${typeof searchMaxSalaryText}`} */}
     </Wrapper>
   );
 }
 export default FindThatJobHeader;
 const Wrapper = styled.section``;
-const HeaderSection = styled.div``;
+const HeaderSection = styled.div`
+  width: 100%;
+`;
 const HeadingText = styled.h1`
   padding-bottom: 10px;
   font-size: 2.1rem;
@@ -164,7 +193,7 @@ const InputWrapperSection = styled.div`
 `;
 const DropDownList = styled.select`
   color: var(--light-gray);
-  height: 36px;
+  height: 38px;
 `;
 
 const SearchBox = styled.input`
@@ -176,6 +205,10 @@ const SearchBox = styled.input`
   @media only screen and (min-width: 768px) {
     width: 500px;
   }
+`;
+const SearchButton = styled.button`
+  display: inline;
+  background-color: var(--primary-brand-color);
 `;
 
 const SalaryBox = styled.div`

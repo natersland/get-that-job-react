@@ -3,7 +3,7 @@ import "./App.css";
 import UnauthenticatedApp from "./routes/UnauthenticatedApp";
 import ProfessionalApp from "./routes/ProfessionalApp";
 import RecruiterApp from "./routes/RecruiterApp";
-// 🌈 Context Fantasy -----------------------------------------
+// 🌈 Contexts -----------------------------------------
 import { useAuth } from "./contexts/authentication";
 
 function App() {

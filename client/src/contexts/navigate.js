@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+//Contexts --------------------------------
 import { useAuth } from "./authentication";
-
-//Contexts
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
 
@@ -23,12 +22,13 @@ function NavigateProvider(props) {
     setStep(0);
     setIsErrorEmail(false);
     setIsErrorPassword(false);
-    setMenuIndex(null);
+    setMenuIndex(1);
   };
   const navBarLinkChecker = (index) => {
     resetUserData();
     setIsErrorEmail(false);
     setIsErrorPassword(false);
+    setMenuIndex(1);
     setRole("professional");
     if (index === 0) {
       navigate("/register");
@@ -41,6 +41,7 @@ function NavigateProvider(props) {
   const registerRoute = () => {
     setIsErrorEmail(false);
     setIsErrorPassword(false);
+    setMenuIndex(1);
     navigate("/register");
   };
   // SideBar -----------------------------------

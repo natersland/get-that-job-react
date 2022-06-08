@@ -1,23 +1,29 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-// Components
+import { useLocation } from "react-router-dom";
+import useCheckLocation from "../../hooks/useCheckLocation";
+// Components ------------------------------------------------------
 import FindThatJobHeader from "../../components/PRO-FindThatJob/FindThatJobHeader";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 import JobCard from "../../components/SharedComponents/JobCard";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import Pagination from "@mui/material/Pagination";
-// Contexts ----------------------
+// Contexts ------------------------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
-// Utils -----------------------------
+// Utils ------------------------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
-// Hooks -----------------------------
-function FindJobsPage() {
-  const userRole = localStorage.getItem("role");
-  // State for filter searching ----------------------------------
-  const [searchJobText, setSearchJobText] = useState("");
+import { useUtils } from "../../contexts/utilsContext";
+// Hooks -------------------------
+import useFetch from "../../hooks/useFetch";
+import { color } from "@mui/system";
 
+function FindJobsPage() {
+  // State for filter searching ----------------------------------
+  /*   const { search } = window.location;
+  const query = new URLSearchParams(search).get("s"); */
+  const [searchJobText, setSearchJobText] = useState("");
   const [searchMinSalaryText, setSearchMinSalaryText] = useState("");
   const [searchMaxSalaryText, setSearchMaxSalaryText] = useState("");
   const [searchJobCategory, setsearchJobCategory] = useState("");
@@ -25,30 +31,45 @@ function FindJobsPage() {
   const [keywordsNumber, setKeywordsNumber] = useState("");
   const { jobs, setJobs } = useJobsData();
   // Loading ----------------------------------
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading, setLoading } = useUtils();
   // Pagination Start Here ----------------------------------
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalJobs, setTotalJobs] = useState(0);
 
+  const professionalId = localStorage.getItem("id");
   const { componentDidMount } = UtilitiesFunction();
+  // detect user refresh page and setting sidebar index ----------------------------
+  const location = useLocation();
+  const { checkUserPage } = useCheckLocation(location.pathname, "/findjobs", 1);
   // Fecth data from Back-End ---------------------------------
-
   const search = async () => {
-    setIsLoading(true);
-    const results = await axios.get(
-      `http://localhost:4000/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
-    );
-    setJobs(results.data.data);
-    setTotalPages(results.data.total_pages);
-
-    setTotalJobs(results.data.total_jobs);
-
-    setIsLoading(false);
+    setLoading(true);
+    function getJobData() {
+      return axios.get(
+        `http://localhost:4000/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
+      );
+    }
+    function getButtonStatus() {
+      return axios.get(`http://localhost:4000/users/${professionalId}`);
+    }
+    await Promise.all([getJobData(), getButtonStatus()]).then(function (
+      results
+    ) {
+      setJobs(results[0].data.data);
+      setTotalPages(results[0].data.total_pages);
+      setTotalJobs(results[0].data.total_jobs);
+      setLoading(false);
+    });
   };
+
+  const { data, reFetch } = useFetch(
+    `http://localhost:4000/users/${professionalId}`
+  );
 
   useEffect(() => {
     search();
+    checkUserPage();
   }, [
     searchJobText,
     searchMinSalaryText,
@@ -70,7 +91,7 @@ function FindJobsPage() {
         setsearchJobCategory={setsearchJobCategory}
         setJobType={setJobType}
         setKeywordsNumber={setKeywordsNumber}
-        setIsLoading={setIsLoading}
+        setIsLoading={setLoading}
         searchJobText={searchJobText}
         searchMinSalaryText={searchMinSalaryText}
         searchMaxSalaryText={searchMaxSalaryText}
@@ -84,7 +105,7 @@ function FindJobsPage() {
         <JobsCounterNumber>
           {searchJobText === "" ? totalJobs : jobs.length} jobs for you
         </JobsCounterNumber>
-        {isLoading ? (
+        {loading ? (
           <CircularIndeterminate />
         ) : (
           <FindThatJobGrid>
@@ -100,6 +121,8 @@ function FindJobsPage() {
                   maxSalary={job?.maxSalary}
                   companyDetail={job?.company}
                   jobId={job?._id}
+                  data={data}
+                  reFetch={reFetch}
                 />
               );
             })}
@@ -115,7 +138,7 @@ function FindJobsPage() {
             defaultPage={page}
             onClick={componentDidMount}
             onChange={(event, value) => setPage(value)}
-            sx={{ marginLeft: "-45px" }}
+            sx={{ marginLeft: "-45px", color: "#ffffff !important" }}
           />
         </NumberOfPage>
       </FindThatJobWrapper>

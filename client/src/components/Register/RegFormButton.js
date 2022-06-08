@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
+// Icons -----------------------------
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 // contexts --------------------------
 import { useUserData } from "../../contexts/usersData";

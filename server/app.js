@@ -13,7 +13,6 @@ import authRouter from "./routes/authRoutes.js";
 import jobRouter from "./routes/jobsRoutes.js";
 import usersRouter from "./routes/usersRoutes.js";
 import applicationsRouter from "./routes/applicationsRoutes.js";
-
 // --------------------------------------------------------
 
 async function init() {

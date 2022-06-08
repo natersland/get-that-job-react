@@ -6,9 +6,7 @@ const VadilationContext = React.createContext();
 
 function VadilationProvider(props) {
   const { password, email, passwordConfirmed } = useUserData();
-  const { isAlert, setIsAlert, setAlertMessage } = useUtils();
-  // Others -----------------------------------------
-  const [fistLogIn, setFirstLogIn] = useState(false);
+  const { isAlert, setIsAlert } = useUtils();
   // This Zone is for Register form vadilate only -------------------------------------
   const [step, setStep] = useState(0);
   const [isErrorEmail, setIsErrorEmail] = useState(false);
@@ -38,7 +36,6 @@ function VadilationProvider(props) {
     // if password & confirm password is blank
     if (password === "" && passwordConfirmed === "") {
       setIsErrorPassword(true);
-      console.log("hi");
     }
     if (!email.match(/^\w+([\.-]?\w)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g)) {
       //  if email is not validattion
@@ -96,7 +93,6 @@ function VadilationProvider(props) {
 
   const closeAlert = () => {
     setIsAlert(false);
-    setFirstLogIn(false);
   };
   return (
     <VadilationContext.Provider
