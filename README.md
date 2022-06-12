@@ -46,8 +46,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
 ## Preview Images
 ![Preview Image](./client/screenshot/Get-That-Job-1.png)
 ![Preview Image](./client/screenshot/Get-That-Job-2.png)
-![Preview Image](./client/screenshot/Get-That-Job-3.png)
-![Preview Image](./client/screenshot/Get-That-Job-4.png)
+
 ## Developers
 
 <h3> 1. 🐳Akira Chenyavanij (Nut)
