@@ -102,12 +102,13 @@ function CandidateCard1 ({
             <DowloadButton
               className={`btn ${
                 CV === null || !CV ? "btn-gray" : "btn-active"
-              }`}
+             } `}
               href={CV}
               target="_blank"
+              
             >
             <Icon><img src={load}/></Icon>
-            <MarkText>
+            <MarkText statusBtn={ CV === null || !CV ? false : true}>
               {CV === null || !CV
                 ? "No CV File"
                 : "Download CV"}
@@ -288,6 +289,8 @@ const MarkText = styled.p`
   color: var(--light-gray);
   font-weight: 400;
   margin-left: 5px;
+  color: ${(props) =>
+    !props.statusBtn ? "gray" : "white"};
 `;
 const MarkTextButton = styled.button`
   width: 150px;
@@ -305,12 +308,13 @@ const DowloadButton = styled.a`
   width: 150px;
   height: 35px;
   font-weight: 500px;
-  color: var(--gray);
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 14px;
   border:1px solid pink;
+
+
 `;
 
 //----------------------------------------After toggle---------------------------------------------------------//
@@ -352,42 +356,6 @@ const Dowload = styled.div`
   padding-bottom: 20px;
 `;
 
-const FilterDiv = styled.div`
-`;
-
-const FilterText = styled.p`
-  font-size: 10px;
-  font-weight: 400;
-  font-font-family: var(--seconary-font);
-  color: var(--primary-text- color);
-`;
-
-const RadioFormMain = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  width: 300px;
-`;
-
-const RadioForm = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 30px;
-`;
-
-const RadioBtn = styled.input`
-  accent-color: var(--secoundary-brand-color);
-`;
-
-const Radiotext = styled.p`
-  font-size: 14px;
-  font-weight: 400;
-  font-font-family: var(--seconary-font);
-  color: var(--gray);
-  margin-left: 5px;
-`;
 //-----------------------------------------------------------------text---------------------------------------------//
 const Text3 = styled.p`
   font-size: 12px;

@@ -13,17 +13,27 @@ function FindThatJobHeader({
   searchMaxSalaryText,
   jobType,
   searchJobCategory,
+  resetJobDataBtn,
+  setPage
+  
 }) {
   const { jobTypeList, jobCategoryList } = useJobsData();
 
-  const resetData = () => {
+  function resetToDefaultPage () {
+    if(searchJobText === "" || searchMinSalaryText === "" || searchMaxSalaryText === "" || jobType === "" || searchJobCategory === ""){
+     setPage(1)
+    }
+  }
+
+ /*  const resetData = () => {
     setSearchJobText("");
     setSearchMinSalaryText("");
     setSearchMaxSalaryText("");
     setsearchJobCategory("");
     setJobType("");
     searchJobCategory("");
-  };
+    setPage(1)
+  }; */
   return (
     <Wrapper className="pt-8">
       {/* ------------- Header Section  ------------- */}
@@ -42,7 +52,7 @@ function FindThatJobHeader({
                   id="searchJobText"
                   name="searchjobword"
                   type="text"
-                  onChange={(e) => setSearchJobText(e.target.value)}
+                  onChange={(e) => resetToDefaultPage(setSearchJobText(e.target.value))}
                   value={searchJobText}
                   placeholder="manufacturing, sales, swim"
                 ></SearchBox>
@@ -62,7 +72,8 @@ function FindThatJobHeader({
                   <button
                     type="button"
                     className="btn btn-pink btn-md mt-5 ml-3"
-                    onClick={resetData}
+                    onClick={()=> {resetJobDataBtn()}}
+
                   >
                     Clear
                   </button>
@@ -80,7 +91,7 @@ function FindThatJobHeader({
           <InputBoxLabel>CATEGORY</InputBoxLabel>
           <DropDownList
             className="gtj-input pink-border"
-            onChange={(e) => setsearchJobCategory(e.target.value)}
+            onChange={(e) => resetToDefaultPage(setsearchJobCategory(e.target.value))}
             value={searchJobCategory}
           >
             <option value="" selected>
@@ -102,7 +113,7 @@ function FindThatJobHeader({
             className="gtj-input pink-border"
             id="jobType"
             name="jobType"
-            onChange={(e) => setJobType(e.target.value)}
+            onChange={(e) => resetToDefaultPage(setJobType(e.target.value))}
             value={jobType}
           >
             <option value="" selected>
@@ -129,7 +140,7 @@ function FindThatJobHeader({
                 type="text"
                 maxLength={6}
                 placeholder="min"
-                onChange={(e) => setSearchMinSalaryText(e.target.value)}
+                onChange={(e) => resetToDefaultPage(setSearchMinSalaryText(e.target.value))}
                 value={searchMinSalaryText}
               ></SearchSalary>
               <Dash>
@@ -142,7 +153,7 @@ function FindThatJobHeader({
                 type="text"
                 maxLength={6}
                 placeholder="max"
-                onChange={(e) => setSearchMaxSalaryText(e.target.value)}
+                onChange={(e) => resetToDefaultPage(setSearchMaxSalaryText(e.target.value))}
                 value={searchMaxSalaryText}
               ></SearchSalary>
             </SubSalaryBox>

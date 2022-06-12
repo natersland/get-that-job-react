@@ -43,6 +43,20 @@ function FindJobsPage() {
   const location = useLocation();
   const { checkUserPage } = useCheckLocation(location.pathname, "/findjobs", 1);
   // Fecth data from Back-End ---------------------------------
+  
+  
+  const resetJobDataBtn = () => {
+    setSearchJobText("");
+    setSearchMinSalaryText("");
+    setSearchMaxSalaryText("");
+    setsearchJobCategory("");
+    setJobType("");
+  
+    
+    /* searchJobCategory(""); */
+   
+  };
+  
   const search = async () => {
     setLoading(true);
     function getJobData() {
@@ -70,6 +84,8 @@ function FindJobsPage() {
   useEffect(() => {
     search();
     checkUserPage();
+    
+ 
   }, [
     searchJobText,
     searchMinSalaryText,
@@ -98,6 +114,8 @@ function FindJobsPage() {
         searchJobCategory={searchJobCategory}
         keywordsNumber={keywordsNumber}
         jobType={jobType}
+        resetJobDataBtn={resetJobDataBtn}
+        setPage={setPage}
       />
       {/*Body: job card zone --------------------------------------- */}{" "}
       <FindThatJobWrapper>
@@ -123,6 +141,8 @@ function FindJobsPage() {
                   jobId={job?._id}
                   data={data}
                   reFetch={reFetch}
+                  
+                  
                 />
               );
             })}
@@ -135,10 +155,12 @@ function FindJobsPage() {
             showFirstButton
             showLastButton
             color="primary"
-            defaultPage={page}
-            onClick={componentDidMount}
+            page={page} 
+           /*  onClick={componentDidMount} */
             onChange={(event, value) => setPage(value)}
-            sx={{ marginLeft: "-45px", color: "#ffffff !important" }}
+            sx={{ marginLeft: "-45px"}}
+            
+  
           />
         </NumberOfPage>
       </FindThatJobWrapper>

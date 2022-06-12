@@ -1,27 +1,13 @@
 import styled from "@emotion/styled";
-import React, { useCallback } from "react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-// Pictures --------------------
-import FocusIconActive from "../../assets/focus.svg";
-import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
-import NavigationIcon from "../../assets/navigation-line.svg";
-// Contexts --------------------
-import { useVadilation } from "../../contexts/vadilation";
-import { useUtils } from "../../contexts/utilsContext";
-// Utils --------------------
-import UtilitiesFunction from "../../utils/utilitiesFunction";
+import React from "react";
+
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
 function RecruiterReviewStatusBtn({ status, jobId, fx }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
-  const navigate = useNavigate();
-  const { componentDidMount } = UtilitiesFunction();
-  const { setLoading } = useUtils();
 
-  const { data, reFetch } = useFetch(
+  const { data } = useFetch(
     `http://localhost:4000/users/${professionalId}`
   );
 
@@ -60,7 +46,6 @@ function RecruiterReviewStatusBtn({ status, jobId, fx }) {
       status = false;
     }
 
-    console.log(professionalId, status, data, result, "buttonChecker");
     // render seemore button
     if (status === "applied") {
       return StartReviewButton(

@@ -9,7 +9,7 @@ function JobsDataProvider(props) {
   const [jobType, setJobType] = useState("");
   const [minSalary, setMinSalary] = useState("");
   const [maxSalary, setMaxSalary] = useState("");
-  // Additional Information -----------------------------------------
+    // Additional Information -----------------------------------------
   const [aboutJob, setAboutJob] = useState("");
   const [mandatoryReq, setMandatoryReq] = useState("");
   const [optionalReq, setOptionalReq] = useState("");
@@ -23,6 +23,10 @@ function JobsDataProvider(props) {
   // Conditional State ------------------------------------------
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+
+
+
+
   // State only for Gathered Data -------------------------------
   const [jobCategoryList, setJobCategoryList] = useState([
     "Manufacturing",
@@ -50,6 +54,8 @@ function JobsDataProvider(props) {
     setMandatoryReq("");
     setOptionalReq("");
   };
+
+ 
 
   return (
     <JobsDataContext.Provider

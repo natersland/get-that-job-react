@@ -48,15 +48,15 @@ function RegisterPage() {
     isErrorEmail,
     isErrorPassword,
   } = useVadilation();
-  const { loading, setLoading } = useUtils();
+  const { loading, setLoading, setAlertMessage,setIsAlert  } = useUtils();
   const { register } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLoading(true);
     // Welcome text after create account
-    /*     setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
-    setIsAlert(true); */
+       setAlertMessage(`Your account has been created! Welcome to Get That Job!`);
+    setIsAlert(true);
     if (role === "professional") {
       setRole("professional");
       const formData = new FormData();
@@ -221,62 +221,5 @@ const BorderImage = styled.div`
   width: 435px;
 `;
 
-/* 
-const NextPageButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-
-const SkipButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border: 1px solid var(--secoundary-brand-color);
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  cursor: pointer;
-  margin: 0 16px;
-  color: #616161;
-  background-color: #f5f5f6;
-`;
-
-const FinishButton = styled.button`
-  width: 106px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`;
-
-const PreviousButton = styled.button`
-  width: 131px;
-  height: 40px;
-  border-radius: 16px;
-  border-style: hidden;
-  color: white;
-  font-size: 14px;
-  letter-spacing: 1.25px;
-  font-weight: 500;
-  font-family: var(--secondary-font);
-  background-color: var(--secoundary-brand-color);
-  cursor: pointer;
-`; */
 
 export default RegisterPage;

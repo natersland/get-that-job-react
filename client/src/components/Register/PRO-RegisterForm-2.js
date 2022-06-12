@@ -46,8 +46,8 @@ function ProRegisterForm2() {
           placeholder={"+66 xxx xxx xxxx"}
         />
       </Container>
-      <Container>
-        <Label htmlFor="birthDate">BIRTHDATE</Label>
+      <Container className="mt-4">
+        <Label htmlFor="birthDate" >BIRTHDATE</Label>
         <Input
           id="birthDate"
           name="birthDate"

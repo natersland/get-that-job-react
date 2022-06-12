@@ -34,9 +34,6 @@ function ViewJobPosting () {
     };
   };
 
-  console.log(jobDetails);
-  console.log(userCandidate);
-  //console.log(jobs);
  
   const radioFilterData = [
     { value: "all", label: "All" },
@@ -50,7 +47,6 @@ function ViewJobPosting () {
         let candidateDetail = _.find(userCandidate, { _id: jobDetailData?.professionalId });
         
 
-    console.log(candidateDetail);
     const data = () => {
       return (
         <CandidateCard1
@@ -73,7 +69,6 @@ function ViewJobPosting () {
     }
   });
   
-  console.log(candidateData);
   const countData = candidateData.filter((items) => {
     return items !== undefined;
   });

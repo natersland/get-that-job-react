@@ -6,6 +6,8 @@ import github from "../img/github-fill.png";
 import linkin from "../img/linkedin-box-line.png";
 // Contexts ----------------------------------------
 import { useNav } from "../contexts/navigate";
+import { useUserData } from "../contexts/usersData";
+import { useVadilation } from "../contexts/vadilation";
 import { useNavigate } from "react-router-dom";
 // Data ----------------------------------------
 import teamData from "../data/teamData";
@@ -13,6 +15,8 @@ import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
   const { registerRoute, setMenuIndex } = useNav();
+  const { setRole, resetUserData } = useUserData();
+  const { setIsErrorEmail, setIsErrorPassword, setStep } = useVadilation();
   const navigate = useNavigate();
 
   return (
@@ -32,6 +36,7 @@ const HomePage = () => {
           className="btn btn-lg btn-pink mb-8"
           onClick={() => {
             registerRoute();
+
           }}
         >
           {" "}
@@ -41,7 +46,12 @@ const HomePage = () => {
           className=""
           onClick={() => {
             navigate("/login");
+            resetUserData();
+            setIsErrorEmail(false);
+            setIsErrorPassword(false);
             setMenuIndex(1);
+            setStep(0);
+            setRole("professional");
           }}
         >
           I already have an account.

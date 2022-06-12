@@ -27,13 +27,10 @@ function ShowJob2 () {
       const results = await axios.get(
         `http://localhost:4000/jobs/${jobId}`
       );
-      console.log(results);
 
       setJob(results.data.data);
       setJobDetails(_.reverse(results?.data.data.applications));
       setClosed(results.data.data.jobStatus)
-      console.log(results.data.data);
-
     } catch (error) {
       console.log(error);
     }
@@ -52,10 +49,6 @@ function ShowJob2 () {
   });
 
   
-  console.log(countCandidate);
-  console.log(job);
-  console.log(jobDetails);
-  console.log(closed);
   
 
   const title = job.jobTitle;

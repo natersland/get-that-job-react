@@ -39,9 +39,12 @@ function NavigateProvider(props) {
   };
   // Homepage -----------------------------------
   const registerRoute = () => {
+    resetUserData();
     setIsErrorEmail(false);
     setIsErrorPassword(false);
     setMenuIndex(1);
+    setStep(0);
+    setRole("professional");
     navigate("/register");
   };
   // SideBar -----------------------------------

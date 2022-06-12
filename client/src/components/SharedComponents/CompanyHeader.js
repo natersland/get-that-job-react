@@ -40,14 +40,14 @@ function CompanyHeader() {
           <JobTitleText className="uppercase">
             {job.company?.[0]?.companyName}
           </JobTitleText>
-          <FollowingBox>
+{/*           <FollowingBox>
             <FollowCircle>
               <FollowIcon src={FocusIcon}></FollowIcon>
             </FollowCircle>
             <FollowButton className="btn btn-white btn-md uppercase">
               following
             </FollowButton>
-          </FollowingBox>
+          </FollowingBox> */}
         </RightWrapper>
       </CompanyWrapper>
     </Wrapper>

@@ -15,7 +15,7 @@ function ProRegisterForm1() {
   return (
     <div>
       <Container>
-        <Label htmlFor="email">EMAIL</Label>
+        <Label htmlFor="email">EMAIL*</Label>
         <Input
           id="email"
           name="email"
@@ -25,14 +25,14 @@ function ProRegisterForm1() {
           onChange={(event) => setEmail(event.target.value)}
           value={email}
         />
-        {!email.includes("@") ? (
+        {!email.includes("@") && !email.includes(".")  && email.length > 1 ? (
           <span className="error-message">
             It should be a valid email address!
           </span>
         ) : null}
       </Container>
       <Container>
-        <Label htmlFor="password">PASSWORD</Label>
+        <Label htmlFor="password">PASSWORD*</Label>
         <Input
           id="password"
           name="password"
@@ -45,14 +45,14 @@ function ProRegisterForm1() {
           value={password}
         />
 
-        {password.length < 6 || password.length > 18 ? (
+        {password.length > 1 && password.length < 6 || password.length > 18 ? (
           <span className="error-message">
             Password should be 6-18 characters.
           </span>
         ) : null}
       </Container>
       <Container>
-        <Label htmlFor="password-confiremed">PASSWORD CONFORMATION</Label>
+        <Label htmlFor="password-confiremed">PASSWORD CONFORMATION*</Label>
         <Input
           id="password-confiremed"
           name="password-confiremed"

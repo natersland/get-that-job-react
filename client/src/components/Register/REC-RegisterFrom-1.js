@@ -17,7 +17,7 @@ function RecRegisterForm1() {
   return (
     <Wrapper>
       <div className="mb-5">
-        <Label> COMPANY NAME </Label>
+        <Label> COMPANY NAME* </Label>
         <br />
         <Input
           className="gtj-input pink-border"
@@ -33,7 +33,7 @@ function RecRegisterForm1() {
           <span className="error-message">Company name is required.</span>
         ) : null}
         <br />
-        <Label> EMAIL </Label>
+        <Label> EMAIL* </Label>
         <br />
         <Input
           type="text"
@@ -47,14 +47,14 @@ function RecRegisterForm1() {
           cols={30}
         />{" "}
         <br />
-        {!email.includes("@") ? (
+        {!email.includes("@") && !email.includes(".")  && email.length > 1  ? (
           <span className="error-message">
             {" "}
             It should be a valid email address!
           </span>
         ) : null}
         <br />
-        <Label> PASSWORD </Label>
+        <Label> PASSWORD* </Label>
         <br />
         <Input
           type="password"
@@ -68,13 +68,13 @@ function RecRegisterForm1() {
           cols={30}
         />{" "}
         <br />
-        {password.length < 6 || password.length > 18 ? (
+        {password.length > 1 && password.length < 6 || password.length > 18 ? (
           <span className="error-message">
             Password should be 6-18 characters.
           </span>
         ) : null}
         <br />
-        <Label> PASSWORD CONFIRMATION </Label>
+        <Label> PASSWORD CONFIRMATION* </Label>
         <br />
         <Input
           id="password-confirmed"

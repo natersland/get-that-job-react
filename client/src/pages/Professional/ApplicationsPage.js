@@ -173,10 +173,10 @@ function ApplicationsPage() {
               setStateVariable={setFilterApplication}
             />
           </HeaderSection>
-          <p className="bg-pinkprimary text-white p-2 mt-3">
+{/*           <p className="bg-pinkprimary text-white p-2 mt-3">
             **เปลี่ยนให้ตอนกดสมัครงาน random สถานะใบสมัคร applied, reviewing,
             finished, ก่อน demo อย่าลืมไปแก้ด้วย
-          </p>
+          </p> */}
           <ApplicationSection>
             <ApplicationFoundText>
               {applications?.length === 0 ? "0" : `${countData.length} `}{" "}

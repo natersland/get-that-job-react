@@ -63,7 +63,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
         navigate(`/findjobs/${jobId}}`);
         componentDidMount();
         setLoading(false);
-      }, 500);
+      }, 700);
     };
     return (
       <SeeMoreButton

@@ -20,6 +20,7 @@ function JobCard({
   jobId,
   data,
   reFetch,
+  
 }) {
   const { convertSalary } = UtilitiesFunction();
 

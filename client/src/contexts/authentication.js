@@ -86,10 +86,11 @@ function AuthProvider(props) {
       headers: { "Content-Type": "multipart/form-data" },
     });
     setTimeout(function () {
-      login({
+      // Log-In อัตโนมัติหลังจาก register แล้ว
+/*       login({
         email,
         password,
-      });
+      }); */
       setLoading(false);
       navigate("/");
     }, 250);

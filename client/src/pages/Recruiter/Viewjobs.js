@@ -18,6 +18,7 @@ import UtilitiesFunction from "../../utils/utilitiesFunction";
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import IconWithText from "../../components/SharedComponents/IconWithText";
 import moment from "moment";
+import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
@@ -31,12 +32,11 @@ function ViewJobs() {
     { value: "false", label: "closed" },
   ];
 
-  const { setLoading } = useVadilation();
+  const { setLoading, loading } = useVadilation();
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
 
   const comProfileData = localStorage.getItem("id");
-  const jobId = localStorage.getItem("jobId");
 
   // get data to display ---------------
   const getJobPost = async () => {
@@ -45,8 +45,11 @@ function ViewJobs() {
         `http://localhost:4000/users/${comProfileData}`
       );
       //setStatus(results.data.jobs);
-      setJob(_.reverse(results.data.jobs));
-      setCandidate(results.data.candidate);
+      setTimeout(function () {
+        setJob(_.reverse(results.data.jobs));
+        setCandidate(results.data.candidate);
+      }, 500);
+
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +61,6 @@ function ViewJobs() {
 
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
-    console.log(jobId, "jobId");
     await axios.put(`http://localhost:4000/jobs/status/${jobId}`, {});
   };
 
@@ -90,12 +92,10 @@ function ViewJobs() {
           return items.jobId === data._id;
         });
 
-        //console.log(countData);
         const countTrack = countData.filter((items) => {
           return items.applicationStatus !== "finished";
         });
 
-        //console.log(countTrack);
         const app = () => {
           return (
             <Job
@@ -139,7 +139,6 @@ function ViewJobs() {
 
     useEffect(() => {
       if (props.jobStatus === false) {
-        console.log(props.jobStatus, "props.jobStatus");
         setClose(true);
         setDisable(true);
         setFont(true);
@@ -149,18 +148,20 @@ function ViewJobs() {
     //-------------------------- function สำหรับการกดปุ่่ม---------------------------//
     const handleCloseCLick = (event) => {
       event.preventDefault();
-
+      getJobPost()
       if (props.jobStatus === true) {
         updateStatusByJobId(props.id);
         setClose(!close);
         setDisable(true);
         setFont(!font);
+        window.location.reload(false);
+
       } else {
         console.log("Error init");
       }
     };
 
-    return (
+    return (loading ? null:
       <div>
         <Jobcard key={props.id}>
           <JobCardMain>
@@ -262,6 +263,7 @@ function ViewJobs() {
                       width: "140px",
                       backgroundColor: close ? "#E1E2E1" : "#BF5F82",
                     }}
+                    disabled={close ? true : false}
                     value={job.jobStatus}
                     type="submit">
                     <CloseDiv>
@@ -271,9 +273,11 @@ function ViewJobs() {
                       <p
                         style={{
                           color: close ? "lightgray" : "white",
-                        }}>
+                          paddingLeft: "10px"
+                        }} >
                         {" "}
                         {close ? "CLOSED" : "CLOSE"}
+                        
                       </p>
                     </CloseDiv>
                   </button>
@@ -365,6 +369,7 @@ const Jobcard = styled.div`
   width: 944px;
   margin-top: 10px;
   background-color: white;
+  overflow: hidden;
 `;
 
 const Toggle = styled.div`
@@ -481,7 +486,7 @@ const CloseDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 88px;
+  width: 100px;
   align-items: center;
 `;
 
