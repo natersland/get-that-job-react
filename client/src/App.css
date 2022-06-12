@@ -1,38 +1,202 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap");
+:root {
+  /* Brand Color */
+  --primary-brand-color: #bf5f82;
+  --secoundary-brand-color: #f48fb1;
+  --tertiary-brand-color: #ffc1e3;
+
+  /* Font Zone */
+  --primary-text-color: #373737;
+  --secondary-text-color: #5c5c5c;
+  --tertiary-text-color: #e1e2e1;
+  --primary-font: "Noto Sans Thai", "Montserrat", sans-serif;
+  --seconary-font: "Noto Sans Thai", "Inter", sans-serif;
+
+  /* Other Color */
+  --gray: #616161;
+  --light-gray: #8e8e8e;
+  --white: #ffffff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: RGB(245, 245, 246);
+  font-family: var(--primary-font);
+  font-family: "Noto Sans Thai", "Montserrat", sans-serif;
+  color: var(--primary-text-color);
+  
+}
+.error-message {
+  color: rgba(224, 68, 68, 0.986);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: -10px;
+  font-family: var(--seconary-font);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* 🍓🍓🍓 CSS Structure -------------------------------- */
+/* โครงปุ่ม (ใช้สร้างรูปทรงปุ่ม) */
+.btn {
+  /*โครงปุ่มเริ่มต้น (ไม่มีขนาด) */
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-family: var(--seconary-font);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  border-radius: 16px;
+  transition: 0.5s;
+  font-weight: 500;
+}
+.btn-md {
+  /* ปุ่มขนาดทั่วไป */
+  padding: 8px 16px;
+  height: 40px;
+}
+.btn-lg {
+  /* ปุ่มขนาดใหญ่ */
+  padding: 16px 24px;
+  height: 56px;
+}
+
+/* ------------------------------------- */
+/* โครง Input (ใช้สร้างรูปทรงของ input) */
+.gtj-input {
+  /*ใช้ได้กับ input ทุกอัน */
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.875rem;
+  font-family: var(--seconary-font);
+  color: var(--secondary-text-color);
+}
+
+/* 🚀🚀🚀 CSS Style color [Button] -------------------------------- */
+/* สีปุ่มหลัก - สีชมพู */
+.btn-pink {
+  /* สีก่อน hover หรือก่อน active status */
+  background-color: var(--secoundary-brand-color) !important;
+  color: var(--white);
+}
+.btn-pink:hover {
+  background-color: var(--primary-brand-color) !important;
+}
+
+.btn-active {
+  /* active status */
+  /* สีหลัง hover หรือ active status */
+  background-color: var(--primary-brand-color);
+  color: var(--white);
+}
+/* ------------------------------------- */
+
+/*-------------------------------------------*/
+.btn-white {
+  /* ปุ่มสีขาว */
+  background-color: var(--white);
+  color: var(--gray);
+}
+.btn-white:hover {
+  background-color: var(--white);
+  color: var(--primary-text-color);
+}
+/* ------------------------------------- */
+.btn-gray {
+  /* ปุ่มสีเทา */
+  background-color: var(--tertiary-text-color);
+  color: var(--light-gray);
+}
+
+/* 🌻🌻🌻 CSS Style color [input] -------------------------------- */
+/* กรอบ input ต่างๆ, style ปุ่มขาว กรอบชมพู (แบบ navbar ของ nikki) */
+.pink-border {
+  border: 1px solid var(--secoundary-brand-color);
+  border-radius: 8px;
+}
+/* .pink-border:hover {
+  border: 1px solid var(--primary-brand-color);
+} */
+.pink-border:focus {
+  outline: none;
+  border: 1px solid var(--primary-brand-color);
+}
+
+/* ⚡️⚡️⚡️ Shadows -------------------------------- */
+.shadow-medium {
+  /* เงากลางๆ */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.shadow-max {
+  /* เงาหนาๆ */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* --------------------------------------------*/
+/* Webkit Zone ------------------------*/
+::-webkit-file-upload-button {
+  background: var(--secoundary-brand-color);
   color: white;
+  margin-right: 15px;
+  width: 134px;
+  height: 35px;
+  border-radius: 8px;
+  border-style: hidden;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: var(--secondary-font);
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* pages -> recruiter CSS Zone ------------------------*/
+.dollar-icon {
+  padding-left: 35px;
+  background: url("./assets/money-dollar-circle-line.svg") no-repeat left white;
+  background-position: 10px 10px;
+  background-size: 20px;
+}
+.dollar-icon2 {
+  padding-left: 35px;
+  background: url("./assets/money-dollar-circle-line.svg") no-repeat left white;
+  background-position: 7.8px 7.8px;
+  background-size: 20px;
+}
+.search-icon {
+  padding-left: 35px;
+  background: url("./assets/search-line.svg") no-repeat left white;
+  background-position: 10px 10px;
+  background-size: 20px;
+}
+
+
+/* Phone Inpput -------------------------------------*/
+.form-control {
+  background-color: white !important;
+  color: var(--secondary-text-color) !important;
+  height: 39px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--secoundary-brand-color) !important;
+}
+.flag-dropdown {
+  border: 1px solid var(--secoundary-brand-color) !important;
+}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .form-control { width: 300px !important;}
+ 
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .form-control { width: 380px !important;}
+}
+
+/* MUI */
+.css-gvdu6e-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+  color: white !important;
 }

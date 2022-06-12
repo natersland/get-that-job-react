@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// 🐳 Authentication Login & Register ------------------------
+import UnauthenticatedApp from "./routes/UnauthenticatedApp";
+import ProfessionalApp from "./routes/ProfessionalApp";
+import RecruiterApp from "./routes/RecruiterApp";
+// 🌈 Contexts -----------------------------------------
+import { useAuth } from "./contexts/authentication";
 
 function App() {
+  const auth = useAuth();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {auth.isProfessional && auth.isAuthenticated && auth.isRightAccount && (
+        <ProfessionalApp />
+      )}
+      {auth.isRecruiter && auth.isAuthenticated && auth.isRightAccount && (
+        <RecruiterApp />
+      )}
+      {!auth.isAuthenticated && <UnauthenticatedApp />}
+    </>
   );
 }
 

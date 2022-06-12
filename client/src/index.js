@@ -1,17 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from "./App";
+// CSS
+import "./App.css";
+import "./index.css";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import jwtInterceptor from "./utils/jwtInterceptor";
+// Contexts ---------------------------------------------
+import { AuthProvider } from "./contexts/authentication";
+import { NavigateProvider } from "./contexts/navigate";
+import { UserDataProvider } from "./contexts/usersData";
+import { JobsDataProvider } from "./contexts/jobsData";
+import { VadilationProvider } from "./contexts/vadilation";
+import { UtilsProvider } from "./contexts/utilsContext";
+// MUI Theme ---------------------------------------------
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./styles/MuiTheme";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+jwtInterceptor();
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <UtilsProvider>
+          <UserDataProvider>
+            <VadilationProvider>
+              <AuthProvider>
+                <JobsDataProvider>
+                  <NavigateProvider>
+                    <App />
+                  </NavigateProvider>
+                </JobsDataProvider>
+              </AuthProvider>
+            </VadilationProvider>
+          </UserDataProvider>
+        </UtilsProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
