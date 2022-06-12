@@ -45,7 +45,6 @@ Get That Job is a job-searching platform for anyone who looking for employment 
 
 ## Preview Images
 ![Preview Image](./client/screenshot/Get-That-Job-1.png)
-![Preview Image](./client/screenshot/Get-That-Job-2.png)
 
 ## Developers
 
