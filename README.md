@@ -55,7 +55,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
     </a>
   </span>
 </h3>
-<li> Autthentication: Login (Full Stack) </li>
+<li> Authentication: Login (Full Stack) </li>
 <li> Professional-Page: Find that job (Front-End) </li>
 <li> Professional-Page: Your Applications (Front-End) </li>
 <li> Professional-Page: Following (Full Stack) </li>
@@ -72,7 +72,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
     </a>
   </span>
 </h3>
-<li> Autthentication: Register-Professional (Full Stack) </li>
+<li> Authentication: Register-Professional (Full Stack) </li>
 <li> Professional-Page: Find that job (Full Stack) </li>
 <li> Professional-Page: Your Applications (Back-End) </li>
 <li> Professional-Page: Following (Back-End) </li>
@@ -100,7 +100,7 @@ Get That Job is a job-searching platform for anyone who looking for employment 
     </a>
   </span>
 </h3>
-<li> Autthentication: Register-Recruiter (Full Stack) </li>
+<li> Authentication: Register-Recruiter (Full Stack) </li>
 <li> Professional-Page: Update Professional Profile (Full Stack) </li>
 <li> Recruiter-Page: Job Positions (Front-End) </li>
 
