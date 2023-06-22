@@ -1,0 +1,4 @@
+services:
+  - name: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: client/build
