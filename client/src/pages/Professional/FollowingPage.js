@@ -31,10 +31,10 @@ function FollowingPage() {
     checkUserPage();
     setIsLoading(true);
     function getJobData() {
-      return axios.get(`http://localhost:4000/jobs/data`);
+      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/jobs/data`);
     }
     function getUserData() {
-      return axios.get(`http://localhost:4000/users/${professionalId}`);
+      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`);
     }
     await Promise.all([getJobData(), getUserData()]).then(function (results) {
       setJobs(results[0].data.data);
@@ -43,7 +43,7 @@ function FollowingPage() {
     setIsLoading(false);
   };
   const { data, reFetch } = useFetch(
-    `http://localhost:4000/users/${professionalId}`
+    `${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`
   );
 
   // fx แสดงข้อมูลfollowing job ของ user ทั้งหมด + ฟีลเตอร์ด้วย map ----------------------------------------------

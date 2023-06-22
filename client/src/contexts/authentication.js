@@ -41,7 +41,7 @@ function AuthProvider(props) {
   const login = async (data) => {
     ifInputIsBlank();
     try {
-      const result = await axios.post("http://localhost:4000/auth/login", data);
+      const result = await axios.post(`${process.env.GTJ_APP_SERVICE_API}/auth/login`, data);
       const token = result.data.token;
       const userDataFromToken = jwtDecode(token);
 
@@ -82,7 +82,7 @@ function AuthProvider(props) {
   };
   // register  ---------------------------------------------------------
   const register = async (data) => {
-    await axios.post("http://localhost:4000/auth/register", data, {
+    await axios.post(`${process.env.GTJ_APP_SERVICE_API}/auth/register`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     setTimeout(function () {

@@ -19,7 +19,7 @@ function ViewJobPosting () {
   const navigate = useNavigate();
 
   const recruiterId = localStorage.getItem("jobId");  
-  const url = `http://localhost:4000/jobs/${recruiterId}`;
+  const url = `${process.env.GTJ_APP_SERVICE_API}/jobs/${recruiterId}`;
   const getApplications = async () => {
     try {
       const results = await axios.get(url);

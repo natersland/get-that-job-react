@@ -42,7 +42,7 @@ function ViewJobs() {
   const getJobPost = async () => {
     try {
       const results = await axios.get(
-        `http://localhost:4000/users/${comProfileData}`
+        `${process.env.GTJ_APP_SERVICE_API}/users/${comProfileData}`
       );
       //setStatus(results.data.jobs);
       setTimeout(function () {
@@ -61,7 +61,7 @@ function ViewJobs() {
 
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
-    await axios.put(`http://localhost:4000/jobs/status/${jobId}`, {});
+    await axios.put(`${process.env.GTJ_APP_SERVICE_API}/jobs/status/${jobId}`, {});
   };
 
   useEffect(() => {

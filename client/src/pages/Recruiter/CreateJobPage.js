@@ -56,7 +56,7 @@ function CreateJobPage() {
   };
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
-    await axios.post("http://localhost:4000/jobs/create", data);
+    await axios.post("${process.env.GTJ_APP_SERVICE_API}/jobs/create", data);
     window.location.reload(false);
   };
 

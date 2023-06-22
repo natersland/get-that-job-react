@@ -33,7 +33,7 @@ function ApplicationsPage() {
     2
   );
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
-  const url = `http://localhost:4000/users/${professionalId}`;
+  const url = `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`;
   const fetchData = async () => {
     setLoading(true);
     function getApplications() {
@@ -72,7 +72,7 @@ function ApplicationsPage() {
       e.preventDefault();
       const data = { applicationStatus: "declined" };
       await axios.patch(
-        `http://localhost:4000/applications/${appplicationIdforStatus}`,
+        `${process.env.GTJ_APP_SERVICE_API}/${appplicationIdforStatus}`,
         data
       );
       reFetch();
@@ -86,7 +86,7 @@ function ApplicationsPage() {
     const appplicationIdforDelete = localStorage.getItem("applicationId");
     try {
       await axios.delete(
-        `http://localhost:4000/applications/${appplicationIdforDelete}`
+        `${process.env.GTJ_APP_SERVICE_API}/${appplicationIdforDelete}`
       );
       localStorage.removeItem("applicationId");
       reFetch();

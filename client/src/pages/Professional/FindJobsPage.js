@@ -61,11 +61,11 @@ function FindJobsPage() {
     setLoading(true);
     function getJobData() {
       return axios.get(
-        `http://localhost:4000/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
+        `${process.env.GTJ_APP_SERVICE_API}/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
       );
     }
     function getButtonStatus() {
-      return axios.get(`http://localhost:4000/users/${professionalId}`);
+      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`);
     }
     await Promise.all([getJobData(), getButtonStatus()]).then(function (
       results
@@ -78,7 +78,7 @@ function FindJobsPage() {
   };
 
   const { data, reFetch } = useFetch(
-    `http://localhost:4000/users/${professionalId}`
+    `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`
   );
 
   useEffect(() => {

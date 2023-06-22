@@ -8,7 +8,7 @@ function RecruiterReviewStatusBtn({ status, jobId, fx }) {
   const professionalId = localStorage.getItem("id");
 
   const { data } = useFetch(
-    `http://localhost:4000/users/${professionalId}`
+    `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`
   );
 
   // ปุ่ม markAsStarted กับ markAsFinished and finished  --------------------------------------

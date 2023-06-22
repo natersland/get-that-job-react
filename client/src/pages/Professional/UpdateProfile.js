@@ -40,7 +40,7 @@ function UpdatePersonalProfile() {
   const getUsers = async () => {
     setLoading(true);
     checkUserPage();
-    const getResults = await axios.get(`http://localhost:4000/users/${userId}`);
+    const getResults = await axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${userId}`);
     setShowCvFile(getResults?.data.cvFiles[0]?.url);
     setEmail(getResults.data.email);
     setName(getResults.data.name);
@@ -62,7 +62,7 @@ function UpdatePersonalProfile() {
   // fx update professional data ----------------------------------
   const updateProfile = async (formData) => {
     setLoading(true);
-    await axios.put(`http://localhost:4000/users/${userId}`, formData, {
+    await axios.put(`${process.env.GTJ_APP_SERVICE_API}/users/${userId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     getUsers();
