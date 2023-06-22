@@ -30,6 +30,15 @@ async function init() {
   const port = 4000 || 8000;
   await client.connect();
 
+  // Allow the expected host header
+  app.use((req, res, next) => {
+    res.header(
+      "Access-Control-Allow-Origin",
+      "https://get-that-job-fantasy.onrender.com"
+    );
+    next();
+  });
+
   // middleware -----------------
   app.use(express.json());
   app.use(cors());
