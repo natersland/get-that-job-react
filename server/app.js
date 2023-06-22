@@ -34,7 +34,7 @@ async function init() {
   app.use((req, res, next) => {
     res.header(
       "Access-Control-Allow-Origin",
-      "https://get-that-job-fantasy.onrender.com"
+      "https://get-that-job-fantasyy.onrender.com"
     );
     next();
   });
