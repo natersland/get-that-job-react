@@ -78,7 +78,7 @@ function FindJobsPage() {
   };
 
   const { data, reFetch } = useFetch(
-    `${gtjApiService}/${professionalId}`
+    `${gtjApiService}/users/${professionalId}`
   );
 
   useEffect(() => {
