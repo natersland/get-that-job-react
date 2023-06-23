@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">Get That Job!</h1>
 
-> **Current version is v.1.0.0**
+> **Current version is v.1.1** (23/06/2023)
 
 Get That Job is a job-searching platform for anyone who looking for employment or looking to recruit someone. We have a variety of features to support all those and help your online recruitment and hiring process go more easily!
 
