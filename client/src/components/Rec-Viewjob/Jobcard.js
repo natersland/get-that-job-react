@@ -1,5 +1,4 @@
-import React , { useState, useEffect } from "react";
-import axios from "axios";
+import React , { useState, useEffect, useContext } from "react";
 import _ from "lodash";
 import styled from "@emotion/styled";
 import "../../App.css";
@@ -15,7 +14,7 @@ import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 import moment from "moment";
-import { useUtils } from "../../contexts/utilsContext";
+import { APIServiceContext } from "../../service/API_Service";
 
 function ShowJob2 () {
   const jobId = localStorage.getItem("jobId");
@@ -23,13 +22,11 @@ function ShowJob2 () {
   const [jobDetails, setJobDetails] = useState([]);
   const [closed,setClosed] = useState([]);
 
-  const {gtjApiService} = useUtils();
+  const apiService = useContext(APIServiceContext);
 
   const getJobPost = async () => {
     try {
-      const results = await axios.get(
-        `${gtjApiService}/jobs/${jobId}`
-      );
+      const results = await apiService.getJobPost(jobId);
 
       setJob(results.data.data);
       setJobDetails(_.reverse(results?.data.data.applications));

@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
-import React from "react";
-import { useUtils } from "../../contexts/utilsContext";
+import React , { useContext } from "react";
+import { APIServiceContext } from "../../service/API_Service";
 
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
 function RecruiterReviewStatusBtn({ status, jobId, fx }) {
-  // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
-  const {gtjApiService} = useUtils();
+  const apiService = useContext(APIServiceContext);
 
-  const { data } = useFetch(
-    `${gtjApiService}/users/${professionalId}`
-  );
+  const { data } = useFetch(apiService.getUser(professionalId));
 
   // ปุ่ม markAsStarted กับ markAsFinished and finished  --------------------------------------
   const StartReviewButton = (status, color, text, fx) => {

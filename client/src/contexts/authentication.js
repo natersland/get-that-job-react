@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+
 // Contexts
 import { useUserData } from "./usersData";
 import { useVadilation } from "./vadilation";
 import { useUtils } from "./utilsContext";
+import { APIServiceContext } from "../service/API_Service";
+
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
@@ -17,90 +19,89 @@ function AuthProvider(props) {
   const navigate = useNavigate();
   const { resetUserData, role, setRole, email, password } = useUserData();
   const { ifInputIsBlank } = useVadilation();
-  const { setLoading, setIsAlert, setAlertMessage, gtjApiService } = useUtils();
+  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const apiService = useContext(APIServiceContext);
 
-  // isAutthenticated Checker ------------------------------------
   const isAuthenticated = Boolean(localStorage.getItem("token"));
-  const isProfessional = Boolean(
-    localStorage.getItem("role") === "professional"
-  );
-  const isRecruiter = Boolean(localStorage.getItem("role") === "recruiter");
-  const isRightAccount = Boolean(localStorage.getItem("rightAcc"));
+  const isProfessional = localStorage.getItem("role") === "professional";
+  const isRecruiter = localStorage.getItem("role") === "recruiter";
+  const isRightAccount = localStorage.getItem("rightAcc");
 
-  // fx remove data in local storage  ------------------------------------
   const removeLocalStorageData = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("id");
-    localStorage.removeItem("rightAcc");
-    localStorage.removeItem("language");
-    localStorage.removeItem("name");
+    [
+      "token",
+      "role",
+      "id",
+      "rightAcc",
+      "language",
+      "name",
+    ].forEach((key) => localStorage.removeItem(key));
   };
 
-  // login  ---------------------------------------------------------
+  const addDataToLocalStorage = (token, userDataFromToken) => {
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", userDataFromToken.role);
+    localStorage.setItem("id", userDataFromToken.id);
+    localStorage.setItem("language", userDataFromToken.language);
+    localStorage.setItem("name", userDataFromToken.name);
+    setState({ ...state, user: userDataFromToken });
+  };
+
+  const authenticatedWithRole = (userDataFromToken) => {
+    if (userDataFromToken.role === role) {
+      localStorage.setItem("rightAcc", true);
+      const userName = userDataFromToken.name;
+      const welcomeMessage = `Login Successful. Welcome ${
+        userName !== "" && userName !== "-" ? userName : role
+      }!`;
+      setAlertMessage(welcomeMessage);
+      setIsAlert(true);
+      navigate(userDataFromToken.role === "professional" ? "/findjobs" : "/viewjobs");
+    } else {
+      setAlertMessage("Wrong account type. Please try again.");
+      setIsAlert(true);
+      removeLocalStorageData();
+      navigate("/login");
+    }
+  };
+
   const login = async (data) => {
     ifInputIsBlank();
     try {
-      console.log(`env: ${gtjApiService}`);
-      const result = await axios.post(`${gtjApiService}/auth/login`, data);
+      const result = await apiService.login(data);
       const token = result.data.token;
       const userDataFromToken = jwtDecode(token);
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("role", userDataFromToken.role);
-      localStorage.setItem("id", userDataFromToken.id);
-      localStorage.setItem("language", userDataFromToken.language);
-      localStorage.setItem("name", userDataFromToken.name);
-      setState({ ...state, user: userDataFromToken });
-
-      if (userDataFromToken.role === role) {
-        localStorage.setItem("rightAcc", true);
-        const userName = userDataFromToken.name;
-        setAlertMessage(
-          `Login Successful. Welcome ${
-            userName !== "" && userName !== "-" ? userName : role
-          }!`
-        );
-        setIsAlert(true);
-        if (userDataFromToken.role === "professional") {
-          navigate("/findjobs");
-        } else if (userDataFromToken.role === "recruiter") {
-          navigate("/viewjobs");
-        }
-      } else {
-        setAlertMessage(`Wrong account type. Please try again.`);
-        setIsAlert(true);
-        removeLocalStorageData();
-        navigate("/login");
-      }
+      addDataToLocalStorage(token, userDataFromToken);
+      authenticatedWithRole(userDataFromToken);
       resetUserData();
       setRole("professional");
     } catch (error) {
       console.log(error);
-      setAlertMessage(`Wrong password or account, please try again.`);
+      setAlertMessage("Wrong password or account, please try again.");
       setIsAlert(true);
     }
   };
-  // register  ---------------------------------------------------------
+
   const register = async (data) => {
-    await axios.post(`${gtjApiService}/auth/register`, data, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    setTimeout(function () {
-      // Log-In อัตโนมัติหลังจาก register แล้ว
-/*       login({
-        email,
-        password,
-      }); */
-      setLoading(false);
-      navigate("/");
-    }, 250);
+    try {
+      await apiService.register(data);
+      setTimeout(() => {
+        login({
+          email,
+          password,
+        });
+        setLoading(false);
+        navigate("/");
+      }, 250);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  // logout ---------------------------------------------------------
   const logout = () => {
     setLoading(true);
-    setTimeout(function () {
+    setTimeout(() => {
       removeLocalStorageData();
       setState({ ...state, user: null, error: null });
       navigate("/");
@@ -108,19 +109,19 @@ function AuthProvider(props) {
     }, 500);
   };
 
+  const authContextValue = {
+    state,
+    login,
+    logout,
+    register,
+    isAuthenticated,
+    isProfessional,
+    isRecruiter,
+    isRightAccount,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        state,
-        login,
-        logout,
-        register,
-        isAuthenticated,
-        isProfessional,
-        isRecruiter,
-        isRightAccount,
-      }}
-    >
+    <AuthContext.Provider value={authContextValue}>
       {props.children}
     </AuthContext.Provider>
   );

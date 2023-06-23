@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -11,12 +10,17 @@ import { useUtils } from "../../contexts/utilsContext";
 import Alert from "@mui/material/Alert";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
 import AlertDialog from "../../components/Utilities/AlertDialog";
+import { APIServiceContext } from "../../service/API_Service";
+import React , { useContext } from "react";
+
 // Utils ------------------------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 
 function CreateJobPage() {
   const [isError, setIsError] = useState(false);
   const userLanguage = localStorage.getItem("language");
+  const apiService = useContext(APIServiceContext);
+
 
   // detect user refresh page and setting sidebar index ----------------------------
   const location = useLocation();
@@ -56,7 +60,7 @@ function CreateJobPage() {
   };
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
-    await axios.post("${gtjApiService}/jobs/create", data);
+    await apiService.createJob(data)
     window.location.reload(false);
   };
 

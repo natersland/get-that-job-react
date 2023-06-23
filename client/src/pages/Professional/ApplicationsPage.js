@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
 import moment from "moment";
 import _ from "lodash";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import useCheckLocation from "../../hooks/useCheckLocation";
+import { APIServiceContext } from "../../service/API_Service";
+
 // components ----------------------------------
 import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import ApplicationToggle from "../../components/PRO-Applications/ApplicationToggle";
@@ -24,6 +26,7 @@ function ApplicationsPage() {
   const [companiesData, setCompaniesData] = useState({});
   const { loading, setLoading, gtjApiService } = useUtils();
   const professionalId = localStorage.getItem("id");
+  const apiService = useContext(APIServiceContext);
 
   // detect user refresh page and setting sidebar index ----------------------------
   const location = useLocation();

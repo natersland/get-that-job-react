@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React , { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 // Pictures --------------------
 import FocusIconActive from "../../assets/focus.svg";
 import FocusIconUnActive from "../../assets/icons/FocusIconUnActive.svg";
@@ -10,13 +9,15 @@ import NavigationIcon from "../../assets/navigation-line.svg";
 import { useUtils } from "../../contexts/utilsContext";
 // Utils --------------------
 import UtilitiesFunction from "../../utils/utilitiesFunction";
+import { APIServiceContext } from "../../service/API_Service";
 
 function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
-  const { setLoading, gtjApiService } = useUtils();
+  const { setLoading } = useUtils();
+  const apiService = useContext(APIServiceContext);
 
   // ปุ่ม follow --------------------------------------
   const followButton = (text, status) => {
@@ -26,10 +27,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
         jobId: jobId,
         mode: `${mode}`,
       };
-      await axios.patch(
-        `${gtjApiService}/users/followjob/${professionalId}`,
-        data
-      );
+      await apiService.getFollowJobs(professionalId, data);
       reFetch();
     };
     const followJob = (e) => {

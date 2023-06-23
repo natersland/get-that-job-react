@@ -4,7 +4,8 @@ import _ from "lodash";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-
+import { APIServiceContext } from "../../service/API_Service";
+import React , { useContext } from "react";
 //Contexts ------------------------------------
 import { useJobsData } from "../../contexts/jobsData";
 import { useNav } from "../../contexts/navigate";
@@ -18,6 +19,7 @@ import JobDetails from "../../components/SharedComponents/JobDetails";
 import AlertDialog from "../../components/Utilities/AlertDialog";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
 import BackDropLoading from "../../components/Utilities/BackDropLoading";
+
 // Pictures -------------------------------------
 import UserStatusCheckerBtn from "../../components/SharedComponents/UserStatusCheckerBtn";
 import { height } from "@mui/system";
@@ -31,16 +33,20 @@ function SeeMorePage() {
   const { job, setJob } = useJobsData();
   const { setMenuIndex } = useNav();
   const { loading, setLoading, setIsAlert, setAlertMessage, gtjApiService } = useUtils();
+  const apiService = useContext(APIServiceContext);
 
   // ดีงข้อมูลงานมาแสดง ----------------------------------
   const fetchData = async () => {
     setLoading(true);
-    function getOneJob() {
-      return axios.get(`${gtjApiService}/jobs/${jobId}`);
+    
+    async function getOneJob() {
+      return await apiService.getJob(jobId);
     }
-    function getButtonStatus() {
-      return axios.get(`${gtjApiService}/users/${professionalId}`);
+    
+    async function getButtonStatus() {
+      return await apiService.getUser(professionalId);
     }
+    
     try {
       await Promise.all([getOneJob(), getButtonStatus()]).then(function (
         results
@@ -50,7 +56,7 @@ function SeeMorePage() {
     } catch (error) {
       process.stdin.resume();
       process.stdin.setEncoding("utf8");
-
+  
       process.stdin.on("data", function (data) {
         if (data === "exit\n") process.exit();
       });
@@ -62,6 +68,7 @@ function SeeMorePage() {
       }, 500);
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -69,12 +76,12 @@ function SeeMorePage() {
 
   // fx สร้างใบสมัครงาน ----------------------------------
   const createApplication = async (data) => {
-    await axios.post("${gtjApiService}/applications/create", data);
+    await apiService.createApplications(data);
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
   const { data, reFetch } = useFetch(
-    `${gtjApiService}/users/${professionalId}`
+    `${apiService.gtjApiService()}/users/${professionalId}`
   );
   const checkUserProfile = async (event) => {
     const handleSubmit = () => {
