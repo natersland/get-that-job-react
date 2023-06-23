@@ -22,7 +22,6 @@ const HomePage = () => {
   return (
     <MainWrap>
       <AlertDialog />
-
       <LandingWrapper className="landingPage ">
         <Heading>
           The place where <br></br>you get <Span>that</Span> job
@@ -113,7 +112,7 @@ const HomePage = () => {
         <footer>
           <FooterWrap>
             <CreaditText>
-              <p> © 2022 - Get That Job</p>
+              <p> © 2022 - Get That Job (Lasted update 24/06/2023)</p>
             </CreaditText>
           </FooterWrap>
         </footer>
@@ -127,7 +126,7 @@ const HomePage = () => {
 const MainWrap = styled.main`
   width: 100%;
   font-family: var(--primary-font);
-  padding-top: 2rem;
+  padding-top: 8rem;
   /* Extra small devices (phones, 600px and down) */
   @media only screen and (max-width: 600px) {
     padding: 0px 20px;

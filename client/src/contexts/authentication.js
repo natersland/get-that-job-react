@@ -63,11 +63,13 @@ function AuthProvider(props) {
       removeLocalStorageData();
       navigate("/login");
     }
+    setLoading(false);
   };
 
   const login = async (data) => {
     ifInputIsBlank();
     try {
+      setLoading(true);
       const result = await apiService.login(data);
       const token = result.data.token;
       const userDataFromToken = jwtDecode(token);

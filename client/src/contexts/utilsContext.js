@@ -31,6 +31,7 @@ function UtilsProvider(props) {
   const closeAlert = () => {
     setIsAlert(false);
     setFirstLogIn(false);
+    setLoading(false)
   };
   return (
     <UtilsContext.Provider
