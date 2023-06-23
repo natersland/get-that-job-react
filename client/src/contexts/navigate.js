@@ -15,6 +15,7 @@ function NavigateProvider(props) {
   // State ------------------------------------
   const [menuIndex, setMenuIndex] = useState(1);
 
+
   // Navbar -----------------------------------
   const homePageRoute = () => {
     navigate("/");

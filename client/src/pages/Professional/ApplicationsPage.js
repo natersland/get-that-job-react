@@ -22,7 +22,7 @@ function ApplicationsPage() {
   const [user, setUser] = useState({});
   const [userJobs, setUserJobs] = useState({});
   const [companiesData, setCompaniesData] = useState({});
-  const { loading, setLoading } = useUtils();
+  const { loading, setLoading, gtjApiService } = useUtils();
   const professionalId = localStorage.getItem("id");
 
   // detect user refresh page and setting sidebar index ----------------------------
@@ -33,7 +33,7 @@ function ApplicationsPage() {
     2
   );
   // ดึงข้อมูลใบสมัครมาแสดงผลใน UI (map) ------------------------------------
-  const url = `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`;
+  const url = `${gtjApiService}/${professionalId}`;
   const fetchData = async () => {
     setLoading(true);
     function getApplications() {
@@ -72,7 +72,7 @@ function ApplicationsPage() {
       e.preventDefault();
       const data = { applicationStatus: "declined" };
       await axios.patch(
-        `${process.env.GTJ_APP_SERVICE_API}/${appplicationIdforStatus}`,
+        `${gtjApiService}/${appplicationIdforStatus}`,
         data
       );
       reFetch();
@@ -86,7 +86,7 @@ function ApplicationsPage() {
     const appplicationIdforDelete = localStorage.getItem("applicationId");
     try {
       await axios.delete(
-        `${process.env.GTJ_APP_SERVICE_API}/${appplicationIdforDelete}`
+        `${gtjApiService}/${appplicationIdforDelete}`
       );
       localStorage.removeItem("applicationId");
       reFetch();

@@ -16,7 +16,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
   const professionalId = localStorage.getItem("id");
   const navigate = useNavigate();
   const { componentDidMount } = UtilitiesFunction();
-  const { setLoading } = useUtils();
+  const { setLoading, gtjApiService } = useUtils();
 
   // ปุ่ม follow --------------------------------------
   const followButton = (text, status) => {
@@ -27,7 +27,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
         mode: `${mode}`,
       };
       await axios.patch(
-        `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`,
+        `${gtjApiService}/${professionalId}`,
         data
       );
       reFetch();

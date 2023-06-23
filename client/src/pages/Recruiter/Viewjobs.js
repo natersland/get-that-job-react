@@ -19,12 +19,14 @@ import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import IconWithText from "../../components/SharedComponents/IconWithText";
 import moment from "moment";
 import CircularIndeterminate from "../../components/Utilities/CircularIndeterminate";
+import { useUtils } from "../../contexts/utilsContext";
 
 //------------------------------1st function -----------------------------------//
 function ViewJobs() {
   const [job, setJob] = useState([]);
   const [candidate, setCandidate] = useState([]);
   const [filterApllication, setFilterApplication] = useState("all");
+  const { gtjApiService } = useUtils();
 
   const radioFilterData = [
     { value: "all", label: "All" },
@@ -42,7 +44,7 @@ function ViewJobs() {
   const getJobPost = async () => {
     try {
       const results = await axios.get(
-        `${process.env.GTJ_APP_SERVICE_API}/users/${comProfileData}`
+        `${gtjApiService}/users/${comProfileData}`
       );
       //setStatus(results.data.jobs);
       setTimeout(function () {
@@ -61,7 +63,7 @@ function ViewJobs() {
 
   // function ส่งค่าไปหา backend โดยเรารับ jobId เข้ามา
   const updateStatusByJobId = async (jobId) => {
-    await axios.put(`${process.env.GTJ_APP_SERVICE_API}/jobs/status/${jobId}`, {});
+    await axios.put(`${gtjApiService}/jobs/status/${jobId}`, {});
   };
 
   useEffect(() => {

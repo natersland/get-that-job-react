@@ -10,6 +10,7 @@ import RadioFilter from "../../components/SharedComponents/RadioFilter";
 import moment from "moment";
 import axios from "axios";
 import { useEffect } from "react";
+import { useUtils } from "../../contexts/utilsContext";
 
 
 function ViewJobPosting () {
@@ -17,9 +18,10 @@ function ViewJobPosting () {
   const [filterApllication, setFilterApplication] = useState("all");
   const [userCandidate, setUserCandidates] = useState({});
   const navigate = useNavigate();
+  const { gtjApiService } = useUtils();
 
   const recruiterId = localStorage.getItem("jobId");  
-  const url = `${process.env.GTJ_APP_SERVICE_API}/jobs/${recruiterId}`;
+  const url = `${gtjApiService}/jobs/${recruiterId}`;
   const getApplications = async () => {
     try {
       const results = await axios.get(url);

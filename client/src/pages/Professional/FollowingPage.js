@@ -18,7 +18,7 @@ function FollowingPage() {
   const professionalId = localStorage.getItem("id");
   const [jobs, setJobs] = useState([]);
   const [userFollowingJobId, setUserFollowingJobId] = useState([]);
-  const { loading } = useUtils();
+  const { loading, gtjApiService } = useUtils();
   // detect user refresh page and setting sidebar index ----------------------------
   const location = useLocation();
   const { checkUserPage } = useCheckLocation(
@@ -31,10 +31,10 @@ function FollowingPage() {
     checkUserPage();
     setIsLoading(true);
     function getJobData() {
-      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/jobs/data`);
+      return axios.get(`${gtjApiService}/jobs/data`);
     }
     function getUserData() {
-      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`);
+      return axios.get(`${gtjApiService}/users/${professionalId}`);
     }
     await Promise.all([getJobData(), getUserData()]).then(function (results) {
       setJobs(results[0].data.data);
@@ -43,7 +43,7 @@ function FollowingPage() {
     setIsLoading(false);
   };
   const { data, reFetch } = useFetch(
-    `${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`
+    `${gtjApiService}/users/${professionalId}`
   );
 
   // fx แสดงข้อมูลfollowing job ของ user ทั้งหมด + ฟีลเตอร์ด้วย map ----------------------------------------------

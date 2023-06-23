@@ -30,11 +30,12 @@ function UpdateCompanyProfile() {
     loading,
     language,
     setLanguage,
+    gtjApiService,
   } = useUtils();
   // Get company user data ----------------------------------
   const getComUsers = async () => {
     setLoading(true);
-    const results = await axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${userId}`);
+    const results = await axios.get(`${gtjApiService}/users/${userId}`);
     setShowCompanyLogo(results?.data?.companyLogo[0]?.url);
     setEmail(results.data.email);
     setCompanyName(results.data.companyName);
@@ -63,7 +64,7 @@ function UpdateCompanyProfile() {
   // fx update company data ----------------------------------
   const updateComProfile = async (formData) => {
     setLoading(true);
-    await axios.put(`${process.env.GTJ_APP_SERVICE_API}/users/${userId}`, formData, {
+    await axios.put(`${gtjApiService}/users/${userId}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     getComUsers();

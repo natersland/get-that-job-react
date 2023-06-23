@@ -30,16 +30,16 @@ function SeeMorePage() {
   const navigate = useNavigate();
   const { job, setJob } = useJobsData();
   const { setMenuIndex } = useNav();
-  const { loading, setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { loading, setLoading, setIsAlert, setAlertMessage, gtjApiService } = useUtils();
 
   // ดีงข้อมูลงานมาแสดง ----------------------------------
   const fetchData = async () => {
     setLoading(true);
     function getOneJob() {
-      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/jobs/${jobId}`);
+      return axios.get(`${gtjApiService}/jobs/${jobId}`);
     }
     function getButtonStatus() {
-      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`);
+      return axios.get(`${gtjApiService}/users/${professionalId}`);
     }
     try {
       await Promise.all([getOneJob(), getButtonStatus()]).then(function (
@@ -69,12 +69,12 @@ function SeeMorePage() {
 
   // fx สร้างใบสมัครงาน ----------------------------------
   const createApplication = async (data) => {
-    await axios.post("${process.env.GTJ_APP_SERVICE_API}/applications/create", data);
+    await axios.post("${gtjApiService}/applications/create", data);
   };
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
   const { data, reFetch } = useFetch(
-    `${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`
+    `${gtjApiService}/users/${professionalId}`
   );
   const checkUserProfile = async (event) => {
     const handleSubmit = () => {

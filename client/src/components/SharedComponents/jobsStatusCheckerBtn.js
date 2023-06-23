@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import React from "react";
+import { useUtils } from "../../contexts/utilsContext";
 
 // Hooks -------------------------
 import useFetch from "../../hooks/useFetch";
 function RecruiterReviewStatusBtn({ status, jobId, fx }) {
   // เก็บเอา userId และ jobId จาก localStorage เพื่อเอาไปใช้ต่อ
   const professionalId = localStorage.getItem("id");
+  const {gtjApiService} = useUtils();
 
   const { data } = useFetch(
-    `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`
+    `${gtjApiService}/${professionalId}`
   );
 
   // ปุ่ม markAsStarted กับ markAsFinished and finished  --------------------------------------

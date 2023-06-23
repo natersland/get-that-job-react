@@ -31,7 +31,7 @@ function FindJobsPage() {
   const [keywordsNumber, setKeywordsNumber] = useState("");
   const { jobs, setJobs } = useJobsData();
   // Loading ----------------------------------
-  const { loading, setLoading } = useUtils();
+  const { loading, setLoading, gtjApiService } = useUtils();
   // Pagination Start Here ----------------------------------
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -61,11 +61,11 @@ function FindJobsPage() {
     setLoading(true);
     function getJobData() {
       return axios.get(
-        `${process.env.GTJ_APP_SERVICE_API}/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
+        `${gtjApiService}/jobs?page=${page}&keywords=${searchJobText}&searchMinSalaryText=${searchMinSalaryText}&searchMaxSalaryText=${searchMaxSalaryText}&searchJobCategory=${searchJobCategory}&jobType=${jobType}`
       );
     }
     function getButtonStatus() {
-      return axios.get(`${process.env.GTJ_APP_SERVICE_API}/users/${professionalId}`);
+      return axios.get(`${gtjApiService}/users/${professionalId}`);
     }
     await Promise.all([getJobData(), getButtonStatus()]).then(function (
       results
@@ -78,7 +78,7 @@ function FindJobsPage() {
   };
 
   const { data, reFetch } = useFetch(
-    `${process.env.GTJ_APP_SERVICE_API}/${professionalId}`
+    `${gtjApiService}/${professionalId}`
   );
 
   useEffect(() => {

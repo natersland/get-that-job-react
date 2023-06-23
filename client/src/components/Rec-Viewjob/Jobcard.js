@@ -15,6 +15,7 @@ import IconWithText from "../SharedComponents/IconWithText";
 import ToggleCard from "../SharedComponents/ToggleCard";
 import UtilitiesFunction from "../../utils/utilitiesFunction";
 import moment from "moment";
+import { useUtils } from "../../contexts/utilsContext";
 
 function ShowJob2 () {
   const jobId = localStorage.getItem("jobId");
@@ -22,10 +23,12 @@ function ShowJob2 () {
   const [jobDetails, setJobDetails] = useState([]);
   const [closed,setClosed] = useState([]);
 
+  const {gtjApiService} = useUtils();
+
   const getJobPost = async () => {
     try {
       const results = await axios.get(
-        `${process.env.GTJ_APP_SERVICE_API}/${jobId}`
+        `${gtjApiService}/${jobId}`
       );
 
       setJob(results.data.data);

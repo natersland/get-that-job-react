@@ -31,7 +31,7 @@ function CreateJobPage() {
   };
   // state for this page form start here -------------------------------
   const { jobCategoryList, jobTypeList } = useJobsData();
-  const { setLoading, setIsAlert, setAlertMessage, language, setLanguage } =
+  const { setLoading, setIsAlert, setAlertMessage, language, setLanguage, gtjApiService } =
     useUtils();
   const [jobTitle, setJobTitle] = useState(String);
   const [jobCategory, setJobCategory] = useState(String);
@@ -56,7 +56,7 @@ function CreateJobPage() {
   };
   // Connect to server: Create Job  -----------------------------------------
   const createJob = async (data) => {
-    await axios.post("${process.env.GTJ_APP_SERVICE_API}/jobs/create", data);
+    await axios.post("${gtjApiService}/jobs/create", data);
     window.location.reload(false);
   };
 

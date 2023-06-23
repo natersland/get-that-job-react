@@ -12,6 +12,11 @@ function UtilsProvider(props) {
   const [isAlert, setIsAlert] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
 
+
+  // GTJ API server --------------------------
+  // TODO it's seem .env is not support webpack < 5 and very high effort to fix that so why I use this way instead
+  const gtjApiService = 'https://get-that-job-fantasy.onrender.com';
+
   const handleClose = () => {
     setLoading(false);
   };
@@ -30,6 +35,7 @@ function UtilsProvider(props) {
   return (
     <UtilsContext.Provider
       value={{
+        gtjApiService,
         // Others -----------------------------------------
         fistLogIn,
         setFirstLogIn,

@@ -17,7 +17,7 @@ function AuthProvider(props) {
   const navigate = useNavigate();
   const { resetUserData, role, setRole, email, password } = useUserData();
   const { ifInputIsBlank } = useVadilation();
-  const { setLoading, setIsAlert, setAlertMessage } = useUtils();
+  const { setLoading, setIsAlert, setAlertMessage, gtjApiService } = useUtils();
 
   // isAutthenticated Checker ------------------------------------
   const isAuthenticated = Boolean(localStorage.getItem("token"));
@@ -41,7 +41,8 @@ function AuthProvider(props) {
   const login = async (data) => {
     ifInputIsBlank();
     try {
-      const result = await axios.post(`${process.env.GTJ_APP_SERVICE_API}/auth/login`, data);
+      console.log(`env: ${gtjApiService}`);
+      const result = await axios.post(`${gtjApiService}/auth/login`, data);
       const token = result.data.token;
       const userDataFromToken = jwtDecode(token);
 
@@ -82,7 +83,7 @@ function AuthProvider(props) {
   };
   // register  ---------------------------------------------------------
   const register = async (data) => {
-    await axios.post(`${process.env.GTJ_APP_SERVICE_API}/auth/register`, data, {
+    await axios.post(`${gtjApiService}/auth/register`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     setTimeout(function () {
