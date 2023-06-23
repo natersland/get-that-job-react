@@ -17,7 +17,6 @@ import { UtilsProvider } from "./contexts/utilsContext";
 // MUI Theme ---------------------------------------------
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/MuiTheme";
-import { ApplicationProvider } from "./pages/Professional/applications/applications_provider";
 
 jwtInterceptor();
 
@@ -32,9 +31,7 @@ ReactDOM.render(
               <AuthProvider>
                 <JobsDataProvider>
                   <NavigateProvider>
-                    <ApplicationProvider>
                     <App />
-                    </ApplicationProvider>
                   </NavigateProvider>
                 </JobsDataProvider>
               </AuthProvider>

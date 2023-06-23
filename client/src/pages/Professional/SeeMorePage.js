@@ -81,7 +81,7 @@ function SeeMorePage() {
 
   // Check user condition ว่ามีเอกสารและข้อมูลสำหรับสมัครงานมั้ย -------------------------
   const { data, reFetch } = useFetch(
-    `${apiService.gtjApiService()}/users/${professionalId}`
+    `https://get-that-job-fantasy.onrender.com/users/${professionalId}`
   );
   const checkUserProfile = async (event) => {
     const handleSubmit = () => {
