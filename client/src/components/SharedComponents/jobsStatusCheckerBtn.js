@@ -10,7 +10,7 @@ function RecruiterReviewStatusBtn({ status, jobId, fx }) {
   const {gtjApiService} = useUtils();
 
   const { data } = useFetch(
-    `${gtjApiService}/${professionalId}`
+    `${gtjApiService}/users/${professionalId}`
   );
 
   // ปุ่ม markAsStarted กับ markAsFinished and finished  --------------------------------------

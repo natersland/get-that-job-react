@@ -28,7 +28,7 @@ function ShowJob2 () {
   const getJobPost = async () => {
     try {
       const results = await axios.get(
-        `${gtjApiService}/${jobId}`
+        `${gtjApiService}/jobs/${jobId}`
       );
 
       setJob(results.data.data);

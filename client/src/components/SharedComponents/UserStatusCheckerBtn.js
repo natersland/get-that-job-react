@@ -27,7 +27,7 @@ function UserStatusCheckerBtn({ mode, jobId, fx, data, reFetch }) {
         mode: `${mode}`,
       };
       await axios.patch(
-        `${gtjApiService}/${professionalId}`,
+        `${gtjApiService}/users/followjob/${professionalId}`,
         data
       );
       reFetch();
