@@ -1,6 +1,6 @@
 import { Router } from "express";
 // middleware -----------------------------
-import protect from "../middlewares/protect.js";
+import protectApi from "../middlewares/protectApi.js";
 // Controller  -----------------------------
 import {
   changeUserPassWord,
@@ -16,14 +16,14 @@ const usersRouter = Router();
 
 usersRouter
   // ดึงข้อมูล User 1 คน -> // http://localhost:4000/users/:id
-  .get("/:id", getOneUserData)
+  .get("/:id", protectApi, getOneUserData)
   // ดึงข้อมูล User ทั้งหมด -> http://localhost:4000/users
-  .get("/", getAllUserData)
+  .get("/", protectApi, getAllUserData)
   // อัพเดต User 1 คน -> // http://localhost:4000/users/:id
-  .put("/:id", uploadFile, updateOneUser)
+  .put("/:id", protectApi, uploadFile, updateOneUser)
   // อัพเดต following job
-  .patch("/followjob/:id", followingJobUpdate) // http://localhost:4000/users/followjob/:id
+  .patch("/followjob/:id", protectApi, followingJobUpdate) // http://localhost:4000/users/followjob/:id
   // เปลี่ยนรหัส user *ไว้ใช้ตอนลืมพาส รหัสจะเข้า jwt เหมือนเดิม *ยิงจาก postman เท่านั้น - ใน body ใส่แค่ password
-  .patch("/changepass/:id", changeUserPassWord);
+  .patch("/changepass/:id", protectApi, changeUserPassWord);
 
 export default usersRouter;

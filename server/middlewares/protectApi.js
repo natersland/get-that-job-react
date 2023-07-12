@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const protect = async (req, res, next) => {
+const protectApi = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token || !token.startsWith("Bearer ")) {
@@ -21,4 +21,4 @@ const protect = async (req, res, next) => {
     next();
   });
 };
-export default protect;
+export default protectApi;
