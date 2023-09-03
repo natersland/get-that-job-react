@@ -15,7 +15,6 @@ function NavigateProvider(props) {
   // State ------------------------------------
   const [menuIndex, setMenuIndex] = useState(1);
 
-
   // Navbar -----------------------------------
   const homePageRoute = () => {
     navigate("/");
@@ -31,9 +30,9 @@ function NavigateProvider(props) {
     setIsErrorPassword(false);
     setMenuIndex(1);
     setRole("professional");
-    if (index === 0) {
+    if (index === 1) {
       navigate("/register");
-    } else if (index === 1) {
+    } else if (index === 0) {
       navigate("/login");
       setMenuIndex(1);
     }

@@ -7,10 +7,10 @@ import { useNav } from "../../contexts/navigate";
 
 // NavLink Button Data ----------------------------
 const navLink = [
-  {
-    icon: loginLogo,
-    btn_text: "SIGN UP",
-  },
+  // {
+  //   icon: loginLogo,
+  //   btn_text: "SIGN UP",
+  // },
   {
     icon: loginLogo,
     btn_text: "LOG IN",

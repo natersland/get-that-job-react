@@ -4,21 +4,11 @@ import people from "../assets/people/group-people.svg";
 import magnifyingGlass from "../assets/items/magni.svg";
 import github from "../img/github-fill.png";
 import linkin from "../img/linkedin-box-line.png";
-// Contexts ----------------------------------------
-import { useNav } from "../contexts/navigate";
-import { useUserData } from "../contexts/usersData";
-import { useVadilation } from "../contexts/vadilation";
-import { useNavigate } from "react-router-dom";
 // Data ----------------------------------------
 import teamData from "../data/teamData";
 import AlertDialog from "../components/Utilities/AlertDialog";
 // ---------------------------------------------
 const HomePage = () => {
-  const { registerRoute, setMenuIndex } = useNav();
-  const { setRole, resetUserData } = useUserData();
-  const { setIsErrorEmail, setIsErrorPassword, setStep } = useVadilation();
-  const navigate = useNavigate();
-
   return (
     <MainWrap>
       <AlertDialog />
@@ -31,31 +21,6 @@ const HomePage = () => {
           <br></br>
           We promise you! Just give us the money and we will take care of it.
         </IntroParagraph>
-        <button
-          className="btn btn-lg btn-pink mb-8"
-          onClick={() => {
-            registerRoute();
-
-          }}
-        >
-          {" "}
-          create an account now{" "}
-        </button>
-        <LoginText
-          className=""
-          onClick={() => {
-            navigate("/login");
-            resetUserData();
-            setIsErrorEmail(false);
-            setIsErrorPassword(false);
-            setMenuIndex(1);
-            setStep(0);
-            setRole("professional");
-          }}
-        >
-          I already have an account.
-        </LoginText>
-
         <ImgPeopleWrapper className="mb-12 mt-4">
           <img src={people} width="1400px" alt="group-of-people" />
         </ImgPeopleWrapper>
@@ -198,12 +163,7 @@ const IntroParagraph = styled.p`
     width: 90%;
   }
 `;
-const LoginText = styled.p`
-  font-size: 0.85rem;
-  margin-top: -28px;
-  margin-bottom: 25px;
-  cursor: pointer;
-`;
+
 const ImgPeopleWrapper = styled.div``;
 // Content Zone --------------------------------
 const Section2 = styled.section`
