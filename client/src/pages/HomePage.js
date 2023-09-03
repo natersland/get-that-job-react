@@ -77,7 +77,7 @@ const HomePage = () => {
         <footer>
           <FooterWrap>
             <CreaditText>
-              <p> © 2022 - Get That Job (Lasted update 24/06/2023)</p>
+              <p> © 2022 - Get That Job (Lasted update 03/09/2023)</p>
             </CreaditText>
           </FooterWrap>
         </footer>
